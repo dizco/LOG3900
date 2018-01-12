@@ -1,0 +1,20 @@
+matrix:
+  include:
+    - language: node_js
+      node_js: 8
+      env: TO_TEST=SERVEUR
+    #- language: csharp
+    #  solution: PolyPaint.sln
+    #  env: TO_TEST=CLIENT_LOURD
+  fast_finish: true
+
+before_install:
+  - if [ "$TO_TEST" = "SERVEUR" ]; then cd serveur; fi
+  - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then cd client-lourd; fi
+
+after_install:
+  - if [ "$TO_TEST" = "SERVEUR" ]; then npm rebuild node-sass; fi
+
+script:
+  - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build && npm run test; fi
+  - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
