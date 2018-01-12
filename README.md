@@ -1,6 +1,8 @@
 # LOG3900
 PolyPaintPro - Team 07
 
+[![Server Build Status](https://travis-ci.com/dizco/LOG3900.svg?token=xpqeNSHJ4NVgmZxfGuMR&branch=master)](https://travis-ci.com/dizco/LOG3900)
+
 
 ## Installation
 
