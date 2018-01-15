@@ -18,3 +18,15 @@ after_install:
 script:
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build && npm run test; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
+
+notifications:
+  email: false
+  slack: 
+    rooms:
+      - polypaintpro:2k3JgBABp3cePFJyKkDIp42Q#travis-ci
+    on_success: change # default: always
+    on_failure: always # default: always
+
+branches:
+  only: 
+    - master
