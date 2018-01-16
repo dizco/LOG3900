@@ -16,7 +16,8 @@ after_install:
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm rebuild node-sass; fi
 
 script:
-  - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build && npm run test; fi
+  - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build; fi
+  - if [ "$TO_TEST" = "SERVEUR" ]; then npm run test; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
 
 notifications:
