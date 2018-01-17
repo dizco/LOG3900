@@ -1,0 +1,565 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0348200EF37900DDAD8D /* AppDelegate.swift */; };
+		274C034B200EF37900DDAD8D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C034A200EF37900DDAD8D /* ViewController.swift */; };
+		274C034E200EF37900DDAD8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 274C034C200EF37900DDAD8D /* Main.storyboard */; };
+		274C0350200EF37900DDAD8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 274C034F200EF37900DDAD8D /* Assets.xcassets */; };
+		274C0353200EF37900DDAD8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 274C0351200EF37900DDAD8D /* LaunchScreen.storyboard */; };
+		274C035E200EF37A00DDAD8D /* PolyPaintProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */; };
+		274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		274C035A200EF37A00DDAD8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 274C033D200EF37900DDAD8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 274C0344200EF37900DDAD8D;
+			remoteInfo = PolyPaintPro;
+		};
+		274C0365200EF37A00DDAD8D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 274C033D200EF37900DDAD8D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 274C0344200EF37900DDAD8D;
+			remoteInfo = PolyPaintPro;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		274C0345200EF37900DDAD8D /* PolyPaintPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyPaintPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		274C0348200EF37900DDAD8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		274C034A200EF37900DDAD8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		274C034D200EF37900DDAD8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		274C034F200EF37900DDAD8D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		274C0352200EF37900DDAD8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		274C0354200EF37900DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		274C0359200EF37A00DDAD8D /* PolyPaintProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PolyPaintProTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyPaintProTests.swift; sourceTree = "<group>"; };
+		274C035F200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		274C0364200EF37A00DDAD8D /* PolyPaintProUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PolyPaintProUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyPaintProUITests.swift; sourceTree = "<group>"; };
+		274C036A200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		274C0342200EF37900DDAD8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		274C0356200EF37A00DDAD8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		274C0361200EF37A00DDAD8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		274C033C200EF37900DDAD8D = {
+			isa = PBXGroup;
+			children = (
+				274C0347200EF37900DDAD8D /* PolyPaintPro */,
+				274C035C200EF37A00DDAD8D /* PolyPaintProTests */,
+				274C0367200EF37A00DDAD8D /* PolyPaintProUITests */,
+				274C0346200EF37900DDAD8D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		274C0346200EF37900DDAD8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				274C0345200EF37900DDAD8D /* PolyPaintPro.app */,
+				274C0359200EF37A00DDAD8D /* PolyPaintProTests.xctest */,
+				274C0364200EF37A00DDAD8D /* PolyPaintProUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		274C0347200EF37900DDAD8D /* PolyPaintPro */ = {
+			isa = PBXGroup;
+			children = (
+				274C0348200EF37900DDAD8D /* AppDelegate.swift */,
+				274C034A200EF37900DDAD8D /* ViewController.swift */,
+				274C034C200EF37900DDAD8D /* Main.storyboard */,
+				274C034F200EF37900DDAD8D /* Assets.xcassets */,
+				274C0351200EF37900DDAD8D /* LaunchScreen.storyboard */,
+				274C0354200EF37900DDAD8D /* Info.plist */,
+			);
+			path = PolyPaintPro;
+			sourceTree = "<group>";
+		};
+		274C035C200EF37A00DDAD8D /* PolyPaintProTests */ = {
+			isa = PBXGroup;
+			children = (
+				274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */,
+				274C035F200EF37A00DDAD8D /* Info.plist */,
+			);
+			path = PolyPaintProTests;
+			sourceTree = "<group>";
+		};
+		274C0367200EF37A00DDAD8D /* PolyPaintProUITests */ = {
+			isa = PBXGroup;
+			children = (
+				274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */,
+				274C036A200EF37A00DDAD8D /* Info.plist */,
+			);
+			path = PolyPaintProUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		274C0344200EF37900DDAD8D /* PolyPaintPro */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 274C036D200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintPro" */;
+			buildPhases = (
+				274C0341200EF37900DDAD8D /* Sources */,
+				274C0342200EF37900DDAD8D /* Frameworks */,
+				274C0343200EF37900DDAD8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PolyPaintPro;
+			productName = PolyPaintPro;
+			productReference = 274C0345200EF37900DDAD8D /* PolyPaintPro.app */;
+			productType = "com.apple.product-type.application";
+		};
+		274C0358200EF37A00DDAD8D /* PolyPaintProTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 274C0370200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintProTests" */;
+			buildPhases = (
+				274C0355200EF37A00DDAD8D /* Sources */,
+				274C0356200EF37A00DDAD8D /* Frameworks */,
+				274C0357200EF37A00DDAD8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				274C035B200EF37A00DDAD8D /* PBXTargetDependency */,
+			);
+			name = PolyPaintProTests;
+			productName = PolyPaintProTests;
+			productReference = 274C0359200EF37A00DDAD8D /* PolyPaintProTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		274C0363200EF37A00DDAD8D /* PolyPaintProUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 274C0373200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintProUITests" */;
+			buildPhases = (
+				274C0360200EF37A00DDAD8D /* Sources */,
+				274C0361200EF37A00DDAD8D /* Frameworks */,
+				274C0362200EF37A00DDAD8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				274C0366200EF37A00DDAD8D /* PBXTargetDependency */,
+			);
+			name = PolyPaintProUITests;
+			productName = PolyPaintProUITests;
+			productReference = 274C0364200EF37A00DDAD8D /* PolyPaintProUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		274C033D200EF37900DDAD8D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = Frederic;
+				TargetAttributes = {
+					274C0344200EF37900DDAD8D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					274C0358200EF37A00DDAD8D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 274C0344200EF37900DDAD8D;
+					};
+					274C0363200EF37A00DDAD8D = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 274C0344200EF37900DDAD8D;
+					};
+				};
+			};
+			buildConfigurationList = 274C0340200EF37900DDAD8D /* Build configuration list for PBXProject "PolyPaintPro" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 274C033C200EF37900DDAD8D;
+			productRefGroup = 274C0346200EF37900DDAD8D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				274C0344200EF37900DDAD8D /* PolyPaintPro */,
+				274C0358200EF37A00DDAD8D /* PolyPaintProTests */,
+				274C0363200EF37A00DDAD8D /* PolyPaintProUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		274C0343200EF37900DDAD8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				274C0353200EF37900DDAD8D /* LaunchScreen.storyboard in Resources */,
+				274C0350200EF37900DDAD8D /* Assets.xcassets in Resources */,
+				274C034E200EF37900DDAD8D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		274C0357200EF37A00DDAD8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		274C0362200EF37A00DDAD8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		274C0341200EF37900DDAD8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				274C034B200EF37900DDAD8D /* ViewController.swift in Sources */,
+				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		274C0355200EF37A00DDAD8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				274C035E200EF37A00DDAD8D /* PolyPaintProTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		274C0360200EF37A00DDAD8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		274C035B200EF37A00DDAD8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 274C0344200EF37900DDAD8D /* PolyPaintPro */;
+			targetProxy = 274C035A200EF37A00DDAD8D /* PBXContainerItemProxy */;
+		};
+		274C0366200EF37A00DDAD8D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 274C0344200EF37900DDAD8D /* PolyPaintPro */;
+			targetProxy = 274C0365200EF37A00DDAD8D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		274C034C200EF37900DDAD8D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				274C034D200EF37900DDAD8D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		274C0351200EF37900DDAD8D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				274C0352200EF37900DDAD8D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		274C036B200EF37A00DDAD8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		274C036C200EF37A00DDAD8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		274C036E200EF37A00DDAD8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XZX28227E3;
+				INFOPLIST_FILE = PolyPaintPro/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintPro;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		274C036F200EF37A00DDAD8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XZX28227E3;
+				INFOPLIST_FILE = PolyPaintPro/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintPro;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		274C0371200EF37A00DDAD8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XZX28227E3;
+				INFOPLIST_FILE = PolyPaintProTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintProTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PolyPaintPro.app/PolyPaintPro";
+			};
+			name = Debug;
+		};
+		274C0372200EF37A00DDAD8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XZX28227E3;
+				INFOPLIST_FILE = PolyPaintProTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintProTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PolyPaintPro.app/PolyPaintPro";
+			};
+			name = Release;
+		};
+		274C0374200EF37A00DDAD8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XZX28227E3;
+				INFOPLIST_FILE = PolyPaintProUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintProUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PolyPaintPro;
+			};
+			name = Debug;
+		};
+		274C0375200EF37A00DDAD8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XZX28227E3;
+				INFOPLIST_FILE = PolyPaintProUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintProUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PolyPaintPro;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		274C0340200EF37900DDAD8D /* Build configuration list for PBXProject "PolyPaintPro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				274C036B200EF37A00DDAD8D /* Debug */,
+				274C036C200EF37A00DDAD8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		274C036D200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintPro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				274C036E200EF37A00DDAD8D /* Debug */,
+				274C036F200EF37A00DDAD8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		274C0370200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintProTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				274C0371200EF37A00DDAD8D /* Debug */,
+				274C0372200EF37A00DDAD8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		274C0373200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintProUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				274C0374200EF37A00DDAD8D /* Debug */,
+				274C0375200EF37A00DDAD8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 274C033D200EF37900DDAD8D /* Project object */;
+}
