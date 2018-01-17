@@ -1,6 +1,18 @@
 # Serveur
 PolyPaintPro - Team 07
 
+## Installation
+
+```
+npm install
+```
+
+## Run
+
+```
+npm run build
+npm start
+```
 
 ## Projets
 
