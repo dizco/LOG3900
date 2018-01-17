@@ -1,4 +1,6 @@
-export interface ServerEditorAction {
+import { SocketMessage } from "./socket-message";
+
+export interface ServerEditorAction extends SocketMessage {
     action: {
         id: number | string;
         name: string;

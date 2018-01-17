@@ -1,18 +1,26 @@
+import * as WebSocket from "ws";
 import { ServerEditorAction } from "../models/sockets/server-editor-action";
 import { ClientEditorAction } from "../models/sockets/client-editor-action";
+import { SocketStrategy } from "../models/sockets/socket-strategy";
 
-export class EditorActionFactory {
-    public static CreateServerEditorAction(socket: SocketIO.Socket, clientAction: ClientEditorAction): ServerEditorAction {
-        //const clientId = socket.client.id;
+export class EditorActionDecorator {
+    private clientAction: ClientEditorAction;
+
+    public constructor(clientAction: ClientEditorAction) {
+        this.clientAction = clientAction;
+    }
+
+    public decorate(ws: WebSocket): Promise<ServerEditorAction> {
         //TODO: Build actual user data
 
-        return {
+        return Promise.resolve({
+            type: "server.editor.action",
             action: {
-                id: clientAction.action.id,
-                name: clientAction.action.name,
+                id: this.clientAction.action.id,
+                name: this.clientAction.action.name,
             },
             drawing: {
-                id: clientAction.drawing.id, //TODO: Fetch the rest of the drawing info by the id
+                id: this.clientAction.drawing.id, //TODO: Fetch the rest of the drawing info by the id
                 name: "Mona Lisa",
                 owner: {
                     id: 132,
@@ -29,6 +37,6 @@ export class EditorActionFactory {
                 url: "https://example.com/users/dizco",
                 avatar_url: "https://example.com/users/dizco/avatar.jpg",
             },
-        };
+        });
     }
 }
