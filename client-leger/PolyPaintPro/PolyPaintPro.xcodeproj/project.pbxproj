@@ -11,9 +11,9 @@
 		274C034B200EF37900DDAD8D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C034A200EF37900DDAD8D /* ViewController.swift */; };
 		274C034E200EF37900DDAD8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 274C034C200EF37900DDAD8D /* Main.storyboard */; };
 		274C0350200EF37900DDAD8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 274C034F200EF37900DDAD8D /* Assets.xcassets */; };
-		274C0353200EF37900DDAD8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 274C0351200EF37900DDAD8D /* LaunchScreen.storyboard */; };
 		274C035E200EF37A00DDAD8D /* PolyPaintProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */; };
 		274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */; };
+		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +39,6 @@
 		274C034A200EF37900DDAD8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		274C034D200EF37900DDAD8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		274C034F200EF37900DDAD8D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		274C0352200EF37900DDAD8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		274C0354200EF37900DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		274C0359200EF37A00DDAD8D /* PolyPaintProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PolyPaintProTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyPaintProTests.swift; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		274C0364200EF37A00DDAD8D /* PolyPaintProUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PolyPaintProUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyPaintProUITests.swift; sourceTree = "<group>"; };
 		274C036A200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,8 +101,8 @@
 				274C034A200EF37900DDAD8D /* ViewController.swift */,
 				274C034C200EF37900DDAD8D /* Main.storyboard */,
 				274C034F200EF37900DDAD8D /* Assets.xcassets */,
-				274C0351200EF37900DDAD8D /* LaunchScreen.storyboard */,
 				274C0354200EF37900DDAD8D /* Info.plist */,
+				278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */,
 			);
 			path = PolyPaintPro;
 			sourceTree = "<group>";
@@ -232,7 +232,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				274C0353200EF37900DDAD8D /* LaunchScreen.storyboard in Resources */,
+				278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */,
 				274C0350200EF37900DDAD8D /* Assets.xcassets in Resources */,
 				274C034E200EF37900DDAD8D /* Main.storyboard in Resources */,
 			);
@@ -302,14 +302,6 @@
 				274C034D200EF37900DDAD8D /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		274C0351200EF37900DDAD8D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				274C0352200EF37900DDAD8D /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -426,10 +418,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XZX28227E3;
 				INFOPLIST_FILE = PolyPaintPro/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -442,10 +435,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XZX28227E3;
 				INFOPLIST_FILE = PolyPaintPro/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
