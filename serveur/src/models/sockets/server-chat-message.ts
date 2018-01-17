@@ -1,4 +1,6 @@
-export interface ServerChatMessage {
+import { SocketMessage } from "./socket-message";
+
+export interface ServerChatMessage extends SocketMessage {
     message: string;
 
     room: {
