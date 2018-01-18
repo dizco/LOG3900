@@ -4,7 +4,8 @@ using WebSocket4Net;
 
 namespace PolyPaint.Utilitaires
 {
-    public class SocketHandler
+
+    public class SocketHandler : ISocketHandler
     {
         private WebSocket ws;
         private bool isConnected = false;
