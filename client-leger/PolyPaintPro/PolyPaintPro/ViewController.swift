@@ -11,53 +11,49 @@ import Starscream
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var landScapeConstraint: NSLayoutConstraint!
-    @IBOutlet weak var portrateConstraint: NSLayoutConstraint!
+    @IBOutlet weak var landscapeConstraint: NSLayoutConstraint!
+    @IBOutlet weak var portraitConstraint: NSLayoutConstraint!
     
     func viewWillTransitionToSize(size: CGSize,   withTransitionCoordinator coordinator:    UIViewControllerTransitionCoordinator) {
         
         coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
             
-            let orient = UIApplication.shared.statusBarOrientation
+            let orientation = UIApplication.shared.statusBarOrientation
             
-            switch orient {
+            switch orientation {
             case .portrait:
                 print("Portrait")
-                self.ApplyportraitConstraint()
-                break
-            // Do something
+                self.applyPortraitConstraint()
             default:
-                print("LandScape")
-                // Do something else
-                self.applyLandScapeConstraint()
-                break
+                print("Landscape")
+                self.applyLandscapeConstraint()
             }
         }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
             print("rotation completed")
         })
         viewWillTransitionToSize(size: size, withTransitionCoordinator: coordinator)
     }
- 
-    func ApplyportraitConstraint(){
-       
-        self.view.addConstraint(self.portrateConstraint)
-        self.view.removeConstraint(self.landScapeConstraint)
-    }
-    func applyLandScapeConstraint(){
-        
-        self.view.removeConstraint(self.portrateConstraint)
-        self.view.addConstraint(self.landScapeConstraint)
-    }
 
+    func applyPortraitConstraint() {
+        self.view.addConstraint(self.portraitConstraint)
+        self.view.removeConstraint(self.landscapeConstraint)
+    }
+    
+    func applyLandscapeConstraint() {
+        self.view.removeConstraint(self.portraitConstraint)
+        self.view.addConstraint(self.landscapeConstraint)
+    }
+    
     // MARK: - Properties
     var username = ""
-    var socket = WebSocket(url: URL(string: "ws://localhost:3000/")!, protocols: ["chat"])
+    let socket = WebSocket(url: URL(string: "ws://localhost:3000/")!)
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        // Do any additional setup after loading the view, typically from a nib.
+        socket.delegate = self
+        socket.connect()
     }
     
     deinit {
@@ -86,21 +82,21 @@ extension ViewController {
 // Source : https://www.raywenderlich.com/143874/websockets-ios-starscream
 // MARK: - WebSocketDelegate
 extension ViewController : WebSocketDelegate {
-    
-    public func websocketDidConnect(_ socket: Starscream.WebSocket) {
+    public func websocketDidConnect(socket: WebSocketClient) {
         socket.write(string: username)
     }
     
-    public func websocketDidDisconnect(_ socket: Starscream.WebSocket, error: NSError?) {
+    public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
         performSegue(withIdentifier: "websocketDisconnected", sender: self)
     }
     
-    // Implementation will change depending on our JSON data format.
+    // WIll change depending on JSON data format.
     
     /* Message format:
      * {"type":"message","data":{"time":1472513071731,"text":"😍","author":"iPhone Simulator","color":"orange"}}
      */
-    public func websocketDidReceiveMessage(_ socket: Starscream.WebSocket, text: String) {
+    
+    public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         guard let data = text.data(using: .utf16),
             let jsonData = try? JSONSerialization.jsonObject(with: data),
             let jsonDict = jsonData as? [String: Any],
@@ -117,7 +113,7 @@ extension ViewController : WebSocketDelegate {
         }
     }
     
-    public func websocketDidReceiveData(_ socket: Starscream.WebSocket, data: Data) {
+    public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
         // Noop - Must implement since it's not optional in the protocol
     }
 }
