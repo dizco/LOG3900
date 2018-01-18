@@ -48,10 +48,7 @@ namespace PolyPaint.Utilitaires
                 ws.Send(data);
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }
