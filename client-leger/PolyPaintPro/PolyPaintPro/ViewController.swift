@@ -11,39 +11,6 @@ import Starscream
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var landscapeConstraint: NSLayoutConstraint!
-    @IBOutlet weak var portraitConstraint: NSLayoutConstraint!
-    
-    func viewWillTransitionToSize(size: CGSize,   withTransitionCoordinator coordinator:    UIViewControllerTransitionCoordinator) {
-        
-        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            
-            let orientation = UIApplication.shared.statusBarOrientation
-            
-            switch orientation {
-            case .portrait:
-                print("Portrait")
-                self.applyPortraitConstraint()
-            default:
-                print("Landscape")
-                self.applyLandscapeConstraint()
-            }
-        }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            print("rotation completed")
-        })
-        viewWillTransitionToSize(size: size, withTransitionCoordinator: coordinator)
-    }
-
-    func applyPortraitConstraint() {
-        self.view.addConstraint(self.portraitConstraint)
-        self.view.removeConstraint(self.landscapeConstraint)
-    }
-    
-    func applyLandscapeConstraint() {
-        self.view.removeConstraint(self.portraitConstraint)
-        self.view.addConstraint(self.landscapeConstraint)
-    }
-    
     // MARK: - Properties
     var username = ""
     let socket = WebSocket(url: URL(string: "ws://localhost:3000/")!)
@@ -116,4 +83,33 @@ extension ViewController : WebSocketDelegate {
     public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
         // Noop - Must implement since it's not optional in the protocol
     }
+    
+    
+   ///////////////////////////////////////////////////////////////////////////////
+  /*
+    class helper{
+        static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
+            if let delegate = UIApplication.shared.delegate as? AppDelegate {
+                delegate.orientationLock = orientation
+            }
+        }
+        /// OPTIONAL Added method to adjust lock and rotate to the desired orientation
+        static func lockOrientation(_ orientation: UIInterfaceOrientationMask, andRotateTo rotateOrientation:UIInterfaceOrientation) {
+            self.lockOrientation(orientation)
+            UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
+        }
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        helper.lockOrientation(.landscapeRight)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        helper.lockOrientation(.all)
+    }
+    
+    */
 }
