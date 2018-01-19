@@ -4,7 +4,7 @@ matrix:
     #  node_js: 8
     #  env: TO_TEST=SERVEUR
     - language: objective-c
-      osx_image: xcode9
+      osx_image: xcode9.2
       env: TO_TEST=CLIENT_LEGER
     #- language: csharp
     #  solution: PolyPaint.sln
@@ -23,7 +23,8 @@ script:
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build; fi
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run test; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
-  - if [ "$TO_TEST" = "CLIENT_LEGER"]; then xcodebuild clean test -project PolyPaintPro.xcodeproj -scheme PolyPaintPro -destination "platform=iOS Simulator,name=iPhone 7,OS=10.3" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then xcodebuild -version; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER"]; then xcodebuild -project PolyPaintPro.xcodeproj -scheme PolyPaintPro -destination "OS=11.0" -configuration Debug ONLY_ACTIVE_ARCH=NO build test; fi
 
 notifications:
   email: false
