@@ -1,30 +1,31 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
+using PolyPaint.Constants;
 
 namespace PolyPaint.Utilitaires
 {
     public class Messenger
     {
-        private readonly ISocketHandler sh;
+        private readonly ISocketHandler _socketHandler;
 
-        public Messenger(string uri, ISocketHandler ish)
+        public Messenger(string uri, ISocketHandler socketHandler)
         {
-            sh = ish;
+            _socketHandler = socketHandler;
         }
 
-        public string SendMessage(string message)
+        public string SendChatMessage(string message)
         {
             if (message != string.Empty)
             {
                 JObject messageJson = new JObject
                 {
-                    {JsonConstantStrings.TypeKey, JsonConstantStrings.TypeMessageValue},
+                    {JsonConstantStrings.TypeKey, JsonConstantStrings.TypeChatMessageValue},
                     {JsonConstantStrings.MessageKey, message}
                 };
 
                 string messageStringified = messageJson.ToString();
 
-                bool status = sh.SendMessage(messageStringified);
+                bool status = _socketHandler.SendMessage(messageStringified);
 
                 if (status)
                     return messageStringified;

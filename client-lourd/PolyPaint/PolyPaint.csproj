@@ -114,7 +114,7 @@
     </ApplicationDefinition>
     <Compile Include="Convertisseurs\Convertisseurs.cs" />
     <Compile Include="Modeles\Editeur.cs" />
-    <Compile Include="Utilitaires\Constants.cs" />
+    <Compile Include="Constants\JsonConstantStrings.cs" />
     <Compile Include="Utilitaires\ISocketHandler.cs" />
     <Compile Include="Utilitaires\Messenger.cs" />
     <Compile Include="Utilitaires\RelayCommand.cs" />

@@ -25,7 +25,7 @@ namespace PolyPaintTests.Utilitaires
         {
             Assert.IsTrue(true);
             // To verify that socket connection is still working, uncomment and run with server
-            //while (!sh.SendMessage("Test"));
+            //while (!sh.SendChatMessage("Test"));
         }
     }
 }
