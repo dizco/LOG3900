@@ -1,8 +1,11 @@
 matrix:
   include:
-    - language: node_js
-      node_js: 8
-      env: TO_TEST=SERVEUR
+    #- language: node_js
+    #  node_js: 8
+    #  env: TO_TEST=SERVEUR
+    - language: objective-c
+      osx_image: xcode9.2
+      env: TO_TEST=CLIENT_LEGER
     #- language: csharp
     #  solution: PolyPaint.sln
     #  env: TO_TEST=CLIENT_LOURD
@@ -10,15 +13,18 @@ matrix:
 
 before_install:
   - if [ "$TO_TEST" = "SERVEUR" ]; then cd serveur; fi
-  - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then cd client-lourd; fi
+  #- if [ "$TO_TEST" = "CLIENT_LOURD" ]; then cd client-lourd; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then cd client-leger/PolyPaintPro; fi
 
 after_install:
-  - if [ "$TO_TEST" = "SERVEUR" ]; then npm rebuild node-sass; fi
+  #- if [ "$TO_TEST" = "SERVEUR" ]; then npm rebuild node-sass; fi
 
 script:
-  - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build; fi
-  - if [ "$TO_TEST" = "SERVEUR" ]; then npm run test; fi
-  - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
+  #- if [ "$TO_TEST" = "SERVEUR" ]; then npm run build; fi
+  #- if [ "$TO_TEST" = "SERVEUR" ]; then npm run test; fi
+  #- if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then xcodebuild -version; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then xcodebuild -project PolyPaintPro.xcodeproj -scheme PolyPaintPro -destination "OS=11.2,name=iPad Air 2" ONLY_ACTIVE_ARCH=NO; fi
 
 notifications:
   email: false
