@@ -6,63 +6,63 @@ namespace PolyPaintTests.Utilitaires
     [TestClass]
     public class MessengerTest
     {
-        private const string Uri = "ws://localhost:3000";
-        private static Messenger _msSucess;
-        private static Messenger _msFail;
+        private const string DummyServerUri = "ws://localhost:3000";
+        private static Messenger _messenger;
+        private static Messenger _messengerFail;
 
-        [ClassInitialize()]
+        [ClassInitialize]
         public static void InitializeMessenger(TestContext context)
         {
-            _msSucess = new Messenger(Uri, new SocketHandlerMock(Uri));
-            _msFail = new Messenger(Uri, new SocketHandlerMockFail(Uri));
+            _messenger = new Messenger(DummyServerUri, new SocketHandlerMock(DummyServerUri));
+            _messengerFail = new Messenger(DummyServerUri, new SocketHandlerMockFail(DummyServerUri));
         }
 
         [TestMethod]
-        public void SendMessage1()
+        public void TestSendChatMessageEmpty()
         {
             const string testString = "";
 
-            string realOutputString = _msSucess.SendMessage(testString);
+            string realOutputString = _messenger.SendChatMessage(testString);
 
             Assert.AreEqual(testString, realOutputString,
                             "An empty string in input should return an empty string as output");
         }
 
         [TestMethod]
-        public void SendMessage2()
+        public void TestSendChatMessageSuccess()
         {
             const string testMessage = "This is a test message";
 
             const string expectedOutputString = "{\r\n  \"type\": \"client.chat.message\",\r\n  \"message\": \"" +
                                                 testMessage + "\"\r\n}";
 
-            string realOutputString = _msSucess.SendMessage(testMessage);
+            string realOutputString = _messenger.SendChatMessage(testMessage);
 
             Assert.AreEqual(expectedOutputString, realOutputString, "Should return JSON-formatted string");
         }
 
         [TestMethod]
-        public void SendMessage3()
+        public void TestSendChatMessageWithQuotes()
         {
             const string testMessage = "This is a test message containing \" quotes \"";
 
             const string expectedOutputString =
                 "{\r\n  \"type\": \"client.chat.message\",\r\n  \"message\": \"This is a test message containing \\\" quotes \\\"\"\r\n}";
 
-            string realOutputString = _msSucess.SendMessage(testMessage);
+            string realOutputString = _messenger.SendChatMessage(testMessage);
 
             Assert.AreEqual(expectedOutputString, realOutputString,
                             "Should return JSON-formatted string without breaking due to quotes");
         }
 
         [TestMethod]
-        public void SendMessage4()
+        public void TestSendChatMessageWithSocketFail()
         {
             const string testMessage = "The content of the message doesn't matter";
 
             const string expectedOutputString = "";
 
-            string realOutputString = _msFail.SendMessage(testMessage);
+            string realOutputString = _messengerFail.SendChatMessage(testMessage);
 
             Assert.AreEqual(expectedOutputString, realOutputString,
                             "Should return an empty string because SocketHandler failed to send");
@@ -74,7 +74,7 @@ namespace PolyPaintTests.Utilitaires
             {
             }
 
-            bool ISocketHandler.SendMessage(string data)
+            public bool SendMessage(string data)
             {
                 return true;
             }
@@ -86,7 +86,7 @@ namespace PolyPaintTests.Utilitaires
             {
             }
 
-            bool ISocketHandler.SendMessage(string data)
+            public bool SendMessage(string data)
             {
                 return false;
             }
