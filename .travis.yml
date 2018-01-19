@@ -24,7 +24,7 @@ script:
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run test; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
   - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then xcodebuild -version; fi
-  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then xcodebuild -project PolyPaintPro.xcodeproj -scheme PolyPaintPro -destination "OS=11.0" ONLY_ACTIVE_ARCH=NO; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then xcodebuild -project PolyPaintPro.xcodeproj -scheme PolyPaintPro -destination "OS=11.0,name=iPad Air 2" ONLY_ACTIVE_ARCH=NO; fi
 
 notifications:
   email: false
