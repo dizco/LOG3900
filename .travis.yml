@@ -14,7 +14,7 @@ matrix:
 before_install:
   - if [ "$TO_TEST" = "SERVEUR" ]; then cd serveur; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then cd client-lourd; fi
-  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then cd client-leger; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then cd client-leger/PolyPaintPro; fi
 
 after_install:
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm rebuild node-sass; fi
