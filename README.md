@@ -3,6 +3,8 @@ PolyPaintPro - Team 07
 
 [![Server Build Status](https://travis-ci.com/dizco/LOG3900.svg?token=xpqeNSHJ4NVgmZxfGuMR&branch=master)](https://travis-ci.com/dizco/LOG3900)
 
+[<img src="https://dizco.visualstudio.com/_apis/public/build/definitions/550f4e70-4933-45fa-ac7f-160f25cd27b8/2/badge"/>](https://dizco.visualstudio.com/LOG3900/_build/index?definitionId=2)
+
 
 ## Installation
 
