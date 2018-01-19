@@ -1,8 +1,8 @@
 matrix:
   include:
-    - language: node_js
-      node_js: 8
-      env: TO_TEST=SERVEUR
+    #- language: node_js
+    #  node_js: 8
+    #  env: TO_TEST=SERVEUR
     - language: objective-c
       osx_image: xcode9
       env: TO_TEST=CLIENT_LEGER
@@ -23,7 +23,7 @@ script:
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build; fi
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run test; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
-  - if [ "$TO_TEST" = "CLIENT_LEGER"]; then xcodebuild clean test -project PolyPaintPro.xcodeproj -scheme PolyPaintPro -destination "platform=iOS Simulator,name=iPhone 7,OS=10.3" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO -quiet; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER"]; then xcodebuild clean test -project PolyPaintPro.xcodeproj -scheme PolyPaintPro -destination "platform=iOS Simulator,name=iPhone 7,OS=10.3" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO; fi
 
 notifications:
   email: false
