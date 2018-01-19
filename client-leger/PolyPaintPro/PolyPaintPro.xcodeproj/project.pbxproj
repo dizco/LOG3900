@@ -14,6 +14,7 @@
 		274C0350200EF37900DDAD8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 274C034F200EF37900DDAD8D /* Assets.xcassets */; };
 		274C035E200EF37A00DDAD8D /* PolyPaintProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */; };
 		274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */; };
+		277EE1A0201280D900545404 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 277EE19F201280D900545404 /* assets */; };
 		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
 		B48D511C46E63778945C0C0F /* Pods_PolyPaintPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC9C6A3AD0D3999DF9241A5 /* Pods_PolyPaintPro.framework */; };
 		BEA9D56883FF8D93C682D80F /* Pods_PolyPaintProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C70EAB585761E036E5FAAEDB /* Pods_PolyPaintProTests.framework */; };
@@ -51,6 +52,7 @@
 		274C0364200EF37A00DDAD8D /* PolyPaintProUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PolyPaintProUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyPaintProUITests.swift; sourceTree = "<group>"; };
 		274C036A200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		277EE19F201280D900545404 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4C3391B337652AE7B1607A4F /* Pods_PolyPaintProUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91BBB0114198EB686FA7C1E9 /* Pods-PolyPaintPro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.release.xcconfig"; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				274C035C200EF37A00DDAD8D /* PolyPaintProTests */,
 				274C0367200EF37A00DDAD8D /* PolyPaintProUITests */,
 				274C0346200EF37900DDAD8D /* Products */,
+				277EE19F201280D900545404 /* assets */,
 				C5AE6C525CDFD1E38C5A9F9E /* Pods */,
 				315DCA2BE506FEC11CB2EFE1 /* Frameworks */,
 			);
@@ -282,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */,
+				277EE1A0201280D900545404 /* assets in Resources */,
 				274C0350200EF37900DDAD8D /* Assets.xcassets in Resources */,
 				274C034E200EF37900DDAD8D /* Main.storyboard in Resources */,
 			);

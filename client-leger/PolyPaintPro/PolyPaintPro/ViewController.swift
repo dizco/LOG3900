@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  PolyPaintPro
-//
-//  Created by Fred Habsfan on 2018-01-16.
-//  Copyright © 2018 Frederic. All rights reserved.
-//
 
 import UIKit
 import Starscream
@@ -15,9 +8,34 @@ class ViewController: UIViewController {
     var username = ""
     let socket = WebSocket(url: URL(string: "ws://localhost:3000/")!)
     
+    
+    
+    
+    @IBOutlet weak var welcomeLabel: UILabel!
+    
+    
+    @IBOutlet weak var connexionView: UIView!
+    @IBOutlet weak var registerView: UIView!
+    
+    @IBAction func loginToggle(_ sender: UISegmentedControl) {
+        if(sender.selectedSegmentIndex == 0){
+            welcomeLabel.text = "Bienvenue! Entrez vos informations de connexion PolyPaintPro"
+            connexionView.isHidden = false
+            registerView.isHidden = true
+        }else if(sender.selectedSegmentIndex == 1){
+            welcomeLabel.text = "Bienvenue! Entrez vos informations pour creer un compte PolyPaint Pro"
+            connexionView.isHidden = true
+            registerView.isHidden = false
+
+        }
+    }
+    
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        registerView.isHidden = true
        
         socket.delegate = self
         socket.connect()
@@ -54,7 +72,7 @@ extension ViewController : WebSocketDelegate {
     }
     
     public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-        performSegue(withIdentifier: "websocketDisconnected", sender: self)
+        //performSegue(withIdentifier: "websocketDisconnected", sender: self)
     }
     
     // WIll change depending on JSON data format.
@@ -85,31 +103,4 @@ extension ViewController : WebSocketDelegate {
     }
     
     
-   ///////////////////////////////////////////////////////////////////////////////
-  /*
-    class helper{
-        static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
-            if let delegate = UIApplication.shared.delegate as? AppDelegate {
-                delegate.orientationLock = orientation
-            }
-        }
-        /// OPTIONAL Added method to adjust lock and rotate to the desired orientation
-        static func lockOrientation(_ orientation: UIInterfaceOrientationMask, andRotateTo rotateOrientation:UIInterfaceOrientation) {
-            self.lockOrientation(orientation)
-            UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
-        }
-    }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        helper.lockOrientation(.landscapeRight)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        helper.lockOrientation(.all)
-    }
-    
-    */
 }
