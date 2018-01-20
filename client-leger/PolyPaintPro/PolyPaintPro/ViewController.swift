@@ -8,12 +8,7 @@ class ViewController: UIViewController {
     var username = ""
     let socket = WebSocket(url: URL(string: "ws://localhost:3000/")!)
     
-    
-    
-    
     @IBOutlet weak var welcomeLabel: UILabel!
-    
-    
     @IBOutlet weak var connexionView: UIView!
     @IBOutlet weak var registerView: UIView!
     
@@ -101,6 +96,4 @@ extension ViewController : WebSocketDelegate {
     public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
         // Noop - Must implement since it's not optional in the protocol
     }
-    
-    
 }
