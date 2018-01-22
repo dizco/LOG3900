@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using PolyPaint.Modeles;
+using PolyPaint.Utilitaires;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Media;
-using PolyPaint.Modeles;
-using PolyPaint.Utilitaires;
 
 namespace PolyPaint.VueModeles
 {
@@ -52,7 +53,10 @@ namespace PolyPaint.VueModeles
         public RelayCommand<object> Depiler { get; set; }
         public RelayCommand<string> ChoisirPointe { get; set; }
         public RelayCommand<string> ChoisirOutil { get; set; }
-        public RelayCommand<object> Reinitialiser { get; set; }        
+        public RelayCommand<object> Reinitialiser { get; set; }   
+        
+        //Commande pour gerer les vues
+        public RelayCommand<object> ShowLoginWindowCommand { get; set; }
 
         /// <summary>
         /// Constructeur de VueModele
@@ -78,7 +82,10 @@ namespace PolyPaint.VueModeles
             // Donc, aucune vérification de type Peut"Action" à faire.
             ChoisirPointe = new RelayCommand<string>(editeur.ChoisirPointe);
             ChoisirOutil = new RelayCommand<string>(editeur.ChoisirOutil);
-            Reinitialiser = new RelayCommand<object>(editeur.Reinitialiser);            
+            Reinitialiser = new RelayCommand<object>(editeur.Reinitialiser); 
+            
+            //Pour ces commandes, on gere les differentes vues
+            ShowLoginWindowCommand = new RelayCommand<object>(ShowLoginWindow);
         }
 
         /// <summary>
@@ -132,5 +139,11 @@ namespace PolyPaint.VueModeles
             AttributsDessin.Width = (editeur.PointeSelectionnee == "verticale") ? 1 : editeur.TailleTrait;
             AttributsDessin.Height = (editeur.PointeSelectionnee == "horizontale") ? 1 : editeur.TailleTrait;
         }
-    }
+
+        //Affiche la vue de connexion
+        public void  ShowLoginWindow(object o) {
+                Vues.LoginWindowView loginWindow = new Vues.LoginWindowView();
+                loginWindow.Show();
+            }
+        }
 }
