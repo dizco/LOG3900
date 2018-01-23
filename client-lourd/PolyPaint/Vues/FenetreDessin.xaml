@@ -26,8 +26,8 @@
                     </LinearGradientBrush>
                 </StackPanel.Background>
                 <Button x:Name="reinitialiser" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding Reinitialiser}" Content="♺" FontSize="18"/>
-                <Button x:Name="empiler" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding Empiler}" FontSize="18"/>
-                <Button x:Name="depiler" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding Depiler}" FontSize="18"/>
+                <Button x:Name="empiler" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding Empiler}" Content="≚" FontSize="18"/>
+                <Button x:Name="depiler" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding Depiler}" Content="≙" FontSize="18"/>
                 <StackPanel Orientation="Horizontal">
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 </StackPanel>
@@ -150,7 +150,7 @@
                         TickFrequency="10" TickPlacement="BottomRight" IsSnapToTickEnabled="False">
                 </Slider>
                 <StackPanel Orientation="Vertical" Margin="5,4" VerticalAlignment="Center" Width="286">
-                    <Button x:Name="LoginWindow"  Command="{Binding ShowLoginWindowCommand}" RenderTransformOrigin="0.5,0.5" Click="Button_Click" Height="43" Margin="218,0,1,0" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True" Background="{x:Null}">
+                    <Button x:Name="LoginWindow"  Command="{Binding ShowLoginWindowCommand}" RenderTransformOrigin="0.5,0.5" Click="LoginButtonClick" Height="43" Margin="218,0,1,0" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True" Background="{x:Null}">
                         <Button.OpacityMask>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="Black" Offset="0"/>
@@ -185,15 +185,12 @@
 
         <Border DockPanel.Dock="Bottom" Height="25" BorderThickness="0,0.75,0,0.75" BorderBrush="#77000000">
             <StackPanel Orientation="Horizontal" Background="#FFF0F0F0">
-                <Image  Margin="5,5,5,5" VerticalAlignment="Center"/>
+                <Image Source="Resources/position.png" Margin="5,5,5,5" VerticalAlignment="Center"/>
                 <TextBlock Name="textBlockPosition" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </StackPanel>
         </Border>
 
         <Grid DockPanel.Dock="Left" Margin="0,1,0,0">
-            <Grid.Background>
-                <ImageBrush/>
-            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Name="colonne" Width="550" />
                 <ColumnDefinition Width="6" />
