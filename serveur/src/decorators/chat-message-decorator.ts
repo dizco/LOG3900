@@ -17,7 +17,7 @@ export class ChatMessageDecorator {
             type: "server.chat.message",
             message: this.clientMessage.message,
             room: {
-                id: 199,
+                id: this.clientMessage.room.id,
                 name: "Main Chat",
             },
             author: {

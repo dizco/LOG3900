@@ -1,16 +1,19 @@
 import * as WebSocket from "ws";
 import { clearInterval } from "timers";
+import { WebSocketServer } from "../websockets/websocket-server";
 
 export class WebSocketDecorator {
+    //Here we unfortunately can't extend WebSocket directly, because the WebSocket instance is created inside the WebSocket.Server
+
     protected readonly PING_INTERVAL = 60000; //60 seconds
 
-    private wss: WebSocket.Server;
+    private wss: WebSocketServer;
     private ws: WebSocket;
     private detectingDisconnects: boolean;
     private disconnectsInterval: NodeJS.Timer;
     private isAlive: boolean;
 
-    public constructor(wss: WebSocket.Server, ws: WebSocket) {
+    public constructor(wss: WebSocketServer, ws: WebSocket) {
         this.wss = wss;
         this.ws = ws;
         this.detectingDisconnects = false;
@@ -21,15 +24,42 @@ export class WebSocketDecorator {
     }
 
     /**
+     * Allows to broadcast to all or only to a room. Imitates Socket.IO structure
+     * https://stackoverflow.com/a/10099325/6316091
+     * Use like :
+     * wsDecorator.broadcast.send("hello");
+     * wsDecorator.broadcast.to("123").send("hello");
+     */
+    public broadcast = {
+        send: (data: any) => this.broadcastToAll(data),
+        to: (roomId: string) => {
+            //Select a room to broadcast to
+            //Return an object with a function "send"
+            return {
+                send: (data: any) => this.broadcastToRoom(data, roomId), //Insert the roomId selected previously in the function call
+            };
+        },
+    };
+
+    /**
      * Send a message to every other client on the server
      * @param data
      */
-    public broadcast(data: any): void {
+    private broadcastToAll(data: any): void {
         this.wss.clients.forEach((client: any) => {
             if (client !== this.ws && client.readyState === WebSocket.OPEN) {
                 client.send(data);
             }
         });
+    }
+
+    /**
+     * Send a message to every other client in the room
+     * @param data
+     * @param {string} roomId
+     */
+    private broadcastToRoom(data: any, roomId: string): void {
+        this.wss.findRoom(roomId).broadcast(data, this);
     }
 
     /**

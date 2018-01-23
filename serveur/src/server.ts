@@ -4,6 +4,7 @@ import { IncomingMessage } from "http";
 import { WebSocketDecorator } from "./decorators/websocket-decorator";
 import { SocketMessage } from "./models/sockets/socket-message";
 import { SocketStrategyContext } from "./strategies/sockets/socket-strategy-context";
+import { WebSocketServer } from "./websockets/websocket-server";
 
 const app = require("./app");
 
@@ -20,10 +21,14 @@ const server = app.listen(app.get("port"), () => {
   console.log("  Press CTRL-C to stop\n");
 });
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocketServer(server);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
+    wss.join("test", wsDecorator);
+
+    //TODO: Use the user in the session to insert him inside relevant rooms
+
     console.log("\nConnection by socket on server with id", req.connection.remoteAddress);
 
     ws.on("message", (message: any) => {
@@ -41,6 +46,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
 
     ws.on("close", (code, reason) => {
         console.log("disconnected from socket", code, reason);
+        wss.remove(wsDecorator);
     });
 
     wsDecorator.detectDisconnect();

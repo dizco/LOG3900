@@ -12,14 +12,15 @@ export class SocketStrategyEditorAction implements SocketStrategy {
     }
 
     /**
-     * Decorate the message received by adding info, then broadcast to others
+     * Decorate the message received by adding info, then broadcast to others in the room (drawing)
      * @param {WebSocketDecorator} wsDecorator
      */
     public execute(wsDecorator: WebSocketDecorator): void {
         const decorator = new EditorActionDecorator(this.clientAction);
         decorator.decorate(wsDecorator.getWs())
             .then((message: ServerEditorAction) => {
-                wsDecorator.broadcast(JSON.stringify(message));
-            });
+                wsDecorator.broadcast.to(message.drawing.id.toString()).send(JSON.stringify(message));
+            })
+            .catch((reason => console.log("EditorAction failed", reason)));
     }
 }
