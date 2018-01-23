@@ -12,14 +12,15 @@ export class SocketStrategyChatMessage implements SocketStrategy {
     }
 
     /**
-     * Decorate the message received by adding info, then broadcast to others
+     * Decorate the message received by adding info, then broadcast to others in the chat
      * @param {WebSocketDecorator} wsDecorator
      */
     public execute(wsDecorator: WebSocketDecorator): void {
         const decorator = new ChatMessageDecorator(this.clientMessage);
         decorator.decorate(wsDecorator.getWs())
             .then((message: ServerChatMessage) => {
-                wsDecorator.broadcast(JSON.stringify(message));
-            });
+                wsDecorator.broadcast.send(JSON.stringify(message)); //to(message.room.id.toString())
+            })
+            .catch((reason => console.log("ChatMessage failed", reason)));
     }
 }
