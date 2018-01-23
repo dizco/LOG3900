@@ -18,6 +18,7 @@ namespace PolyPaint.VueModeles
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private Editeur editeur = new Editeur();
+        private Vues.LoginWindowView loginWindow;
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
         public DrawingAttributes AttributsDessin { get; set; } = new DrawingAttributes();
@@ -55,7 +56,7 @@ namespace PolyPaint.VueModeles
         public RelayCommand<string> ChoisirOutil { get; set; }
         public RelayCommand<object> Reinitialiser { get; set; }   
         
-        //Commande pour gerer les vues
+        //Command for managing the login views
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }
 
         /// <summary>
@@ -140,10 +141,14 @@ namespace PolyPaint.VueModeles
             AttributsDessin.Height = (editeur.PointeSelectionnee == "horizontale") ? 1 : editeur.TailleTrait;
         }
 
-        //Affiche la vue de connexion
-        public void  ShowLoginWindow(object o) {
-                Vues.LoginWindowView loginWindow = new Vues.LoginWindowView();
+        //Show login window
+        public void ShowLoginWindow(object o)
+        {
+            if (loginWindow == null)
+            {
+                loginWindow = new Vues.LoginWindowView();
                 loginWindow.Show();
             }
         }
+    }
 }
