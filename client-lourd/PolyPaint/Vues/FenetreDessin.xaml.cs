@@ -43,5 +43,10 @@ namespace PolyPaint
         }
 
         private void SupprimerSelection(object sender, RoutedEventArgs e) => surfaceDessin.CutSelection();
+
+        private void LoginButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
