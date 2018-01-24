@@ -83,6 +83,9 @@ export class WebSocketDecorator {
         }
 
         this.isAlive = false; //Set to false until we receive the pong reply
-        this.ws.ping(); //Ping client
+
+        if (this.ws.readyState === WebSocket.OPEN) {
+            this.ws.ping(); //Ping client
+        }
     }
 }
