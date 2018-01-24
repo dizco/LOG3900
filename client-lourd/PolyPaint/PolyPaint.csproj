@@ -127,7 +127,7 @@
     <Compile Include="Utilitaires\RelayCommand.cs" />
     <Compile Include="Utilitaires\SocketHandler.cs" />
     <Compile Include="VueModeles\ChatWindowViewModel.cs" />
-    <Compile Include="VueModeles\LoginWindowViewModele.cs" />
+    <Compile Include="VueModeles\LoginWindowViewModel.cs" />
     <Compile Include="VueModeles\ViewModelBase.cs" />
     <Compile Include="VueModeles\VueModele.cs" />
     <Compile Include="Vues\ChatWindowView.xaml.cs">
@@ -216,11 +216,17 @@
     <Resource Include="Resources\dialogue.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icon-send.png" />
-    <Resource Include="Resources\testbackground.png" />
+    <Resource Include="Resources\tidepod.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\tidepod.png" />
+    <Resource Include="Resources\iconApplicationIcon-120x120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\background.jpg" />
+    <Resource Include="Resources\icon-send.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\testbackground.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
