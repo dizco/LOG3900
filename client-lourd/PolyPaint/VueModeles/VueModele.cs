@@ -94,12 +94,11 @@ namespace PolyPaint.VueModeles
             ChoisirOutil = new RelayCommand<string>(editeur.ChoisirOutil);
             Reinitialiser = new RelayCommand<object>(editeur.Reinitialiser); 
             
-            //Managing different View
-            ShowLoginWindowCommand = new RelayCommand<object>(ShowChatWindow);
-            ShowChatWindowCommand = new RelayCommand<object>(ShowChatWindow);
-            
             //Outgoing editor actions
             SendNewStrokeCommand = new RelayCommand<Stroke>(SendNewStroke);
+
+            //Managing different View
+            ShowLoginWindowCommand = new RelayCommand<object>(ShowLoginWindow);
         }
 
         /// <summary>
@@ -155,15 +154,12 @@ namespace PolyPaint.VueModeles
         }
 
         //Show login window
-        public void ShowChatWindow(object o)
+        public void ShowLoginWindow(object o)
         {
             if (loginWindow == null)
             {
                 loginWindow = new Vues.LoginWindowView();
-                ChatWindow = new Vues.ChatWindowView();
-
                 loginWindow.Show();
-                ChatWindow.Show();
             }
         }
 

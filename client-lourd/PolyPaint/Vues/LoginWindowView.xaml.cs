@@ -9,7 +9,19 @@ namespace PolyPaint.Vues
         public LoginWindowView()
         {
             InitializeComponent();
-            DataContext = new VueModeles.LoginWindowViewModele();
+            DataContext = new VueModeles.LoginWindowViewModel();
+        }
+        
+        private void SwitchToSignup(object sender, RoutedEventArgs e)
+        {
+            CanvasLogin.Visibility = System.Windows.Visibility.Hidden;
+            CanvasSignup.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void SwitchToLogin(object sender, RoutedEventArgs e)
+        {
+            CanvasSignup.Visibility = System.Windows.Visibility.Hidden;
+            CanvasLogin.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }
