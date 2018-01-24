@@ -1,5 +1,6 @@
 ﻿using System;
 using SuperSocket.ClientEngine;
+using Newtonsoft.Json.Linq;
 using WebSocket4Net;
 
 namespace PolyPaint.Utilitaires
@@ -22,7 +23,8 @@ namespace PolyPaint.Utilitaires
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            throw new NotImplementedException();
+            JObject incomingData = JObject.Parse(e.Message);
+            // TODO: Verify message type and call function accordingly
         }
 
         private void OnClosed(object sender, EventArgs e)
