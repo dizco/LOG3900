@@ -5,8 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PolyPaint.Vues"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="300" Width="300">
-    <Grid>
-        
+        Title="Log In" Height="754" Width="616.336"
+        MinHeight="700" MinWidth="350">
+    <Window.Background>
+        <ImageBrush ImageSource="/PolyPaint;component/background.jpg"/>
+    </Window.Background>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-4.4,0.8" Width="616" Height="726">
+        <Canvas x:Name="canvasLogo" Background="#FF7DC1D4" Margin="100,45,100,592">
+            <Image Source="/PolyPaint;component/palette.ico" Margin="195,-13,0,0" Height="47"/>
+            <Label Content="PolyPaintPro" Margin="145,39,0,0" Height="37" Width="146" Foreground="White" FontSize="24" FontFamily="Myanmar Text"/>
+        </Canvas>
+        <!--Log In Canvas-->
+        <Canvas x:Name="canvasLogIn" Margin="100,134,100,59" Background="#FFE4F0F2" Panel.ZIndex="1">
+            <StackPanel Margin="75,0,75,0">
+                <StackPanel Height="26" Margin="0,19,0,0" Orientation="Horizontal">
+                    <Button x:Name="LogInToggle" Content="Connexion" Margin="16.5,0,0,0" Background="#FF357FFF" FontWeight="Bold" Foreground="White" MinWidth="100"/>
+                    <Button x:Name="signUpToggle" Click="switchToSignUp" Content="Créer un compte" Margin="33,0,20,0" FontWeight="Bold" Foreground="Black" MinWidth="100"/>
+                </StackPanel>
+                <!-- user info log in section -->
+                <StackPanel MinWidth="200" MinHeight="364">
+                    <Label Content="Nom d'utilisateur" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
+                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+
+                    <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
+                    <PasswordBox FontSize="18"/>
+                    <CheckBox Content="Se souvenir de moi" FontWeight="Bold" FontSize="18" BorderThickness="1"/>
+
+                    <Label Content="Adresse IP du serveur" Margin="0,60,0,0" FontWeight="Bold" FontSize="18"/>
+                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+
+                    
+                </StackPanel>
+                <Button x:Name="logInButton" Content="Connexion" Padding="17,20,15,23" Click="logIn" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
+            </StackPanel>
+        </Canvas>
+
+        <!--Sign Uo Canvas-->
+        <Canvas x:Name="canvasSignUp" Margin="100,134,100,59" Background="#FFE4F0F2">
+            <StackPanel Margin="75,0,75,0" Width="269.2" Height="486">
+                <StackPanel Height="26" Margin="0,19,0,0" Orientation="Horizontal">
+                    <Button x:Name="LogInToggleSignUp" Click="switchToLogIn" Content="Connexion" Margin="16.5,0,0,0" MinWidth="100" FontWeight="Bold" Foreground="Black"/>
+                    <Button x:Name="signUpToggleSignUp" Content="Créer un compte" MinWidth="100" Margin="33,0,0,0" Background="#FF357FFF" FontWeight="Bold" Foreground="White"/>
+                </StackPanel>
+                <!-- sign up info section -->
+                <StackPanel MinWidth="200" MinHeight="364">
+                    <Label Content="Prénom" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
+                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+
+                    <Label Content="Nom" FontWeight="Bold" FontSize="18"/>
+                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+
+                    <Label Content="Nom d'utilisateur" FontWeight="Bold" FontSize="18"/>
+                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+
+                    <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
+                    <PasswordBox FontSize="18"/>
+
+                    <Label Content="Confirmation du mot de passe" FontWeight="Bold" FontSize="18"/>
+                    <PasswordBox FontSize="18"/>
+
+                    <CheckBox Content="Se souvenir de moi" FontWeight="Bold" FontSize="18" BorderThickness="1"/>
+                    
+                </StackPanel>
+                <Button x:Name="signUpButton" Click="signUp" Content="Créer un compte" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
+            </StackPanel>
+        </Canvas>
     </Grid>
 </Window>
