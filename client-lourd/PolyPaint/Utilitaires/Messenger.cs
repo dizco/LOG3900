@@ -19,7 +19,7 @@ namespace PolyPaint.Utilitaires
             {
                 JObject messageJson = new JObject
                 {
-                    {JsonConstantStrings.TypeKey, JsonConstantStrings.TypeChatMessageValue},
+                    {JsonConstantStrings.TypeKey, JsonConstantStrings.TypeChatMessageOutgoingValue},
                     {JsonConstantStrings.MessageKey, message}
                 };
 

@@ -24,7 +24,15 @@ namespace PolyPaint.Utilitaires
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
             JObject incomingData = JObject.Parse(e.Message);
-            // TODO: Verify message type and call function accordingly
+            String type = incomingData.GetValue("type").ToString();
+            if (type == Constants.JsonConstantStrings.TypeChatMessageIncomingValue)
+            {
+                // TODO: Display message
+            }
+            else
+            {
+                // TODO: Process changes to drawing
+            }
         }
 
         private void OnClosed(object sender, EventArgs e)
