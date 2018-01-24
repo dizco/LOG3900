@@ -1,0 +1,17 @@
+﻿<Window x:Class="PolyPaint.Vues.Page1"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PolyPaint.Vues"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="Page1">
+
+    <Grid>
+        <Canvas x:Name="canvasLogIn" Margin="18,0,10,0" Background="#FFE4F0F2" Panel.ZIndex="1">
+            <TextBlock> Cette fenêtre sera l'interface de chat</TextBlock>
+            <Button x:Name="goBackButton" Click="goBack" Content="Retour" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Canvas.Left="44" Canvas.Top="151"/>
+        </Canvas>
+    </Grid>
+</Window>

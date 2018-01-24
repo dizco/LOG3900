@@ -11,5 +11,30 @@ namespace PolyPaint.Vues
             InitializeComponent();
             DataContext = new VueModeles.LoginWindowViewModele();
         }
+
+        private void switchToSignUp(object sender, RoutedEventArgs e)
+        {
+            canvasLogIn.Visibility = System.Windows.Visibility.Hidden;
+            canvasSignUp.Visibility = System.Windows.Visibility.Visible;
+        }
+        private void switchToLogIn(object sender, RoutedEventArgs e)
+        {
+            canvasSignUp.Visibility = System.Windows.Visibility.Hidden;
+            canvasLogIn.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void logIn(object sender, RoutedEventArgs e)
+        {
+            Page1 chatWindow = new Page1();
+            chatWindow.Show();
+            this.Close();
+        }
+
+        private void signUp(object sender, RoutedEventArgs e)
+        {
+            Page1 chatWindow = new Page1();
+            chatWindow.Show();
+            this.Close();
+        }
     }
 }
