@@ -1,5 +1,6 @@
 ﻿using PolyPaint.Modeles;
 using PolyPaint.Utilitaires;
+using PolyPaint.Vues;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -18,7 +19,10 @@ namespace PolyPaint.VueModeles
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private Editeur editeur = new Editeur();
+
         private Vues.LoginWindowView loginWindow;
+
+        public ChatWindowView ChatWindow { get; private set; }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
         public DrawingAttributes AttributsDessin { get; set; } = new DrawingAttributes();
@@ -56,8 +60,9 @@ namespace PolyPaint.VueModeles
         public RelayCommand<string> ChoisirOutil { get; set; }
         public RelayCommand<object> Reinitialiser { get; set; }   
         
-        //Command for managing the login views
+        //Command for managing the views
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }
+        public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
         /// <summary>
         /// Constructeur de VueModele
@@ -85,8 +90,9 @@ namespace PolyPaint.VueModeles
             ChoisirOutil = new RelayCommand<string>(editeur.ChoisirOutil);
             Reinitialiser = new RelayCommand<object>(editeur.Reinitialiser); 
             
-            //Pour ces commandes, on gere les differentes vues
-            ShowLoginWindowCommand = new RelayCommand<object>(ShowLoginWindow);
+            //Managing different View
+            ShowLoginWindowCommand = new RelayCommand<object>(ShowChatWindow);
+            ShowChatWindowCommand = new RelayCommand<object>(ShowChatWindow);
         }
 
         /// <summary>
@@ -142,12 +148,15 @@ namespace PolyPaint.VueModeles
         }
 
         //Show login window
-        public void ShowLoginWindow(object o)
+        public void ShowChatWindow(object o)
         {
             if (loginWindow == null)
             {
                 loginWindow = new Vues.LoginWindowView();
+                ChatWindow = new Vues.ChatWindowView();
+
                 loginWindow.Show();
+                ChatWindow.Show();
             }
         }
     }

@@ -28,6 +28,7 @@ namespace PolyPaint.Utilitaires
             if (type == Constants.JsonConstantStrings.TypeChatMessageIncomingValue)
             {
                 // TODO: Display message
+             
             }
             else
             {
