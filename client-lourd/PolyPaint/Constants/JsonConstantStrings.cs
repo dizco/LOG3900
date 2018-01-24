@@ -10,7 +10,8 @@
         public const string IdKey = "id";
         public const string MessageKey = "message";
         public const string TypeKey = "type";
-        public const string TypeChatMessageValue = "client.chat.message";
+        public const string TypeChatMessageOutgoingValue = "client.chat.message";
+        public const string TypeChatMessageIncomingValue = "server.chat.message";
         public const string TypeEditorActionValue = "client.editor.action";
     }
 
