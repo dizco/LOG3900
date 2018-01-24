@@ -1,0 +1,159 @@
+﻿<Window x:Class="PolyPaint.Vues.ChatWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolyPaint.Vues"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="600" Width="400"  ResizeMode="NoResize">
+
+
+    <Grid MinHeight="420">
+        <Border>
+            <Border.Background>
+                <ImageBrush ImageSource="/PolyPaint;component/Resources/testbackground.png"/>
+            </Border.Background>
+            <!-- Chat List-->
+            <Grid >
+                <ScrollViewer Margin="0,0,0,50"
+                          HorizontalAlignment="Right"
+                          VerticalScrollBarVisibility="Auto"
+                          Width="290"
+                          >
+                    <!--StackPanel Height="auto" Width="auto"/-->
+                    <ItemsControl ItemsSource="{Binding Items}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <!--ChatMessageListItem-->
+                                <Border Padding="5">
+                                    <Grid >
+
+                                        <!-- Chat message container -->
+                                        <Grid Margin="25 0 25 0"
+                                          HorizontalAlignment="Stretch"
+                                          >
+                                            <Grid.Triggers>
+
+                                                <!-- Mouse over shows time -->
+                                                <EventTrigger RoutedEvent="MouseEnter">
+                                                    <BeginStoryboard>
+                                                        <Storyboard Storyboard.TargetName="ExtraDetails" Storyboard.TargetProperty="Opacity">
+                                                            <DoubleAnimation To="1" Duration="00:00:00.5" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+
+                                                <!-- Mouse leave hides time -->
+                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                    <BeginStoryboard>
+                                                        <Storyboard Storyboard.TargetName="ExtraDetails" Storyboard.TargetProperty="Opacity">
+                                                            <DoubleAnimation To="0" Duration="00:00:00.5" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+
+                                            </Grid.Triggers>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <!-- Speech bubble rectangle -->
+                                            <Border CornerRadius="10"
+                                                Padding="15"
+                                                Background="DodgerBlue"
+                    >
+                                                <!-- Message text -->
+                                                <TextBlock VerticalAlignment="Center"
+                                                       TextWrapping="Wrap"
+                                                       FontFamily="{StaticResource LatoBold}"
+                                                       Foreground="White"
+                                                       Text="{Binding Title}"
+                                                       />
+                                            </Border>
+
+                                            <!-- Chat bubble anchor
+                                            <Path Grid.Row="1" 
+                                              Stroke="Black"
+                                              Panel.ZIndex="1"
+                                              Margin="15 -1 15 0"
+                                              Data="M 0,0 L 10,10 L 20,0 L 0,0" 
+                                              StrokeThickness="0"
+                                              HorizontalAlignment="Stretch"
+                                              Fill="DodgerBlue"
+                                              /> -->
+
+                                            <!-- Time containers -->
+                                            <StackPanel Name="ExtraDetails" 
+                                                    Grid.Row="2"
+                                                    HorizontalAlignment="Stretch"
+                                                    Orientation="Horizontal"
+                                                    Opacity="0"
+                                                    >
+
+                                                <!-- Sent time -->
+                                                <TextBlock Text="{Binding MessageSentTime}"
+                                            Foreground="Black"
+                                            FontSize="12"
+                                            FontFamily="{StaticResource LatoBold}"
+                                            Margin="80 0 0 0"
+                                            />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <Grid Margin="0,518,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="151*"/>
+                        <ColumnDefinition Width="45*"/>
+                    </Grid.ColumnDefinitions>
+
+                    
+                    <!-- Message box -->
+                    <TextBox x:Name="MessageInput"  
+                     TextWrapping="Wrap"
+                     Text="{Binding PendingMessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+                     Margin="10,0,60,5"
+                     VerticalAlignment="Bottom"
+                     Padding="0 10 10 10"
+                     Height="40"
+                     AcceptsReturn="True"
+                     AcceptsTab="True"
+                     VerticalScrollBarVisibility="Auto"
+                     TextChanged="MessageInput_TextChanged"
+                     SpellCheck.IsEnabled="True" Grid.ColumnSpan="2"
+                     />
+
+
+                    <Button x:Name="button"
+                            Command="{Binding SendMessageCommand}"
+                            Margin="0,0,10,5"
+                            HorizontalAlignment="Right"
+                            Width="45"
+                            Height="40"
+                            BorderThickness="0"
+                            VerticalAlignment="Bottom"
+                            Click="SendButton_Click"
+                            Focusable="False" Grid.Column="1"
+                            >
+                        <Button.BorderBrush>
+                            <SolidColorBrush  Opacity="0"/>
+                        </Button.BorderBrush>
+                        <Button.Background>
+                            <ImageBrush ImageSource="/PolyPaint;component/Resources/icon-send.png" Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
