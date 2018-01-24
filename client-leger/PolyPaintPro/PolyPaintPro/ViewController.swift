@@ -2,7 +2,7 @@
 import UIKit
 import Starscream
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDataSource {
     
     // MARK: - Properties
     var username = ""
@@ -18,8 +18,26 @@ class ViewController: UIViewController {
     
     @IBAction func chatToggleBtn(_ sender: Any) { //function associated to the button
         chatToggleFn()
-        
     }
+    
+    //number of sections in the chat table
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    //number of columns in the chat table
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+        //return chatTable.count
+        // ^ size of the table containing messages, to allow to be dynamically modified woth the arrrival of new messages
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = UITableViewCell()
+        cell.textLabel?.text = "Bacon" //this data will be replaced by actual messages
+        return cell
+    }
+    
     
     func chatToggleFn(){ //function called to toggle the chat view
         if(chatShowing){
@@ -52,6 +70,7 @@ class ViewController: UIViewController {
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
+       
         super.viewDidLoad()
         registerView?.isHidden = true //default view is login
        
