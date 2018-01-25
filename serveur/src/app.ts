@@ -23,6 +23,7 @@ import * as homeController from "./controllers/home";
 import * as userController from "./controllers/user";
 import * as apiController from "./controllers/api";
 import * as contactController from "./controllers/contact";
+import * as drawingsController from "./controllers/drawings";
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
 
@@ -105,6 +106,13 @@ app.post("/account/profile", passportConfig.isAuthenticated, userController.post
 app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get("/account/unlink/:provider", passportConfig.isAuthenticated, userController.getOauthUnlink);
+
+/**
+ * Drawings
+ */
+app.post("/drawings", drawingsController.postDrawing);
+app.get("/drawings/:id([0-9]+)", drawingsController.getDrawing);
+app.put("/drawings/:id([0-9]+)", drawingsController.putDrawing);
 
 /**
  * API examples routes.
