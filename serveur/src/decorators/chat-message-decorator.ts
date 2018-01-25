@@ -1,7 +1,6 @@
 import * as WebSocket from "ws";
 import { ClientChatMessage } from "../models/sockets/client-chat-message";
 import { ServerChatMessage } from "../models/sockets/server-chat-message";
-import { SocketStrategy } from "../models/sockets/socket-strategy";
 
 export class ChatMessageDecorator {
     private clientMessage: ClientChatMessage;

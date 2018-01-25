@@ -12,7 +12,8 @@ describe("websocket server", function() {
         let httpServer: http.Server;
 
         beforeEach(function() {
-            httpServer = http.createServer((req, res) => {});
+            httpServer = http.createServer((req, res) => {
+            });
         });
 
         it("should create a new websocket server", function() {
@@ -27,7 +28,8 @@ describe("websocket server", function() {
         let server: WebSocketServer;
         beforeEach(function() {
             sandbox = sinon.sandbox.create();
-            server = new WebSocketServer(http.createServer((req, res) => {}));
+            server = new WebSocketServer(http.createServer((req, res) => {
+            }));
         });
 
         afterEach(function() {

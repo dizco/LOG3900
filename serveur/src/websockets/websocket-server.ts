@@ -1,7 +1,7 @@
 import * as WebSocket from "ws";
+import { ServerOptions } from "ws";
 import * as http from "http";
 import * as https from "https";
-import { ServerOptions } from "ws";
 import { WebSocketDecorator } from "../decorators/websocket-decorator";
 import { Room } from "./room";
 

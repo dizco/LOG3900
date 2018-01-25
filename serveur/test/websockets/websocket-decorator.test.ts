@@ -61,7 +61,8 @@ describe("websocket decorator", function() {
         });
 
         it("should broadcast to the room", function() {
-            const server = new WebSocketServer(http.createServer((req, res) => {}));
+            const server = new WebSocketServer(http.createServer((req, res) => {
+            }));
             const ws = new FakeWebSocket("ws://localhost");
             const user1 = new WebSocketDecorator(server, ws);
             server.join(roomId1, user1);
@@ -75,7 +76,8 @@ describe("websocket decorator", function() {
         });
 
         it("should broadcast to all clients, across all rooms", function() {
-            const server = new FakeWebSocketServer(http.createServer((req, res) => {}));
+            const server = new FakeWebSocketServer(http.createServer((req, res) => {
+            }));
             const ws1 = new FakeWebSocket("ws://localhost");
             const ws2 = new FakeWebSocket("ws://localhost");
 
