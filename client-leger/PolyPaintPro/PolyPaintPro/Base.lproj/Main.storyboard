@@ -340,7 +340,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="chatView" destination="Mzz-8E-ANo" id="jdH-7R-W1h"/>
                         <outlet property="chatViewConstraint" destination="prm-p3-d70" id="97j-7r-CVh"/>
+                        <outlet property="drawView" destination="Cys-yA-DLW" id="Qbu-Bx-1Je"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Zk-AC-UDA" userLabel="First Responder" sceneMemberID="firstResponder"/>

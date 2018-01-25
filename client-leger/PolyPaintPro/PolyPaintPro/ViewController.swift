@@ -11,12 +11,15 @@ class ViewController: UIViewController, UITableViewDataSource {
 
     @IBOutlet weak var welcomeLabel: UILabel!
     
-    @IBOutlet weak var connexionView: UIView!
+    @IBOutlet weak var connexionView: UIView?
     @IBOutlet weak var registerView: UIView?
+    
+    @IBOutlet var drawView: UIView!
+    @IBOutlet weak var chatView: UIView!
     
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the chat window
     
-    @IBAction func chatToggleBtn(_ sender: Any) { //function associated to the button
+    @IBAction func chatToggleBtn(_ sender: Any) { //function associated to the chat toggle button
         chatToggleFn()
     }
     
@@ -29,7 +32,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
         //return chatTable.count
-        // ^ size of the table containing messages, to allow to be dynamically modified woth the arrrival of new messages
+        // ^ size of the table containing messages, to allow to be dynamically modified with the arrrival of new messages
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -38,33 +41,28 @@ class ViewController: UIViewController, UITableViewDataSource {
         return cell
     }
     
-    
     func chatToggleFn(){ //function called to toggle the chat view
-        if(chatShowing){
-            chatViewConstraint.constant = 1024
+        let windowWidth = self.drawView.frame.width
+        let chatViewWidth = self.chatView.frame.width
+        if chatShowing {
+            chatViewConstraint.constant = windowWidth
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
-            
-            
-        }else{
-            chatViewConstraint.constant = 768
+        } else {
+            chatViewConstraint.constant = windowWidth - chatViewWidth
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
-            
-            
         }
         chatShowing = !chatShowing
-        
     }
     
     @IBAction func loginToggle(_ sender: UISegmentedControl) {
         if(sender.selectedSegmentIndex == 0){
             welcomeLabel.text = "Bienvenue! Entrez vos informations de connexion PolyPaintPro"
-            connexionView.isHidden = false
+            connexionView?.isHidden = false
             registerView?.isHidden = true
         }else if(sender.selectedSegmentIndex == 1){
             welcomeLabel.text = "Bienvenue! Entrez vos informations pour creer un compte PolyPaint Pro"
-            connexionView.isHidden = true
+            connexionView?.isHidden = true
             registerView?.isHidden = false
-
         }
     }
     
