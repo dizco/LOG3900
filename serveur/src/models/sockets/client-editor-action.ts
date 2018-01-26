@@ -1,10 +1,8 @@
 import { SocketMessage } from "./socket-message";
+import { Action } from "./action";
 
 export interface ClientEditorAction extends SocketMessage {
-    action: {
-        id: number | string;
-        name: string;
-    };
+    action: Action;
 
     drawing: {
         id: number | string;

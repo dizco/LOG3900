@@ -1,28 +1,12 @@
 import { SocketMessage } from "./socket-message";
+import { Author } from "../author";
+import { DrawingAttributes } from "../drawings/drawing-attributes";
+import { Action } from "./action";
 
 export interface ServerEditorAction extends SocketMessage {
-    action: {
-        id: number | string;
-        name: string;
-    };
+    action: Action;
 
-    drawing: {
-        id: number | string;
-        name: string;
-        owner: {
-            id: number | string;
-            username: string;
-            name: string;
-            url: string;
-            avatar_url: string;
-        }
-    };
+    drawing: DrawingAttributes; //We don't want to send the whole list of strokes every time
 
-    author: {
-        id: number | string;
-        username: string;
-        name: string;
-        url: string;
-        avatar_url: string;
-    };
+    author: Author;
 }
