@@ -1,4 +1,5 @@
 import { SocketMessage } from "./socket-message";
+import { Author } from "../author";
 
 export interface ServerChatMessage extends SocketMessage {
     message: string;
@@ -8,11 +9,5 @@ export interface ServerChatMessage extends SocketMessage {
         name: string;
     };
 
-    author: {
-        id: number | string;
-        username: string;
-        name: string;
-        url: string;
-        avatar_url: string;
-    };
+    author: Author;
 }
