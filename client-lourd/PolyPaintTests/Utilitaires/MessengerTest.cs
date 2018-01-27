@@ -13,8 +13,8 @@ namespace PolyPaintTests.Utilitaires
         [ClassInitialize]
         public static void InitializeMessenger(TestContext context)
         {
-            _messenger = new Messenger(DummyServerUri, new SocketHandlerMock(DummyServerUri));
-            _messengerFail = new Messenger(DummyServerUri, new SocketHandlerMockFail(DummyServerUri));
+            _messenger = new Messenger(new SocketHandlerMock(DummyServerUri));
+            _messengerFail = new Messenger(new SocketHandlerMockFail(DummyServerUri));
         }
 
         [TestMethod]
