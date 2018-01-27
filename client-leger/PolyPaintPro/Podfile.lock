@@ -1,12 +1,15 @@
 PODS:
   - Starscream (3.0.4)
+  - SwiftLint (0.24.2)
 
 DEPENDENCIES:
   - Starscream
+  - SwiftLint
 
 SPEC CHECKSUMS:
   Starscream: f5da93fe6984c77b694366bf7299b7dc63a76f26
+  SwiftLint: 2aa21b96c8d13396a051bc1cb659d2ce1e0075b0
 
-PODFILE CHECKSUM: c6ee487b2cece0bbc3e35112492f3837cbb2b641
+PODFILE CHECKSUM: 86add2d427d6638d6a052a21fdb18ec997b5537d
 
 COCOAPODS: 1.4.0
