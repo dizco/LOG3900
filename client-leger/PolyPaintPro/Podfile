@@ -10,16 +10,17 @@ target 'PolyPaintPro' do
   use_frameworks!
 
   # Pods for PolyPaintPro
+  pod 'SwiftLint'
   pod 'Starscream'
-  
+
   target 'PolyPaintProTests' do
       inherit! :search_paths
       # Pods for testing
   end
-  
+
   target 'PolyPaintProUITests' do
       inherit! :search_paths
       # Pods for testing
   end
-  
+
 end

@@ -1,0 +1,58 @@
+disabled_rules: # rule identifiers to exclude from running
+- nesting
+- function_parameter_count
+opt_in_rules: # some rules are only opt-in
+  - empty_count
+  # Find all the available rules by running:
+  # swiftlint rules
+included: # paths to include during linting. `--path` is ignored if present.
+  - PolyPaintPro
+  - PolyPaintProTests
+  - PolyPaintProUITests
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Pods
+
+# configurable rules can be customized from this configuration file
+# binary rules can set their severity level
+indentation: 4 # 4 spaces
+indentation: tabs
+
+force_cast: warning # implicitly. Give awrning only for force casting
+force_try:
+  severity: warning # explicitly. Give warning only for force try
+# rules that have both warning and error levels, can set just the warning level
+# implicitly
+
+line_length: 120 # arbitrary, helps readability of code
+# they can set both implicitly with an array
+
+type_body_length:
+  - 300 # warning
+  - 400 # error
+# or they can set both explicitly
+
+file_length:
+  warning: 500
+  error: 800
+# naming rules can set warnings/errors for min_length and max_length
+# additionally they can set excluded names
+
+large_tuple:
+  - 3 # warning
+  - 4 # error
+
+type_name:
+  min_length: 4 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+  excluded: iPhone # excluded via string
+
+identifier_name:
+  min_length: # only min_length
+    error: 4 # only error
+  excluded: # excluded via string array
+    - id
+    - URL
+    - GlobalAPIKey
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji)
