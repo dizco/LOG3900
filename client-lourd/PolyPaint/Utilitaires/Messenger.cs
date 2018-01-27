@@ -8,7 +8,7 @@ namespace PolyPaint.Utilitaires
     {
         private readonly ISocketHandler _socketHandler;
 
-        public Messenger(string uri, ISocketHandler socketHandler)
+        public Messenger(ISocketHandler socketHandler)
         {
             _socketHandler = socketHandler;
         }
