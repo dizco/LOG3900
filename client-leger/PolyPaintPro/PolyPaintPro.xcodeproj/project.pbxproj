@@ -41,7 +41,7 @@
 		0BB5F8E92C78E919999A453D /* Pods-PolyPaintProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.release.xcconfig"; sourceTree = "<group>"; };
 		12E0DC10616F48CA16EF5CAC /* Pods-PolyPaintProUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.release.xcconfig"; sourceTree = "<group>"; };
 		274C0345200EF37900DDAD8D /* PolyPaintPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyPaintPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		274C0348200EF37900DDAD8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		274C0348200EF37900DDAD8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; usesTabs = 1; };
 		274C034A200EF37900DDAD8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		274C034D200EF37900DDAD8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		274C034F200EF37900DDAD8D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
