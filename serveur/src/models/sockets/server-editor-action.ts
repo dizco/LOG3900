@@ -1,5 +1,5 @@
 import { SocketMessage } from "./socket-message";
-import { Author } from "../author";
+import { Author } from "./author";
 import { DrawingAttributes } from "../drawings/drawing-attributes";
 import { Action } from "./action";
 

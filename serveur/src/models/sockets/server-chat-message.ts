@@ -1,5 +1,5 @@
 import { SocketMessage } from "./socket-message";
-import { Author } from "../author";
+import { Author } from "./author";
 
 export interface ServerChatMessage extends SocketMessage {
     message: string;
