@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="Vues/FenetreDessin.xaml">
     <Application.Resources>
-        <FontFamily x:Key="LatoThin">pack://appliction;,,,/Fonts/#Lato Thin</FontFamily>
-        <FontFamily x:Key="LatoRegular">pack://appliction;,,,/Fonts/#Lato Regular</FontFamily>
-        <FontFamily x:Key="LatoBold">pack://appliction;,,,/Fonts/#Lato Bold</FontFamily>
+        <FontFamily x:Key="LatoThin">pack://appliction;,,,/Resources/Fonts/#Lato Thin</FontFamily>
+        <FontFamily x:Key="LatoRegular">pack://appliction;,,,/Resources/Fonts/#Lato Regular</FontFamily>
+        <FontFamily x:Key="LatoBold">pack://appliction;,,,/Resources/Fonts/#Lato Bold</FontFamily>
     </Application.Resources>
 </Application>
