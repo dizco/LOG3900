@@ -1,7 +1,7 @@
-import { Author } from "../author";
+import { Owner } from "./owner";
 
 export interface DrawingAttributes {
     id: number | string;
     name: string;
-    owner: Author;
+    owner: Owner;
 }

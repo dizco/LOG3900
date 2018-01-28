@@ -1,9 +1,9 @@
-import { Dot } from "./dot";
+import { Pixel } from "./pixel";
 
 export interface Stroke {
     author: {
         id: number | string;
     };
 
-    dots: Dot[];
+    dots: Pixel[];
 }

@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { Drawing } from "../models/drawings/drawing";
-import { Author } from "../models/author";
+import { Author } from "../models/sockets/author";
 import { Stroke } from "../models/drawings/stroke";
-import { Dot } from "../models/drawings/dot";
+import { Pixel } from "../models/drawings/pixel";
+import { Owner } from "../models/drawings/owner";
 
 /**
  * POST /drawings
@@ -24,14 +25,14 @@ export let getDrawing = (req: Request, res: Response) => {
     //TODO: Fetch drawing by id in database and cast to Drawing
     //TODO: Verify if drawing exists. If not, return error
 
-    const author: Author = {
+    const owner: Owner = {
         id: 134,
         username: "dizco",
         name: "Gabriel",
         url: "https://example.com/users/dizco",
         avatar_url: "https://example.com/users/dizco/avatar.jpg",
     };
-    const dots: Dot[] = [{color: "#fff", x: 1, y: 2}];
+    const dots: Pixel[] = [{color: "#fff", x: 1, y: 2}];
     const strokes: Stroke[] = [{
         author: { //We don't need to send the whole author information every time
             id: 134
@@ -41,7 +42,7 @@ export let getDrawing = (req: Request, res: Response) => {
     const drawing: Drawing = {
         id: req.params.id,
         name: "This is the way",
-        owner: author,
+        owner: owner,
         strokes: strokes,
     };
 
