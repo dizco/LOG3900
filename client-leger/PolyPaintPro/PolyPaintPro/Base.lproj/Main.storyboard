@@ -369,6 +369,21 @@
                                     <segue destination="KwV-uG-opW" kind="show" id="wG9-9o-pkE"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEK-6N-qKy">
+                                <rect key="frame" x="20" y="139" width="112" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Ouvrir un dessin"/>
+                                <connections>
+                                    <segue destination="KwV-uG-opW" kind="show" id="ZMN-EK-Gd2"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dessins récents" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4S-H4-Dan">
+                                <rect key="frame" x="512" y="77" width="122" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
@@ -403,5 +418,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="JBO-OQ-BK7"/>
+        <segue reference="ZMN-EK-Gd2"/>
     </inferredMetricsTieBreakers>
 </document>

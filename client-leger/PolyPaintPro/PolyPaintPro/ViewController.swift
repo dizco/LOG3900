@@ -5,17 +5,20 @@ class ViewController: UIViewController, UITableViewDataSource, SocketManagerDele
 
     // MARK: - Properties
     var chatShowing = false //value to keep track of the chat window state
-
+    
+    //Labels
     @IBOutlet weak var welcomeLabel: UILabel!
 
+    //views
     @IBOutlet weak var connexionView: UIView?
     @IBOutlet weak var registerView: UIView?
-
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
 
+    //Constraints
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the chat window
 
+    //Buttons
     @IBAction func chatToggleBtn(_ sender: Any) { //function associated to the chat toggle button
         chatToggleFn()
     }
