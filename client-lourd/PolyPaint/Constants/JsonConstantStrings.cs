@@ -9,10 +9,11 @@
         public const string ActionKey = "action";
         public const string IdKey = "id";
         public const string MessageKey = "message";
-        public const string TypeKey = "type";
+        public const string RoomKey = "room";
         public const string TypeChatMessageOutgoingValue = "client.chat.message";
         public const string TypeChatMessageIncomingValue = "server.chat.message";
         public const string TypeEditorActionValue = "client.editor.action";
+        public const string TypeKey = "type";
     }
 
     // TODO: Add static class for other parts of the app needing constant strings

@@ -17,10 +17,16 @@ namespace PolyPaint.Utilitaires
         {
             if (message != string.Empty)
             {
+                JObject roomJson = new JObject
+                {
+                    {JsonConstantStrings.IdKey, "chat"}
+                };
+
                 JObject messageJson = new JObject
                 {
                     {JsonConstantStrings.TypeKey, JsonConstantStrings.TypeChatMessageOutgoingValue},
-                    {JsonConstantStrings.MessageKey, message}
+                    {JsonConstantStrings.MessageKey, message},
+                    {JsonConstantStrings.RoomKey, roomJson}
                 };
 
                 string messageStringified = messageJson.ToString();
