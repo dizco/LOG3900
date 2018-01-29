@@ -1,10 +1,6 @@
-﻿using PolyPaint.Utilitaires;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using Newtonsoft.Json.Linq;
+using PolyPaint.Utilitaires;
 
 namespace PolyPaint.VueModeles
 {
@@ -12,16 +8,19 @@ namespace PolyPaint.VueModeles
     {
         private static Messenger _mesenger;
 
-        protected Messenger Messenger
-        {
-            get { return _mesenger; }
-        }
+        protected Messenger Messenger => _mesenger;
+
+        protected static event EventHandler<JObject> ChatMessageReceived;
+        protected static event EventHandler<JObject> EditorActionReceived;
 
         protected static Messenger StartMessenger(string uri)
         {
             if (_mesenger == null)
             {
-                _mesenger = new Messenger(new SocketHandler(uri));
+                SocketHandler socketHandler = new SocketHandler(uri);
+                socketHandler.ChatMessageReceived += ChatMessageReceived;
+                socketHandler.EditorActionReceived += EditorActionReceived;
+                _mesenger = new Messenger(socketHandler);
             }
             return _mesenger;
         }

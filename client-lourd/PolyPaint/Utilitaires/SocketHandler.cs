@@ -11,6 +11,9 @@ namespace PolyPaint.Utilitaires
         private readonly WebSocket ws;
         private bool isConnected;
 
+        public event EventHandler<JObject> ChatMessageReceived;
+        public event EventHandler<JObject> EditorActionReceived;
+
         public SocketHandler(string uri)
         {
             ws = new WebSocket(uri);
@@ -38,8 +41,13 @@ namespace PolyPaint.Utilitaires
             if (type == JsonConstantStrings.TypeChatMessageIncomingValue)
             {
                 // TODO: Display message
+                OnChatMessageReceived(incomingData);
             }
-            // TODO: Manage incoming editor actions
+            else if (type == JsonConstantStrings.TypeEditorActionValue)
+            {
+                // TODO: Manage incoming editor actions
+                OnEditorActionReceived(incomingData);
+            }
         }
 
         private void OnClosed(object sender, EventArgs e)
@@ -57,6 +65,16 @@ namespace PolyPaint.Utilitaires
         private void OnOpened(object sender, EventArgs e)
         {
             isConnected = true;
+        }
+
+        protected virtual void OnChatMessageReceived(JObject e)
+        {
+            ChatMessageReceived?.Invoke(this, e);
+        }
+
+        protected virtual void OnEditorActionReceived(JObject e)
+        {
+            EditorActionReceived?.Invoke(this, e);
         }
     }
 }
