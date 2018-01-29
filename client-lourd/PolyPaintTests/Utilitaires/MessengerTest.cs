@@ -13,8 +13,8 @@ namespace PolyPaintTests.Utilitaires
         [ClassInitialize]
         public static void InitializeMessenger(TestContext context)
         {
-            _messenger = new Messenger(DummyServerUri, new SocketHandlerMock(DummyServerUri));
-            _messengerFail = new Messenger(DummyServerUri, new SocketHandlerMockFail(DummyServerUri));
+            _messenger = new Messenger(new SocketHandlerMock(DummyServerUri));
+            _messengerFail = new Messenger(new SocketHandlerMockFail(DummyServerUri));
         }
 
         [TestMethod]
@@ -34,7 +34,8 @@ namespace PolyPaintTests.Utilitaires
             const string testMessage = "This is a test message";
 
             const string expectedOutputString = "{\r\n  \"type\": \"client.chat.message\",\r\n  \"message\": \"" +
-                                                testMessage + "\"\r\n}";
+                                                testMessage +
+                                                "\",\r\n  \"room\": {\r\n    \"id\": \"chat\"\r\n  }\r\n}";
 
             string realOutputString = _messenger.SendChatMessage(testMessage);
 
@@ -47,7 +48,7 @@ namespace PolyPaintTests.Utilitaires
             const string testMessage = "This is a test message containing \" quotes \"";
 
             const string expectedOutputString =
-                "{\r\n  \"type\": \"client.chat.message\",\r\n  \"message\": \"This is a test message containing \\\" quotes \\\"\"\r\n}";
+                "{\r\n  \"type\": \"client.chat.message\",\r\n  \"message\": \"This is a test message containing \\\" quotes \\\"\",\r\n  \"room\": {\r\n    \"id\": \"chat\"\r\n  }\r\n}";
 
             string realOutputString = _messenger.SendChatMessage(testMessage);
 

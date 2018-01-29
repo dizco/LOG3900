@@ -114,17 +114,27 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Convertisseurs\Convertisseurs.cs" />
+    <Compile Include="Modeles\ChatWindowModel.cs" />
     <Compile Include="Modeles\Editeur.cs" />
     <Compile Include="Constants\JsonConstantStrings.cs" />
     <Compile Include="Utilitaires\ISocketHandler.cs" />
     <Compile Include="Utilitaires\Messenger.cs" />
     <Compile Include="Utilitaires\RelayCommand.cs" />
     <Compile Include="Utilitaires\SocketHandler.cs" />
+    <Compile Include="VueModeles\ChatWindowViewModel.cs" />
     <Compile Include="VueModeles\LoginWindowViewModele.cs" />
+    <Compile Include="VueModeles\ViewModelBase.cs" />
     <Compile Include="VueModeles\VueModele.cs" />
+    <Compile Include="Vues\ChatWindowView.xaml.cs">
+      <DependentUpon>ChatWindowView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vues\LoginWindowView.xaml.cs">
       <DependentUpon>LoginWindowView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Vues\ChatWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vues\FenetreDessin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,6 +169,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Resources\Fonts\Lato-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Lato-BoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Lato-Italic.ttf" />
+    <Resource Include="Resources\Fonts\Lato-Light.ttf" />
+    <Resource Include="Resources\Fonts\Lato-LightItalic.ttf" />
+    <Resource Include="Resources\Fonts\Lato-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Lato-Semibold.ttf" />
+    <Resource Include="Resources\Fonts\Lato-SemiboldItalic.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -191,6 +209,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\dialogue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon-send.png" />
+    <Resource Include="Resources\testbackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tidepod.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
