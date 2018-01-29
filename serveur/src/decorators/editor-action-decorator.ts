@@ -1,7 +1,6 @@
 import * as WebSocket from "ws";
 import { ServerEditorAction } from "../models/sockets/server-editor-action";
 import { ClientEditorAction } from "../models/sockets/client-editor-action";
-import { SocketStrategy } from "../models/sockets/socket-strategy";
 
 export class EditorActionDecorator {
     private clientAction: ClientEditorAction;
