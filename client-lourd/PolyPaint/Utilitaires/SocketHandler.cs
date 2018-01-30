@@ -1,6 +1,8 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Constants;
+using PolyPaint.Modeles.MessagingModels;
 using SuperSocket.ClientEngine;
 using WebSocket4Net;
 
@@ -10,9 +12,6 @@ namespace PolyPaint.Utilitaires
     {
         private readonly WebSocket ws;
         private bool isConnected;
-
-        public event EventHandler<JObject> ChatMessageReceived;
-        public event EventHandler<JObject> EditorActionReceived;
 
         public SocketHandler(string uri)
         {
@@ -34,20 +33,17 @@ namespace PolyPaint.Utilitaires
             return false;
         }
 
+        public event EventHandler<ChatMessageModel> ChatMessageReceived;
+        public event EventHandler<EditorActionModel> EditorActionReceived;
+
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
             JObject incomingData = JObject.Parse(e.Message);
             string type = incomingData.GetValue("type").ToString();
             if (type == JsonConstantStrings.TypeChatMessageIncomingValue)
-            {
-                // TODO: Display message
-                OnChatMessageReceived(incomingData);
-            }
+                OnChatMessageReceived(e.Message);
             else if (type == JsonConstantStrings.TypeEditorActionValue)
-            {
-                // TODO: Manage incoming editor actions
-                OnEditorActionReceived(incomingData);
-            }
+                OnEditorActionReceived(e.Message);
         }
 
         private void OnClosed(object sender, EventArgs e)
@@ -67,14 +63,16 @@ namespace PolyPaint.Utilitaires
             isConnected = true;
         }
 
-        protected virtual void OnChatMessageReceived(JObject e)
+        public void OnChatMessageReceived(string e)
         {
-            ChatMessageReceived?.Invoke(this, e);
+            ChatMessageModel messageDeserialized = JsonConvert.DeserializeObject<ChatMessageModel>(e);
+            ChatMessageReceived?.Invoke(this, messageDeserialized);
         }
 
-        protected virtual void OnEditorActionReceived(JObject e)
+        public void OnEditorActionReceived(string e)
         {
-            EditorActionReceived?.Invoke(this, e);
+            EditorActionModel actionDeserialized = JsonConvert.DeserializeObject<EditorActionModel>(e);
+            EditorActionReceived?.Invoke(this, actionDeserialized);
         }
     }
 }

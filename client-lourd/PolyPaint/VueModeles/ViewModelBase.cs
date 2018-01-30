@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
+using PolyPaint.Modeles.MessagingModels;
 using PolyPaint.Utilitaires;
 
 namespace PolyPaint.VueModeles
@@ -10,8 +11,8 @@ namespace PolyPaint.VueModeles
 
         protected Messenger Messenger => _mesenger;
 
-        protected static event EventHandler<JObject> ChatMessageReceived;
-        protected static event EventHandler<JObject> EditorActionReceived;
+        protected static event EventHandler<ChatMessageModel> ChatMessageReceived;
+        protected static event EventHandler<EditorActionModel> EditorActionReceived;
 
         protected static Messenger StartMessenger(string uri)
         {

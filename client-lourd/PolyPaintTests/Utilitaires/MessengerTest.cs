@@ -33,11 +33,11 @@ namespace PolyPaintTests.Utilitaires
         {
             const string testMessage = "This is a test message";
 
-            const string expectedOutputString = "{\r\n  \"type\": \"client.chat.message\",\r\n  \"message\": \"" +
-                                                testMessage +
-                                                "\",\r\n  \"room\": {\r\n    \"id\": \"chat\"\r\n  }\r\n}";
+            const string expectedOutputString = "{\"message\":\"" + testMessage +
+                                                "\",\"author\":null,\"room\":{\"id\":\"chat\",\"name\":null},\"timestamp\":0,\"type\":\"client.chat.message\"}";
 
             string realOutputString = _messenger.SendChatMessage(testMessage);
+
 
             Assert.AreEqual(expectedOutputString, realOutputString, "Should return JSON-formatted string");
         }
@@ -48,7 +48,7 @@ namespace PolyPaintTests.Utilitaires
             const string testMessage = "This is a test message containing \" quotes \"";
 
             const string expectedOutputString =
-                "{\r\n  \"type\": \"client.chat.message\",\r\n  \"message\": \"This is a test message containing \\\" quotes \\\"\",\r\n  \"room\": {\r\n    \"id\": \"chat\"\r\n  }\r\n}";
+                "{\"message\":\"This is a test message containing \\\" quotes \\\"\",\"author\":null,\"room\":{\"id\":\"chat\",\"name\":null},\"timestamp\":0,\"type\":\"client.chat.message\"}";
 
             string realOutputString = _messenger.SendChatMessage(testMessage);
 

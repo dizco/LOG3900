@@ -1,6 +1,7 @@
 ﻿using System;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using PolyPaint.Constants;
+using PolyPaint.Modeles.MessagingModels;
 
 namespace PolyPaint.Utilitaires
 {
@@ -13,28 +14,26 @@ namespace PolyPaint.Utilitaires
             _socketHandler = socketHandler;
         }
 
-        public string SendChatMessage(string message)
+        public string SendChatMessage(string outgoingMessage)
         {
-            if (message != string.Empty)
+            if (outgoingMessage != string.Empty)
             {
-                JObject roomJson = new JObject
+                ChatMessageModel chatMessage = new ChatMessageModel
                 {
-                    {JsonConstantStrings.IdKey, "chat"}
+                    type = JsonConstantStrings.TypeChatMessageOutgoingValue,
+                    message = outgoingMessage,
+                    room = new RoomModel
+                    {
+                        id = "chat"
+                    }
                 };
 
-                JObject messageJson = new JObject
-                {
-                    {JsonConstantStrings.TypeKey, JsonConstantStrings.TypeChatMessageOutgoingValue},
-                    {JsonConstantStrings.MessageKey, message},
-                    {JsonConstantStrings.RoomKey, roomJson}
-                };
+                string messageSerialized = JsonConvert.SerializeObject(chatMessage);
 
-                string messageStringified = messageJson.ToString();
-
-                bool status = _socketHandler.SendMessage(messageStringified);
+                bool status = _socketHandler.SendMessage(messageSerialized);
 
                 if (status)
-                    return messageStringified;
+                    return messageSerialized;
             }
             return string.Empty;
         }
