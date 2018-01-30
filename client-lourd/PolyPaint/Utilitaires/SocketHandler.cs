@@ -10,24 +10,24 @@ namespace PolyPaint.Utilitaires
 {
     public class SocketHandler : ISocketHandler
     {
-        private readonly WebSocket ws;
-        private bool isConnected;
+        private readonly WebSocket _ws;
+        private bool _isConnected;
 
         public SocketHandler(string uri)
         {
-            ws = new WebSocket(uri);
-            ws.Opened += OnOpened;
-            ws.Error += OnError;
-            ws.Closed += OnClosed;
-            ws.MessageReceived += OnMessageReceived;
-            ws.Open();
+            _ws = new WebSocket(uri);
+            _ws.Opened += OnOpened;
+            _ws.Error += OnError;
+            _ws.Closed += OnClosed;
+            _ws.MessageReceived += OnMessageReceived;
+            _ws.Open();
         }
 
         public bool SendMessage(string data)
         {
-            if (isConnected)
+            if (_isConnected)
             {
-                ws.Send(data);
+                _ws.Send(data);
                 return true;
             }
             return false;
@@ -48,19 +48,19 @@ namespace PolyPaint.Utilitaires
 
         private void OnClosed(object sender, EventArgs e)
         {
-            isConnected = false;
+            _isConnected = false;
         }
 
         private void OnError(object sender, ErrorEventArgs e)
         {
             // TODO: Implemented reconnection logic
             ErrorEventArgs args = e;
-            isConnected = false;
+            _isConnected = false;
         }
 
         private void OnOpened(object sender, EventArgs e)
         {
-            isConnected = true;
+            _isConnected = true;
         }
 
         public void OnChatMessageReceived(string e)
