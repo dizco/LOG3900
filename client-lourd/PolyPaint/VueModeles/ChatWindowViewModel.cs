@@ -18,7 +18,7 @@ namespace PolyPaint.VueModeles
         //Constructor
         public ChatWindowViewModel()
         {
-            Items = new ObservableCollection<TextMessage>();
+            Items = new ObservableCollection<ChatMessage>();
             StartMessenger("ws://localhost:3000");
 
             //Sending a message 
@@ -28,10 +28,10 @@ namespace PolyPaint.VueModeles
         public RelayCommand<object> SendMessageCommand { get; }
 
         //Contain the information of all message sent in the chatroom
-        public ObservableCollection<TextMessage> Items { get; set; }
+        public ObservableCollection<ChatMessage> Items { get; set; }
 
         //Atribute defining the string message send by a user in the chat
-        public string PendingMessageText
+        public string PendingChatMessage
         {
             get => _chatWindowModel.PublicMessageText;
             set
@@ -45,20 +45,20 @@ namespace PolyPaint.VueModeles
 
         public void SendMessage(object o)
         {
-            Messenger.SendChatMessage(PendingMessageText);
+            Messenger.SendChatMessage(PendingChatMessage);
 
             //Sending all the information about the item
-            if (PendingMessageText != string.Empty)
-                Items.Add(new TextMessage
+            if (PendingChatMessage != string.Empty)
+                Items.Add(new ChatMessage
                 {
-                    Title = PendingMessageText,
+                    Title = PendingChatMessage,
                     MessageSentTime = DateTime.UtcNow,
                     SentByMe = true,
                     SenderName = "Knuckle Da Weychidna",
                     NewItem = true
                 });
             //clear message after it's transmission
-            PendingMessageText = string.Empty;
+            PendingChatMessage = string.Empty;
         }
 
 
@@ -75,9 +75,9 @@ namespace PolyPaint.VueModeles
     }
 
     //Temporary fake text message
-    internal class TextMessage
+    internal class ChatMessage
     {
-        public TextMessage()
+        public ChatMessage()
         {
             Title = "";
             MessageSentTime = DateTime.UtcNow;

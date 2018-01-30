@@ -5,14 +5,14 @@ namespace PolyPaint.Modeles
 {
     internal class ChatWindowModel : INotifyPropertyChanged
     {
-        private string _pendingMessageText = "Entrez votre message ici";
+        private string _pendingChatMessage = "Entrez votre message ici";
 
         public string PublicMessageText
         {
-            get => _pendingMessageText;
+            get => _pendingChatMessage;
             set
             {
-                _pendingMessageText = value;
+                _pendingChatMessage = value;
                 PropertyModified();
             }
         }
