@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls.Primitives;
@@ -47,6 +48,24 @@ namespace PolyPaint
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
+        {
+            VueModele viewModel = (VueModele) DataContext;
+            viewModel.OnStrokeCollectedHandler(sender, e);
+        }
+
+        private void OnStrokeErasing(object sender, InkCanvasStrokeErasingEventArgs e)
+        {
+            VueModele viewModel = (VueModele)DataContext;
+            throw new NotImplementedException();
+        }
+
+        private void OnStrokeErased(object sender, RoutedEventArgs e)
+        {
+            VueModele viewModel = (VueModele)DataContext;
+            throw new NotImplementedException();
         }
     }
 }

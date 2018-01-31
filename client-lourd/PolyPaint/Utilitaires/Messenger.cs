@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Ink;
 using Newtonsoft.Json;
 using PolyPaint.Constants;
 using PolyPaint.Modeles.MessagingModels;
@@ -38,9 +39,18 @@ namespace PolyPaint.Utilitaires
             return string.Empty;
         }
 
-        public string SendEditorAction()
+        private string SendEditorAction()
         {
             throw new NotImplementedException();
+        }
+
+        public string SendEditorStrokeAddedAction(object stroke)
+        {
+            if (stroke is Stroke)
+            {
+                // TODO: Convert stroke to a format server can understand
+            }
+            return string.Empty;
         }
     }
 }
