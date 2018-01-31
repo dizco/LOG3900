@@ -17,6 +17,8 @@
 		277EE1A0201280D900545404 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 277EE19F201280D900545404 /* assets */; };
 		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
 		B48D511C46E63778945C0C0F /* Pods_PolyPaintPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC9C6A3AD0D3999DF9241A5 /* Pods_PolyPaintPro.framework */; };
+		BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A1E202102CD00FD1C50 /* SocketManager.swift */; };
+		BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A2020215E3C00FD1C50 /* ChatMessage.swift */; };
 		BEA9D56883FF8D93C682D80F /* Pods_PolyPaintProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C70EAB585761E036E5FAAEDB /* Pods_PolyPaintProTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +60,8 @@
 		91BBB0114198EB686FA7C1E9 /* Pods-PolyPaintPro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.release.xcconfig"; sourceTree = "<group>"; };
 		ACC9C6A3AD0D3999DF9241A5 /* Pods_PolyPaintPro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintPro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2573E96A9836DF73AFFC700 /* Pods-PolyPaintPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.debug.xcconfig"; sourceTree = "<group>"; };
+		BE426A1E202102CD00FD1C50 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		BE426A2020215E3C00FD1C50 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		C70EAB585761E036E5FAAEDB /* Pods_PolyPaintProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7F91C9AB61E660A53B38D16 /* Pods-PolyPaintProUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E2FCCC76FB5588830D12DF7B /* Pods-PolyPaintProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 				274C034F200EF37900DDAD8D /* Assets.xcassets */,
 				274C0354200EF37900DDAD8D /* Info.plist */,
 				278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */,
+				BE426A1E202102CD00FD1C50 /* SocketManager.swift */,
+				BE426A2020215E3C00FD1C50 /* ChatMessage.swift */,
 			);
 			path = PolyPaintPro;
 			sourceTree = "<group>";
@@ -477,6 +483,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				274C034B200EF37900DDAD8D /* ViewController.swift in Sources */,
+				BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */,
+				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
 				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
