@@ -1,9 +1,11 @@
-﻿using PolyPaint.Modeles;
+﻿using System;
+using PolyPaint.Modeles;
 using PolyPaint.Utilitaires;
 using PolyPaint.Vues;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
 
@@ -64,6 +66,9 @@ namespace PolyPaint.VueModeles
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
+        //Command for sending editor actions to server
+        public RelayCommand<object> SendNewStrokeCommand { get; set; }
+
         /// <summary>
         /// Constructeur de VueModele
         /// On récupère certaines données initiales du modèle et on construit les commandes
@@ -79,6 +84,9 @@ namespace PolyPaint.VueModeles
             AttributsDessin.Color = (Color)ColorConverter.ConvertFromString(editeur.CouleurSelectionnee);
             AjusterPointe();
 
+            // TODO: Remove before pushing
+            StartMessenger("ws://localhost:3000");
+
             Traits = editeur.traits;
             
             // Pour chaque commande, on effectue la liaison avec des méthodes du modèle.            
@@ -93,6 +101,9 @@ namespace PolyPaint.VueModeles
             //Managing different View
             ShowLoginWindowCommand = new RelayCommand<object>(ShowChatWindow);
             ShowChatWindowCommand = new RelayCommand<object>(ShowChatWindow);
+            
+            //Outgoing editor actions
+            SendNewStrokeCommand = new RelayCommand<object>(SendNewStroke);
         }
 
         /// <summary>
@@ -158,6 +169,17 @@ namespace PolyPaint.VueModeles
                 loginWindow.Show();
                 ChatWindow.Show();
             }
+        }
+
+        public void OnStrokeCollectedHandler(object sender, InkCanvasStrokeCollectedEventArgs e)
+        {
+            SendNewStrokeCommand.Execute(e.Stroke);
+        }
+
+
+        private void SendNewStroke(object obj)
+        {
+            Messenger?.SendEditorStrokeAddedAction(obj);
         }
     }
 }
