@@ -19,7 +19,11 @@ export class SocketStrategyChatMessage implements SocketStrategy {
         const decorator = new ChatMessageDecorator(this.clientMessage);
         decorator.decorate(wsDecorator.getWs())
             .then((message: ServerChatMessage) => {
-                wsDecorator.broadcast.send(JSON.stringify(message)); //to(message.room.id.toString())
+                const success = wsDecorator.broadcast.send(JSON.stringify(message)); //to(message.room.id.toString())
+                if (!success) {
+                    console.log("ChatMessage failed to broadcast");
+                    //TODO: Notify emitting user
+                }
             })
             .catch((reason => console.log("ChatMessage failed", reason)));
     }

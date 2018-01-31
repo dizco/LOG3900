@@ -39,11 +39,12 @@ export class Room {
      * @param data
      * @param {WebSocketDecorator} ws
      */
-    public broadcast(data: any, ws: WebSocketDecorator): void {
+    public broadcast(data: any, ws: WebSocketDecorator): boolean {
         this.clients.forEach((client: WebSocketDecorator) => {
             if (client !== ws && client.getWs().readyState === WebSocket.OPEN) {
                 client.getWs().send(data);
             }
         });
+        return true;
     }
 }
