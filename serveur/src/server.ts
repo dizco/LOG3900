@@ -5,6 +5,7 @@ import { WebSocketDecorator } from "./decorators/websocket-decorator";
 import { SocketMessage } from "./models/sockets/socket-message";
 import { SocketStrategyContext } from "./strategies/sockets/socket-strategy-context";
 import { WebSocketServer } from "./websockets/websocket-server";
+import { TryParseJSON } from "./helpers/json";
 
 const app = require("./app");
 
@@ -32,12 +33,22 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     console.log("\nConnection by socket on server with id", req.connection.remoteAddress);
 
     ws.on("message", (message: any) => {
-        const parsedMessage = <SocketMessage>JSON.parse(message);
-        console.log("Message received", parsedMessage);
+        const parsedMessage = TryParseJSON(message);
+        if (!parsedMessage) {
+            console.log("Impossible to parse message", message);
+            return;
+        }
+        const socketMessage: SocketMessage = <SocketMessage>parsedMessage;
+        console.log("Message received", socketMessage);
 
         //Interpret the message and determine the best strategy to use
-        const strategyContext = new SocketStrategyContext(parsedMessage);
-        strategyContext.execute(wsDecorator);
+        if (SocketStrategyContext.canParse(socketMessage)) {
+            const strategyContext = new SocketStrategyContext(socketMessage);
+            strategyContext.execute(wsDecorator);
+        }
+        else {
+            console.log("Impossible to identify a socket message.");
+        }
     });
 
     ws.on("error", (error) => {
