@@ -3,12 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:convertisseurs="clr-namespace:PolyPaint.Convertisseurs"      
         xmlns:local="clr-namespace:PolyPaint.Vues"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="LoginWindow" Height="600" Width="400"  ResizeMode="NoResize">
 
 
+    <Window.Resources>
+        <convertisseurs:SentByMeToForegroundConverter x:Key="sentByMeToForegroundConverter"/>
+        <convertisseurs:SentByMeToBackgroundConverter x:Key="sentByMeToBackgroundConverter"/>
+        <convertisseurs:SentByMeToAlignmentConverter x:Key="sentByMeToAlignmentConverter" />
+
+
+    </Window.Resources>
+    
     <Grid MinHeight="420">
         <Border>
             <Border.Background>
@@ -19,7 +28,7 @@
                 <ScrollViewer Margin="0,0,0,50"
                           HorizontalAlignment="Right"
                           VerticalScrollBarVisibility="Auto"
-                          Width="290"
+                          Width="338"
                           >
                     <!--StackPanel Height="auto" Width="auto"/-->
                     <ItemsControl ItemsSource="{Binding Items}">
@@ -32,7 +41,7 @@
 
                                         <!-- Chat message container -->
                                         <Grid Margin="25 0 25 0"
-                                          HorizontalAlignment="Stretch"
+                                          HorizontalAlignment="{Binding SentByMe, Converter={StaticResource sentByMeToAlignmentConverter}}"
                                           >
                                             <Grid.Triggers>
 
@@ -65,13 +74,14 @@
                                             <!-- Speech bubble rectangle -->
                                             <Border CornerRadius="10"
                                                 Padding="15"
-                                                Background="DodgerBlue"
-                    >
+                                                Background= "{Binding SentByMe, Converter={StaticResource sentByMeToBackgroundConverter}}">
+                                                <!--Background="{ Converter={StaticResource convertisseurCouleurFond}, ConverterParameter=lasso, UpdateSourceTrigger=PropertyChanged}"  -->
+                    
                                                 <!-- Message text -->
                                                 <TextBlock VerticalAlignment="Center"
                                                        TextWrapping="Wrap"
                                                        FontFamily="{StaticResource LatoBold}"
-                                                       Foreground="White"
+                                                       Foreground="{Binding SentByMe, Converter={StaticResource sentByMeToForegroundConverter}}"
                                                        Text="{Binding Title}"
                                                        />
                                             </Border>

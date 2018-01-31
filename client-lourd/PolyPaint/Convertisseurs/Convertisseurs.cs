@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Globalization;
+using System.Windows;
 
 namespace PolyPaint.Convertisseurs
 {
@@ -52,5 +54,59 @@ namespace PolyPaint.Convertisseurs
             }
         }
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => System.Windows.DependencyProperty.UnsetValue;
+    }
+
+    /// <summary>
+    /// A converter that takes in a boolean if a message was sent by the proper user or someone else, and returns the
+    /// correct background color
+    /// </summary>
+    class SentByMeToBackgroundConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value ? "DodgerBlue" : "LightGray";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
+
+    /// <summary>
+    /// A converter that takes in a boolean if a message was sent by the proper user or someone else, and aligns to the right
+    /// If not sent by me, aligns to the left
+    /// </summary>
+    public class SentByMeToAlignmentConverter : IValueConverter
+    {
+        public  object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (parameter == null)
+                return (bool)value ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+            else
+                return (bool)value ? HorizontalAlignment.Left : HorizontalAlignment.Right;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// A converter that takes in a boolean if a message was sent by the proper user or someone else, and returns the
+    /// correct background color
+    /// </summary>
+    class SentByMeToForegroundConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (bool)value ? "White" : "SlateGray";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
     }
 }
