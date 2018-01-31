@@ -16,7 +16,7 @@
             <Label Content="PolyPaintPro" Margin="145,39,0,0" Height="37" Width="146" Foreground="White" FontSize="24" FontFamily="Myanmar Text"/>
         </Canvas>
         <!--Log In Canvas-->
-        <Canvas x:Name="canvasLogIn" Margin="100,134,100,59" Background="#FFE4F0F2" Panel.ZIndex="1">
+        <Canvas x:Name="canvasLogIn" Margin="100,134,100,59" Background="#FFE4F0F2" Panel.ZIndex="-1">
             <StackPanel Margin="75,0,75,0">
                 <StackPanel Height="26" Margin="0,19,0,0" Orientation="Horizontal">
                     <Button x:Name="LogInToggle" Content="Connexion" Margin="16.5,0,0,0" Background="#FF357FFF" FontWeight="Bold" Foreground="White" MinWidth="100"/>
@@ -25,16 +25,15 @@
                 <!-- user info log in section -->
                 <StackPanel MinWidth="200" MinHeight="364">
                     <Label Content="Nom d'utilisateur" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+                    <TextBox FontSize="18"/>
 
                     <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
                     <PasswordBox FontSize="18"/>
                     <CheckBox Content="Se souvenir de moi" FontWeight="Bold" FontSize="18" BorderThickness="1"/>
 
                     <Label Content="Adresse IP du serveur" Margin="0,60,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+                    <TextBox FontSize="18"/>
 
-                    
                 </StackPanel>
                 <Button x:Name="logInButton" Content="Connexion" Padding="17,20,15,23" Click="logIn" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
             </StackPanel>
@@ -42,21 +41,21 @@
 
         <!--Sign Uo Canvas-->
         <Canvas x:Name="canvasSignUp" Margin="100,134,100,59" Background="#FFE4F0F2">
-            <StackPanel Margin="75,0,75,0" Width="269.2" Height="486">
+            <StackPanel Margin="75,0,75,0" Width="269.2" Height="510">
                 <StackPanel Height="26" Margin="0,19,0,0" Orientation="Horizontal">
                     <Button x:Name="LogInToggleSignUp" Click="switchToLogIn" Content="Connexion" Margin="16.5,0,0,0" MinWidth="100" FontWeight="Bold" Foreground="Black"/>
                     <Button x:Name="signUpToggleSignUp" Content="Créer un compte" MinWidth="100" Margin="33,0,0,0" Background="#FF357FFF" FontWeight="Bold" Foreground="White"/>
                 </StackPanel>
                 <!-- sign up info section -->
                 <StackPanel MinWidth="200" MinHeight="364">
-                    <Label Content="Prénom" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+                    <Label Content="Prénom" Margin="0,0,0,0" FontWeight="Bold" FontSize="18"/>
+                    <TextBox FontSize="18"/>
 
                     <Label Content="Nom" FontWeight="Bold" FontSize="18"/>
-                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+                    <TextBox FontSize="18"/>
 
                     <Label Content="Nom d'utilisateur" FontWeight="Bold" FontSize="18"/>
-                    <TextBox TextWrapping="Wrap" FontSize="18"/>
+                    <TextBox FontSize="18"/>
 
                     <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
                     <PasswordBox FontSize="18"/>
@@ -64,8 +63,9 @@
                     <Label Content="Confirmation du mot de passe" FontWeight="Bold" FontSize="18"/>
                     <PasswordBox FontSize="18"/>
 
-                    <CheckBox Content="Se souvenir de moi" FontWeight="Bold" FontSize="18" BorderThickness="1"/>
-                    
+                    <Label Content="Adresse IP du serveur" Margin="0,10,0,0" FontWeight="Bold" FontSize="18"/>
+                    <TextBox Margin="0,0,0,10" FontSize="18"/>
+
                 </StackPanel>
                 <Button x:Name="signUpButton" Click="signUp" Content="Créer un compte" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
             </StackPanel>
