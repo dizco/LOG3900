@@ -248,7 +248,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
-				ORGANIZATIONNAME = Frederic;
+				ORGANIZATIONNAME = "Les Pods c'est pour les lunchs";
 				TargetAttributes = {
 					274C0344200EF37900DDAD8D = {
 						CreatedOnToolsVersion = 9.2;

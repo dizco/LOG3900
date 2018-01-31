@@ -18,7 +18,7 @@ protocol ChatMessage {
     func createJSON(withMsg: String) -> [String: Any]
 }
 
-class ClientMsg: ChatMessage {
+class OutgoingChatMessage: ChatMessage {
     var type: String
     var room: [String: Any]
     var message: String
@@ -38,7 +38,7 @@ class ClientMsg: ChatMessage {
     }
 }
 
-class ServerMsg: ChatMessage {
+class IncomingChatMessage: ChatMessage {
     var type: String
     var room: [String: Any]
     var message: String
@@ -62,17 +62,17 @@ class ServerMsg: ChatMessage {
     }
 }
 
-enum State {
+enum MessageSource {
     case client, server
 }
 
 enum MessageFactory {
-    static func message(for state: State, fromServer: [String: Any]) -> ChatMessage? {
-        switch state {
+    static func message(for source: MessageSource, fromServer: [String: Any]) -> ChatMessage? {
+        switch source {
         case .client:
-            return ServerMsg(json: fromServer)
+            return IncomingChatMessage(json: fromServer)
         case .server:
-            return ClientMsg()
+            return OutgoingChatMessage()
         }
     }
 }

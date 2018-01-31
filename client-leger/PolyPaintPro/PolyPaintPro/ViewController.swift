@@ -116,7 +116,7 @@ class ViewController: UIViewController, UITableViewDataSource, SocketManagerDele
             let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
             // swiftlint:enable force_cast
             print(json)
-            
+
             // TO-DO: Use those info for something.
             let chatBubble = MessageFactory.message(for: .client, fromServer: json)
         } catch let error {
