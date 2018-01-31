@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:convertisseurs="clr-namespace:PolyPaint.Convertisseurs"      
-        xmlns:local="clr-namespace:PolyPaint.Vues"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:convertisseurs="clr-namespace:PolyPaint.Convertisseurs"
         mc:Ignorable="d"
         Title="LoginWindow" Height="600" Width="400"  ResizeMode="NoResize">
 
@@ -31,7 +30,7 @@
                           Width="338"
                           >
                     <!--StackPanel Height="auto" Width="auto"/-->
-                    <ItemsControl ItemsSource="{Binding Items}">
+                    <ItemsControl ItemsSource="{Binding Items}" Height="500">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
@@ -75,15 +74,15 @@
                                             <Border CornerRadius="10"
                                                 Padding="15"
                                                 Background= "{Binding SentByMe, Converter={StaticResource sentByMeToBackgroundConverter}}">
-                                                <!--Background="{ Converter={StaticResource convertisseurCouleurFond}, ConverterParameter=lasso, UpdateSourceTrigger=PropertyChanged}"  -->
-                    
+                                                
                                                 <!-- Message text -->
                                                 <TextBlock VerticalAlignment="Center"
-                                                       TextWrapping="Wrap"
-                                                       FontFamily="{StaticResource LatoBold}"
-                                                       Foreground="{Binding SentByMe, Converter={StaticResource sentByMeToForegroundConverter}}"
-                                                       Text="{Binding Title}"
-                                                       />
+                                                           FontFamily="{StaticResource LatoBold}"
+                                                           Foreground="{Binding SentByMe, Converter={StaticResource sentByMeToForegroundConverter}}"
+                                                           Text="{Binding Title}"
+                                                />
+
+
                                             </Border>
 
                                             <!-- Time containers -->
@@ -130,8 +129,12 @@
                      VerticalScrollBarVisibility="Auto"
                      TextChanged="MessageInput_TextChanged"
                      SpellCheck.IsEnabled="True" Grid.ColumnSpan="2"
-                     />
+                     >
 
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding SendMessageCommand}" Key="Return" />
+                        </TextBox.InputBindings>
+                    </TextBox>
 
                     <Button x:Name="button"
                             Command="{Binding SendMessageCommand}"
