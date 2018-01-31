@@ -6,13 +6,14 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:convertisseurs="clr-namespace:PolyPaint.Convertisseurs"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="600" Width="400"  ResizeMode="NoResize">
+        Title="LoginWindow" Height="600" Width="400"  >
 
 
     <Window.Resources>
         <convertisseurs:SentByMeToForegroundConverter x:Key="sentByMeToForegroundConverter"/>
         <convertisseurs:SentByMeToBackgroundConverter x:Key="sentByMeToBackgroundConverter"/>
         <convertisseurs:SentByMeToAlignmentConverter x:Key="sentByMeToAlignmentConverter" />
+        <convertisseurs:SentByMeToVisibilitydConverter x:Key="sentByMeToVisibilityConverter"/>
 
 
     </Window.Resources>
@@ -37,11 +38,12 @@
                                 <!--ChatMessageListItem-->
                                 <Border Padding="5">
                                     <Grid >
-
+                                        
                                         <!-- Chat message container -->
                                         <Grid Margin="25 0 25 0"
                                           HorizontalAlignment="{Binding SentByMe, Converter={StaticResource sentByMeToAlignmentConverter}}"
                                           >
+                                            
                                             <Grid.Triggers>
 
                                                 <!-- Mouse over shows time -->
@@ -68,37 +70,57 @@
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
+                                           
+                                            <!-- Speech Sender Name -->
+                                            <StackPanel  VerticalAlignment="Top"
+                                                         HorizontalAlignment="Left"
+                                                         Grid.Row="1"
+                                                         Visibility="{Binding SentByMe, Converter={StaticResource sentByMeToVisibilityConverter}}"
+                                            >
+                                                <TextBlock VerticalAlignment="Top"
+                                                           HorizontalAlignment="Left"
+                                                           FontFamily="{StaticResource LatoRegular}"
+                                                           Foreground="Navy"
+                                                           Text="{Binding SenderName}"
+                                                           Visibility="{Binding SentByMe, Converter={StaticResource sentByMeToVisibilityConverter}}"
+                                                />
+                                            </StackPanel>
+                                            
 
                                             <!-- Speech bubble rectangle -->
-                                            <Border CornerRadius="10"
-                                                Padding="15"
-                                                Background= "{Binding SentByMe, Converter={StaticResource sentByMeToBackgroundConverter}}">
+                                            <StackPanel Grid.Row="2"
+                                            >
+                                                <Border CornerRadius="10"
+                                                    Padding="15"
+                                                    Background= "{Binding SentByMe, Converter={StaticResource sentByMeToBackgroundConverter}}"
+                                                        Grid.Row="2">
                                                 
-                                                <!-- Message text -->
-                                                <TextBlock VerticalAlignment="Center"
-                                                           FontFamily="{StaticResource LatoBold}"
-                                                           Foreground="{Binding SentByMe, Converter={StaticResource sentByMeToForegroundConverter}}"
-                                                           Text="{Binding Title}"
-                                                />
+                                                    <!-- Message text -->
+                                                    <TextBlock VerticalAlignment="Center"
+                                                               FontFamily="{StaticResource LatoBold}"
+                                                               Foreground="{Binding SentByMe, Converter={StaticResource sentByMeToForegroundConverter}}"
+                                                               Text="{Binding Title}"
+                                                               TextWrapping="Wrap"
+                                                    />
 
-
-                                            </Border>
-
+                                                </Border>
+                                            </StackPanel>
                                             <!-- Time containers -->
                                             <StackPanel Name="ExtraDetails" 
-                                                    Grid.Row="2"
-                                                    HorizontalAlignment="Stretch"
+                                                    Grid.Row="3"
+                                                    HorizontalAlignment="Right"
                                                     Orientation="Horizontal"
                                                     Opacity="0"
                                                     >
 
-                                                <!-- Sent time -->
-                                                <TextBlock Text="{Binding MessageSentTime}"
-                                            Foreground="Black"
-                                            FontSize="12"
-                                            FontFamily="{StaticResource LatoBold}"
-                                            Margin="80 0 0 0"
+                                            <!-- Sent time -->
+                                            <TextBlock Text="{Binding MessageSentTime, StringFormat=HH:mm:ss}"
+                                                        Foreground="Black"
+                                                        FontSize="12"
+                                                        FontFamily="{StaticResource LatoBold}"
+                                                        Margin="80 0 5 0"
                                             />
                                             </StackPanel>
                                         </Grid>
