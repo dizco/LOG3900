@@ -30,9 +30,9 @@ namespace PolyPaint.Utilitaires
 
                 string messageSerialized = JsonConvert.SerializeObject(chatMessage);
 
-                bool status = _socketHandler.SendMessage(messageSerialized);
+                bool isSent = _socketHandler.SendMessage(messageSerialized);
 
-                if (status)
+                if (isSent)
                     return messageSerialized;
             }
             return string.Empty;

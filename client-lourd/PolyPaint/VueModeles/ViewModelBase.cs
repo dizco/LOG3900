@@ -6,23 +6,23 @@ namespace PolyPaint.VueModeles
 {
     internal class ViewModelBase
     {
-        private static Messenger _mesenger;
+        private static Messenger _messenger;
 
-        protected Messenger Messenger => _mesenger;
+        protected Messenger Messenger => _messenger;
 
         protected static event EventHandler<ChatMessageModel> ChatMessageReceived;
         protected static event EventHandler<EditorActionModel> EditorActionReceived;
 
         protected static Messenger StartMessenger(string uri)
         {
-            if (_mesenger == null)
+            if (_messenger == null)
             {
                 SocketHandler socketHandler = new SocketHandler(uri);
                 socketHandler.ChatMessageReceived += ChatMessageReceived;
                 socketHandler.EditorActionReceived += EditorActionReceived;
-                _mesenger = new Messenger(socketHandler);
+                _messenger = new Messenger(socketHandler);
             }
-            return _mesenger;
+            return _messenger;
         }
     }
 }

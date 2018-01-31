@@ -33,10 +33,10 @@ namespace PolyPaint.VueModeles
         //Atribute defining the string message send by a user in the chat
         public string PendingChatMessage
         {
-            get => _chatWindowModel.PublicChatMessage;
+            get => _chatWindowModel.PendingChatMessage;
             set
             {
-                _chatWindowModel.PublicChatMessage = value;
+                _chatWindowModel.PendingChatMessage = value;
                 PropertyModified();
             }
         }

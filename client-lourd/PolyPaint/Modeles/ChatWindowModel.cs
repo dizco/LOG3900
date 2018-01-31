@@ -7,7 +7,7 @@ namespace PolyPaint.Modeles
     {
         private string _pendingChatMessage = "Entrez votre message ici";
 
-        public string PublicChatMessage
+        public string PendingChatMessage
         {
             get => _pendingChatMessage;
             set
