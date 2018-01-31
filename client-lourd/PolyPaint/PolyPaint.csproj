@@ -223,12 +223,18 @@
     <Resource Include="Resources\dialogue.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\tidepod.png" />
-    <Resource Include="Resources\background.jpg" />
-    <Resource Include="iconApplicationIcon-120x120.png" />
-    <Resource Include="background.jpg" />
     <Resource Include="Resources\icon-send.png" />
     <Resource Include="Resources\testbackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tidepod.png" />
+    <Resource Include="Resources\background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="iconApplicationIcon-120x120.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="background.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
