@@ -26,11 +26,11 @@ const wss = new WebSocketServer(server);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
-    wss.join("test", wsDecorator);
+    wss.join("test", wsDecorator); //TODO: Remove
 
     //TODO: Use the user in the session to insert him inside relevant rooms
 
-    console.log("\nConnection by socket on server with id", req.connection.remoteAddress);
+    console.log("\nConnection by socket on server with ip", req.connection.remoteAddress);
 
     ws.on("message", (message: any) => {
         const parsedMessage = TryParseJSON(message);
@@ -52,11 +52,11 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     });
 
     ws.on("error", (error) => {
-        console.log("errored", error);
+        console.log(`Error on WebSocket with ip ${req.connection.remoteAddress} : ${error.message}`);
     });
 
     ws.on("close", (code, reason) => {
-        console.log("disconnected from socket", code, reason);
+        console.log(`Disconnected from socket ip ${req.connection.remoteAddress} with code ${code}. Reason : ${reason}.`);
         wss.remove(wsDecorator);
     });
 

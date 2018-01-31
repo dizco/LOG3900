@@ -26,6 +26,6 @@ export class SocketStrategyEditorAction implements SocketStrategy {
                     //TODO: Notify emitting user
                 }
             })
-            .catch((reason => console.log("EditorAction failed", reason)));
+            .catch((reason => console.log("EditorAction failed to fetch db info", reason)));
     }
 }
