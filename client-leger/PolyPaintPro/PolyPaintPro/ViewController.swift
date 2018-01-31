@@ -1,11 +1,9 @@
 import UIKit
 import Starscream
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDataSource, SocketManagerDelegate {
 
     // MARK: - Properties
-    var username = ""
-    let socket = WebSocket(url: URL(string: "ws://localhost:3000/")!)
     var chatShowing = false //value to keep track of the chat window state
 
     @IBOutlet weak var welcomeLabel: UILabel!
@@ -65,74 +63,64 @@ class ViewController: UIViewController, UITableViewDataSource {
         }
     }
 
-    // MARK: - View Life Cycle
-    override func viewDidLoad() {
-
-        super.viewDidLoad()
-        registerView?.isHidden = true //default view is login
-
-        socket.delegate = self
-        socket.connect()
-    }
-
-    deinit {
-        socket.disconnect(forceTimeout: 0)
-        socket.delegate = nil
-    }
-
+    // MARK: - Memory Warning
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-}
 
-// MARK: - FilePrivate
-extension ViewController {
+    // MARK: - View Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        registerView?.isHidden = true //default view is login
 
-    fileprivate func sendMessage(_ message: String) {
-        socket.write(string: message)
+        // TO-MOVE: Initialize socket only in ChatViewController
+        SocketManager.sharedInstance.delegate = self
     }
 
-    fileprivate func messageReceived(_ message: String, senderName: String) {
-        // TO-DO : Receive a message.
-    }
-}
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
 
-// Source : https://www.raywenderlich.com/143874/websockets-ios-starscream
-// MARK: - WebSocketDelegate
-extension ViewController: WebSocketDelegate {
-    public func websocketDidConnect(socket: WebSocketClient) {
-        socket.write(string: username)
+        // TO-MOVE: Connect with socket only in ChatViewController
+        SocketManager.sharedInstance.establishConnection()
+
+        // This call is used as a test for sending messages.
+        connect()
     }
 
-    public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-        //performSegue(withIdentifier: "websocketDisconnected", sender: self)
-    }
-
-    // WIll change depending on JSON data format.
-
-    /* Message format:
-     * {"type":"message","data":{"time":1472513071731,"text":"😍","author":"iPhone Simulator","color":"orange"}}
-     */
-
-    public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        guard let data = text.data(using: .utf16),
-            let jsonData = try? JSONSerialization.jsonObject(with: data),
-            let jsonDict = jsonData as? [String: Any],
-            let messageType = jsonDict["type"] as? String else {
-                return
-        }
-
-        if messageType == "message",
-            let messageData = jsonDict["data"] as? [String: Any],
-            let messageAuthor = messageData["author"] as? String,
-            let messageText = messageData["text"] as? String {
-
-            messageReceived(messageText, senderName: messageAuthor)
+    // MARK: - SocketManagerDelegate
+    // TO-MOVE: Isolate in a separate ViewController later
+    func connect() {
+        print("Connecting to server.")
+        let message = "J'aime les Pods sur mes tartines le matin."
+        let sentMsg = MessageFactory.message(for: .server, fromServer: ["": ""])?.createJSON(withMsg: message)
+        do {
+            let data = try JSONSerialization.data(withJSONObject: sentMsg, options: .prettyPrinted)
+            SocketManager.sharedInstance.send(data: data)
+        } catch {
+            print("Couldn't connect to the server due to an unknown error.")
         }
     }
 
-    public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        // Noop - Must implement since it's not optional in the protocol
+    // TO-MOVE: Isolate in a separate ViewController later
+    func disconnect(error: Error?) {
+        // TO-DO: Correct error handling.
+        print ("Disconnected with error:")
+    }
+
+    // TO-MOVE: Isolate in a separate ViewController later
+    func managerDidReceive(data: Data) {
+        do {
+            // TO-DO: Verify if it's possible to not rely on force casts.
+            // swiftlint:disable force_cast
+            let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
+            // swiftlint:enable force_cast
+            print(json)
+            
+            // TO-DO: Use those info for something.
+            let chatBubble = MessageFactory.message(for: .client, fromServer: json)
+        } catch let error {
+            print(error)
+        }
     }
 }
