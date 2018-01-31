@@ -45,12 +45,13 @@ export class WebSocketDecorator {
      * Send a message to every other client on the server
      * @param data
      */
-    private broadcastToAll(data: any): void {
+    private broadcastToAll(data: any): boolean {
         this.wss.clients.forEach((client: any) => {
             if (client !== this.ws && client.readyState === WebSocket.OPEN) {
                 client.send(data);
             }
         });
+        return true;
     }
 
     /**
@@ -58,8 +59,12 @@ export class WebSocketDecorator {
      * @param data
      * @param {string} roomId
      */
-    private broadcastToRoom(data: any, roomId: string): void {
-        this.wss.findRoom(roomId).broadcast(data, this);
+    private broadcastToRoom(data: any, roomId: string): boolean {
+        const room = this.wss.findRoom(roomId);
+        if (room) {
+            return room.broadcast(data, this);
+        }
+        return false;
     }
 
     /**
