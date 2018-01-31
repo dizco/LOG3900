@@ -25,6 +25,6 @@ export class SocketStrategyChatMessage implements SocketStrategy {
                     //TODO: Notify emitting user
                 }
             })
-            .catch((reason => console.log("ChatMessage failed", reason)));
+            .catch((reason => console.log("ChatMessage failed to fetch db info", reason)));
     }
 }
