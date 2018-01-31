@@ -140,9 +140,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="Vues\Page1.xaml.cs">
-      <DependentUpon>Page1.xaml</DependentUpon>
-    </Compile>
     <Page Include="Vues\FenetreDessin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,10 +152,6 @@
       <DependentUpon>FenetreDessin.xaml</DependentUpon>
     </Compile>
     <Page Include="Vues\LoginWindowView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vues\Page1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -228,13 +221,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\tidepod.png" />
-    <Resource Include="Resources\background.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="iconApplicationIcon-120x120.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="background.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
