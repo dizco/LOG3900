@@ -1,37 +1,30 @@
 # LOG3900
 PolyPaintPro - Team 07
 
-[![Server Build Status](https://travis-ci.com/dizco/LOG3900.svg?token=xpqeNSHJ4NVgmZxfGuMR&branch=master)](https://travis-ci.com/dizco/LOG3900)
+[![Server Build Status](https://travis-ci.com/dizco/LOG3900.svg?token=xpqeNSHJ4NVgmZxfGuMR&branch=master)](https://travis-ci.com/dizco/LOG3900) [<img src="https://dizco.visualstudio.com/_apis/public/build/definitions/550f4e70-4933-45fa-ac7f-160f25cd27b8/2/badge"/>](https://dizco.visualstudio.com/LOG3900/_build/index?definitionId=2)
 
-[<img src="https://dizco.visualstudio.com/_apis/public/build/definitions/550f4e70-4933-45fa-ac7f-160f25cd27b8/2/badge"/>](https://dizco.visualstudio.com/LOG3900/_build/index?definitionId=2)
-
-
-## Installation
+## Install
 
 ```
 git clone https://github.com/dizco/LOG3900.git
-git remote add redmine https://githost.gi.polymtl.ca/git/log3900-07
-git config user.email "email@example.com"
-git config user.name "Mona Lisa"
 ```
 
-Tester que origin et redmine sont bien ajoutés avec la commande `git remote -v`, vous devriez voir : 
-```
-$ git remote -v
-origin  https://github.com/dizco/LOG3900.git (fetch)
-origin  https://github.com/dizco/LOG3900.git (push)
-redmine https://githost.gi.polymtl.ca/git/log3900-07 (fetch)
-redmine https://githost.gi.polymtl.ca/git/log3900-07 (push)
-```
+## Run
 
+Refer to each project's README.
 
-## Conventions, aka Guide de codage
-Langue : **Anglais**. Le français est utilisé uniquement pour les README afin de faciliter la compréhension.
+## Repo structure
 
-Suivre les conventions pour chaque langage, et les règles spécifiques à chaque projet s'il y a lieu
+This is a monolithic repository containing 4 sub-projects.
 
+1. Serveur : NodeJS server
+2. Client Léger : Swift iOS app
+3. Client Lourd : C# WPF client
+4. Site Web : To be determined.
 
-## Projets
+## Visit the [wiki](https://github.com/dizco/LOG3900/wiki) for contributing guide, as well as other coding conventions.
+
+## Projects
 
 [:diamonds: Root](./README.md)
 
