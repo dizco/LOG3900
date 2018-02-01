@@ -42,7 +42,7 @@ export class Room {
     public broadcast(data: any, ws: WebSocketDecorator): boolean {
         this.clients.forEach((client: WebSocketDecorator) => {
             if (client !== ws && client.getWs().readyState === WebSocket.OPEN) {
-                client.getWs().send(data);
+                client.getWs().send(data); //TODO: Return false if send fails
             }
         });
         return true;
