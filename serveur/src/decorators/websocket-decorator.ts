@@ -48,7 +48,8 @@ export class WebSocketDecorator {
     private broadcastToAll(data: any): boolean {
         this.wss.clients.forEach((client: any) => {
             if (client !== this.ws && client.readyState === WebSocket.OPEN) {
-                client.send(data);
+                client.send(data); //TODO: Return false if send fails
+
             }
         });
         return true;
