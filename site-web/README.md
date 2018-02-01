@@ -2,7 +2,7 @@
 PolyPaintPro - Team 07
 
 
-## Projets
+## Projects
 
 [:arrow_heading_up: Root](../README.md)
 
