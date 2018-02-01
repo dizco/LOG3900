@@ -4,6 +4,7 @@ import Starscream
 class ViewController: UIViewController, SocketManagerDelegate {
     // MARK: - Properties
     var chatShowing = false //value to keep track of the chat window state
+    var rowNumber: Int = 0
     //Labels
     @IBOutlet weak var welcomeLabel: UILabel!
     //views
@@ -13,7 +14,6 @@ class ViewController: UIViewController, SocketManagerDelegate {
     @IBOutlet weak var chatView: UIView!
     //text fields
     @IBOutlet weak var messageField: UITextField!
-
     //Constraints
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the chat window
 
@@ -22,22 +22,29 @@ class ViewController: UIViewController, SocketManagerDelegate {
         chatToggleFn()
     }
     ///////////////chat table view reserved section
-    var titleHeading: [String] = ["John", "Ginette", "Gertrude", "Yoland", "Gervaise", "Huguette"]
-    var subtitleHeading: [String] = ["25", "69", "42", "126", "169", "-42"]
+    var titleHeading: [String] = [""]
+    var subtitleHeading: [String] = [""]
+    var authorNameMutableString = NSMutableAttributedString()
     @IBOutlet weak var chatTableView: UITableView!
     @IBAction func sendButton(_ sender: UIButton) {
-        let message = String(describing: messageField.text)
-        let sender = "Sender"
-        displayMessage(message: message, sender: sender)
+        var receivedMessage = String(describing: messageField.text)
+        var receivedAuthor = "Frederic"
+        var receivedTimeStamp = "hh:mm"
+        var msgInfos = receivedAuthor + " " + receivedTimeStamp
+        authorNameMutableString = NSMutableAttributedString(string: msgInfos, attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 13)])
+        authorNameMutableString.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 15), range:NSRange(location: 0, length: receivedAuthor.count) )
+
+        displayMessage(message: receivedMessage, messageInfos: msgInfos)
     }
     //function to call to add a new message in the chat
-    func displayMessage(message: String, sender: String) {
-        //TODO: change the type of animation if the message was sent by the user or received from the server
-        //TODO: add messages from the bottom of the table view
-        let indexPath = IndexPath.init(row: 0, section: 0)
-        titleHeading.insert(sender, at: 0)
-        subtitleHeading.insert(message, at: 0)
+    func displayMessage(message: String, messageInfos: String) {
+        var indexPath = IndexPath.init(row: rowNumber, section: 0)
+        titleHeading.insert(messageInfos, at: rowNumber)
+        subtitleHeading.insert(message, at: rowNumber)
+        chatTableView.estimatedRowHeight = 55
+        chatTableView.rowHeight = UITableViewAutomaticDimension
         chatTableView.insertRows(at: [indexPath], with: .right)
+        rowNumber += 1
     }
     ///////////////chat table view reserved section
     func chatToggleFn() { //function called to toggle the chat view
@@ -134,8 +141,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "Cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
+        cell.textLabel?.attributedText = authorNameMutableString
         cell.textLabel?.text = titleHeading[indexPath.row]
         cell.detailTextLabel?.text = subtitleHeading[indexPath.row]
+        cell.detailTextLabel?.numberOfLines = 0
+        cell.textLabel?.numberOfLines = 0
+        //chatTableView.rowHeight = UITableViewAutomaticDimension
         return cell
     }
 }
