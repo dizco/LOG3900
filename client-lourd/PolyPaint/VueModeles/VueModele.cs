@@ -179,7 +179,7 @@ namespace PolyPaint.VueModeles
 
         private void SendNewStroke(object obj)
         {
-            Messenger?.SendEditorStrokeAddedAction(obj);
+            Messenger?.SendEditorActionNewStroke(obj);
         }
     }
 }
