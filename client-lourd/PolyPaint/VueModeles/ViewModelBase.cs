@@ -29,9 +29,9 @@ namespace PolyPaint.VueModeles
         protected static event EventHandler<EditorActionModel> EditorActionReceived;
 
         /// <summary>
-        /// Connects the WebSocket to the specified URL
-        /// Assigns EventHandlers to SocketHandler's EventHandlers in order to capture raised events
-        /// Instanciates _messenger Singleton
+        ///     Connects the WebSocket to the specified URL
+        ///     Assigns EventHandlers to SocketHandler's EventHandlers in order to capture raised events
+        ///     Instanciates _messenger Singleton
         /// </summary>
         /// <param name="uri">Server URI</param>
         /// <returns>Singleton instance of Messenger</returns>

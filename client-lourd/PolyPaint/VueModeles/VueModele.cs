@@ -84,9 +84,6 @@ namespace PolyPaint.VueModeles
             AttributsDessin.Color = (Color)ColorConverter.ConvertFromString(editeur.CouleurSelectionnee);
             AjusterPointe();
 
-            // TODO: Remove before pushing
-            StartMessenger("ws://localhost:3000");
-
             Traits = editeur.traits;
             
             // Pour chaque commande, on effectue la liaison avec des méthodes du modèle.            
