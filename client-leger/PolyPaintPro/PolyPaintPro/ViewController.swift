@@ -1,19 +1,18 @@
 import UIKit
 import Starscream
 
-class ViewController: UIViewController, UITableViewDataSource, SocketManagerDelegate {
-
+class ViewController: UIViewController, SocketManagerDelegate {
     // MARK: - Properties
     var chatShowing = false //value to keep track of the chat window state
-    
     //Labels
     @IBOutlet weak var welcomeLabel: UILabel!
-
     //views
     @IBOutlet weak var connexionView: UIView?
     @IBOutlet weak var registerView: UIView?
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
+    //text fields
+    @IBOutlet weak var messageField: UITextField!
 
     //Constraints
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the chat window
@@ -22,25 +21,25 @@ class ViewController: UIViewController, UITableViewDataSource, SocketManagerDele
     @IBAction func chatToggleBtn(_ sender: Any) { //function associated to the chat toggle button
         chatToggleFn()
     }
-
-    //number of sections in the chat table
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    ///////////////chat table view reserved section
+    var titleHeading: [String] = ["John", "Ginette", "Gertrude", "Yoland", "Gervaise", "Huguette"]
+    var subtitleHeading: [String] = ["25", "69", "42", "126", "169", "-42"]
+    @IBOutlet weak var chatTableView: UITableView!
+    @IBAction func sendButton(_ sender: UIButton) {
+        let message = String(describing: messageField.text)
+        let sender = "Sender"
+        displayMessage(message: message, sender: sender)
     }
-
-    //number of columns in the chat table
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-        //return chatTable.count
-        // ^ size of the table containing messages, to allow to be dynamically modified with the arrival of new messages
+    //function to call to add a new message in the chat
+    func displayMessage(message: String, sender: String) {
+        //TODO: change the type of animation if the message was sent by the user or received from the server
+        //TODO: add messages from the bottom of the table view
+        let indexPath = IndexPath.init(row: 0, section: 0)
+        titleHeading.insert(sender, at: 0)
+        subtitleHeading.insert(message, at: 0)
+        chatTableView.insertRows(at: [indexPath], with: .right)
     }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
-        cell.textLabel?.text = "Bacon" //this data will be replaced by actual messages
-        return cell
-    }
-
+    ///////////////chat table view reserved section
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
@@ -125,5 +124,18 @@ class ViewController: UIViewController, UITableViewDataSource, SocketManagerDele
         } catch let error {
             print(error)
         }
+    }
+}
+
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return titleHeading.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellIdentifier = "Cell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
+        cell.textLabel?.text = titleHeading[indexPath.row]
+        cell.detailTextLabel?.text = subtitleHeading[indexPath.row]
+        return cell
     }
 }
