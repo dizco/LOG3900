@@ -1,7 +1,10 @@
-﻿namespace PolyPaint.Modeles.MessagingModels
+﻿using Newtonsoft.Json;
+
+namespace PolyPaint.Modeles.MessagingModels
 {
     public class MessageModelBase
     {
-        public string type { get; set; }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
     }
 }

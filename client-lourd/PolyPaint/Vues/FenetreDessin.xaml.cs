@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Controls.Primitives;
 using PolyPaint.VueModeles;
 
 namespace PolyPaint
 {
     /// <summary>
-    /// Logique d'interaction pour FenetreDessin.xaml
+    ///     Logique d'interaction pour FenetreDessin.xaml
     /// </summary>
     public partial class FenetreDessin : Window
     {
@@ -18,19 +18,33 @@ namespace PolyPaint
             InitializeComponent();
             DataContext = new VueModele();
         }
-        
+
         // Pour gérer les points de contrôles.
-        private void GlisserCommence(object sender, DragStartedEventArgs e) => (sender as Thumb).Background = Brushes.Black;
-        private void GlisserTermine(object sender, DragCompletedEventArgs e) => (sender as Thumb).Background = Brushes.White;
+        private void GlisserCommence(object sender, DragStartedEventArgs e)
+        {
+            (sender as Thumb).Background = Brushes.Black;
+        }
+
+        private void GlisserTermine(object sender, DragCompletedEventArgs e)
+        {
+            (sender as Thumb).Background = Brushes.White;
+        }
+
         private void GlisserMouvementRecu(object sender, DragDeltaEventArgs e)
         {
-            String nom = (sender as Thumb).Name;
-            if (nom == "horizontal" || nom == "diagonal") colonne.Width = new GridLength(Math.Max(32, colonne.Width.Value + e.HorizontalChange));
-            if (nom == "vertical" || nom == "diagonal") ligne.Height = new GridLength(Math.Max(32, ligne.Height.Value + e.VerticalChange));
+            string nom = (sender as Thumb).Name;
+            if (nom == "horizontal" || nom == "diagonal")
+                colonne.Width = new GridLength(Math.Max(32, colonne.Width.Value + e.HorizontalChange));
+            if (nom == "vertical" || nom == "diagonal")
+                ligne.Height = new GridLength(Math.Max(32, ligne.Height.Value + e.VerticalChange));
         }
 
         // Pour la gestion de l'affichage de position du pointeur.
-        private void surfaceDessin_MouseLeave(object sender, MouseEventArgs e) => textBlockPosition.Text = "";
+        private void surfaceDessin_MouseLeave(object sender, MouseEventArgs e)
+        {
+            textBlockPosition.Text = "";
+        }
+
         private void surfaceDessin_MouseMove(object sender, MouseEventArgs e)
         {
             Point p = e.GetPosition(surfaceDessin);
@@ -38,34 +52,35 @@ namespace PolyPaint
         }
 
         private void DupliquerSelection(object sender, RoutedEventArgs e)
-        {          
+        {
             surfaceDessin.CopySelection();
             surfaceDessin.Paste();
         }
 
-        private void SupprimerSelection(object sender, RoutedEventArgs e) => surfaceDessin.CutSelection();
+        private void SupprimerSelection(object sender, RoutedEventArgs e)
+        {
+            surfaceDessin.CutSelection();
+        }
 
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
-            VueModele viewModel = (VueModele) DataContext;
-            viewModel.OnStrokeCollectedHandler(sender, e);
+            (DataContext as VueModele)?.OnStrokeCollectedHandler(sender, e);
         }
 
         private void OnStrokeErasing(object sender, InkCanvasStrokeErasingEventArgs e)
         {
-            VueModele viewModel = (VueModele)DataContext;
-            throw new NotImplementedException();
+            //TODO: needs implementation
+            //(DataContext as VueModele)?.OnStrokeErasingHandler(sender, e);
         }
 
         private void OnStrokeErased(object sender, RoutedEventArgs e)
         {
-            VueModele viewModel = (VueModele)DataContext;
-            throw new NotImplementedException();
+            //TODO: needs implementation
+            //(DataContext as VueModele)?.OnStrokeErased(sender, e);
         }
     }
 }

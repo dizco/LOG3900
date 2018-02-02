@@ -1,10 +1,8 @@
-﻿using System;
-using PolyPaint.Modeles;
+﻿using PolyPaint.Modeles;
 using PolyPaint.Utilitaires;
 using PolyPaint.Vues;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -67,7 +65,7 @@ namespace PolyPaint.VueModeles
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
         //Command for sending editor actions to server
-        public RelayCommand<object> SendNewStrokeCommand { get; set; }
+        public RelayCommand<Stroke> SendNewStrokeCommand { get; set; }
 
         /// <summary>
         /// Constructeur de VueModele
@@ -100,7 +98,7 @@ namespace PolyPaint.VueModeles
             ShowChatWindowCommand = new RelayCommand<object>(ShowChatWindow);
             
             //Outgoing editor actions
-            SendNewStrokeCommand = new RelayCommand<object>(SendNewStroke);
+            SendNewStrokeCommand = new RelayCommand<Stroke>(SendNewStroke);
         }
 
         /// <summary>
@@ -173,8 +171,7 @@ namespace PolyPaint.VueModeles
             SendNewStrokeCommand.Execute(e.Stroke);
         }
 
-
-        private void SendNewStroke(object obj)
+        private void SendNewStroke(Stroke obj)
         {
             Messenger?.SendEditorActionNewStroke(obj);
         }

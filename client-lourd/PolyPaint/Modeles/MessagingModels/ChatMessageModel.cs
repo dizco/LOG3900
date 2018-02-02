@@ -1,10 +1,19 @@
-﻿namespace PolyPaint.Modeles.MessagingModels
+﻿using Newtonsoft.Json;
+
+namespace PolyPaint.Modeles.MessagingModels
 {
     public class ChatMessageModel : MessageModelBase
     {
-        public string message { get; set; }
-        public AuthorModel author { get; set; }
-        public RoomModel room { get; set; }
-        public int timestamp { get; set; } = 0;
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
+
+        [JsonProperty(PropertyName = "author")]
+        public AuthorModel Author { get; set; }
+
+        [JsonProperty(PropertyName = "room")]
+        public RoomModel Room { get; set; }
+
+        [JsonProperty(PropertyName = "timestamp")]
+        public int Timestamp { get; set; } = 0;
     }
 }

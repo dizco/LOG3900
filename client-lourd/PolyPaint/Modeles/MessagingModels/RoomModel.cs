@@ -1,8 +1,13 @@
-﻿namespace PolyPaint.Modeles.MessagingModels
+﻿using Newtonsoft.Json;
+
+namespace PolyPaint.Modeles.MessagingModels
 {
     public class RoomModel
     {
-        public string id { get; set; } = null;
-        public string name { get; set; } = null;
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; } = null;
+
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; } = null;
     }
 }
