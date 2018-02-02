@@ -78,7 +78,7 @@ namespace PolyPaintTests.Utilitaires
             object stroke = new object();
             string expectedOutputString = string.Empty;
 
-            string realOutputString = _messenger.SendEditorActionNewStroke(stroke);
+            string realOutputString = _messenger.SendEditorActionNewStroke(stroke as Stroke);
 
             Assert.AreEqual(expectedOutputString, realOutputString, "Should return empty string since stroke is not of type stroke/is null");
         }

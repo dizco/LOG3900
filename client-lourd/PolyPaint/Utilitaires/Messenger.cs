@@ -19,7 +19,7 @@ namespace PolyPaint.Utilitaires
         public static string DrawingRoomId { get; set; }
 
         /// <summary>
-        ///     This function builds a ChatMessageModel for a new message and sends it to the server
+        ///     Builds a ChatMessageModel for a new message and sends it to the server
         /// </summary>
         /// <param name="outgoingMessage">String of the message to broadcast</param>
         /// <returns>Stringified JSON object if sending was successful, else returns an empty string</returns>
@@ -29,11 +29,11 @@ namespace PolyPaint.Utilitaires
             {
                 ChatMessageModel chatMessage = new ChatMessageModel
                 {
-                    type = JsonConstantStrings.TypeChatMessageOutgoingValue,
-                    message = outgoingMessage,
-                    room = new RoomModel
+                    Type = JsonConstantStrings.TypeChatMessageOutgoingValue,
+                    Message = outgoingMessage,
+                    Room = new RoomModel
                     {
-                        id = "chat"
+                        Id = "chat"
                     }
                 };
 
@@ -48,33 +48,33 @@ namespace PolyPaint.Utilitaires
         }
 
         /// <summary>
-        ///     This function builds an EditorActionModel for a new stroke and sends it to the server
+        ///     Builds an EditorActionModel for a new stroke and sends it to the server
         /// </summary>
-        /// <param name="newStroke">Newly added stroke</param>
+        /// <param name="stroke">Newly added stroke</param>
         /// <returns>Stringified JSON object if sending was successful, else returns an empty string</returns>
-        public string SendEditorActionNewStroke(object newStroke)
+        public string SendEditorActionNewStroke(Stroke stroke)
         {
-            if (newStroke is Stroke stroke)
+            if (stroke != null)
             {
                 EditorActionModel outgoingNewStrokeAction = new EditorActionModel
                 {
-                    type = JsonConstantStrings.TypeEditorActionValue,
-                    drawing = new DrawingModel {id = DrawingRoomId},
-                    action = new StrokeActionModel
+                    Type = JsonConstantStrings.TypeEditorActionValue,
+                    Drawing = new DrawingModel {Id = DrawingRoomId},
+                    Action = new StrokeActionModel
                     {
-                        id = (int) ActionIds.NewStroke,
-                        name = Enum.GetName(typeof(ActionIds), ActionIds.NewStroke)
+                        Id = (int) ActionIds.NewStroke,
+                        Name = Enum.GetName(typeof(ActionIds), ActionIds.NewStroke)
                     },
-                    stroke = new StrokeModel
+                    Stroke = new StrokeModel
                     {
-                        drawingAttributes = new DrawingAttributesModel
+                        DrawingAttributes = new DrawingAttributesModel
                         {
-                            color = stroke.DrawingAttributes.Color.ToString(),
-                            height = stroke.DrawingAttributes.Height,
-                            width = stroke.DrawingAttributes.Width,
-                            stylusTip = stroke.DrawingAttributes.StylusTip.ToString()
+                            Color = stroke.DrawingAttributes.Color.ToString(),
+                            Height = stroke.DrawingAttributes.Height,
+                            Width = stroke.DrawingAttributes.Width,
+                            StylusTip = stroke.DrawingAttributes.StylusTip.ToString()
                         },
-                        dots = stroke.StylusPoints
+                        Dots = stroke.StylusPoints
                                      .Select(point => new StylusPointModel {x = point.X, y = point.Y}).ToArray()
                     }
                 };

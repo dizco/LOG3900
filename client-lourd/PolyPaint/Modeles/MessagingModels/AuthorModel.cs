@@ -1,11 +1,22 @@
-﻿namespace PolyPaint.Modeles.MessagingModels
+﻿using Newtonsoft.Json;
+
+namespace PolyPaint.Modeles.MessagingModels
 {
     public class AuthorModel
     {
-        public int id { get; set; } = 0;
-        public string username { get; set; } = null;
-        public string name { get; set; } = null;
-        public string url { get; set; } = null;
-        public string avatar_url { get; set; } = null;
+        [JsonProperty(PropertyName = "id")]
+        public int Id { get; set; } = 0;
+
+        [JsonProperty(PropertyName = "username")]
+        public string Username { get; set; } = null;
+
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; } = null;
+
+        [JsonProperty(PropertyName = "url")]
+        public string Url { get; set; } = null;
+
+        [JsonProperty(PropertyName = "avatar_url")]
+        public string AvatarUrl { get; set; } = null;
     }
 }

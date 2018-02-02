@@ -1,17 +1,29 @@
-﻿namespace PolyPaint.Modeles.MessagingModels
+﻿using Newtonsoft.Json;
+
+namespace PolyPaint.Modeles.MessagingModels
 {
     public class EditorActionModel : MessageModelBase
     {
-        public StrokeActionModel action { get; set; }
-        public AuthorModel author { get; set; }
-        public DrawingModel drawing { get; set; }
-        public StrokeModel stroke { get; set; }
+        [JsonProperty(PropertyName = "action")]
+        public StrokeActionModel Action { get; set; }
+
+        [JsonProperty(PropertyName = "author")]
+        public AuthorModel Author { get; set; }
+
+        [JsonProperty(PropertyName = "drawing")]
+        public DrawingModel Drawing { get; set; }
+
+        [JsonProperty(PropertyName = "stroke")]
+        public StrokeModel Stroke { get; set; }
     }
 
     public class StrokeActionModel
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public int Id { get; set; }
+
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
     }
 
     public enum ActionIds
@@ -23,22 +35,32 @@
 
     public class DrawingModel
     {
-        public string id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
     }
-
 
     public class StrokeModel
     {
-        public DrawingAttributesModel drawingAttributes { get; set; }
-        public StylusPointModel[] dots { get; set; }
+        [JsonProperty(PropertyName = "drawingAttributes")]
+        public DrawingAttributesModel DrawingAttributes { get; set; }
+
+        [JsonProperty(PropertyName = "dots")]
+        public StylusPointModel[] Dots { get; set; }
     }
 
     public class DrawingAttributesModel
     {
-        public string color { get; set; }
-        public double height { get; set; }
-        public double width { get; set; }
-        public string stylusTip { get; set; }
+        [JsonProperty(PropertyName = "color")]
+        public string Color { get; set; }
+
+        [JsonProperty(PropertyName = "height")]
+        public double Height { get; set; }
+
+        [JsonProperty(PropertyName = "width")]
+        public double Width { get; set; }
+
+        [JsonProperty(PropertyName = "stylusTip")]
+        public string StylusTip { get; set; }
     }
 
     public class StylusPointModel
