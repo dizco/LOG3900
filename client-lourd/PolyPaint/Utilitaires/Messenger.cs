@@ -10,10 +10,27 @@ namespace PolyPaint.Utilitaires
     public class Messenger
     {
         private readonly ISocketHandler _socketHandler;
+        public bool IsConnected => _socketHandler.IsConnected;
 
         public Messenger(ISocketHandler socketHandler)
         {
             _socketHandler = socketHandler;
+        }
+
+        /// <summary>
+        ///     Allows disconnecting and closing the socket
+        /// </summary>
+        public void DisconnectMessenger()
+        {
+            _socketHandler.DisconnectSocket();
+        }
+
+        /// <summary>
+        ///     Allows reconnecting the socket after disconnecting it
+        /// </summary>
+        public void ReconnectMessenger()
+        {
+            if (!IsConnected) _socketHandler.ConnectSocket();
         }
 
         public static string DrawingRoomId { get; set; }
