@@ -76,6 +76,7 @@ namespace PolyPaint.VueModeles
         {
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, EditeurProprieteModifiee est appelée.
             editeur.PropertyChanged += new PropertyChangedEventHandler(EditeurProprieteModifiee);
+            editeur.EditorAddedStroke += OnStrokeCollectedHandler;
 
             // On initialise les attributs de dessin avec les valeurs de départ du modèle.
             AttributsDessin = new DrawingAttributes();            
@@ -166,9 +167,20 @@ namespace PolyPaint.VueModeles
             }
         }
 
+        /// <summary>
+        ///     Handler for InkCanvas events
+        /// </summary>
         public void OnStrokeCollectedHandler(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
             SendNewStrokeCommand.Execute(e.Stroke);
+        }
+
+        /// <summary>
+        ///     Handler for Editeur events (depilage)
+        /// </summary>
+        public void OnStrokeCollectedHandler(object sender, Stroke stroke)
+        {
+            SendNewStrokeCommand.Execute(stroke);
         }
 
         private void SendNewStroke(Stroke obj)
