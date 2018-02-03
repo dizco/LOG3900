@@ -11,7 +11,7 @@ namespace PolyPaint.Utilitaires
     public class SocketHandler : ISocketHandler
     {
         private readonly WebSocket _ws;
-        private bool _isConnected;
+        public bool IsConnected { get; private set; }
 
         public SocketHandler(string uri)
         {
@@ -20,12 +20,23 @@ namespace PolyPaint.Utilitaires
             _ws.Error += OnError;
             _ws.Closed += OnClosed;
             _ws.MessageReceived += OnMessageReceived;
+            ConnectSocket();
+        }
+
+        public void ConnectSocket()
+        {
             _ws.Open();
+        }
+
+        public void DisconnectSocket()
+        {
+            _ws.Close();
+            // TODO: Add disconnect reason.
         }
 
         public bool SendMessage(string data)
         {
-            if (_isConnected)
+            if (IsConnected)
             {
                 _ws.Send(data);
                 return true;
@@ -38,29 +49,36 @@ namespace PolyPaint.Utilitaires
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            JObject incomingData = JObject.Parse(e.Message);
-            string type = incomingData.GetValue("type").ToString();
-            if (type == JsonConstantStrings.TypeChatMessageIncomingValue)
-                OnChatMessageReceived(e.Message);
-            else if (type == JsonConstantStrings.TypeEditorActionValue)
-                OnEditorActionReceived(e.Message);
+            try
+            {
+                JObject incomingData = JObject.Parse(e.Message);
+                string type = incomingData.GetValue("type").ToString();
+                if (type == JsonConstantStrings.TypeChatMessageIncomingValue)
+                    OnChatMessageReceived(e.Message);
+                else if (type == JsonConstantStrings.TypeEditorActionValue)
+                    OnEditorActionReceived(e.Message);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         private void OnClosed(object sender, EventArgs e)
         {
-            _isConnected = false;
+            IsConnected = false;
         }
 
         private void OnError(object sender, ErrorEventArgs e)
         {
             // TODO: Implemented reconnection logic
             ErrorEventArgs args = e;
-            _isConnected = false;
+            IsConnected = false;
         }
 
         private void OnOpened(object sender, EventArgs e)
         {
-            _isConnected = true;
+            IsConnected = true;
         }
 
         public void OnChatMessageReceived(string e)

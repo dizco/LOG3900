@@ -80,7 +80,8 @@ namespace PolyPaintTests.Utilitaires
 
             string realOutputString = _messenger.SendEditorActionNewStroke(stroke as Stroke);
 
-            Assert.AreEqual(expectedOutputString, realOutputString, "Should return empty string since stroke is not of type stroke/is null");
+            Assert.AreEqual(expectedOutputString, realOutputString,
+                            "Should return empty string since stroke is not of type stroke/is null");
         }
 
         [TestMethod]
@@ -102,7 +103,8 @@ namespace PolyPaintTests.Utilitaires
 
             string realOutputString = _messenger.SendEditorActionNewStroke(stroke);
 
-            Assert.AreEqual(expectedOutputString, realOutputString, "Should return stringified JSON of an EditorActionModel");
+            Assert.AreEqual(expectedOutputString, realOutputString,
+                            "Should return stringified JSON of an EditorActionModel");
         }
 
         [TestMethod]
@@ -123,12 +125,23 @@ namespace PolyPaintTests.Utilitaires
 
             string realOutputString = _messengerFail.SendEditorActionNewStroke(stroke);
 
-            Assert.AreEqual(expectedOutputString, realOutputString, "Should return an empty string because SocketHandler failed to send message");
+            Assert.AreEqual(expectedOutputString, realOutputString,
+                            "Should return an empty string because SocketHandler failed to send message");
         }
 
         private class SocketHandlerMock : ISocketHandler
         {
             public SocketHandlerMock(string uri)
+            {
+            }
+
+            public bool IsConnected { get; } = true;
+
+            public void DisconnectSocket()
+            {
+            }
+
+            public void ConnectSocket()
             {
             }
 
@@ -143,6 +156,17 @@ namespace PolyPaintTests.Utilitaires
             public SocketHandlerMockFail(string uri)
             {
             }
+
+            public bool IsConnected { get; } = true;
+
+            public void DisconnectSocket()
+            {
+            }
+
+            public void ConnectSocket()
+            {
+            }
+
 
             public bool SendMessage(string data)
             {
