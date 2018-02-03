@@ -3,6 +3,7 @@ import Starscream
 
 class ViewController: UIViewController, SocketManagerDelegate {
     // MARK: - Properties
+    //variables
     var chatShowing = false //value to keep track of the chat window state
     var rowNumber: Int = 0
     //Labels
@@ -27,25 +28,44 @@ class ViewController: UIViewController, SocketManagerDelegate {
     var authorNameMutableString = NSMutableAttributedString()
     @IBOutlet weak var chatTableView: UITableView!
     @IBAction func sendButton(_ sender: UIButton) {
-        var receivedMessage = String(describing: messageField.text)
-        var receivedAuthor = "Frederic"
-        var receivedTimeStamp = "hh:mm"
-        var msgInfos = receivedAuthor + " " + receivedTimeStamp
+        let receivedMessage = String(describing: messageField.text)
+        let receivedAuthor = "Frederic"
+        let receivedTimeStamp = "hh:mm"
+        let msgInfos = receivedAuthor + " " + receivedTimeStamp
         authorNameMutableString = NSMutableAttributedString(string: msgInfos, attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 13)])
         authorNameMutableString.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 15), range:NSRange(location: 0, length: receivedAuthor.count) )
-
         displayMessage(message: receivedMessage, messageInfos: msgInfos)
     }
     //function to call to add a new message in the chat
     func displayMessage(message: String, messageInfos: String) {
-        var indexPath = IndexPath.init(row: rowNumber, section: 0)
+        //the following code is to add messages to the chat view
+        let indexPath = IndexPath.init(row: rowNumber, section: 0)
         titleHeading.insert(messageInfos, at: rowNumber)
         subtitleHeading.insert(message, at: rowNumber)
         chatTableView.estimatedRowHeight = 55
         chatTableView.rowHeight = UITableViewAutomaticDimension
         chatTableView.insertRows(at: [indexPath], with: .right)
         rowNumber += 1
+        //the following code is to empty the text field once the message is sent
+        messageField.text = ""
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0{
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
+    }
+    
     ///////////////chat table view reserved section
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
@@ -82,7 +102,11 @@ class ViewController: UIViewController, SocketManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerView?.isHidden = true //default view is login
-
+        self.hideKeyboard()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         // TO-MOVE: Initialize socket only in ChatViewController
         SocketManager.sharedInstance.delegate = self
     }
@@ -148,5 +172,24 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.numberOfLines = 0
         //chatTableView.rowHeight = UITableViewAutomaticDimension
         return cell
+    }
+}
+
+//extension used in conjunction with self.hideKeyboard() in view DidLoad
+//used to hide the chat keyboard when the user taps somewhere else than on the Kb
+extension UIViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard()
+    {
+        view.endEditing(true)
     }
 }
