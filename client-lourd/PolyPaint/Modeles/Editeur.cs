@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Ink;
@@ -13,6 +14,7 @@ namespace PolyPaint.Modeles
     class Editeur : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<Stroke> EditorAddedStroke;
         public StrokeCollection traits = new StrokeCollection();
         private StrokeCollection traitsRetires = new StrokeCollection();
 
@@ -104,6 +106,7 @@ namespace PolyPaint.Modeles
                 Stroke trait = traitsRetires.Last();
                 traits.Add(trait);
                 traitsRetires.Remove(trait);
+                StrokeAdded(trait);
             }
             catch { }         
         }
@@ -116,5 +119,10 @@ namespace PolyPaint.Modeles
 
         // On vide la surface de dessin de tous ses traits.
         public void Reinitialiser(object o) => traits.Clear();
+
+        protected void StrokeAdded(Stroke stroke)
+        {
+            EditorAddedStroke?.Invoke(this, stroke);
+        }
     }
 }
