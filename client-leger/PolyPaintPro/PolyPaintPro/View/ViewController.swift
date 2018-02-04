@@ -126,35 +126,24 @@ class ViewController: UIViewController, SocketManagerDelegate {
     func connect() {
         print("Connecting to server.")
         let msg = "J'aime les Pods sur mes tartines le matin. 😋"
-        //let sentMsg = MessageFactory.message(for: .server, fromServer: ["": ""])?.createJSON(withMsg: message)
         do {
-            //let data = try JSONSerialization.data(withJSONObject: sentMsg, options: .prettyPrinted)
             let outgoingMsg = OutgoingChatMessage(message: msg)
-            let encodedData = try? JSONEncoder().encode(outgoingMsg)
-            SocketManager.sharedInstance.send(data: encodedData!)
-        } catch {
-            print("Couldn't connect to the server due to an unknown error.")
+            let encodedData = try JSONEncoder().encode(outgoingMsg)
+            SocketManager.sharedInstance.send(data: encodedData)
+        } catch let error {
+            print(error)
         }
     }
 
     // TO-MOVE: Isolate in a separate ViewController later
     func disconnect(error: Error?) {
-        // TO-DO: Correct error handling.
-        print ("Disconnected with error:")
+        print ("Disconnected with error: \(String(describing: error?.localizedDescription))")
     }
 
     // TO-MOVE: Isolate in a separate ViewController later
     func managerDidReceive(data: Data) {
         do {
             print("Data received.")
-            /*
-            // TO-DO: Verify if it's possible to not rely on force casts.
-            print(json)
-
-            // TO-DO: Use those info for something.
-            let chatBubble = MessageFactory.message(for: .client, fromServer: json)
-            print(chatBubble?.message)
- */
             let decoder = JSONDecoder()
             let incomingMsg = try decoder.decode(IncomingChatMessage.self, from: data)
             print(incomingMsg.message)

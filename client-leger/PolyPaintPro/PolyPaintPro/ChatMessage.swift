@@ -12,7 +12,6 @@ protocol ChatMessage {
     var type: String { get }
     var message: String { get }
     var author: Author { get }
-    var timestamp: Int { get }
 }
 
 struct OutgoingChatMessage: ChatMessage, Codable {
@@ -20,14 +19,12 @@ struct OutgoingChatMessage: ChatMessage, Codable {
     var room: OutgoingRoom
     var message: String
     var author: Author
-    var timestamp: Int
 
     init(message: String) {
         self.type = "client.chat.message"
         self.room = OutgoingRoom(id: "chat")
         self.message = message
         self.author = Author(id: -1, username: "", name: "", url: "", avatarUrl: "")
-        self.timestamp = -1
     }
 }
 
@@ -36,7 +33,8 @@ struct IncomingChatMessage: ChatMessage, Codable {
     let room: IncomingRoom
     let message: String
     let author: Author
-    let timestamp: Int
+    // let timestamp: Int
+    // server isn't sending us timestamp yet
 }
 
 struct OutgoingRoom: Codable {
@@ -54,20 +52,12 @@ struct Author: Codable {
     let name: String
     let url: String
     let avatarUrl: String
-}
 
-/*
-enum MessageSource {
-    case client, server
-}
-
-enum MessageFactory {
-    static func message(for source: MessageSource, fromServer: [String: Any]) -> ChatMessage? {
-        switch source {
-        case .client:
-            return IncomingChatMessage()
-        case .server:
-            return OutgoingChatMessage()
-        }
+    enum CodingKeys: String, CodingKey {
+        case id
+        case username
+        case name
+        case url
+        case avatarUrl = "avatar_url"
     }
-}*/
+}
