@@ -183,9 +183,9 @@ namespace PolyPaint.VueModeles
             SendNewStrokeCommand.Execute(stroke);
         }
 
-        private void SendNewStroke(Stroke obj)
+        private void SendNewStroke(Stroke stroke)
         {
-            Messenger?.SendEditorActionNewStroke(obj);
+            Messenger?.SendEditorActionNewStroke(stroke);
         }
     }
 }
