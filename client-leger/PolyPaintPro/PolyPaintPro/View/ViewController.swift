@@ -32,8 +32,11 @@ class ViewController: UIViewController, SocketManagerDelegate {
         let receivedAuthor = "Frederic"
         let receivedTimeStamp = "hh:mm"
         let msgInfos = receivedAuthor + " " + receivedTimeStamp
-        authorNameMutableString = NSMutableAttributedString(string: msgInfos, attributes: [NSAttributedStringKey.font:UIFont.systemFont(ofSize: 13)])
-        authorNameMutableString.addAttribute(NSAttributedStringKey.font, value: UIFont.boldSystemFont(ofSize: 15), range:NSRange(location: 0, length: receivedAuthor.count) )
+        authorNameMutableString = NSMutableAttributedString(string: msgInfos,
+                                                            attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
+        authorNameMutableString.addAttribute(NSAttributedStringKey.font,
+                                             value: UIFont.boldSystemFont(ofSize: 15),
+                                             range: NSRange(location: 0, length: receivedAuthor.count) )
         displayMessage(message: receivedMessage, messageInfos: msgInfos)
     }
     //function to call to add a new message in the chat
@@ -49,23 +52,23 @@ class ViewController: UIViewController, SocketManagerDelegate {
         //the following code is to empty the text field once the message is sent
         messageField.text = ""
     }
-    
+
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
+            if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
             }
         }
     }
-    
+
     @objc func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0{
+            if self.view.frame.origin.y != 0 {
                 self.view.frame.origin.y += keyboardSize.height
             }
         }
     }
-    
+
     ///////////////chat table view reserved section
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
@@ -103,10 +106,16 @@ class ViewController: UIViewController, SocketManagerDelegate {
         super.viewDidLoad()
         registerView?.isHidden = true //default view is login
         self.hideKeyboard()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ViewController.keyboardWillShow),
+                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(ViewController.keyboardWillHide),
+                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               object: nil)
+
         // TO-MOVE: Initialize socket only in ChatViewController
         SocketManager.sharedInstance.delegate = self
     }
@@ -152,5 +161,3 @@ class ViewController: UIViewController, SocketManagerDelegate {
         }
     }
 }
-
-
