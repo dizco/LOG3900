@@ -125,11 +125,13 @@ class ViewController: UIViewController, SocketManagerDelegate {
     // TO-MOVE: Isolate in a separate ViewController later
     func connect() {
         print("Connecting to server.")
-        let message = "J'aime les Pods sur mes tartines le matin."
-        let sentMsg = MessageFactory.message(for: .server, fromServer: ["": ""])?.createJSON(withMsg: message)
+        let msg = "J'aime les Pods sur mes tartines le matin. 😋"
+        //let sentMsg = MessageFactory.message(for: .server, fromServer: ["": ""])?.createJSON(withMsg: message)
         do {
-            let data = try JSONSerialization.data(withJSONObject: sentMsg, options: .prettyPrinted)
-            SocketManager.sharedInstance.send(data: data)
+            //let data = try JSONSerialization.data(withJSONObject: sentMsg, options: .prettyPrinted)
+            let outgoingMsg = OutgoingChatMessage(message: msg)
+            let encodedData = try? JSONEncoder().encode(outgoingMsg)
+            SocketManager.sharedInstance.send(data: encodedData!)
         } catch {
             print("Couldn't connect to the server due to an unknown error.")
         }
@@ -144,14 +146,18 @@ class ViewController: UIViewController, SocketManagerDelegate {
     // TO-MOVE: Isolate in a separate ViewController later
     func managerDidReceive(data: Data) {
         do {
+            print("Data received.")
+            /*
             // TO-DO: Verify if it's possible to not rely on force casts.
-            // swiftlint:disable force_cast
-            let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any]
-            // swiftlint:enable force_cast
             print(json)
 
             // TO-DO: Use those info for something.
             let chatBubble = MessageFactory.message(for: .client, fromServer: json)
+            print(chatBubble?.message)
+ */
+            let decoder = JSONDecoder()
+            let incomingMsg = try decoder.decode(IncomingChatMessage.self, from: data)
+            print(incomingMsg.message)
         } catch let error {
             print(error)
         }

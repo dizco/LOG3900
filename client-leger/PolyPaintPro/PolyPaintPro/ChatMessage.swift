@@ -10,58 +10,53 @@ import Foundation
 
 protocol ChatMessage {
     var type: String { get }
-    var room: [String: Any] { get }
     var message: String { get }
-    var author: [String: Any] { get }
+    var author: Author { get }
     var timestamp: Int { get }
-
-    func createJSON(withMsg: String) -> [String: Any]
 }
 
-class OutgoingChatMessage: ChatMessage {
+struct OutgoingChatMessage: ChatMessage, Codable {
     var type: String
-    var room: [String: Any]
+    var room: OutgoingRoom
     var message: String
-    var author: [String: Any]
+    var author: Author
     var timestamp: Int
 
-    init() {
+    init(message: String) {
         self.type = "client.chat.message"
-        self.room = ["id": "chat"]
-        self.message = ""
-        self.author = ["": ""]
+        self.room = OutgoingRoom(id: "chat")
+        self.message = message
+        self.author = Author(id: -1, username: "", name: "", url: "", avatarUrl: "")
         self.timestamp = -1
     }
-
-    func createJSON(withMsg: String) -> [String: Any] {
-        return [ "type": type, "room": room, "message": withMsg ]
-    }
 }
 
-class IncomingChatMessage: ChatMessage {
-    var type: String
-    var room: [String: Any]
-    var message: String
-    var author: [String: Any]
-    var timestamp: Int
-
-    init(json: [String: Any]) {
-        // TO-DO: Try doing it without force casting.
-
-        // swiftlint:disable force_cast
-        self.type = json["type"] as! String
-        self.room = json["room"] as! [String: Any]
-        self.message = json["message"] as! String
-        self.author = json["author"] as! [String: Any]
-        self.timestamp = json["timestamp"] as! Int
-        // swiftlint:enable force_cast
-    }
-
-    func createJSON(withMsg: String) -> [String: Any] {
-        return [ "": "" ]
-    }
+struct IncomingChatMessage: ChatMessage, Codable {
+    let type: String
+    let room: IncomingRoom
+    let message: String
+    let author: Author
+    let timestamp: Int
 }
 
+struct OutgoingRoom: Codable {
+    let id: String
+}
+
+struct IncomingRoom: Codable {
+    let id: String
+    let name: String
+}
+
+struct Author: Codable {
+    let id: Int
+    let username: String
+    let name: String
+    let url: String
+    let avatarUrl: String
+}
+
+/*
 enum MessageSource {
     case client, server
 }
@@ -70,9 +65,9 @@ enum MessageFactory {
     static func message(for source: MessageSource, fromServer: [String: Any]) -> ChatMessage? {
         switch source {
         case .client:
-            return IncomingChatMessage(json: fromServer)
+            return IncomingChatMessage()
         case .server:
             return OutgoingChatMessage()
         }
     }
-}
+}*/
