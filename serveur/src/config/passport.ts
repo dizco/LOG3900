@@ -138,7 +138,7 @@ export let isAuthenticated = (req: Request, res: Response, next: NextFunction) =
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect("/login");
+    return res.status(401).json({ status: "error", error: "Unauthorized." });
 };
 
 /**

@@ -2,13 +2,17 @@
 //import * as crypto from "crypto";
 //import * as nodemailer from "nodemailer";
 import * as passport from "passport";
-import { AuthToken, default as User, UserModel } from "../models/User";
+import { default as User, UserModel } from "../models/User";
 import { NextFunction, Request, Response } from "express";
 import { IVerifyOptions } from "passport-local";
 //import { WriteError } from "mongodb";
 
 //const request = require("express-validator");
 
+const enum LoginFields {
+    Username = "email",
+    Password = "password",
+}
 
 /**
  * GET /login
@@ -28,15 +32,14 @@ import { IVerifyOptions } from "passport-local";
  * Sign in using email and password.
  */
 export let postLogin = (req: Request, res: Response, next: NextFunction) => {
-    req.assert("email", "Email is not valid").isEmail();
-    req.assert("password", "Password cannot be blank").notEmpty();
-    req.sanitize("email").normalizeEmail({ gmail_remove_dots: false });
+    req.checkBody(LoginFields.Username, "Email is not valid").isEmail();
+    req.checkBody(LoginFields.Password, "Password cannot be blank").notEmpty();
+    req.sanitizeBody(LoginFields.Username).normalizeEmail({gmail_remove_dots: false});
 
     const errors = req.validationErrors();
 
     if (errors) {
-        req.flash("errors", errors);
-        return res.redirect("/login");
+        return res.status(400).json({status: "error", error: "Validation errors.", hints: errors});
     }
 
     passport.authenticate("local", (err: Error, user: UserModel, info: IVerifyOptions) => {
@@ -44,27 +47,26 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
             return next(err);
         }
         if (!user) {
-            req.flash("errors", info.message);
-            return res.redirect("/login");
+            return res.status(401).json({status: "error", error: info.message});
         }
         req.logIn(user, (err) => {
             if (err) {
                 return next(err);
             }
-            req.flash("success", { msg: "Success! You are logged in." });
-            res.redirect(req.session.returnTo || "/");
+            //res.redirect(req.session.returnTo || "/");
+            return res.json({status: "success"});
         });
     })(req, res, next);
 };
 
 /**
- * GET /logout
+ * POST /logout
  * Log out.
  */
-/*export let logout = (req: Request, res: Response) => {
+export let logout = (req: Request, res: Response) => {
     req.logout();
-    res.redirect("/");
-};*/
+    return res.json({status: "success"});
+};
 
 /**
  * GET /signup
@@ -80,34 +82,32 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
 };*/
 
 /**
- * POST /signup
+ * POST /register
  * Create a new local account.
  */
-export let postSignup = (req: Request, res: Response, next: NextFunction) => {
-    req.assert("email", "Email is not valid").isEmail();
-    req.assert("password", "Password must be at least 4 characters long").len({ min: 4 });
-    req.assert("confirmPassword", "Passwords do not match").equals(req.body.password);
-    req.sanitize("email").normalizeEmail({ gmail_remove_dots: false });
+export let postRegister = (req: Request, res: Response, next: NextFunction) => {
+    req.checkBody(LoginFields.Username, "Email is not valid").isEmail();
+    req.checkBody(LoginFields.Password, "Password must be at least 8 characters long").len({ min: 8 });
+    req.sanitize(LoginFields.Username).normalizeEmail({ gmail_remove_dots: false });
 
     const errors = req.validationErrors();
 
     if (errors) {
-        req.flash("errors", errors);
-        return res.redirect("/signup");
+        return res.status(400).json({status: "error", error: "Validation errors.", hints: errors});
     }
 
     const user = new User({
-        email: req.body.email,
-        password: req.body.password
+        email: req.body[LoginFields.Username],
+        password: req.body[LoginFields.Password]
     });
 
-    User.findOne({ email: req.body.email }, (err, existingUser) => {
+    User.findOne({ email: req.body[LoginFields.Username] }, (err, existingUser) => {
         if (err) {
             return next(err);
         }
         if (existingUser) {
-            req.flash("errors", { msg: "Account with that email address already exists." });
-            return res.redirect("/signup");
+            //409 status code might not be the MOST appropriate statusCode, because it might instruct consumers that they can try again
+            return res.status(409).json({ status: "error", error: "Account with that email address already exists." });
         }
         user.save((err) => {
             if (err) {
@@ -117,7 +117,7 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
                 if (err) {
                     return next(err);
                 }
-                res.redirect("/");
+                return res.json({status: "success"});
             });
         });
     });
