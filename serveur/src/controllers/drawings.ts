@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Drawing } from "../models/drawings/drawing";
-import { Author } from "../models/sockets/author";
 import { Stroke } from "../models/drawings/stroke";
 import { Pixel } from "../models/drawings/pixel";
 import { Owner } from "../models/drawings/owner";
