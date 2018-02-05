@@ -2,7 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Data;
 using PolyPaint.Modeles;
+using PolyPaint.Modeles.MessagingModels;
 using PolyPaint.Utilitaires;
 
 namespace PolyPaint.VueModeles
@@ -14,12 +16,16 @@ namespace PolyPaint.VueModeles
     internal class ChatWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private readonly ChatWindowModel _chatWindowModel = new ChatWindowModel();
+        private static readonly object Lock = new object();
 
         //Constructor
         public ChatWindowViewModel()
         {
             Items = new ObservableCollection<ChatMessage>();
-            StartMessenger("ws://localhost:3000");
+            BindingOperations.EnableCollectionSynchronization(Items, Lock);
+            StartMessenger("ws://localhost:5025");
+
+            ChatMessageReceived += DisplayReceivedMessage;
 
             //Sending a message 
             SendMessageCommand = new RelayCommand<object>(SendMessage);
@@ -49,18 +55,58 @@ namespace PolyPaint.VueModeles
 
             //Sending all the information about the item
             if (PendingChatMessage != string.Empty)
-                Items.Add(new ChatMessage
-                {
-                    Title = PendingChatMessage,
-                    MessageSentTime = DateTime.UtcNow,
-                    SentByMe = true,
-                    SenderName = "Knuckle Da Weychidna",
-                    NewItem = true
-                });
+                AppendMessageToChat(PendingChatMessage);
             //clear message after it's transmission
             PendingChatMessage = string.Empty;
         }
 
+        private void DisplayReceivedMessage(object sender, ChatMessageModel message)
+        {
+            AppendMessageToChat(string.Empty, message);
+        }
+
+
+        private void AppendMessageToChat(string outgoingMessage = "", ChatMessageModel incomingMessage = null)
+        {
+            string message, author;
+            DateTime messageTime;
+            bool sentByMe;
+
+
+            if (outgoingMessage != string.Empty)
+            {
+                message = outgoingMessage;
+                messageTime = DateTime.UtcNow.ToLocalTime();
+                author = "Me";
+                sentByMe = true;
+            }
+            else if (incomingMessage != null)
+            {
+                DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                message = incomingMessage.Message;
+                messageTime = unixEpoch.AddMilliseconds(incomingMessage.Timestamp).ToLocalTime();
+                sentByMe = false;
+                author = incomingMessage.Author?.Name ?? "PodMuncher";
+                sentByMe = false;
+            }
+            else
+            {
+                return;
+            }
+            
+            
+            lock (Lock)
+            {
+                Items.Add(new ChatMessage
+                {
+                    Title = message,
+                    MessageSentTime = messageTime,
+                    SenderName = author,
+                    SentByMe = sentByMe,
+                    NewItem = true
+                });
+            }
+        }
 
         /// <summary>
         ///     Call when a property of the ViewModel is changed
