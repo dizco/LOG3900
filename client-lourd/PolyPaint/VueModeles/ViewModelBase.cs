@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using PolyPaint.Modeles.MessagingModels;
 using PolyPaint.Utilitaires;
 
@@ -40,11 +41,21 @@ namespace PolyPaint.VueModeles
             if (_messenger == null)
             {
                 SocketHandler socketHandler = new SocketHandler(uri);
-                socketHandler.ChatMessageReceived += ChatMessageReceived;
-                socketHandler.EditorActionReceived += EditorActionReceived;
+                socketHandler.ChatMessageReceived += OnChatMessageReceived;
+                socketHandler.EditorActionReceived += OnEditorActionReceived;
                 _messenger = new Messenger(socketHandler);
             }
             return _messenger;
+        }
+
+        public static void OnChatMessageReceived(object sender, ChatMessageModel chatMessageModel)
+        {
+            ChatMessageReceived?.Invoke(null, chatMessageModel);
+        }
+
+        public static void OnEditorActionReceived(object sender, EditorActionModel editorActionModel)
+        {
+            EditorActionReceived?.Invoke(null, editorActionModel);
         }
     }
 }
