@@ -6,122 +6,54 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:convertisseurs="clr-namespace:PolyPaint.Convertisseurs"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="600" Width="400"  >
+        Title="Salle de Clavardage" Height="600" Width="300" ResizeMode="NoResize">
 
-
-    <Window.Resources>
-        <convertisseurs:SentByMeToForegroundConverter x:Key="sentByMeToForegroundConverter"/>
-        <convertisseurs:SentByMeToBackgroundConverter x:Key="sentByMeToBackgroundConverter"/>
-        <convertisseurs:SentByMeToAlignmentConverter x:Key="sentByMeToAlignmentConverter" />
-        <convertisseurs:SentByMeToVisibilitydConverter x:Key="sentByMeToVisibilityConverter"/>
-
-
-    </Window.Resources>
-    
     <Grid MinHeight="420">
         <Border>
-            <Border.Background>
-                <ImageBrush ImageSource="/PolyPaint;component/Resources/testbackground.png"/>
-            </Border.Background>
             <!-- Chat List-->
             <Grid >
-                <ScrollViewer Margin="0,0,0,50"
+                <ScrollViewer Margin="0,30,0,50"
                           HorizontalAlignment="Right"
                           VerticalScrollBarVisibility="Auto"
-                          Width="338"
+                          Width="300"
                           >
                     <!--StackPanel Height="auto" Width="auto"/-->
-                    <ItemsControl ItemsSource="{Binding Items}" Height="500">
+                    <ItemsControl ItemsSource="{Binding Items}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
                                 <!--ChatMessageListItem-->
                                 <Border Padding="5">
                                     <Grid >
-                                        
+
                                         <!-- Chat message container -->
                                         <Grid Margin="25 0 25 0"
-                                          HorizontalAlignment="{Binding SentByMe, Converter={StaticResource sentByMeToAlignmentConverter}}"
-                                          >
-                                            
-                                            <Grid.Triggers>
-
-                                                <!-- Mouse over shows time -->
-                                                <EventTrigger RoutedEvent="MouseEnter">
-                                                    <BeginStoryboard>
-                                                        <Storyboard Storyboard.TargetName="ExtraDetails" Storyboard.TargetProperty="Opacity">
-                                                            <DoubleAnimation To="1" Duration="00:00:00.5" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </EventTrigger>
-
-                                                <!-- Mouse leave hides time -->
-                                                <EventTrigger RoutedEvent="MouseLeave">
-                                                    <BeginStoryboard>
-                                                        <Storyboard Storyboard.TargetName="ExtraDetails" Storyboard.TargetProperty="Opacity">
-                                                            <DoubleAnimation To="0" Duration="00:00:00.5" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </EventTrigger>
-
-                                            </Grid.Triggers>
-
+                                          HorizontalAlignment="Stretch"
+                                        >
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
-                                           
-                                            <!-- Speech Sender Name -->
-                                            <StackPanel  VerticalAlignment="Top"
-                                                         HorizontalAlignment="Left"
-                                                         Grid.Row="1"
-                                                         Visibility="{Binding SentByMe, Converter={StaticResource sentByMeToVisibilityConverter}}"
-                                            >
-                                                <TextBlock VerticalAlignment="Top"
-                                                           HorizontalAlignment="Left"
-                                                           FontFamily="{StaticResource LatoRegular}"
-                                                           Foreground="Navy"
-                                                           Text="{Binding SenderName}"
-                                                           Visibility="{Binding SentByMe, Converter={StaticResource sentByMeToVisibilityConverter}}"
-                                                />
-                                            </StackPanel>
-                                            
 
-                                            <!-- Speech bubble rectangle -->
-                                            <StackPanel Grid.Row="2"
-                                            >
-                                                <Border CornerRadius="10"
-                                                    Padding="15"
-                                                    Background= "{Binding SentByMe, Converter={StaticResource sentByMeToBackgroundConverter}}"
-                                                        Grid.Row="2">
-                                                
-                                                    <!-- Message text -->
-                                                    <TextBlock VerticalAlignment="Center"
-                                                               FontFamily="{StaticResource LatoBold}"
-                                                               Foreground="{Binding SentByMe, Converter={StaticResource sentByMeToForegroundConverter}}"
-                                                               Text="{Binding Title}"
-                                                               TextWrapping="Wrap"
-                                                    />
 
-                                                </Border>
-                                            </StackPanel>
-                                            <!-- Time containers -->
-                                            <StackPanel Name="ExtraDetails" 
-                                                    Grid.Row="3"
-                                                    HorizontalAlignment="Right"
-                                                    Orientation="Horizontal"
-                                                    Opacity="0"
+                                            <!-- Message Text -->
+                                            <StackPanel>
+                                                <Border >
+                                                    <TextBlock  VerticalAlignment="Center"
+                                                                FontFamily="{StaticResource LatoRegular}"
+                                                                TextWrapping="Wrap"
                                                     >
-
-                                            <!-- Sent time -->
-                                            <TextBlock Text="{Binding MessageSentTime, StringFormat=HH:mm:ss}"
-                                                        Foreground="Black"
-                                                        FontSize="12"
-                                                        FontFamily="{StaticResource LatoBold}"
-                                                        Margin="80 0 5 0"
-                                            />
+                                                        <Run Text="{Binding SenderName}"
+                                                             FontFamily="{StaticResource LatoBold}"
+                                                        />
+                                                        <Run Text="-"/>
+                                                        <Run Text="{Binding MessageSentTime, StringFormat=HH:mm:ss}"/>
+                                                        <LineBreak/>
+                                                        <Run Text="{Binding Title}"
+                                                        />
+                                                    </TextBlock>
+                                                </Border>
+                                                <Separator/>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
@@ -131,27 +63,32 @@
                     </ItemsControl>
                 </ScrollViewer>
 
-                <Grid Margin="0,518,0,0">
+                <Grid Margin="0,508,0,0"
+                      Background="PaleTurquoise"
+                >
+
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="151*"/>
-                        <ColumnDefinition Width="45*"/>
+                        <ColumnDefinition Width="304*"/>
+                        <ColumnDefinition Width="34*"/>
+                        <ColumnDefinition Width="57*"/>
                     </Grid.ColumnDefinitions>
 
-                    
+
                     <!-- Message box -->
                     <TextBox x:Name="MessageInput"  
                      TextWrapping="Wrap"
                      Text="{Binding PendingChatMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
-                     Margin="10,0,60,5"
-                     VerticalAlignment="Bottom"
-                     Padding="0 10 10 10"
-                     Height="40"
+                     Margin="5,5,17,5"
+                     Height="auto"
                      AcceptsReturn="True"
                      AcceptsTab="True"
                      VerticalScrollBarVisibility="Auto"
                      TextChanged="MessageInput_TextChanged"
                      SpellCheck.IsEnabled="True" Grid.ColumnSpan="2"
                      >
+                        <TextBox.Effect>
+                            <DropShadowEffect ShadowDepth="5" Color="BurlyWood" Opacity=".4" RenderingBias="Performance" />
+                        </TextBox.Effect>
 
                         <TextBox.InputBindings>
                             <KeyBinding Command="{Binding SendMessageCommand}" Key="Return" />
@@ -167,7 +104,7 @@
                             BorderThickness="0"
                             VerticalAlignment="Bottom"
                             Click="SendButton_Click"
-                            Focusable="False" Grid.Column="1"
+                            Focusable="False" Grid.Column="2"
                             >
                         <Button.BorderBrush>
                             <SolidColorBrush  Opacity="0"/>
