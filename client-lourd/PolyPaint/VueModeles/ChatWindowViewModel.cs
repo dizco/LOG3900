@@ -15,15 +15,15 @@ namespace PolyPaint.VueModeles
     /// </summary>
     internal class ChatWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private readonly ChatWindowModel _chatWindowModel = new ChatWindowModel();
         private static readonly object Lock = new object();
+        private readonly ChatWindowModel _chatWindowModel = new ChatWindowModel();
 
         //Constructor
         public ChatWindowViewModel()
         {
             Items = new ObservableCollection<ChatMessage>();
             BindingOperations.EnableCollectionSynchronization(Items, Lock);
-            StartMessenger("ws://localhost:5025");
+            StartMessenger("ws://localhost:3000");
 
             ChatMessageReceived += DisplayReceivedMessage;
 
@@ -54,10 +54,12 @@ namespace PolyPaint.VueModeles
             Messenger.SendChatMessage(PendingChatMessage);
 
             //Sending all the information about the item
-            if (PendingChatMessage != string.Empty)
+            if (PendingChatMessage != string.Empty && Messenger.IsConnected)
+            {
                 AppendMessageToChat(PendingChatMessage);
-            //clear message after it's transmission
-            PendingChatMessage = string.Empty;
+                //clear message after it's transmission
+                PendingChatMessage = string.Empty;
+            }
         }
 
         private void DisplayReceivedMessage(object sender, ChatMessageModel message)
@@ -93,8 +95,8 @@ namespace PolyPaint.VueModeles
             {
                 return;
             }
-            
-            
+
+
             lock (Lock)
             {
                 Items.Add(new ChatMessage
