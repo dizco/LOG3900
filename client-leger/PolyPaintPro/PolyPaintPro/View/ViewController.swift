@@ -22,28 +22,41 @@ class ViewController: UIViewController, SocketManagerDelegate {
     @IBAction func chatToggleBtn(_ sender: Any) { //function associated to the chat toggle button
         chatToggleFn()
     }
-    ///////////////chat table view reserved section
+
     var titleHeading: [String] = [""]
     var subtitleHeading: [String] = [""]
     var authorNameMutableString = NSMutableAttributedString()
     @IBOutlet weak var chatTableView: UITableView!
     @IBAction func sendButton(_ sender: UIButton) {
-        let receivedMessage = String(describing: messageField.text)
+        let receivedMessage = messageField!.text
         let receivedAuthor = "Frederic"
-        let receivedTimeStamp = "hh:mm"
-        let msgInfos = receivedAuthor + " " + receivedTimeStamp
-        authorNameMutableString = NSMutableAttributedString(string: msgInfos,
+        let receivedTimestamp = "hh:mm"
+        let msgInfos = (receivedAuthor, receivedTimestamp)
+
+        displayMessage(message: receivedMessage!, messageInfos: msgInfos)
+        do {
+            let outgoingMsg = OutgoingChatMessage(message: receivedMessage!)
+            let encodedData = try JSONEncoder().encode(outgoingMsg)
+            SocketManager.sharedInstance.send(data: encodedData)
+        } catch let error {
+            print(error)
+        }
+    }
+    //function to call to add a new message in the chat
+    func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
+
+        //the following code is to add messages to the chat view
+        let indexPath = IndexPath.init(row: rowNumber, section: 0)
+
+        //the following code formats the message for display
+        let msgInfo = messageInfos.author + " " + messageInfos.timestamp
+        authorNameMutableString = NSMutableAttributedString(string: msgInfo,
                                                             attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
         authorNameMutableString.addAttribute(NSAttributedStringKey.font,
                                              value: UIFont.boldSystemFont(ofSize: 15),
-                                             range: NSRange(location: 0, length: receivedAuthor.count) )
-        displayMessage(message: receivedMessage, messageInfos: msgInfos)
-    }
-    //function to call to add a new message in the chat
-    func displayMessage(message: String, messageInfos: String) {
-        //the following code is to add messages to the chat view
-        let indexPath = IndexPath.init(row: rowNumber, section: 0)
-        titleHeading.insert(messageInfos, at: rowNumber)
+                                             range: NSRange(location: 0, length: messageInfos.author.count) )
+
+        titleHeading.insert(msgInfo, at: rowNumber)
         subtitleHeading.insert(message, at: rowNumber)
         chatTableView.estimatedRowHeight = 55
         chatTableView.rowHeight = UITableViewAutomaticDimension
@@ -69,7 +82,6 @@ class ViewController: UIViewController, SocketManagerDelegate {
         }
     }
 
-    ///////////////chat table view reserved section
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
@@ -134,14 +146,7 @@ class ViewController: UIViewController, SocketManagerDelegate {
     // TO-MOVE: Isolate in a separate ViewController later
     func connect() {
         print("Connecting to server.")
-        let msg = "J'aime les Pods sur mes tartines le matin. 😋"
-        do {
-            let outgoingMsg = OutgoingChatMessage(message: msg)
-            let encodedData = try JSONEncoder().encode(outgoingMsg)
-            SocketManager.sharedInstance.send(data: encodedData)
-        } catch let error {
-            print(error)
-        }
+    
     }
 
     // TO-MOVE: Isolate in a separate ViewController later
@@ -156,6 +161,8 @@ class ViewController: UIViewController, SocketManagerDelegate {
             let decoder = JSONDecoder()
             let incomingMsg = try decoder.decode(IncomingChatMessage.self, from: data)
             print(incomingMsg.message)
+            let msgInfos = (incomingMsg.author.name, "hh:mm")
+            displayMessage(message: incomingMsg.message, messageInfos: msgInfos)
         } catch let error {
             print(error)
         }
