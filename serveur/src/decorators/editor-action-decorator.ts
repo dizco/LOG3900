@@ -36,6 +36,7 @@ export class EditorActionDecorator {
                 url: "https://example.com/users/dizco",
                 avatar_url: "https://example.com/users/dizco/avatar.jpg",
             },
+            timestamp: Date.now(),
         });
     }
 }
