@@ -9,10 +9,16 @@ import { expect } from "chai";
     });
 });*/
 
-describe("GET /signup", () => {
-    it("should return 200 OK", () => {
-        return request(app).get("/signup")
-            .expect(200);
+describe("POST /register", () => {
+    it("should return some defined error message with valid parameters", (done) => {
+        return request(app).post("/register")
+            .field("email", "john@me.com")
+            .field("password", "Hunter2")
+            .expect(302)
+            .end(function(err, res) {
+                expect(res.error).not.to.be.undefined;
+                done();
+            });
     });
 });
 
