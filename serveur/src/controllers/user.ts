@@ -1,27 +1,27 @@
-import * as async from "async";
-import * as crypto from "crypto";
-import * as nodemailer from "nodemailer";
+//import * as async from "async";
+//import * as crypto from "crypto";
+//import * as nodemailer from "nodemailer";
 import * as passport from "passport";
 import { AuthToken, default as User, UserModel } from "../models/User";
 import { NextFunction, Request, Response } from "express";
 import { IVerifyOptions } from "passport-local";
-import { WriteError } from "mongodb";
+//import { WriteError } from "mongodb";
 
-const request = require("express-validator");
+//const request = require("express-validator");
 
 
 /**
  * GET /login
  * Login page.
  */
-export let getLogin = (req: Request, res: Response) => {
+/*export let getLogin = (req: Request, res: Response) => {
     if (req.user) {
         return res.redirect("/");
     }
     res.render("account/login", {
         title: "Login"
     });
-};
+};*/
 
 /**
  * POST /login
@@ -61,23 +61,23 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
  * GET /logout
  * Log out.
  */
-export let logout = (req: Request, res: Response) => {
+/*export let logout = (req: Request, res: Response) => {
     req.logout();
     res.redirect("/");
-};
+};*/
 
 /**
  * GET /signup
  * Signup page.
  */
-export let getSignup = (req: Request, res: Response) => {
+/*export let getSignup = (req: Request, res: Response) => {
     if (req.user) {
         return res.redirect("/");
     }
     res.render("account/signup", {
         title: "Create Account"
     });
-};
+};*/
 
 /**
  * POST /signup
@@ -127,17 +127,17 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
  * GET /account
  * Profile page.
  */
-export let getAccount = (req: Request, res: Response) => {
+/*export let getAccount = (req: Request, res: Response) => {
     res.render("account/profile", {
         title: "Account Management"
     });
-};
+};*/
 
 /**
  * POST /account/profile
  * Update profile information.
  */
-export let postUpdateProfile = (req: Request, res: Response, next: NextFunction) => {
+/*export let postUpdateProfile = (req: Request, res: Response, next: NextFunction) => {
     req.assert("email", "Please enter a valid email address.").isEmail();
     req.sanitize("email").normalizeEmail({ gmail_remove_dots: false });
 
@@ -169,13 +169,13 @@ export let postUpdateProfile = (req: Request, res: Response, next: NextFunction)
             res.redirect("/account");
         });
     });
-};
+};*/
 
 /**
  * POST /account/password
  * Update current password.
  */
-export let postUpdatePassword = (req: Request, res: Response, next: NextFunction) => {
+/*export let postUpdatePassword = (req: Request, res: Response, next: NextFunction) => {
     req.assert("password", "Password must be at least 4 characters long").len({ min: 4 });
     req.assert("confirmPassword", "Passwords do not match").equals(req.body.password);
 
@@ -199,13 +199,13 @@ export let postUpdatePassword = (req: Request, res: Response, next: NextFunction
             res.redirect("/account");
         });
     });
-};
+};*/
 
 /**
  * POST /account/delete
  * Delete user account.
  */
-export let postDeleteAccount = (req: Request, res: Response, next: NextFunction) => {
+/*export let postDeleteAccount = (req: Request, res: Response, next: NextFunction) => {
     User.remove({ _id: req.user.id }, (err) => {
         if (err) {
             return next(err);
@@ -214,35 +214,13 @@ export let postDeleteAccount = (req: Request, res: Response, next: NextFunction)
         req.flash("info", { msg: "Your account has been deleted." });
         res.redirect("/");
     });
-};
-
-/**
- * GET /account/unlink/:provider
- * Unlink OAuth provider.
- */
-export let getOauthUnlink = (req: Request, res: Response, next: NextFunction) => {
-    const provider = req.params.provider;
-    User.findById(req.user.id, (err, user: any) => {
-        if (err) {
-            return next(err);
-        }
-        user[provider] = undefined;
-        user.tokens = user.tokens.filter((token: AuthToken) => token.kind !== provider);
-        user.save((err: WriteError) => {
-            if (err) {
-                return next(err);
-            }
-            req.flash("info", { msg: `${provider} account has been unlinked.` });
-            res.redirect("/account");
-        });
-    });
-};
+};*/
 
 /**
  * GET /reset/:token
  * Reset Password page.
  */
-export let getReset = (req: Request, res: Response, next: NextFunction) => {
+/*export let getReset = (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated()) {
         return res.redirect("/");
     }
@@ -261,13 +239,13 @@ export let getReset = (req: Request, res: Response, next: NextFunction) => {
                 title: "Password Reset"
             });
         });
-};
+};*/
 
 /**
  * POST /reset/:token
  * Process the reset password request.
  */
-export let postReset = (req: Request, res: Response, next: NextFunction) => {
+/*export let postReset = (req: Request, res: Response, next: NextFunction) => {
     req.assert("password", "Password must be at least 4 characters long.").len({ min: 4 });
     req.assert("confirm", "Passwords must match.").equals(req.body.password);
 
@@ -329,26 +307,26 @@ export let postReset = (req: Request, res: Response, next: NextFunction) => {
         }
         res.redirect("/");
     });
-};
+};*/
 
 /**
  * GET /forgot
  * Forgot Password page.
  */
-export let getForgot = (req: Request, res: Response) => {
+/*export let getForgot = (req: Request, res: Response) => {
     if (req.isAuthenticated()) {
         return res.redirect("/");
     }
     res.render("account/forgot", {
         title: "Forgot Password"
     });
-};
+};*/
 
 /**
  * POST /forgot
  * Create a random token, then the send user an email with a reset link.
  */
-export let postForgot = (req: Request, res: Response, next: NextFunction) => {
+/*export let postForgot = (req: Request, res: Response, next: NextFunction) => {
     req.assert("email", "Please enter a valid email address.").isEmail();
     req.sanitize("email").normalizeEmail({ gmail_remove_dots: false });
 
@@ -410,4 +388,4 @@ export let postForgot = (req: Request, res: Response, next: NextFunction) => {
         }
         res.redirect("/forgot");
     });
-};
+};*/
