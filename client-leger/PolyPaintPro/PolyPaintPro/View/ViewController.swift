@@ -9,6 +9,8 @@ class ViewController: UIViewController, SocketManagerDelegate {
     //Labels
     @IBOutlet weak var welcomeLabel: UILabel!
     //views
+    
+    @IBOutlet var placeHolderView: UIView!
     @IBOutlet weak var connexionView: UIView?
     @IBOutlet weak var registerView: UIView?
     @IBOutlet var drawView: UIView!
@@ -33,15 +35,17 @@ class ViewController: UIViewController, SocketManagerDelegate {
         let receivedTimestamp = Timestamp()
         let msgInfos = (receivedAuthor, receivedTimestamp.getCurrentTime())
 
-        displayMessage(message: receivedMessage!, messageInfos: msgInfos)
+
+        displayMessage(message: receivedMessage!, messageInfos: messageInfos)
         do {
-            let outgoingMsg = OutgoingChatMessage(message: receivedMessage!)
-            let encodedData = try JSONEncoder().encode(outgoingMsg)
+            let outgoingMessage = OutgoingChatMessage(message: receivedMessage!)
+            let encodedData = try JSONEncoder().encode(outgoingMessage)
             SocketManager.sharedInstance.send(data: encodedData)
         } catch let error {
             print(error)
         }
     }
+    
     //function to call to add a new message in the chat
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
 
@@ -49,14 +53,14 @@ class ViewController: UIViewController, SocketManagerDelegate {
         let indexPath = IndexPath.init(row: rowNumber, section: 0)
 
         //the following code formats the message for display
-        let msgInfo = messageInfos.author + " " + messageInfos.timestamp
-        authorNameMutableString = NSMutableAttributedString(string: msgInfo,
-                                                            attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
+        let messageInfo = messageInfos.author + " " + messageInfos.timestamp
+        authorNameMutableString = NSMutableAttributedString(string: messageInfo,
+                    attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
         authorNameMutableString.addAttribute(NSAttributedStringKey.font,
                                              value: UIFont.boldSystemFont(ofSize: 15),
                                              range: NSRange(location: 0, length: messageInfos.author.count) )
 
-        titleHeading.insert(msgInfo, at: rowNumber)
+        titleHeading.insert(messageInfo, at: rowNumber)
         subtitleHeading.insert(message, at: rowNumber)
         chatTableView.estimatedRowHeight = 55
         chatTableView.rowHeight = UITableViewAutomaticDimension
@@ -65,23 +69,7 @@ class ViewController: UIViewController, SocketManagerDelegate {
         //the following code is to empty the text field once the message is sent
         messageField.text = ""
     }
-
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y += keyboardSize.height
-            }
-        }
-    }
-
+    
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
@@ -119,17 +107,34 @@ class ViewController: UIViewController, SocketManagerDelegate {
         registerView?.isHidden = true //default view is login
         self.hideKeyboard()
 
+        observeKeyboardNotification()
+        // TO-MOVE: Initialize socket only in ChatViewController
+        SocketManager.sharedInstance.delegate = self
+    }
+    fileprivate func  observeKeyboardNotification() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ViewController.keyboardWillShow),
+                                               selector: #selector(keyboardWillShow),
                                                name: NSNotification.Name.UIKeyboardWillShow,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ViewController.keyboardWillHide),
+                                               selector: #selector(keyboardWillHide),
                                                name: NSNotification.Name.UIKeyboardWillHide,
                                                object: nil)
-
-        // TO-MOVE: Initialize socket only in ChatViewController
-        SocketManager.sharedInstance.delegate = self
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y != 0 {
+                self.view.frame.origin.y += keyboardSize.height
+            }
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -155,10 +160,10 @@ class ViewController: UIViewController, SocketManagerDelegate {
         do {
             print("Data received.")
             let decoder = JSONDecoder()
-            let incomingMsg = try decoder.decode(IncomingChatMessage.self, from: data)
-            print(incomingMsg.message)
-            let msgInfos = (incomingMsg.author.name, "hh:mm")
-            displayMessage(message: incomingMsg.message, messageInfos: msgInfos)
+            let incomingMessage = try decoder.decode(IncomingChatMessage.self, from: data)
+            print(incomingMessage.message)
+            let messageInfos = (incomingMessage.author.name, "hh:mm")
+            displayMessage(message: incomingMessage.message, messageInfos: messageInfos)
         } catch let error {
             print(error)
         }
