@@ -6,13 +6,21 @@ import { SocketMessage } from "./models/sockets/socket-message";
 import { SocketStrategyContext } from "./strategies/sockets/socket-strategy-context";
 import { WebSocketServer } from "./websockets/websocket-server";
 import { TryParseJSON } from "./helpers/json";
+import { NextFunction, Request, Response } from "express";
 
 const app = require("./app");
 
 /**
- * Error Handler. Provides full stack - remove for production
+ * Error Handler. Provides full stack in dev and test
  */
-app.use(errorHandler());
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.log("Unhandled error detected.", err);
+    if (req.app.get("env") === "development" || req.app.get("env") === "test") {
+        //Development and test environments print stack traces
+        return res.status(err.statusCode || 500).json({status: "error", error: err.message, stack: err.stack});
+    }
+    return res.status(err.statusCode || 500).json({status: "error", error: err.message});
+});
 
 /**
  * Start Express server.
