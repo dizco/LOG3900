@@ -7,3 +7,21 @@
 //
 
 import Foundation
+
+class Timestamp {
+    let dateFormatter = DateFormatter()
+
+    init() {
+        self.dateFormatter.dateFormat = "HH:mm:ss"
+    }
+
+    func getCurrentTime() -> String {
+        let currentTime = Date()
+        
+        return self.dateFormatter.string(from: currentTime)
+    }
+
+    func getTimeFromServer() {
+        // TO-DO: Convert the timestamp given by the server
+    }
+}
