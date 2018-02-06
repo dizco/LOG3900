@@ -30,8 +30,8 @@ class ViewController: UIViewController, SocketManagerDelegate {
     @IBAction func sendButton(_ sender: UIButton) {
         let receivedMessage = messageField!.text
         let receivedAuthor = "Frederic"
-        let receivedTimestamp = "hh:mm"
-        let msgInfos = (receivedAuthor, receivedTimestamp)
+        let receivedTimestamp = Timestamp()
+        let msgInfos = (receivedAuthor, receivedTimestamp.getCurrentTime())
 
         displayMessage(message: receivedMessage!, messageInfos: msgInfos)
         do {
