@@ -21,6 +21,7 @@ dotenv.config({ path: ".env" });
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
 import * as userController from "./controllers/user";
+import * as pingController from "./controllers/ping";
 //import * as apiController from "./controllers/api";
 //import * as contactController from "./controllers/contact";
 import * as drawingsController from "./controllers/drawings";
@@ -112,6 +113,11 @@ app.post("/register", userController.postRegister);
 app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDrawing);
 app.get("/drawings/:id([0-9]+)", passportConfig.isAuthenticated, drawingsController.getDrawing);
 app.put("/drawings/:id([0-9]+)", passportConfig.isAuthenticated, drawingsController.putDrawing);
+
+/**
+ * Ping
+ */
+app.get("/ping", pingController.getPing);
 
 /**
  * API examples routes.
