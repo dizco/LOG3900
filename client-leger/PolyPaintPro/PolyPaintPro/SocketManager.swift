@@ -17,7 +17,7 @@ protocol SocketManagerDelegate: class {
 
 class SocketManager {
     static let sharedInstance = SocketManager()
-    let socket = WebSocket(url: URL(string: "ws://localhost:3000/")!)
+    let socket = WebSocket(url: URL(string: "ws://localhost:5025/")!)
     weak var delegate: SocketManagerDelegate?
 
     private init() {
