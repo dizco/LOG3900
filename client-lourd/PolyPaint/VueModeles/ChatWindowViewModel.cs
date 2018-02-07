@@ -67,13 +67,11 @@ namespace PolyPaint.VueModeles
             AppendMessageToChat(string.Empty, message);
         }
 
-
         private void AppendMessageToChat(string outgoingMessage = "", ChatMessageModel incomingMessage = null)
         {
             string message, author;
             DateTime messageTime;
             bool sentByMe;
-
 
             if (outgoingMessage != string.Empty)
             {
@@ -93,9 +91,9 @@ namespace PolyPaint.VueModeles
             }
             else
             {
+                //Invalid call to method, exit before processing any further
                 return;
             }
-
 
             lock (Lock)
             {
