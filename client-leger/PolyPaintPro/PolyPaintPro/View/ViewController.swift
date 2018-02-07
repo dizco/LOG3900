@@ -137,16 +137,12 @@ class ViewController: UIViewController, SocketManagerDelegate {
 
         // TO-MOVE: Connect with socket only in ChatViewController
         SocketManager.sharedInstance.establishConnection()
-
-        // This call is used as a test for sending messages.
-        connect()
     }
 
     // MARK: - SocketManagerDelegate
     // TO-MOVE: Isolate in a separate ViewController later
     func connect() {
         print("Connecting to server.")
-    
     }
 
     // TO-MOVE: Isolate in a separate ViewController later

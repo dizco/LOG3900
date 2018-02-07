@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15B2500125088CDECBDB8DEF /* Pods_PolyPaintProUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3391B337652AE7B1607A4F /* Pods_PolyPaintProUITests.framework */; };
 		27080CF520264E1C0071FDC0 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CF420264E1C0071FDC0 /* ChatViewController.swift */; };
 		27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CF9202650CD0071FDC0 /* Extensions.swift */; };
 		27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CFC2026528E0071FDC0 /* ChatView.swift */; };
@@ -19,12 +18,13 @@
 		274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */; };
 		277EE1A0201280D900545404 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 277EE19F201280D900545404 /* assets */; };
 		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
-		B48D511C46E63778945C0C0F /* Pods_PolyPaintPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC9C6A3AD0D3999DF9241A5 /* Pods_PolyPaintPro.framework */; };
+		5E0C204D04A5E5DF4256E5F0 /* Pods_PolyPaintProUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */; };
+		6472425BEFE90D447BE1EFCB /* Pods_PolyPaintPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FBB77A965C181A69459178 /* Pods_PolyPaintPro.framework */; };
+		AD71483325AD99B253B242F5 /* Pods_PolyPaintProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */; };
 		BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90D92028AEB0003C8F1E /* Timestamp.swift */; };
-		BE2C90DE202A39B7003C8F1E /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90DD202A39B7003C8F1E /* LoginService.swift */; };
+		BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */; };
 		BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A1E202102CD00FD1C50 /* SocketManager.swift */; };
 		BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A2020215E3C00FD1C50 /* ChatMessage.swift */; };
-		BEA9D56883FF8D93C682D80F /* Pods_PolyPaintProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C70EAB585761E036E5FAAEDB /* Pods_PolyPaintProTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +45,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0BB5F8E92C78E919999A453D /* Pods-PolyPaintProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.release.xcconfig"; sourceTree = "<group>"; };
-		12E0DC10616F48CA16EF5CAC /* Pods-PolyPaintProUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.release.xcconfig"; sourceTree = "<group>"; };
+		015D343163E1C763189C09CE /* Pods-PolyPaintProUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.release.xcconfig"; sourceTree = "<group>"; };
+		03FBB77A965C181A69459178 /* Pods_PolyPaintPro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintPro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27080CF420264E1C0071FDC0 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		27080CF9202650CD0071FDC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		27080CFC2026528E0071FDC0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -64,17 +65,16 @@
 		274C036A200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		277EE19F201280D900545404 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		4C3391B337652AE7B1607A4F /* Pods_PolyPaintProUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		91BBB0114198EB686FA7C1E9 /* Pods-PolyPaintPro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.release.xcconfig"; sourceTree = "<group>"; };
-		ACC9C6A3AD0D3999DF9241A5 /* Pods_PolyPaintPro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintPro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2573E96A9836DF73AFFC700 /* Pods-PolyPaintPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.debug.xcconfig"; sourceTree = "<group>"; };
+		286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3200A611B497DF6670D12C3E /* Pods-PolyPaintProUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		4D43B83FC6843C82E02F9864 /* Pods-PolyPaintProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5018986DF83B4B9BB3B17B98 /* Pods-PolyPaintPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.debug.xcconfig"; sourceTree = "<group>"; };
+		5BC84467F4E78A5C51D80C35 /* Pods-PolyPaintProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.release.xcconfig"; sourceTree = "<group>"; };
 		BE2C90D92028AEB0003C8F1E /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
-		BE2C90DD202A39B7003C8F1E /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerLookup.swift; sourceTree = "<group>"; };
 		BE426A1E202102CD00FD1C50 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		BE426A2020215E3C00FD1C50 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
-		C70EAB585761E036E5FAAEDB /* Pods_PolyPaintProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7F91C9AB61E660A53B38D16 /* Pods-PolyPaintProUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		E2FCCC76FB5588830D12DF7B /* Pods-PolyPaintProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E10C1B5411A3AD25B25EAA1B /* Pods-PolyPaintPro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B48D511C46E63778945C0C0F /* Pods_PolyPaintPro.framework in Frameworks */,
+				6472425BEFE90D447BE1EFCB /* Pods_PolyPaintPro.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEA9D56883FF8D93C682D80F /* Pods_PolyPaintProTests.framework in Frameworks */,
+				AD71483325AD99B253B242F5 /* Pods_PolyPaintProTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,13 +98,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15B2500125088CDECBDB8DEF /* Pods_PolyPaintProUITests.framework in Frameworks */,
+				5E0C204D04A5E5DF4256E5F0 /* Pods_PolyPaintProUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0BDCAE7C2CBB68FB08E581FC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5018986DF83B4B9BB3B17B98 /* Pods-PolyPaintPro.debug.xcconfig */,
+				E10C1B5411A3AD25B25EAA1B /* Pods-PolyPaintPro.release.xcconfig */,
+				4D43B83FC6843C82E02F9864 /* Pods-PolyPaintProTests.debug.xcconfig */,
+				5BC84467F4E78A5C51D80C35 /* Pods-PolyPaintProTests.release.xcconfig */,
+				3200A611B497DF6670D12C3E /* Pods-PolyPaintProUITests.debug.xcconfig */,
+				015D343163E1C763189C09CE /* Pods-PolyPaintProUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		27080CF6202650250071FDC0 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,8 +158,8 @@
 				274C0367200EF37A00DDAD8D /* PolyPaintProUITests */,
 				274C0346200EF37900DDAD8D /* Products */,
 				277EE19F201280D900545404 /* assets */,
-				C5AE6C525CDFD1E38C5A9F9E /* Pods */,
-				315DCA2BE506FEC11CB2EFE1 /* Frameworks */,
+				0BDCAE7C2CBB68FB08E581FC /* Pods */,
+				966431B930ED8200740432E3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -174,7 +187,7 @@
 				278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */,
 				BE426A1E202102CD00FD1C50 /* SocketManager.swift */,
 				BE426A2020215E3C00FD1C50 /* ChatMessage.swift */,
-				BE2C90DD202A39B7003C8F1E /* LoginService.swift */,
+				BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */,
 				BE2C90D92028AEB0003C8F1E /* Timestamp.swift */,
 			);
 			path = PolyPaintPro;
@@ -198,27 +211,14 @@
 			path = PolyPaintProUITests;
 			sourceTree = "<group>";
 		};
-		315DCA2BE506FEC11CB2EFE1 /* Frameworks */ = {
+		966431B930ED8200740432E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				ACC9C6A3AD0D3999DF9241A5 /* Pods_PolyPaintPro.framework */,
-				C70EAB585761E036E5FAAEDB /* Pods_PolyPaintProTests.framework */,
-				4C3391B337652AE7B1607A4F /* Pods_PolyPaintProUITests.framework */,
+				03FBB77A965C181A69459178 /* Pods_PolyPaintPro.framework */,
+				0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */,
+				286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C5AE6C525CDFD1E38C5A9F9E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B2573E96A9836DF73AFFC700 /* Pods-PolyPaintPro.debug.xcconfig */,
-				91BBB0114198EB686FA7C1E9 /* Pods-PolyPaintPro.release.xcconfig */,
-				E2FCCC76FB5588830D12DF7B /* Pods-PolyPaintProTests.debug.xcconfig */,
-				0BB5F8E92C78E919999A453D /* Pods-PolyPaintProTests.release.xcconfig */,
-				C7F91C9AB61E660A53B38D16 /* Pods-PolyPaintProUITests.debug.xcconfig */,
-				12E0DC10616F48CA16EF5CAC /* Pods-PolyPaintProUITests.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,13 +228,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 274C036D200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintPro" */;
 			buildPhases = (
-				3FEC7CA608D97408488012A9 /* [CP] Check Pods Manifest.lock */,
+				B0F11BBA421691E0420CB1B2 /* [CP] Check Pods Manifest.lock */,
 				274C0341200EF37900DDAD8D /* Sources */,
 				274C0342200EF37900DDAD8D /* Frameworks */,
 				274C0343200EF37900DDAD8D /* Resources */,
-				45AB24A7AF0745D1E985AE49 /* [CP] Embed Pods Frameworks */,
-				449B9A412F53732975CC26F7 /* [CP] Copy Pods Resources */,
 				BEDB8F94201C0AF500DF9550 /* Run SwiftLint */,
+				A62B91FEED341388EC76B68B /* [CP] Embed Pods Frameworks */,
+				A1E1AA1BAF370A60BBCBA614 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -249,12 +249,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 274C0370200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintProTests" */;
 			buildPhases = (
-				4C31DDF7BEAB87AD477B8B03 /* [CP] Check Pods Manifest.lock */,
+				B87418A7607151D632433F69 /* [CP] Check Pods Manifest.lock */,
 				274C0355200EF37A00DDAD8D /* Sources */,
 				274C0356200EF37A00DDAD8D /* Frameworks */,
 				274C0357200EF37A00DDAD8D /* Resources */,
-				52CCCB30B5E512B0DC528513 /* [CP] Embed Pods Frameworks */,
-				65F6120B2BCCB58C639B6D9B /* [CP] Copy Pods Resources */,
+				EEBD1942F6594A0663A65656 /* [CP] Embed Pods Frameworks */,
+				8165F693558CDBFFA31230BB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -270,12 +270,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 274C0373200EF37A00DDAD8D /* Build configuration list for PBXNativeTarget "PolyPaintProUITests" */;
 			buildPhases = (
-				42711CD87AE6CC8E3808E56E /* [CP] Check Pods Manifest.lock */,
+				6F97AC081C0EE9E0BCB65BFA /* [CP] Check Pods Manifest.lock */,
 				274C0360200EF37A00DDAD8D /* Sources */,
 				274C0361200EF37A00DDAD8D /* Frameworks */,
 				274C0362200EF37A00DDAD8D /* Resources */,
-				EB3E675D5F88FF9AD52E4A74 /* [CP] Embed Pods Frameworks */,
-				A05380CEED225BC4F472783E /* [CP] Copy Pods Resources */,
+				B122D609AA5B98F7A04A530E /* [CP] Embed Pods Frameworks */,
+				E7B754A8632EF517C9916224 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -362,24 +362,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3FEC7CA608D97408488012A9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PolyPaintPro-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-		};
-		42711CD87AE6CC8E3808E56E /* [CP] Check Pods Manifest.lock */ = {
+		6F97AC081C0EE9E0BCB65BFA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -397,7 +380,22 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		449B9A412F53732975CC26F7 /* [CP] Copy Pods Resources */ = {
+		8165F693558CDBFFA31230BB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1E1AA1BAF370A60BBCBA614 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -412,17 +410,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		45AB24A7AF0745D1E985AE49 /* [CP] Embed Pods Frameworks */ = {
+		A62B91FEED341388EC76B68B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,7 +432,40 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4C31DDF7BEAB87AD477B8B03 /* [CP] Check Pods Manifest.lock */ = {
+		B0F11BBA421691E0420CB1B2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PolyPaintPro-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B122D609AA5B98F7A04A530E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B87418A7607151D632433F69 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -448,51 +483,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		52CCCB30B5E512B0DC528513 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		65F6120B2BCCB58C639B6D9B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A05380CEED225BC4F472783E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		BEDB8F94201C0AF500DF9550 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -507,7 +497,22 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
 		};
-		EB3E675D5F88FF9AD52E4A74 /* [CP] Embed Pods Frameworks */ = {
+		E7B754A8632EF517C9916224 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EEBD1942F6594A0663A65656 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -519,7 +524,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -533,7 +538,7 @@
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
-				BE2C90DE202A39B7003C8F1E /* LoginService.swift in Sources */,
+				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
 				27080CF520264E1C0071FDC0 /* ChatViewController.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
@@ -693,7 +698,7 @@
 		};
 		274C036E200EF37A00DDAD8D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2573E96A9836DF73AFFC700 /* Pods-PolyPaintPro.debug.xcconfig */;
+			baseConfigurationReference = 5018986DF83B4B9BB3B17B98 /* Pods-PolyPaintPro.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -711,7 +716,7 @@
 		};
 		274C036F200EF37A00DDAD8D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91BBB0114198EB686FA7C1E9 /* Pods-PolyPaintPro.release.xcconfig */;
+			baseConfigurationReference = E10C1B5411A3AD25B25EAA1B /* Pods-PolyPaintPro.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -729,7 +734,7 @@
 		};
 		274C0371200EF37A00DDAD8D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2FCCC76FB5588830D12DF7B /* Pods-PolyPaintProTests.debug.xcconfig */;
+			baseConfigurationReference = 4D43B83FC6843C82E02F9864 /* Pods-PolyPaintProTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -747,7 +752,7 @@
 		};
 		274C0372200EF37A00DDAD8D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BB5F8E92C78E919999A453D /* Pods-PolyPaintProTests.release.xcconfig */;
+			baseConfigurationReference = 5BC84467F4E78A5C51D80C35 /* Pods-PolyPaintProTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -765,7 +770,7 @@
 		};
 		274C0374200EF37A00DDAD8D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7F91C9AB61E660A53B38D16 /* Pods-PolyPaintProUITests.debug.xcconfig */;
+			baseConfigurationReference = 3200A611B497DF6670D12C3E /* Pods-PolyPaintProUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -782,7 +787,7 @@
 		};
 		274C0375200EF37A00DDAD8D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 12E0DC10616F48CA16EF5CAC /* Pods-PolyPaintProUITests.release.xcconfig */;
+			baseConfigurationReference = 015D343163E1C763189C09CE /* Pods-PolyPaintProUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

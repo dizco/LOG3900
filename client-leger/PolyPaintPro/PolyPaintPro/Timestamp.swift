@@ -17,7 +17,6 @@ class Timestamp {
 
     func getCurrentTime() -> String {
         let currentTime = Date()
-        
         return self.dateFormatter.string(from: currentTime)
     }
 
