@@ -24,7 +24,7 @@ notifications:
   email: false
   slack: 
     rooms:
-      - polypaintpro:2k3JgBABp3cePFJyKkDIp42Q#travis-ci
+      - polypaintpro:2k3JgBABp3cePFJyKkDIp42Q#ci
     on_success: change # default: always
     on_failure: always # default: always
 
