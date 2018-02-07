@@ -167,7 +167,6 @@ namespace PolyPaintTests.Utilitaires
             {
             }
 
-
             public bool SendMessage(string data)
             {
                 return false;

@@ -49,19 +49,21 @@ namespace PolyPaint.Utilitaires
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
+            JObject incomingData;
             try
             {
-                JObject incomingData = JObject.Parse(e.Message);
-                string type = incomingData.GetValue("type").ToString();
-                if (type == JsonConstantStrings.TypeChatMessageIncomingValue)
-                    OnChatMessageReceived(e.Message);
-                else if (type == JsonConstantStrings.TypeEditorActionValue)
-                    OnEditorActionReceived(e.Message);
+                incomingData = JObject.Parse(e.Message);
             }
             catch
             {
                 // ignored
+                return;
             }
+            string type = incomingData.GetValue("type").ToString();
+            if (type == JsonConstantStrings.TypeChatMessageIncomingValue)
+                OnChatMessageReceived(e.Message);
+            else if (type == JsonConstantStrings.TypeEditorActionValue)
+                OnEditorActionReceived(e.Message);
         }
 
         private void OnClosed(object sender, EventArgs e)

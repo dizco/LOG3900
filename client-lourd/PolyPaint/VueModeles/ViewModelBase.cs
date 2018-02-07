@@ -1,5 +1,4 @@
 ﻿using System;
-using Newtonsoft.Json;
 using PolyPaint.Modeles.MessagingModels;
 using PolyPaint.Utilitaires;
 
