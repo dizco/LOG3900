@@ -12,6 +12,8 @@ target 'PolyPaintPro' do
   # Pods for PolyPaintPro
   pod 'SwiftLint'
   pod 'Starscream'
+  pod 'Alamofire'
+  pod 'PromiseKit'
 
   target 'PolyPaintProTests' do
       inherit! :search_paths
