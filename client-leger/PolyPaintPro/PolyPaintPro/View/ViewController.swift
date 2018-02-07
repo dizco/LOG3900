@@ -8,14 +8,29 @@ class ViewController: UIViewController, SocketManagerDelegate {
     var rowNumber: Int = 0
     //Labels
     @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var connexionErrorLabel: UILabel!
     //views
-    
     @IBOutlet var placeHolderView: UIView!
     @IBOutlet weak var connexionView: UIView?
     @IBOutlet weak var registerView: UIView?
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
+    @IBOutlet weak var selectorView: UIView!
+    @IBOutlet weak var serverInformationsView: UIView!
     //text fields
+        //server adress textfield
+    @IBOutlet weak var serverAdressField: UITextField!
+        //login text fields
+    @IBOutlet weak var loginUsernameField: UITextField!
+    @IBOutlet weak var loginPasswordField: UITextField!
+        //register view text fields
+    @IBOutlet weak var registerUsernameField: UITextField!
+    @IBOutlet weak var registerNameField: UITextField!
+    @IBOutlet weak var registerFirstNameField: UITextField!
+    @IBOutlet weak var registerPasswordField: UITextField!
+    @IBOutlet weak var registerPasswordValidationField: UITextField!
+    
+        //chat view text field
     @IBOutlet weak var messageField: UITextField!
     //Constraints
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the chat window
@@ -33,7 +48,7 @@ class ViewController: UIViewController, SocketManagerDelegate {
         let receivedMessage = messageField!.text
         let receivedAuthor = "Frederic"
         let receivedTimestamp = Timestamp()
-        let msgInfos = (receivedAuthor, receivedTimestamp.getCurrentTime())
+        let messageInfos = (receivedAuthor, receivedTimestamp.getCurrentTime())
 
 
         displayMessage(message: receivedMessage!, messageInfos: messageInfos)
@@ -69,7 +84,6 @@ class ViewController: UIViewController, SocketManagerDelegate {
         //the following code is to empty the text field once the message is sent
         messageField.text = ""
     }
-    
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
@@ -94,7 +108,24 @@ class ViewController: UIViewController, SocketManagerDelegate {
             registerView?.isHidden = false
         }
     }
-
+    @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
+        //attempt function to attempt to connect to the server modify the connexionState and errorMessage
+        //expecting 2 return values, a boolean for connexionState and a string for the error message, if there is an error
+        var connexionState = true
+        var errorMessage: String = " "
+        serverAdressEntered(connexionState: connexionState, errorMessage: errorMessage)
+    }
+    
+    func serverAdressEntered(connexionState: Bool,  errorMessage: String) {
+        if connexionState { //connection with the server established
+            connexionView?.isHidden = false
+            selectorView?.isHidden = false
+            serverInformationsView?.isHidden = true
+        }else { //error when trying to connect to the server
+            connexionErrorLabel?.isHidden = false
+            connexionErrorLabel?.text = "Erreur de connexion au serveur: " + errorMessage
+        }
+    }
     // MARK: - Memory Warning
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -104,7 +135,13 @@ class ViewController: UIViewController, SocketManagerDelegate {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerView?.isHidden = true //default view is login
+        //registerView?.isHidden = true //default view is login
+        //default values
+        connexionView?.isHidden = true
+        registerView?.isHidden = true
+        selectorView?.isHidden = true
+        connexionErrorLabel?.isHidden = true
+        
         self.hideKeyboard()
 
         observeKeyboardNotification()
@@ -121,7 +158,6 @@ class ViewController: UIViewController, SocketManagerDelegate {
                                                name: NSNotification.Name.UIKeyboardWillHide,
                                                object: nil)
     }
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
