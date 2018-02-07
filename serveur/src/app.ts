@@ -109,9 +109,9 @@ app.post("/register", userController.postRegister);
 /**
  * Drawings
  */
-app.post("/drawings", drawingsController.postDrawing);
-app.get("/drawings/:id([0-9]+)", drawingsController.getDrawing);
-app.put("/drawings/:id([0-9]+)", drawingsController.putDrawing);
+app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDrawing);
+app.get("/drawings/:id([0-9]+)", passportConfig.isAuthenticated, drawingsController.getDrawing);
+app.put("/drawings/:id([0-9]+)", passportConfig.isAuthenticated, drawingsController.putDrawing);
 
 /**
  * API examples routes.
