@@ -29,7 +29,7 @@ class ViewController: UIViewController, SocketManagerDelegate {
     @IBOutlet weak var registerFirstNameField: UITextField!
     @IBOutlet weak var registerPasswordField: UITextField!
     @IBOutlet weak var registerPasswordValidationField: UITextField!
-    
+
         //chat view text field
     @IBOutlet weak var messageField: UITextField!
     //Constraints
@@ -50,7 +50,6 @@ class ViewController: UIViewController, SocketManagerDelegate {
         let receivedTimestamp = Timestamp()
         let messageInfos = (receivedAuthor, receivedTimestamp.getCurrentTime())
 
-
         displayMessage(message: receivedMessage!, messageInfos: messageInfos)
         do {
             let outgoingMessage = OutgoingChatMessage(message: receivedMessage!)
@@ -60,7 +59,7 @@ class ViewController: UIViewController, SocketManagerDelegate {
             print(error)
         }
     }
-    
+
     //function to call to add a new message in the chat
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
 
@@ -115,13 +114,13 @@ class ViewController: UIViewController, SocketManagerDelegate {
         var errorMessage: String = " "
         serverAdressEntered(connexionState: connexionState, errorMessage: errorMessage)
     }
-    
-    func serverAdressEntered(connexionState: Bool,  errorMessage: String) {
+
+    func serverAdressEntered(connexionState: Bool, errorMessage: String) {
         if connexionState { //connection with the server established
             connexionView?.isHidden = false
             selectorView?.isHidden = false
             serverInformationsView?.isHidden = true
-        }else { //error when trying to connect to the server
+        } else { //error when trying to connect to the server
             connexionErrorLabel?.isHidden = false
             connexionErrorLabel?.text = "Erreur de connexion au serveur: " + errorMessage
         }
