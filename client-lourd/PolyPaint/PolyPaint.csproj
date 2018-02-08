@@ -125,6 +125,7 @@
     <Compile Include="Utilitaires\ISocketHandler.cs" />
     <Compile Include="Utilitaires\Messenger.cs" />
     <Compile Include="Utilitaires\RelayCommand.cs" />
+    <Compile Include="Utilitaires\RestHandler.cs" />
     <Compile Include="Utilitaires\SocketHandler.cs" />
     <Compile Include="VueModeles\ChatWindowViewModel.cs" />
     <Compile Include="VueModeles\LoginWindowViewModel.cs" />

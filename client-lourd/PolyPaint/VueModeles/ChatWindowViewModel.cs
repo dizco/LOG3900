@@ -23,8 +23,6 @@ namespace PolyPaint.VueModeles
         {
             Items = new ObservableCollection<ChatMessage>();
             BindingOperations.EnableCollectionSynchronization(Items, Lock);
-            StartMessenger("ws://localhost:3000");
-
             ChatMessageReceived += DisplayReceivedMessage;
 
             //Sending a message 
