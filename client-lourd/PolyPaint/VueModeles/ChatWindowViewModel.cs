@@ -6,6 +6,7 @@ using System.Windows.Data;
 using PolyPaint.Modeles;
 using PolyPaint.Modeles.MessagingModels;
 using PolyPaint.Utilitaires;
+using PolyPaint.Vues;
 
 namespace PolyPaint.VueModeles
 {
@@ -27,9 +28,15 @@ namespace PolyPaint.VueModeles
 
             //Sending a message 
             SendMessageCommand = new RelayCommand<object>(SendMessage);
+
+
+            ClosingCommand = new RelayCommand<CancelEventArgs>(args => args.Cancel = true);
+
         }
 
         public RelayCommand<object> SendMessageCommand { get; }
+
+        public RelayCommand<CancelEventArgs> ClosingCommand { get; private set; }
 
         //Contain the information of all message sent in the chatroom
         public ObservableCollection<ChatMessage> Items { get; set; }
@@ -45,6 +52,10 @@ namespace PolyPaint.VueModeles
             }
         }
 
+        private LoginWindowView loginWindow;
+
+        public ChatWindowView ChatWindow { get; private set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void SendMessage(object o)
@@ -59,6 +70,17 @@ namespace PolyPaint.VueModeles
                 PendingChatMessage = string.Empty;
             }
         }
+
+        public void CloseChatWindow()
+        {
+
+            loginWindow = new Vues.LoginWindowView();
+            ChatWindow = new Vues.ChatWindowView();
+
+            loginWindow.Close();
+            ChatWindow.Close();
+        }
+
 
         private void DisplayReceivedMessage(object sender, ChatMessageModel message)
         {

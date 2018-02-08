@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using PolyPaint.Modeles.MessagingModels;
 using PolyPaint.Utilitaires;
+using PolyPaint.Vues;
 
 namespace PolyPaint.VueModeles
 {
     internal class ViewModelBase
     {
         private static Messenger _messenger;
+
+        public LoginWindowView loginWindow { get; set; }
+
+        public ChatWindowView chatWindow { get; set; }
 
         protected static string DrawingRoomId
         {
