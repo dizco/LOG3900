@@ -17,42 +17,41 @@ protocol SocketManagerDelegate: class {
 
 class SocketManager {
     static let sharedInstance = SocketManager()
-    let socket = WebSocket(url: URL(string: "ws://localhost:5025/")!)
+    private var socket: WebSocket?
     weak var delegate: SocketManagerDelegate?
 
-    private init() {
-        socket.onConnect = {
-            self.delegate?.connect()
-        }
-
-        socket.onDisconnect = { error in
-            self.delegate?.disconnect(error: error)
-        }
-
-        socket.onData = { data in
-            self.delegate?.managerDidReceive(data: data)
-        }
-
-        socket.onText = { text in
-            let data = text.data(using: .utf16)!
-            self.delegate?.managerDidReceive(data: data)
-        }
-        socket.connect()
-    }
-
     func send(data: Data) {
-        if !socket.isConnected {
+        if !socket!.isConnected {
             print ("Connection is not established.")
             return
         }
-        socket.write(data: data)
+        socket!.write(data: data)
     }
 
-    func establishConnection() {
-        socket.connect()
+    func establishConnection(ipAddress: String = "localhost") {
+        let serverUrl = URL(string: "ws://" + ipAddress + ":5025/")
+        self.socket = WebSocket(url: serverUrl!)
+
+        self.socket!.onConnect = {
+            self.delegate?.connect()
+        }
+
+        self.socket!.onDisconnect = { error in
+            self.delegate?.disconnect(error: error)
+        }
+
+        self.socket!.onData = { data in
+            self.delegate?.managerDidReceive(data: data)
+        }
+
+        self.socket!.onText = { text in
+            let data = text.data(using: .utf16)!
+            self.delegate?.managerDidReceive(data: data)
+        }
+        socket!.connect()
     }
 
     func closeConnection() {
-        socket.disconnect()
+        socket!.disconnect()
     }
 }
