@@ -29,14 +29,14 @@
                 <!-- user info log in section -->
                 <StackPanel MinWidth="200" MinHeight="364">
                     <Label Content="Nom d'utilisateur" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox FontSize="18"/>
+                    <TextBox Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
 
                     <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
                     <PasswordBox FontSize="18"/>
                     <CheckBox Content="Se souvenir de moi" FontWeight="Bold" FontSize="18" BorderThickness="1"/>
 
                     <Label Content="Adresse IP du serveur" Margin="0,60,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox FontSize="18"/>
+                    <TextBox Text="{Binding ServerUri, Mode=TwoWay}" FontSize="18"/>
 
                 </StackPanel>
                 <Button x:Name="LogInButton" Command="{Binding LoginCommand}" Content="Connexion" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>

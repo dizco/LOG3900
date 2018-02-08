@@ -1,27 +1,30 @@
 ﻿using System.Windows;
+using PolyPaint.VueModeles;
+
 namespace PolyPaint.Vues
 {
     /// <summary>
-    /// Logique d'interaction pour LoginWindow1.xaml
+    ///     Logique d'interaction pour LoginWindow1.xaml
     /// </summary>
     public partial class LoginWindowView : Window
     {
         public LoginWindowView()
         {
             InitializeComponent();
-            DataContext = new VueModeles.LoginWindowViewModel();
+            DataContext = new LoginWindowViewModel();
+            (DataContext as LoginWindowViewModel).ClosingRequest += (sender, e) => Close();
         }
-        
+
         private void SwitchToSignup(object sender, RoutedEventArgs e)
         {
-            CanvasLogin.Visibility = System.Windows.Visibility.Hidden;
-            CanvasSignup.Visibility = System.Windows.Visibility.Visible;
+            CanvasLogin.Visibility = Visibility.Hidden;
+            CanvasSignup.Visibility = Visibility.Visible;
         }
 
         private void SwitchToLogin(object sender, RoutedEventArgs e)
         {
-            CanvasSignup.Visibility = System.Windows.Visibility.Hidden;
-            CanvasLogin.Visibility = System.Windows.Visibility.Visible;
+            CanvasSignup.Visibility = Visibility.Hidden;
+            CanvasLogin.Visibility = Visibility.Visible;
         }
     }
 }

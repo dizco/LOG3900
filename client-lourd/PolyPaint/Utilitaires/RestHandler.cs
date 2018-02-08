@@ -12,6 +12,19 @@ namespace PolyPaint.Utilitaires
         private static HttpClient _client = new HttpClient();
         public static string ServerUri { get; set; }
 
+        public static async Task<bool> ValidateServerUri()
+        {
+            try
+            {
+                await _client.GetAsync(ServerUri);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         public static async Task<HttpResponseMessage> LoginInfo(string username, string password)
         {
             Dictionary<string, string> userInfo = new Dictionary<string, string>
