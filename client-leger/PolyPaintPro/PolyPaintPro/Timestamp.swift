@@ -20,7 +20,9 @@ class Timestamp {
         return self.dateFormatter.string(from: currentTime)
     }
 
-    func getTimeFromServer() {
+    func getTimeFromServer(timestamp: Double) -> String {
         // TO-DO: Convert the timestamp given by the server
+        let serverTime = Date(timeIntervalSince1970: (timestamp / 1000))
+        return self.dateFormatter.string(from: serverTime)
     }
 }

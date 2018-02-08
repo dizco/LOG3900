@@ -253,7 +253,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="XXX.XXX.XX.XX" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jOq-70-Oen">
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="XXX.XXX.XX.XX" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jOq-70-Oen" userLabel="Server Address Field">
                                         <rect key="frame" x="177" y="141" width="414" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
@@ -303,8 +303,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="connexionErrorLabel" destination="V0N-UZ-dM9" id="fzF-Ud-o8W"/>
-                        <outlet property="connexionView" destination="pN9-Nq-uD7" id="gYE-Yb-5QW"/>
+                        <outlet property="connectionErrorLabel" destination="V0N-UZ-dM9" id="YF7-H2-hWZ"/>
+                        <outlet property="connectionView" destination="pN9-Nq-uD7" id="lPi-HF-TeB"/>
                         <outlet property="loginPasswordField" destination="aNh-Ge-zla" id="alg-rT-gIC"/>
                         <outlet property="loginUsernameField" destination="4Ms-Qf-HAN" id="saQ-Rn-ntU"/>
                         <outlet property="registerFirstNameField" destination="wZm-9M-CcY" id="9yb-RJ-EL8"/>
@@ -314,7 +314,7 @@
                         <outlet property="registerUsernameField" destination="S51-95-7jW" id="LMN-Kw-eZy"/>
                         <outlet property="registerView" destination="vS5-Kk-CAK" id="Fgb-Zc-txB"/>
                         <outlet property="selectorView" destination="ANd-Sf-gic" id="cWa-cx-P6R"/>
-                        <outlet property="serverAdressField" destination="jOq-70-Oen" id="N4H-NW-rKc"/>
+                        <outlet property="serverAddressField" destination="jOq-70-Oen" id="PSf-u8-4Ab"/>
                         <outlet property="serverInformationsView" destination="2Qd-P2-Ql6" id="2YT-N9-jr5"/>
                         <outlet property="welcomeLabel" destination="Ver-3n-bU7" id="yL7-x5-ZcQ"/>
                     </connections>

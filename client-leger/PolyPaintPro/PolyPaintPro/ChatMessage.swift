@@ -33,8 +33,7 @@ struct IncomingChatMessage: ChatMessage, Codable {
     let room: IncomingRoom
     let message: String
     let author: Author
-    // let timestamp: Int
-    // server isn't sending us timestamp yet
+    let timestamp: Double
 }
 
 struct OutgoingRoom: Codable {
