@@ -8,18 +8,18 @@ class ViewController: UIViewController, SocketManagerDelegate {
     var rowNumber: Int = 0
     //Labels
     @IBOutlet weak var welcomeLabel: UILabel!
-    @IBOutlet weak var connexionErrorLabel: UILabel!
+    @IBOutlet weak var connectionErrorLabel: UILabel!
     //views
     @IBOutlet var placeHolderView: UIView!
-    @IBOutlet weak var connexionView: UIView?
+    @IBOutlet weak var connectionView: UIView?
     @IBOutlet weak var registerView: UIView?
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
     @IBOutlet weak var selectorView: UIView!
     @IBOutlet weak var serverInformationsView: UIView!
     //text fields
-        //server adress textfield
-    @IBOutlet weak var serverAdressField: UITextField!
+        //server address textfield
+    @IBOutlet weak var serverAddressField: UITextField!
         //login text fields
     @IBOutlet weak var loginUsernameField: UITextField!
     @IBOutlet weak var loginPasswordField: UITextField!
@@ -83,6 +83,7 @@ class ViewController: UIViewController, SocketManagerDelegate {
         //the following code is to empty the text field once the message is sent
         messageField.text = ""
     }
+
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
@@ -99,30 +100,30 @@ class ViewController: UIViewController, SocketManagerDelegate {
     @IBAction func loginToggle(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             welcomeLabel.text = "Bienvenue! Entrez vos informations de connexion PolyPaintPro"
-            connexionView?.isHidden = false
+            connectionView?.isHidden = false
             registerView?.isHidden = true
         } else if sender.selectedSegmentIndex == 1 {
-            welcomeLabel.text = "Bienvenue! Entrez vos informations pour creer un compte PolyPaint Pro"
-            connexionView?.isHidden = true
+            welcomeLabel.text = "Bienvenue! Entrez vos informations pour creer un compte PolyPaintPro"
+            connectionView?.isHidden = true
             registerView?.isHidden = false
         }
     }
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
-        //attempt function to attempt to connect to the server modify the connexionState and errorMessage
-        //expecting 2 return values, a boolean for connexionState and a string for the error message, if there is an error
-        var connexionState = true
+        //attempt function to attempt to connect to the server modify the connectionState and errorMessage
+        //expecting 2 return values, a boolean for connectionState and a string for the error message, if there is an error
+        var connectionState = true
         var errorMessage: String = " "
-        serverAdressEntered(connexionState: connexionState, errorMessage: errorMessage)
+        serverAddressEntered(connectionState: connectionState, errorMessage: errorMessage)
     }
 
-    func serverAdressEntered(connexionState: Bool, errorMessage: String) {
-        if connexionState { //connection with the server established
-            connexionView?.isHidden = false
+    func serverAddressEntered(connectionState: Bool, errorMessage: String) {
+        if connectionState { //connection with the server established
+            connectionView?.isHidden = false
             selectorView?.isHidden = false
             serverInformationsView?.isHidden = true
         } else { //error when trying to connect to the server
-            connexionErrorLabel?.isHidden = false
-            connexionErrorLabel?.text = "Erreur de connexion au serveur: " + errorMessage
+            connectionErrorLabel?.isHidden = false
+            connectionErrorLabel?.text = "Erreur de connexion au serveur: " + errorMessage
         }
     }
     // MARK: - Memory Warning
@@ -136,11 +137,11 @@ class ViewController: UIViewController, SocketManagerDelegate {
         super.viewDidLoad()
         //registerView?.isHidden = true //default view is login
         //default values
-        connexionView?.isHidden = true
+        connectionView?.isHidden = true
         registerView?.isHidden = true
         selectorView?.isHidden = true
-        connexionErrorLabel?.isHidden = true
-        
+        connectionErrorLabel?.isHidden = true
+
         self.hideKeyboard()
 
         observeKeyboardNotification()
@@ -197,7 +198,9 @@ class ViewController: UIViewController, SocketManagerDelegate {
             let decoder = JSONDecoder()
             let incomingMessage = try decoder.decode(IncomingChatMessage.self, from: data)
             print(incomingMessage.message)
-            let messageInfos = (incomingMessage.author.name, "hh:mm")
+            let convertTime = Timestamp()
+            let timestamp = convertTime.getTimeFromServer(timestamp: incomingMessage.timestamp)
+            let messageInfos = (incomingMessage.author.name, timestamp)
             displayMessage(message: incomingMessage.message, messageInfos: messageInfos)
         } catch let error {
             print(error)
