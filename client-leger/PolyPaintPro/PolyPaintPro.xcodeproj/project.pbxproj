@@ -18,6 +18,7 @@
 		274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */; };
 		277EE1A0201280D900545404 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 277EE19F201280D900545404 /* assets */; };
 		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
+		27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */; };
 		5E0C204D04A5E5DF4256E5F0 /* Pods_PolyPaintProUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */; };
 		6472425BEFE90D447BE1EFCB /* Pods_PolyPaintPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FBB77A965C181A69459178 /* Pods_PolyPaintPro.framework */; };
 		AD71483325AD99B253B242F5 /* Pods_PolyPaintProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */; };
@@ -65,6 +66,7 @@
 		274C036A200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		277EE19F201280D900545404 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3200A611B497DF6670D12C3E /* Pods-PolyPaintProUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4D43B83FC6843C82E02F9864 /* Pods-PolyPaintProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -121,7 +123,6 @@
 		27080CF6202650250071FDC0 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				274C034A200EF37900DDAD8D /* ViewController.swift */,
 				27080CFC2026528E0071FDC0 /* ChatView.swift */,
 			);
 			path = View;
@@ -131,6 +132,8 @@
 			isa = PBXGroup;
 			children = (
 				27080CF420264E1C0071FDC0 /* ChatViewController.swift */,
+				27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */,
+				274C034A200EF37900DDAD8D /* ViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -139,6 +142,10 @@
 			isa = PBXGroup;
 			children = (
 				27080CF9202650CD0071FDC0 /* Extensions.swift */,
+				BE426A1E202102CD00FD1C50 /* SocketManager.swift */,
+				BE426A2020215E3C00FD1C50 /* ChatMessage.swift */,
+				BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */,
+				BE2C90D92028AEB0003C8F1E /* Timestamp.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -185,10 +192,6 @@
 				274C034F200EF37900DDAD8D /* Assets.xcassets */,
 				274C0354200EF37900DDAD8D /* Info.plist */,
 				278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */,
-				BE426A1E202102CD00FD1C50 /* SocketManager.swift */,
-				BE426A2020215E3C00FD1C50 /* ChatMessage.swift */,
-				BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */,
-				BE2C90D92028AEB0003C8F1E /* Timestamp.swift */,
 			);
 			path = PolyPaintPro;
 			sourceTree = "<group>";
@@ -542,6 +545,7 @@
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
 				27080CF520264E1C0071FDC0 /* ChatViewController.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
+				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
 				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
