@@ -22,6 +22,9 @@ namespace PolyPaint.VueModeles
         public event PropertyChangedEventHandler PropertyChanged;
         private Editeur editeur = new Editeur();
 
+        public LoginWindowView loginWindow { get; set; }
+        public ChatWindowView chatWindow { get; set; }
+        
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
         public DrawingAttributes AttributsDessin { get; set; } = new DrawingAttributes();
 
