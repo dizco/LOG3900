@@ -1,4 +1,3 @@
-import * as errorHandler from "errorhandler";
 import * as WebSocket from "ws";
 import { IncomingMessage } from "http";
 import { WebSocketDecorator } from "./decorators/websocket-decorator";
@@ -7,8 +6,11 @@ import { SocketStrategyContext } from "./strategies/sockets/socket-strategy-cont
 import { WebSocketServer } from "./websockets/websocket-server";
 import { TryParseJSON } from "./helpers/json";
 import { NextFunction, Request, Response } from "express";
+import { app, mongoStore /*, sessionParser*/ } from "./app";
+import { VerifyClientCallbackAsync, VerifyClientCallbackSync } from "ws";
+import { default as User } from "./models/User";
+const cookie = require("cookie");
 
-const app = require("./app");
 
 /**
  * Error Handler. Provides full stack in dev and test
@@ -30,17 +32,41 @@ const server = app.listen(app.get("port"), () => {
     console.log("  Press CTRL-C to stop\n");
 });
 
-const wss = new WebSocketServer(server);
+let identifiedUser: any = undefined; //TODO: NOT store the user like this...
+
+const verifyClient: VerifyClientCallbackSync | VerifyClientCallbackAsync = (info, done) => {
+    const tS = cookie.parse((<any>info.req).headers.cookie)["connect.sid"];
+    const sessionID = tS.split(".")[0].substr(4); //TODO: Identify why the cookie has 4 extra characters at the beginning...
+    mongoStore.get(sessionID, function(err, session) {
+        User.findById(session.passport.user, (err, user) => {
+            identifiedUser = user;
+            if (user === undefined) {
+                console.log("Could not verify the client using sessions. WebSockets will not be accessible.");
+            }
+            done(user !== undefined);
+        });
+    });
+
+    //TODO: Remove following comments if sessions work out fine
+    /*sessionParser(<any>info.req, <any>{}, () => {
+        console.log("Session is parsed!", (<any>info.req).user);
+
+        // We can reject the connection by returning false to done(). For example,
+        // reject here if user is unknown.
+        done((<any>info.req).user);
+    });*/
+};
+
+const wss = new WebSocketServer(server, verifyClient);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
     wss.join("test", wsDecorator); //TODO: Remove
 
-    //TODO: Use the user in the session to insert him inside relevant rooms
-
     console.log("\nConnection by socket on server with ip", req.connection.remoteAddress);
 
     ws.on("message", (message: any) => {
+        wsDecorator.user = identifiedUser;
         const parsedMessage = TryParseJSON(message);
         if (!parsedMessage) {
             console.log("Impossible to parse message", message);

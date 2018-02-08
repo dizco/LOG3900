@@ -4,6 +4,7 @@ import * as http from "http";
 import * as https from "https";
 import { WebSocketDecorator } from "../decorators/websocket-decorator";
 import { Room } from "./room";
+import { VerifyClientCallbackSync, VerifyClientCallbackAsync } from "ws";
 
 /*
 Extends the default WebSocket.Server to add Rooms support
@@ -11,9 +12,10 @@ Extends the default WebSocket.Server to add Rooms support
 export class WebSocketServer extends WebSocket.Server {
     private rooms: Room[];
 
-    public constructor(server: http.Server | https.Server) {
+    public constructor(server: http.Server | https.Server, verifyClient?: VerifyClientCallbackSync | VerifyClientCallbackAsync) {
         const options: ServerOptions = {
-            server: server
+            server: server,
+            verifyClient: verifyClient,
         };
         super(options);
 
