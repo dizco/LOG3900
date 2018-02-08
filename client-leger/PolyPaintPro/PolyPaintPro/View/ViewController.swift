@@ -50,13 +50,15 @@ class ViewController: UIViewController, SocketManagerDelegate {
         let receivedTimestamp = Timestamp()
         let messageInfos = (receivedAuthor, receivedTimestamp.getCurrentTime())
 
-        displayMessage(message: receivedMessage!, messageInfos: messageInfos)
-        do {
-            let outgoingMessage = OutgoingChatMessage(message: receivedMessage!)
-            let encodedData = try JSONEncoder().encode(outgoingMessage)
-            SocketManager.sharedInstance.send(data: encodedData)
-        } catch let error {
-            print(error)
+        if !receivedMessage!.isEmpty {
+            displayMessage(message: receivedMessage!, messageInfos: messageInfos)
+            do {
+                let outgoingMessage = OutgoingChatMessage(message: receivedMessage!)
+                let encodedData = try JSONEncoder().encode(outgoingMessage)
+                SocketManager.sharedInstance.send(data: encodedData)
+            } catch let error {
+                print(error)
+            }
         }
     }
 
