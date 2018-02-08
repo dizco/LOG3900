@@ -1,8 +1,10 @@
 ﻿using PolyPaint.Modeles;
 using PolyPaint.Utilitaires;
 using PolyPaint.Vues;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -19,10 +21,6 @@ namespace PolyPaint.VueModeles
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private Editeur editeur = new Editeur();
-
-        private Vues.LoginWindowView loginWindow;
-
-        public ChatWindowView ChatWindow { get; private set; }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
         public DrawingAttributes AttributsDessin { get; set; } = new DrawingAttributes();
@@ -153,15 +151,28 @@ namespace PolyPaint.VueModeles
             AttributsDessin.Height = (editeur.PointeSelectionnee == "horizontale") ? 1 : editeur.TailleTrait;
         }
 
+       
         //Show login window
         public void ShowLoginWindow(object o)
         {
-            if (loginWindow == null)
+            if ( loginWindow == null)
             {
                 loginWindow = new Vues.LoginWindowView();
                 loginWindow.Show();
+                loginWindow.Closed += new EventHandler(AddItemView_Closed);
+            }
+
+            else
+            {
+                loginWindow.Activate();
             }
         }
+
+        private void AddItemView_Closed(object sender, EventArgs e)
+        {
+            loginWindow = null;
+        }
+
 
         /// <summary>
         ///     Handler for InkCanvas events
@@ -183,5 +194,6 @@ namespace PolyPaint.VueModeles
         {
             Messenger?.SendEditorActionNewStroke(stroke);
         }
+
     }
 }

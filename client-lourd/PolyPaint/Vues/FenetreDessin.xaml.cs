@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -64,6 +65,12 @@ namespace PolyPaint
 
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
+        }
+
+        //Shutdown all the app when the user press on the red cross
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
