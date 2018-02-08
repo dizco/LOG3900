@@ -10,9 +10,7 @@ namespace PolyPaint.VueModeles
     {
         private static Messenger _messenger;
 
-        public LoginWindowView loginWindow { get; set; }
 
-        public ChatWindowView chatWindow { get; set; }
 
         protected static string DrawingRoomId
         {

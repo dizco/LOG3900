@@ -1,9 +1,7 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Input;
 using PolyPaint.VueModeles;
 
 namespace PolyPaint.Vues
@@ -31,12 +29,6 @@ namespace PolyPaint.Vues
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-
-            base.OnClosing(e);
         }
     }
 }
