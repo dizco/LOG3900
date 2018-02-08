@@ -13,6 +13,8 @@ export class WebSocketDecorator {
     private disconnectsInterval: NodeJS.Timer;
     private isAlive: boolean;
 
+    public user: any;
+
     public constructor(wss: WebSocketServer, ws: WebSocket) {
         this.wss = wss;
         this.ws = ws;

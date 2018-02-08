@@ -16,7 +16,7 @@ export class SocketStrategyChatMessage implements SocketStrategy {
      * @param {WebSocketDecorator} wsDecorator
      */
     public execute(wsDecorator: WebSocketDecorator): void {
-        const decorator = new ChatMessageDecorator(this.clientMessage);
+        const decorator = new ChatMessageDecorator(this.clientMessage, wsDecorator.user);
         decorator.decorate(wsDecorator.getWs())
             .then((message: ServerChatMessage) => {
                 const success = wsDecorator.broadcast.send(JSON.stringify(message)); //to(message.room.id.toString())

@@ -1,5 +1,5 @@
 import * as request from "supertest";
-import * as app from "../src/app";
+import { app } from "../src/app";
 
 //TODO: Unskip this test if the route is implemented
 

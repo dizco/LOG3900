@@ -52,15 +52,17 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
-app.use(session({
+const mongoStore = new MongoStore({
+    url: mongoUrl,
+    autoReconnect: true
+});
+const sessionParser = session({
     resave: true,
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET,
-    store: new MongoStore({
-        url: mongoUrl,
-        autoReconnect: true
-    })
-}));
+    store: mongoStore,
+});
+app.use(sessionParser);
 app.use(passport.initialize());
 app.use(passport.session());
 //app.use(flash());
@@ -133,4 +135,4 @@ app.get("/ping", pingController.getPing);
     res.redirect(req.session.returnTo || "/");
 });*/
 
-module.exports = app;
+export { app, sessionParser, mongoStore };

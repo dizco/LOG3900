@@ -4,9 +4,11 @@ import { ServerChatMessage } from "../models/sockets/server-chat-message";
 
 export class ChatMessageDecorator {
     private clientMessage: ClientChatMessage;
+    private user: any;
 
-    public constructor(clientMessage: ClientChatMessage) {
+    public constructor(clientMessage: ClientChatMessage, user: any) {
         this.clientMessage = clientMessage;
+        this.user = user;
     }
 
     public decorate(ws: WebSocket): Promise<ServerChatMessage> {
@@ -22,7 +24,7 @@ export class ChatMessageDecorator {
             author: {
                 id: 134,
                 username: "dizco",
-                name: "Gabriel",
+                name: this.user.email,
                 url: "https://example.com/users/dizco",
                 avatar_url: "https://example.com/users/dizco/avatar.jpg",
             },
