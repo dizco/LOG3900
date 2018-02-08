@@ -113,19 +113,18 @@ class ViewController: UIViewController, SocketManagerDelegate {
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
         //attempt function to attempt to connect to the server modify the connectionState and errorMessage
         //expecting 2 return values, a boolean for connectionState and a string for the error message, if there is an error
-        var connectionState = true
-        var errorMessage: String = " "
-        serverAddressEntered(connectionState: connectionState, errorMessage: errorMessage)
+        let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
+        serverAddressEntered(connectionState: isTrueIP)
     }
 
-    func serverAddressEntered(connectionState: Bool, errorMessage: String) {
+    func serverAddressEntered(connectionState: Bool) {
         if connectionState { //connection with the server established
             connectionView?.isHidden = false
             selectorView?.isHidden = false
             serverInformationsView?.isHidden = true
         } else { //error when trying to connect to the server
             connectionErrorLabel?.isHidden = false
-            connectionErrorLabel?.text = "Erreur de connexion au serveur: " + errorMessage
+            connectionErrorLabel?.text = ServerLookup.sharedInstance.error
         }
     }
     // MARK: - Memory Warning
@@ -179,6 +178,7 @@ class ViewController: UIViewController, SocketManagerDelegate {
         super.viewDidAppear(animated)
 
         // TO-MOVE: Connect with socket only in ChatViewController
+        // TO-DO: Establish connection ONLY after the LOGIN POST
         SocketManager.sharedInstance.establishConnection()
     }
 
