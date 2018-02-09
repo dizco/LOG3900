@@ -6,7 +6,8 @@ namespace PolyPaint.Utilitaires
 {
     public static class RestHandler
     {
-        private static readonly HttpClient Client = new HttpClient();
+        public static HttpClientHandler Handler = new HttpClientHandler();
+        private static readonly HttpClient Client = new HttpClient(Handler);
         public static string ServerUri { get; set; }
 
         public static async Task<bool> ValidateServerUri()
