@@ -60,7 +60,7 @@
                     <TextBox FontSize="18"/>
 
                     <Label Content="Nom d'utilisateur" FontWeight="Bold" FontSize="18"/>
-                    <TextBox FontSize="18"/>
+                    <TextBox Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
 
                     <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
                     <PasswordBox FontSize="18"/>
@@ -69,7 +69,7 @@
                     <PasswordBox FontSize="18"/>
 
                     <Label Content="Adresse IP du serveur" Margin="0,10,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox Margin="0,0,0,10" FontSize="18"/>
+                    <TextBox Text="{Binding ServerUri, Mode=TwoWay}" Margin="0,0,0,10" FontSize="18"/>
 
                 </StackPanel>
                 <Button x:Name="SignUpButton" Command="{Binding SignupCommand}" Content="Créer un compte" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>

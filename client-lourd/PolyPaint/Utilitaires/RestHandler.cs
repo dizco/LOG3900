@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 
 namespace PolyPaint.Utilitaires
 {
     public static class RestHandler
     {
-        private static HttpClient _client = new HttpClient();
+        private static readonly HttpClient Client = new HttpClient();
         public static string ServerUri { get; set; }
 
         public static async Task<bool> ValidateServerUri()
         {
             try
             {
-                await _client.GetAsync(ServerUri);
+                await Client.GetAsync(ServerUri);
             }
             catch
             {
@@ -33,7 +30,17 @@ namespace PolyPaint.Utilitaires
                 {"password", password}
             };
 
-            return await _client.PostAsync(ServerUri + "/login", new FormUrlEncodedContent(userInfo));
+            return await Client.PostAsync(ServerUri + "/login", new FormUrlEncodedContent(userInfo));
+        }
+
+        public static async Task<HttpResponseMessage> RegisterInfo(string username, string password)
+        {
+            Dictionary<string, string> userInfo = new Dictionary<string, string>
+            {
+                {"email", username},
+                {"password", password}
+            };
+            return await Client.PostAsync(ServerUri + "/register", new FormUrlEncodedContent(userInfo));
         }
     }
 }
