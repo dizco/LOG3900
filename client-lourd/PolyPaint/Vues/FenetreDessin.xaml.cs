@@ -67,7 +67,7 @@ namespace PolyPaint
         {
         }
 
-        //Shutdown all the app when the user press on the red cross
+        //Shutdown all the app when the user close the main window
         protected override void OnClosing(CancelEventArgs e)
         {
             Application.Current.Shutdown();

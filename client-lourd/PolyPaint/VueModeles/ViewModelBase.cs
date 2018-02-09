@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using PolyPaint.Modeles.MessagingModels;
 using PolyPaint.Utilitaires;
-using PolyPaint.Vues;
 
 namespace PolyPaint.VueModeles
 {
