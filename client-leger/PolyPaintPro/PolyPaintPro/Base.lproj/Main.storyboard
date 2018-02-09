@@ -62,7 +62,6 @@
                                         <state key="normal" title="Creer un compte"/>
                                         <connections>
                                             <action selector="registerButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yc4-3j-4kt"/>
-                                            <segue destination="0Cu-TT-IAo" kind="show" identifier="welcome" id="k2n-AI-xw4"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Sd-t2-NxC">
@@ -326,6 +325,7 @@
                         <outlet property="serverAddressField" destination="jOq-70-Oen" id="PSf-u8-4Ab"/>
                         <outlet property="serverInformationsView" destination="2Qd-P2-Ql6" id="2YT-N9-jr5"/>
                         <outlet property="welcomeLabel" destination="Ver-3n-bU7" id="yL7-x5-ZcQ"/>
+                        <segue destination="0Cu-TT-IAo" kind="show" identifier="welcome" id="HCx-mM-CNV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

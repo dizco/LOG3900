@@ -14,6 +14,7 @@ class AccountManager {
     var username: String?
     var usernameError: String?
     var passwordError: String?
+    var registerError: String?
     let passwordMinLength = 8
 
     func saveUsername(username: String) -> Bool {
@@ -52,6 +53,19 @@ class AccountManager {
             return false
         } else {
             self.passwordError = ""
+            return true
+        }
+    }
+    
+    func validateRegister(username: String, password: String) -> Bool {
+        if !validateUsername(username: username) {
+            self.registerError = self.usernameError
+            return false
+        } else if !validatePassword(password: password) {
+            self.registerError = self.passwordError
+            return false
+        } else {
+            self.registerError = ""
             return true
         }
     }
