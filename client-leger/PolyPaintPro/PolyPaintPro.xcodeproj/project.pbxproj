@@ -26,6 +26,8 @@
 		BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */; };
 		BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A1E202102CD00FD1C50 /* SocketManager.swift */; };
 		BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A2020215E3C00FD1C50 /* ChatMessage.swift */; };
+		BE4B72A3202CE72F004205E8 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4B72A2202CE72F004205E8 /* Login.swift */; };
+		BE4B72A5202CE9A1004205E8 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4B72A4202CE9A1004205E8 /* AccountManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +78,8 @@
 		BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerLookup.swift; sourceTree = "<group>"; };
 		BE426A1E202102CD00FD1C50 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		BE426A2020215E3C00FD1C50 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		BE4B72A2202CE72F004205E8 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		BE4B72A4202CE9A1004205E8 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		E10C1B5411A3AD25B25EAA1B /* Pods-PolyPaintPro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -188,8 +192,8 @@
 				27080CF72026508F0071FDC0 /* Controller */,
 				27080CF6202650250071FDC0 /* View */,
 				274C0348200EF37900DDAD8D /* AppDelegate.swift */,
-				274C034C200EF37900DDAD8D /* Main.storyboard */,
 				274C034F200EF37900DDAD8D /* Assets.xcassets */,
+				274C034C200EF37900DDAD8D /* Main.storyboard */,
 				274C0354200EF37900DDAD8D /* Info.plist */,
 				278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */,
 			);
@@ -538,6 +542,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				274C034B200EF37900DDAD8D /* ViewController.swift in Sources */,
+				BE4B72A5202CE9A1004205E8 /* AccountManager.swift in Sources */,
+				BE4B72A3202CE72F004205E8 /* Login.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
