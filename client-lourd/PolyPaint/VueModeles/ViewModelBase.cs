@@ -10,8 +10,6 @@ namespace PolyPaint.VueModeles
     {
         private static Messenger _messenger;
 
-
-
         protected static string DrawingRoomId
         {
             get => Messenger.DrawingRoomId;

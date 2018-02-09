@@ -27,9 +27,6 @@ namespace PolyPaint.VueModeles
 
             //Sending a message 
             SendMessageCommand = new RelayCommand<object>(SendMessage);
-
-
-            ClosingCommand = new RelayCommand<CancelEventArgs>(args => args.Cancel = true);
         }
 
         public RelayCommand<object> SendMessageCommand { get; }
