@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Utilitaires;
@@ -50,31 +52,32 @@ namespace PolyPaint.VueModeles
         private async Task TryLoginRequest()
         {
             RestHandler.ServerUri = "http://" + ServerUri;
-            
+
             // TODO: Alert user of invalid URI
             if (!await RestHandler.ValidateServerUri())
                 return;
 
             HttpResponseMessage response = await RestHandler.LoginInfo(UserEmail, Password);
 
-            JObject responseJson;
-            try
-            {
-                responseJson = JObject.Parse(await response.Content.ReadAsStringAsync());
-            }
-            catch (JsonReaderException e)
-            {
-                // TODO: Handle exception
-                return;
-            }
-            if (responseJson.GetValue("status").ToString() == "success")
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 StartMessenger("ws://" + ServerUri);
                 OpenChatWindow();
             }
             else
             {
-                //TODO: Alert user of error
+                JObject responseJson;
+                try
+                {
+                    responseJson = JObject.Parse(await response.Content.ReadAsStringAsync());
+                }
+                catch (JsonReaderException e)
+                {
+                    // TODO: Handle exception
+                    return;
+                }
+                MessageBox.Show(responseJson.GetValue("error").ToString(), "Erreur", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
             }
         }
 
