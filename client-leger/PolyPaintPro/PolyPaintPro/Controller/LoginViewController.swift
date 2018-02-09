@@ -29,7 +29,13 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var registerFirstNameField: UITextField!
     @IBOutlet weak var registerPasswordField: UITextField!
     @IBOutlet weak var registerPasswordValidationField: UITextField!
-    
+    //error messages text field
+    @IBOutlet weak var connectionErrorTextField: UILabel!
+    //Buttons
+    @IBAction func connexionButton(_ sender: Any) {
+    }
+    @IBAction func registerButton(_ sender: Any) {
+    }
     @IBAction func loginToggle(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             welcomeLabel.text = "Bienvenue! Entrez vos informations de connexion PolyPaintPro"
