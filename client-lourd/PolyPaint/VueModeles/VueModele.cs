@@ -158,11 +158,11 @@ namespace PolyPaint.VueModeles
         //Show login window
         public void ShowLoginWindow(object o)
         {
-            if ( loginWindow == null)
+            if (loginWindow == null)
             {
                 loginWindow = new Vues.LoginWindowView();
                 loginWindow.Show();
-                loginWindow.Closed += new EventHandler(AddItemView_Closed);
+                loginWindow.Closed += new EventHandler(AddItemViewClosed);
             }
 
             else
@@ -171,11 +171,10 @@ namespace PolyPaint.VueModeles
             }
         }
 
-        private void AddItemView_Closed(object sender, EventArgs e)
+        private void AddItemViewClosed(object sender, EventArgs e)
         {
             loginWindow = null;
         }
-
 
         /// <summary>
         ///     Handler for InkCanvas events
@@ -197,6 +196,5 @@ namespace PolyPaint.VueModeles
         {
             Messenger?.SendEditorActionNewStroke(stroke);
         }
-
     }
 }
