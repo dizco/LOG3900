@@ -6,6 +6,8 @@
 //  Copyright © 2018 Les Pods c'est pour les lunchs. All rights reserved.
 //
 import UIKit
+import Alamofire
+import PromiseKit
 
 class LoginViewController: UIViewController {
     //Labels
@@ -30,10 +32,40 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var registerPasswordField: UITextField!
     @IBOutlet weak var registerPasswordValidationField: UITextField!
     //error messages text field
-    @IBOutlet weak var connectionErrorTextField: UILabel!
+    @IBOutlet weak var loginErrorTextField: UILabel!
+    @IBOutlet weak var registerErrorTextField: UILabel!
     //Buttons
-    @IBAction func connexionButton(_ sender: Any) {
+    @IBAction func connexionButton(_ sender: UIButton) {
+        if AccountManager.sharedInstance.validateUsername(username: loginUsernameField!.text!) {
+            loginErrorTextField?.isHidden = true
+            loginToServer(sender: sender)
+        } else {
+            loginErrorTextField?.text = AccountManager.sharedInstance.usernameError
+            loginErrorTextField?.isHidden = false
+        }
     }
+
+    private func loginToServer(sender: UIButton) {
+        print("try to login")
+        let loginManager = Login(username: loginUsernameField!.text!, password: loginPasswordField!.text!)
+        firstly {
+            loginManager.connectToServer()
+        }.then { response -> Void in
+            if response == true {
+                self.loginErrorTextField?.isHidden = true
+                // TO-MOVE: Connect with socket only in ChatViewController
+                // TO-DO: Establish connection ONLY after the LOGIN POST
+                SocketManager.sharedInstance.establishConnection(ipAddress: ServerLookup.sharedInstance.address)
+                self.performSegue(withIdentifier: "welcome", sender: sender)
+            } else {
+                self.loginErrorTextField?.text = "Votre courriel et/ou votre mot de passe est invalide."
+                self.loginErrorTextField?.isHidden = false
+            }
+        }.catch { error in
+                print(error)
+        }
+    }
+
     @IBAction func registerButton(_ sender: Any) {
     }
     @IBAction func loginToggle(_ sender: UISegmentedControl) {
@@ -79,6 +111,7 @@ class LoginViewController: UIViewController {
         connectionErrorLabel?.isHidden = true
         self.hideKeyboard()
         observeKeyboardNotification()
+        loginErrorTextField?.isHidden = true
     }
     fileprivate func  observeKeyboardNotification() {
         NotificationCenter.default.addObserver(self,
@@ -106,8 +139,5 @@ class LoginViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // TO-MOVE: Connect with socket only in ChatViewController
-        // TO-DO: Establish connection ONLY after the LOGIN POST
-        SocketManager.sharedInstance.establishConnection()
     }
 }

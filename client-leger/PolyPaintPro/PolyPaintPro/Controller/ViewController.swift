@@ -123,10 +123,6 @@ class ViewController: UIViewController, SocketManagerDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        // TO-MOVE: Connect with socket only in ChatViewController
-        // TO-DO: Establish connection ONLY after the LOGIN POST
-        SocketManager.sharedInstance.establishConnection()
     }
 
     // MARK: - SocketManagerDelegate

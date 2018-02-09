@@ -62,7 +62,7 @@
                                         <state key="normal" title="Creer un compte"/>
                                         <connections>
                                             <action selector="registerButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yc4-3j-4kt"/>
-                                            <segue destination="0Cu-TT-IAo" kind="show" id="k2n-AI-xw4"/>
+                                            <segue destination="0Cu-TT-IAo" kind="show" identifier="welcome" id="k2n-AI-xw4"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Sd-t2-NxC">
@@ -147,7 +147,6 @@
                                         <state key="normal" title="Connexion"/>
                                         <connections>
                                             <action selector="connexionButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lxB-GF-vEC"/>
-                                            <segue destination="0Cu-TT-IAo" kind="show" id="JBO-OQ-BK7"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Memoriser mes informations de connexion" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UmX-Dl-1g8">
@@ -313,8 +312,8 @@
                     </view>
                     <connections>
                         <outlet property="connectionErrorLabel" destination="V0N-UZ-dM9" id="YF7-H2-hWZ"/>
-                        <outlet property="connectionErrorTextField" destination="Pja-Oy-l6u" id="Yyf-vS-xs6"/>
                         <outlet property="connectionView" destination="pN9-Nq-uD7" id="lPi-HF-TeB"/>
+                        <outlet property="loginErrorTextField" destination="Pja-Oy-l6u" id="KP3-oc-c9w"/>
                         <outlet property="loginPasswordField" destination="aNh-Ge-zla" id="alg-rT-gIC"/>
                         <outlet property="loginUsernameField" destination="4Ms-Qf-HAN" id="saQ-Rn-ntU"/>
                         <outlet property="registerFirstNameField" destination="wZm-9M-CcY" id="9yb-RJ-EL8"/>
@@ -509,7 +508,6 @@
         <image name="icon" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="JBO-OQ-BK7"/>
-        <segue reference="wG9-9o-pkE"/>
+        <segue reference="ZMN-EK-Gd2"/>
     </inferredMetricsTieBreakers>
 </document>
