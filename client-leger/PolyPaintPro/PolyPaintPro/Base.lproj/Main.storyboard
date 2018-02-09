@@ -73,24 +73,21 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nom d'utilisateur" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S51-95-7jW">
-                                        <rect key="frame" x="190" y="81" width="390" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="390" id="hbH-7x-eTJ"/>
-                                        </constraints>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mot de passe" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1pD-A3-lTO">
-                                        <rect key="frame" x="190" y="249" width="390" height="30"/>
+                                        <rect key="frame" x="190" y="155" width="390" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="390" id="Ri4-Vl-r7l"/>
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkL-nd-0zf">
+                                        <rect key="frame" x="190" y="298" width="390" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirmation du mot de passe" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eJJ-Le-jmz">
                                         <rect key="frame" x="190" y="304" width="390" height="30"/>
                                         <constraints>
@@ -109,23 +106,44 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nom d'utilisateur" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S51-95-7jW">
+                                        <rect key="frame" x="190" y="77" width="390" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="390" id="hbH-7x-eTJ"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.89411764709999997" green="0.94117647059999998" blue="0.94901960780000005" alpha="0.49954516269999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="wZm-9M-CcY" firstAttribute="leading" secondItem="1pD-A3-lTO" secondAttribute="leading" id="0vd-a1-Z59"/>
+                                    <constraint firstItem="S51-95-7jW" firstAttribute="centerX" secondItem="vS5-Kk-CAK" secondAttribute="centerX" id="Ayx-iE-bOu"/>
                                     <constraint firstItem="eJJ-Le-jmz" firstAttribute="top" secondItem="1pD-A3-lTO" secondAttribute="bottom" constant="25" id="EUc-lV-h5N"/>
+                                    <constraint firstItem="1pD-A3-lTO" firstAttribute="centerX" secondItem="vS5-Kk-CAK" secondAttribute="centerX" id="MMc-GD-jnc"/>
                                     <constraint firstItem="0nn-0Y-105" firstAttribute="top" secondItem="eJJ-Le-jmz" secondAttribute="bottom" constant="34" id="SfT-mo-YBw"/>
+                                    <constraint firstItem="0nn-0Y-105" firstAttribute="top" secondItem="zkL-nd-0zf" secondAttribute="bottom" constant="49" id="Wg0-88-DAJ"/>
                                     <constraint firstItem="1pD-A3-lTO" firstAttribute="centerX" secondItem="0nn-0Y-105" secondAttribute="centerX" constant="1.5" id="XjG-n3-9y0"/>
+                                    <constraint firstItem="zkL-nd-0zf" firstAttribute="centerX" secondItem="vS5-Kk-CAK" secondAttribute="centerX" id="aCD-e8-fya"/>
                                     <constraint firstItem="wZm-9M-CcY" firstAttribute="top" secondItem="2Sd-t2-NxC" secondAttribute="bottom" constant="25" id="bDF-Qp-5i9"/>
                                     <constraint firstItem="wZm-9M-CcY" firstAttribute="leading" secondItem="S51-95-7jW" secondAttribute="leading" id="bNb-AU-hby"/>
-                                    <constraint firstItem="1pD-A3-lTO" firstAttribute="top" secondItem="S51-95-7jW" secondAttribute="bottom" constant="138" id="dK8-GM-CNe"/>
+                                    <constraint firstItem="1pD-A3-lTO" firstAttribute="top" secondItem="S51-95-7jW" secondAttribute="bottom" constant="48" id="dK8-GM-CNe"/>
                                     <constraint firstAttribute="bottom" secondItem="0nn-0Y-105" secondAttribute="bottom" constant="25" id="dOg-ZZ-W1Q"/>
+                                    <constraint firstItem="zkL-nd-0zf" firstAttribute="top" secondItem="1pD-A3-lTO" secondAttribute="bottom" constant="113" id="lq1-0U-zuc"/>
                                     <constraint firstItem="1pD-A3-lTO" firstAttribute="top" secondItem="wZm-9M-CcY" secondAttribute="bottom" constant="29" id="m7T-8A-RSE"/>
                                     <constraint firstItem="wZm-9M-CcY" firstAttribute="centerX" secondItem="vS5-Kk-CAK" secondAttribute="centerX" id="oRb-hO-x0Z"/>
                                     <constraint firstItem="wZm-9M-CcY" firstAttribute="leading" secondItem="eJJ-Le-jmz" secondAttribute="leading" id="v2t-Ee-Si0"/>
                                     <constraint firstItem="2Sd-t2-NxC" firstAttribute="centerX" secondItem="0nn-0Y-105" secondAttribute="centerX" id="wzI-jj-hVg"/>
                                     <constraint firstAttribute="height" constant="437" id="x80-3y-dst"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="2Sd-t2-NxC"/>
+                                        <exclude reference="eJJ-Le-jmz"/>
+                                        <exclude reference="wZm-9M-CcY"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pN9-Nq-uD7">
                                 <rect key="frame" x="128" y="264" width="769" height="437"/>
@@ -315,6 +333,7 @@
                         <outlet property="loginErrorTextField" destination="Pja-Oy-l6u" id="KP3-oc-c9w"/>
                         <outlet property="loginPasswordField" destination="aNh-Ge-zla" id="alg-rT-gIC"/>
                         <outlet property="loginUsernameField" destination="4Ms-Qf-HAN" id="saQ-Rn-ntU"/>
+                        <outlet property="registerErrorTextField" destination="zkL-nd-0zf" id="IfB-l2-XKC"/>
                         <outlet property="registerFirstNameField" destination="wZm-9M-CcY" id="9yb-RJ-EL8"/>
                         <outlet property="registerNameField" destination="2Sd-t2-NxC" id="t30-jf-bAd"/>
                         <outlet property="registerPasswordField" destination="1pD-A3-lTO" id="4BD-Qy-3Tw"/>

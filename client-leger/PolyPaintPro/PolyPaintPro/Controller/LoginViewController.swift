@@ -27,13 +27,13 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginPasswordField: UITextField!
     //register view text fields
     @IBOutlet weak var registerUsernameField: UITextField!
-    @IBOutlet weak var registerNameField: UITextField! // @fred: REMOVE PLS
-    @IBOutlet weak var registerFirstNameField: UITextField! // @fred: REMOVE PLS
+    @IBOutlet weak var registerNameField: UITextField! // @fred: "uninstalled from the view" not visible anymore
+    @IBOutlet weak var registerFirstNameField: UITextField! // @fred: "uninstalled from the view" not visible anymore
     @IBOutlet weak var registerPasswordField: UITextField!
-    @IBOutlet weak var registerPasswordValidationField: UITextField! // @fred: REMOVE PLS
-    //error messages text field
+    @IBOutlet weak var registerPasswordValidationField: UITextField! // @fred: "uninstalled from the view" not visible anymore
+    //error messages labels
     @IBOutlet weak var loginErrorTextField: UILabel!
-    @IBOutlet weak var registerErrorTextField: UILabel! //@fred: Add please
+    @IBOutlet weak var registerErrorTextField: UILabel! //@fred: connected to view
     //Buttons
     @IBAction func connexionButton(_ sender: UIButton) {
         let username = loginUsernameField!.text!
