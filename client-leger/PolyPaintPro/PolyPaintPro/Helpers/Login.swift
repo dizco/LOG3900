@@ -20,7 +20,7 @@ class Login {
         self.password = password
         self.error = ""
     }
-    
+
     func connectToServer() -> Promise<Bool> {
         if ServerLookup.sharedInstance.address.isEmpty {
             error = "No server address found."
