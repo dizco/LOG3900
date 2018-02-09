@@ -25,7 +25,7 @@ class ViewController: UIViewController, SocketManagerDelegate {
     @IBOutlet weak var chatTableView: UITableView!
     @IBAction func sendButton(_ sender: UIButton) {
         let receivedMessage = messageField!.text
-        let receivedAuthor = "Frederic"
+        let receivedAuthor = AccountManager.sharedInstance.username!
         let receivedTimestamp = Timestamp()
         let messageInfos = (receivedAuthor, receivedTimestamp.getCurrentTime())
 
@@ -142,7 +142,6 @@ class ViewController: UIViewController, SocketManagerDelegate {
             print("Data received.")
             let decoder = JSONDecoder()
             let incomingMessage = try decoder.decode(IncomingChatMessage.self, from: data)
-            print(incomingMessage.message)
             let convertTime = Timestamp()
             let timestamp = convertTime.getTimeFromServer(timestamp: incomingMessage.timestamp)
             let messageInfos = (incomingMessage.author.name, timestamp)

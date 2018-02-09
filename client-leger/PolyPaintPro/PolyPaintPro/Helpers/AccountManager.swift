@@ -56,7 +56,7 @@ class AccountManager {
             return true
         }
     }
-    
+
     func validateRegister(username: String, password: String) -> Bool {
         if !validateUsername(username: username) {
             self.registerError = self.usernameError
@@ -69,23 +69,15 @@ class AccountManager {
             return true
         }
     }
-    
-    // THIS SHIT AIN'T WORKING. COOKIE MONSTER ATE EVERYTHING
-    /*
+
     func saveCookies(response: DataResponse<Any>) {
+        let jar = HTTPCookieStorage.shared
         let headerFields = response.response?.allHeaderFields as! [String: String]
         let url = response.response?.url
         let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url!)
-        var cookieArray = [[HTTPCookiePropertyKey: Any]]()
-        for cookie in cookies {
-            cookieArray.append(cookie.properties!)
-        }
-        UserDefaults.standard.set(cookieArray, forKey: "savedCookies")
-        UserDefaults.standard.synchronize()
-        print("fuck me")
-        print(cookieArray)
+        jar.setCookies(cookies, for: url, mainDocumentURL: url)
     }
-    
+
     func loadCookies() {
         guard let cookieArray = UserDefaults.standard.array(forKey: "savedCookies") as? [[HTTPCookiePropertyKey: Any]]
             else { return }
@@ -94,5 +86,5 @@ class AccountManager {
                 HTTPCookieStorage.shared.setCookie(cookie)
             }
         }
-    }*/
+    }
 }
