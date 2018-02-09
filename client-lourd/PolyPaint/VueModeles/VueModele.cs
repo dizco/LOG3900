@@ -4,7 +4,6 @@ using PolyPaint.Vues;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -153,7 +152,6 @@ namespace PolyPaint.VueModeles
             AttributsDessin.Width = (editeur.PointeSelectionnee == "verticale") ? 1 : editeur.TailleTrait;
             AttributsDessin.Height = (editeur.PointeSelectionnee == "horizontale") ? 1 : editeur.TailleTrait;
         }
-
        
         //Show login window
         public void ShowLoginWindow(object o)
@@ -164,7 +162,6 @@ namespace PolyPaint.VueModeles
                 loginWindow.Show();
                 loginWindow.Closed += new EventHandler(AddItemViewClosed);
             }
-
             else
             {
                 loginWindow.Activate();

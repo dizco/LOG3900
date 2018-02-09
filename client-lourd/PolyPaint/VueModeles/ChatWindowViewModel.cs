@@ -47,7 +47,6 @@ namespace PolyPaint.VueModeles
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void SendMessage(object o)
@@ -62,7 +61,6 @@ namespace PolyPaint.VueModeles
                 PendingChatMessage = string.Empty;
             }
         }
-
 
         private void DisplayReceivedMessage(object sender, ChatMessageModel message)
         {
