@@ -27,13 +27,13 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginPasswordField: UITextField!
     //register view text fields
     @IBOutlet weak var registerUsernameField: UITextField!
-    @IBOutlet weak var registerNameField: UITextField! // REMOVE PLS
-    @IBOutlet weak var registerFirstNameField: UITextField! // REMOVE PLS
+    @IBOutlet weak var registerNameField: UITextField! // @fred: REMOVE PLS
+    @IBOutlet weak var registerFirstNameField: UITextField! // @fred: REMOVE PLS
     @IBOutlet weak var registerPasswordField: UITextField!
-    @IBOutlet weak var registerPasswordValidationField: UITextField! // REMOVE PLS
+    @IBOutlet weak var registerPasswordValidationField: UITextField! // @fred: REMOVE PLS
     //error messages text field
     @IBOutlet weak var loginErrorTextField: UILabel!
-    @IBOutlet weak var registerErrorTextField: UILabel!
+    @IBOutlet weak var registerErrorTextField: UILabel! //@fred: Add please
     //Buttons
     @IBAction func connexionButton(_ sender: UIButton) {
         let username = loginUsernameField!.text!
@@ -73,14 +73,14 @@ class LoginViewController: UIViewController {
         let username = registerUsernameField!.text!
         let password = registerPasswordField!.text!
         if AccountManager.sharedInstance.validateRegister(username: username, password: password) {
-            loginErrorTextField?.isHidden = true
+            registerErrorTextField?.isHidden = true
             registerAccount(sender: sender, username: username, password: password)
         } else {
-            loginErrorTextField?.text = AccountManager.sharedInstance.registerError
-            loginErrorTextField?.isHidden = false
+            registerErrorTextField?.text = AccountManager.sharedInstance.registerError
+            registerErrorTextField?.isHidden = false
         }
     }
-    
+
     private func registerAccount(sender: UIButton, username: String, password: String) {
         print("try to register")
         let registerManager = Register(username: username, password: password)
@@ -92,14 +92,14 @@ class LoginViewController: UIViewController {
                     // Account creation successful: auto login immediately
                     self.loginToServer(sender: sender, username: username, password: password)
                 } else {
-                    self.loginErrorTextField?.text = "Une erreur inconnue est survenue lors de l'enregistrement."
-                    self.loginErrorTextField?.isHidden = false
+                    self.registerErrorTextField?.text = "Une erreur inconnue est survenue lors de l'enregistrement."
+                    self.registerErrorTextField?.isHidden = false
                 }
             }.catch { error in
                 print(error)
         }
     }
-    
+
     @IBAction func loginToggle(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             welcomeLabel.text = "Bienvenue! Entrez vos informations de connexion PolyPaintPro"
@@ -113,7 +113,6 @@ class LoginViewController: UIViewController {
     }
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
         //attempt function to attempt to connect to the server modify the connectionState and errorMessage
-        //expecting 2 return values, a boolean for connectionState and a string for the error message, if there is an error
         let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
         serverAddressEntered(connectionState: isTrueIP)
     }
@@ -144,6 +143,7 @@ class LoginViewController: UIViewController {
         self.hideKeyboard()
         observeKeyboardNotification()
         loginErrorTextField?.isHidden = true
+        registerErrorTextField?.isHidden = true
     }
     fileprivate func  observeKeyboardNotification() {
         NotificationCenter.default.addObserver(self,
