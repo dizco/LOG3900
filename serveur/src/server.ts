@@ -6,11 +6,8 @@ import { SocketStrategyContext } from "./strategies/sockets/socket-strategy-cont
 import { WebSocketServer } from "./websockets/websocket-server";
 import { TryParseJSON } from "./helpers/json";
 import { NextFunction, Request, Response } from "express";
-import { app, mongoStore /*, sessionParser*/ } from "./app";
-import { VerifyClientCallbackAsync, VerifyClientCallbackSync } from "ws";
-import { default as User } from "./models/User";
-const cookie = require("cookie");
-
+import { app } from "./app";
+import { verifyClient, getUser } from "./websockets/verify-client";
 
 /**
  * Error Handler. Provides full stack in dev and test
@@ -32,31 +29,6 @@ const server = app.listen(app.get("port"), () => {
     console.log("  Press CTRL-C to stop\n");
 });
 
-let identifiedUser: any = undefined; //TODO: NOT store the user like this...
-
-const verifyClient: VerifyClientCallbackSync | VerifyClientCallbackAsync = (info, done) => {
-    const tS = cookie.parse((<any>info.req).headers.cookie)["connect.sid"];
-    const sessionID = tS.split(".")[0].substr(4); //TODO: Identify why the cookie has 4 extra characters at the beginning...
-    mongoStore.get(sessionID, function(err, session) {
-        User.findById(session.passport.user, (err, user) => {
-            identifiedUser = user;
-            if (user === undefined) {
-                console.log("Could not verify the client using sessions. WebSockets will not be accessible.");
-            }
-            done(user !== undefined);
-        });
-    });
-
-    //TODO: Remove following comments if sessions work out fine
-    /*sessionParser(<any>info.req, <any>{}, () => {
-        console.log("Session is parsed!", (<any>info.req).user);
-
-        // We can reject the connection by returning false to done(). For example,
-        // reject here if user is unknown.
-        done((<any>info.req).user);
-    });*/
-};
-
 const wss = new WebSocketServer(server, verifyClient);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
@@ -66,7 +38,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     console.log("\nConnection by socket on server with ip", req.connection.remoteAddress);
 
     ws.on("message", (message: any) => {
-        wsDecorator.user = identifiedUser;
+        wsDecorator.user = getUser();
         const parsedMessage = TryParseJSON(message);
         if (!parsedMessage) {
             console.log("Impossible to parse message", message);
