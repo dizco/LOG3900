@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class AccountManager {
     static let sharedInstance = AccountManager()
@@ -54,4 +55,30 @@ class AccountManager {
             return true
         }
     }
+    
+    // THIS SHIT AIN'T WORKING. COOKIE MONSTER ATE EVERYTHING
+    /*
+    func saveCookies(response: DataResponse<Any>) {
+        let headerFields = response.response?.allHeaderFields as! [String: String]
+        let url = response.response?.url
+        let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url!)
+        var cookieArray = [[HTTPCookiePropertyKey: Any]]()
+        for cookie in cookies {
+            cookieArray.append(cookie.properties!)
+        }
+        UserDefaults.standard.set(cookieArray, forKey: "savedCookies")
+        UserDefaults.standard.synchronize()
+        print("fuck me")
+        print(cookieArray)
+    }
+    
+    func loadCookies() {
+        guard let cookieArray = UserDefaults.standard.array(forKey: "savedCookies") as? [[HTTPCookiePropertyKey: Any]]
+            else { return }
+        for cookieProperties in cookieArray {
+            if let cookie = HTTPCookie(properties: cookieProperties) {
+                HTTPCookieStorage.shared.setCookie(cookie)
+            }
+        }
+    }*/
 }

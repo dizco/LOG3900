@@ -42,6 +42,7 @@ class Login {
                                         let serverResponse = try decoder.decode(ServerResponse.self, from: response.data!)
                                         if serverResponse.status == "success" {
                                             fulfill(true)
+                                            //AccountManager.sharedInstance.saveCookies(response: response)
                                             return
                                         } else {
                                             fulfill(false)
