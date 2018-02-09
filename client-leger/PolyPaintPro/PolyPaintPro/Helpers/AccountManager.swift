@@ -10,7 +10,6 @@ import Foundation
 
 class AccountManager {
     static let sharedInstance = AccountManager()
-    //var username: String?
     var username: String?
     var usernameError: String?
     var passwordError: String?
@@ -25,7 +24,7 @@ class AccountManager {
             return true
         }
     }
-    
+
     func validateUsername(username: String) -> Bool {
         let validRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
 
@@ -46,6 +45,9 @@ class AccountManager {
     func validatePassword(password: String) -> Bool {
         if password.isEmpty {
             self.passwordError = "Un mot de passe est requis."
+            return false
+        } else if password.count < self.passwordMinLength {
+            self.passwordError = "Un mot de passe doit avoir un minimum de 8 caractères."
             return false
         } else {
             self.passwordError = ""

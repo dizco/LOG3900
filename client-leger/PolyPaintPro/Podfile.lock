@@ -4,6 +4,9 @@ PODS:
     - PromiseKit/Foundation (= 4.5.1)
     - PromiseKit/QuartzCore (= 4.5.1)
     - PromiseKit/UIKit (= 4.5.1)
+  - PromiseKit/Alamofire (4.5.1):
+    - Alamofire (~> 4.0)
+    - PromiseKit/CorePromise
   - PromiseKit/CorePromise (4.5.1)
   - PromiseKit/Foundation (4.5.1):
     - PromiseKit/CorePromise
@@ -17,6 +20,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - PromiseKit
+  - PromiseKit/Alamofire
   - Starscream
   - SwiftLint
 
@@ -26,6 +30,6 @@ SPEC CHECKSUMS:
   Starscream: f5da93fe6984c77b694366bf7299b7dc63a76f26
   SwiftLint: 2aa21b96c8d13396a051bc1cb659d2ce1e0075b0
 
-PODFILE CHECKSUM: 4dfdf26bfba12e4f9a6793b5d0ff2fe3230bc021
+PODFILE CHECKSUM: 3d65d795a8916f9ae836f10fe8e1eca347ee9a42
 
 COCOAPODS: 1.4.0

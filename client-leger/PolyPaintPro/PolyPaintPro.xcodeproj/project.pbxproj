@@ -22,12 +22,12 @@
 		5E0C204D04A5E5DF4256E5F0 /* Pods_PolyPaintProUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */; };
 		6472425BEFE90D447BE1EFCB /* Pods_PolyPaintPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FBB77A965C181A69459178 /* Pods_PolyPaintPro.framework */; };
 		AD71483325AD99B253B242F5 /* Pods_PolyPaintProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */; };
+		BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE23A188202D2DC800342007 /* AccountManager.swift */; };
+		BE23A18B202D2DC800342007 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE23A189202D2DC800342007 /* Login.swift */; };
 		BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90D92028AEB0003C8F1E /* Timestamp.swift */; };
 		BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */; };
 		BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A1E202102CD00FD1C50 /* SocketManager.swift */; };
 		BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A2020215E3C00FD1C50 /* ChatMessage.swift */; };
-		BE4B72A3202CE72F004205E8 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4B72A2202CE72F004205E8 /* Login.swift */; };
-		BE4B72A5202CE9A1004205E8 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4B72A4202CE9A1004205E8 /* AccountManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +74,8 @@
 		4D43B83FC6843C82E02F9864 /* Pods-PolyPaintProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5018986DF83B4B9BB3B17B98 /* Pods-PolyPaintPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.debug.xcconfig"; sourceTree = "<group>"; };
 		5BC84467F4E78A5C51D80C35 /* Pods-PolyPaintProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.release.xcconfig"; sourceTree = "<group>"; };
+		BE23A188202D2DC800342007 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		BE23A189202D2DC800342007 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		BE2C90D92028AEB0003C8F1E /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
 		BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerLookup.swift; sourceTree = "<group>"; };
 		BE426A1E202102CD00FD1C50 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
@@ -145,6 +147,8 @@
 		27080CF8202650AD0071FDC0 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BE23A188202D2DC800342007 /* AccountManager.swift */,
+				BE23A189202D2DC800342007 /* Login.swift */,
 				27080CF9202650CD0071FDC0 /* Extensions.swift */,
 				BE426A1E202102CD00FD1C50 /* SocketManager.swift */,
 				BE426A2020215E3C00FD1C50 /* ChatMessage.swift */,
@@ -171,6 +175,7 @@
 				277EE19F201280D900545404 /* assets */,
 				0BDCAE7C2CBB68FB08E581FC /* Pods */,
 				966431B930ED8200740432E3 /* Frameworks */,
+				BE23A183202D2BF300342007 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -226,6 +231,15 @@
 				286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BE23A183202D2BF300342007 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				BE4B72A4202CE9A1004205E8 /* AccountManager.swift */,
+				BE4B72A2202CE72F004205E8 /* Login.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -542,13 +556,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				274C034B200EF37900DDAD8D /* ViewController.swift in Sources */,
-				BE4B72A5202CE9A1004205E8 /* AccountManager.swift in Sources */,
-				BE4B72A3202CE72F004205E8 /* Login.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
+				BE23A18B202D2DC800342007 /* Login.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
+				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
 				27080CF520264E1C0071FDC0 /* ChatViewController.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
 				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
