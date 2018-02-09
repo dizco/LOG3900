@@ -23,6 +23,7 @@ namespace PolyPaint.VueModeles
             SignupCommand = new RelayCommand<object>(Signup);
             ShowErrorMessageCommand = new RelayCommand<string>(ShowMessageBox);
             _cookies = new CookieContainer();
+            RestHandler.Handler.CookieContainer = _cookies;
         }
 
         public string UserEmail { get; set; }
