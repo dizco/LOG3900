@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Constants;
@@ -11,17 +12,18 @@ namespace PolyPaint.Utilitaires
     public class SocketHandler : ISocketHandler
     {
         private readonly WebSocket _ws;
-        public bool IsConnected { get; private set; }
 
-        public SocketHandler(string uri)
+        public SocketHandler(string uri, List<KeyValuePair<string, string>> cookies)
         {
-            _ws = new WebSocket(uri);
+            _ws = new WebSocket(uri, string.Empty, cookies);
             _ws.Opened += OnOpened;
             _ws.Error += OnError;
             _ws.Closed += OnClosed;
             _ws.MessageReceived += OnMessageReceived;
             ConnectSocket();
         }
+
+        public bool IsConnected { get; private set; }
 
         public void ConnectSocket()
         {

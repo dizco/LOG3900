@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using PolyPaint.Modeles.MessagingModels;
 using PolyPaint.Utilitaires;
 
@@ -35,11 +36,11 @@ namespace PolyPaint.VueModeles
         /// </summary>
         /// <param name="uri">Server URI</param>
         /// <returns>Singleton instance of Messenger</returns>
-        protected static Messenger StartMessenger(string uri)
+        protected static Messenger StartMessenger(string uri, List<KeyValuePair<string, string>> cookies)
         {
             if (_messenger == null)
             {
-                SocketHandler socketHandler = new SocketHandler(uri);
+                SocketHandler socketHandler = new SocketHandler(uri, cookies);
                 socketHandler.ChatMessageReceived += OnChatMessageReceived;
                 socketHandler.EditorActionReceived += OnEditorActionReceived;
                 _messenger = new Messenger(socketHandler);
