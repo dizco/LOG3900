@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var registerPasswordValidationField: UITextField! // @fred: "uninstalled from the view" not visible anymore
     //error messages labels
     @IBOutlet weak var loginErrorTextField: UILabel!
-    @IBOutlet weak var registerErrorTextField: UILabel! //@fred: connected to view
+    @IBOutlet weak var registerErrorTextField: UILabel!
     //Buttons
     @IBAction func connexionButton(_ sender: UIButton) {
         let username = loginUsernameField!.text!

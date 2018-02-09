@@ -29,8 +29,19 @@ class SocketManager {
     }
 
     func establishConnection(ipAddress: String = "localhost") {
-        let serverUrl = URL(string: "ws://" + ipAddress + ":5025/")
-        self.socket = WebSocket(url: serverUrl!)
+        let serverUrl = URL(string: "ws://" + ipAddress + ":5025/")!
+
+        // Retrieve the COOKIES!
+        let jar = HTTPCookieStorage.shared
+        let cookies = jar.cookies
+        jar.setCookies(cookies!, for: serverUrl, mainDocumentURL: serverUrl)
+        print("\(cookies!)")
+        let cookieInfo = "connect.sid=" + cookies![0].value
+
+        // Send the COOKIES!
+        var request = URLRequest(url: serverUrl)
+        request.setValue(cookieInfo, forHTTPHeaderField: "cookie")
+        self.socket = WebSocket(request: request)
 
         self.socket!.onConnect = {
             self.delegate?.connect()
