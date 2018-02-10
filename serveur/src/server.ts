@@ -7,7 +7,7 @@ import { WebSocketServer } from "./websockets/websocket-server";
 import { TryParseJSON } from "./helpers/json";
 import { NextFunction, Request, Response } from "express";
 import { app } from "./app";
-import { verifyClient, getUser } from "./websockets/verify-client";
+import { verifyClient } from "./websockets/verify-client";
 
 /**
  * Error Handler. Provides full stack in dev and test
@@ -38,7 +38,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     console.log("\nConnection by socket on server with ip", req.connection.remoteAddress);
 
     ws.on("message", (message: any) => {
-        wsDecorator.user = getUser();
+        wsDecorator.user = (<any>req).identifiedUser;
         const parsedMessage = TryParseJSON(message);
         if (!parsedMessage) {
             console.log("Impossible to parse message", message);

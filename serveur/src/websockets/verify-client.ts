@@ -3,12 +3,6 @@ import { mongoStore /*, sessionParser*/ } from "../app";
 import { default as User } from "../models/User";
 const cookie = require("cookie");
 
-let identifiedUser: any = undefined; //TODO: NOT store the user like this...
-
-export function getUser(): any {
-    return identifiedUser;
-}
-
 export const verifyClient: VerifyClientCallbackSync | VerifyClientCallbackAsync = (info, done) => {
     let connectSid: string = "";
     try {
@@ -34,7 +28,7 @@ export const verifyClient: VerifyClientCallbackSync | VerifyClientCallbackAsync 
             return;
         }
         User.findById(session.passport.user, (err, user) => {
-            identifiedUser = user;
+            (<any>info.req).identifiedUser = user;
             if (user === undefined) {
                 console.log("Could not verify the client using sessions. WebSockets will not be accessible.");
             }
