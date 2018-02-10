@@ -22,8 +22,7 @@ extension UIViewController {
     }
 }
 
-//extension used to add
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+extension ChatView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titleHeading.count
     }

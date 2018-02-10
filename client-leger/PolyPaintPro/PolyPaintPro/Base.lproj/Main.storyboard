@@ -363,7 +363,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mzz-8E-ANo">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mzz-8E-ANo" customClass="ChatView" customModule="PolyPaintPro" customModuleProvider="target">
                                 <rect key="frame" x="1024" y="64" width="256" height="704"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E8N-VT-aFV">
@@ -379,7 +379,7 @@
                                         <rect key="frame" x="203" y="666" width="36" height="30"/>
                                         <state key="normal" title="Send"/>
                                         <connections>
-                                            <action selector="sendButton:" destination="KwV-uG-opW" eventType="touchUpInside" id="TeI-8W-kLI"/>
+                                            <action selector="sendButton:" destination="Mzz-8E-ANo" eventType="touchUpInside" id="ql9-2S-WbX"/>
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xxs-OJ-gov">
@@ -415,8 +415,8 @@
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
-                                            <outlet property="dataSource" destination="KwV-uG-opW" id="H6Y-Ek-VYn"/>
-                                            <outlet property="delegate" destination="KwV-uG-opW" id="eUS-Zj-c1b"/>
+                                            <outlet property="dataSource" destination="Mzz-8E-ANo" id="7HC-yK-Blm"/>
+                                            <outlet property="delegate" destination="Mzz-8E-ANo" id="1kv-XB-Bab"/>
                                         </connections>
                                     </tableView>
                                 </subviews>
@@ -431,6 +431,10 @@
                                     <constraint firstItem="tUd-83-uKE" firstAttribute="top" secondItem="xxs-OJ-gov" secondAttribute="bottom" constant="8" symbolic="YES" id="odf-ON-k59"/>
                                     <constraint firstAttribute="trailing" secondItem="xxs-OJ-gov" secondAttribute="trailing" id="z7H-0Y-yrV"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="chatTableView" destination="xxs-OJ-gov" id="sxc-eI-8mN"/>
+                                    <outlet property="messageField" destination="E8N-VT-aFV" id="pp6-Hd-LtK"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -448,7 +452,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="chatTableView" destination="xxs-OJ-gov" id="69Y-Wa-TCn"/>
                         <outlet property="chatView" destination="Mzz-8E-ANo" id="jdH-7R-W1h"/>
                         <outlet property="chatViewConstraint" destination="prm-p3-d70" id="97j-7r-CVh"/>
                         <outlet property="drawView" destination="Cys-yA-DLW" id="Qbu-Bx-1Je"/>

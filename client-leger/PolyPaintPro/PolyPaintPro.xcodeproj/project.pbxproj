@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		27080CF520264E1C0071FDC0 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CF420264E1C0071FDC0 /* ChatViewController.swift */; };
 		27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CF9202650CD0071FDC0 /* Extensions.swift */; };
 		27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CFC2026528E0071FDC0 /* ChatView.swift */; };
 		274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0348200EF37900DDAD8D /* AppDelegate.swift */; };
@@ -52,7 +51,6 @@
 		015D343163E1C763189C09CE /* Pods-PolyPaintProUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.release.xcconfig"; sourceTree = "<group>"; };
 		03FBB77A965C181A69459178 /* Pods_PolyPaintPro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintPro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		27080CF420264E1C0071FDC0 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		27080CF9202650CD0071FDC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		27080CFC2026528E0071FDC0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		274C0345200EF37900DDAD8D /* PolyPaintPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyPaintPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,7 +137,6 @@
 		27080CF72026508F0071FDC0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				27080CF420264E1C0071FDC0 /* ChatViewController.swift */,
 				27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */,
 				274C034A200EF37900DDAD8D /* ViewController.swift */,
 			);
@@ -567,7 +564,6 @@
 				BE23A18B202D2DC800342007 /* Login.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
-				27080CF520264E1C0071FDC0 /* ChatViewController.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
 				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
 				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,
