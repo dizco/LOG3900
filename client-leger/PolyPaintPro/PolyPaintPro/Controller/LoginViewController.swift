@@ -36,8 +36,10 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var registerErrorTextField: UILabel!
     //Buttons
     @IBAction func connexionButton(_ sender: UIButton) {
-        let username = loginUsernameField!.text!
-        let password = loginPasswordField!.text!
+        //let username = loginUsernameField!.text!
+        //let password = loginPasswordField!.text!
+        let username = "me@me.ca"
+        let password = "hahahaha"
         if AccountManager.sharedInstance.validateUsername(username: username) {
             loginErrorTextField?.isHidden = true
             loginToServer(sender: sender, username: username, password: password)
@@ -72,6 +74,7 @@ class LoginViewController: UIViewController {
         // need a registration error button
         let username = registerUsernameField!.text!
         let password = registerPasswordField!.text!
+    
         if AccountManager.sharedInstance.validateRegister(username: username, password: password) {
             registerErrorTextField?.isHidden = true
             registerAccount(sender: sender, username: username, password: password)
@@ -113,6 +116,7 @@ class LoginViewController: UIViewController {
     }
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
         //attempt function to attempt to connect to the server modify the connectionState and errorMessage
+        serverAddressField!.text = "192.168.50.9"
         let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
         serverAddressEntered(connectionState: isTrueIP)
     }
