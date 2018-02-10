@@ -43,28 +43,44 @@ class ViewController: UIViewController, SocketManagerDelegate {
 
     //function to call to add a new message in the chat
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
-
+        
         //the following code is to add messages to the chat view
         let indexPath = IndexPath.init(row: rowNumber, section: 0)
-
+        
         //the following code formats the message for display
         let messageInfo = messageInfos.author + " " + messageInfos.timestamp
         authorNameMutableString = NSMutableAttributedString(string: messageInfo,
-                    attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
+                                                            attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
         authorNameMutableString.addAttribute(NSAttributedStringKey.font,
                                              value: UIFont.boldSystemFont(ofSize: 15),
                                              range: NSRange(location: 0, length: messageInfos.author.count) )
-
+        
         titleHeading.insert(messageInfo, at: rowNumber)
         subtitleHeading.insert(message, at: rowNumber)
         chatTableView.estimatedRowHeight = 55
+        updateContentInsetForTableView(tableView: chatTableView, animated: true)
         chatTableView.rowHeight = UITableViewAutomaticDimension
         chatTableView.insertRows(at: [indexPath], with: .right)
         rowNumber += 1
-        //the following code is to empty the text field once the message is sent
         messageField.text = ""
     }
-
+    
+     func updateContentInsetForTableView( tableView:UITableView,animated:Bool) {
+        let lastRow = tableView.numberOfRows(inSection: 0)
+        let lastIndex = lastRow > 0 ? lastRow - 1 : 0
+        let lastIndexPath = IndexPath(row: lastIndex, section: 9)
+        let lastCellFrame = tableView.rectForRow(at: lastIndexPath)
+        let topInset = max(tableView.frame.height - lastCellFrame.origin.y - lastCellFrame.height, 0)
+        var contentInset = tableView.contentInset
+        contentInset.top = topInset
+        _ = UIViewAnimationOptions.beginFromCurrentState
+        UIView.animate(withDuration: 0.1, animations: { () -> Void in
+            tableView.contentInset = contentInset
+     }
+        )
+     
+     }
+    
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
