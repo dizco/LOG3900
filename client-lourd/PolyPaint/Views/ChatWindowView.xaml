@@ -1,0 +1,118 @@
+﻿<Window x:Class="PolyPaint.Views.ChatWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Salle de Clavardage" Height="600" Width="300" ResizeMode="NoResize">
+
+    <Grid MinHeight="420">
+        <Border>
+            <!-- Chat List-->
+            <Grid >
+                <ScrollViewer Margin="0,30,0,50"
+                          HorizontalAlignment="Right"
+                          VerticalScrollBarVisibility="Auto"
+                          Width="300"
+                          >
+                    <!--StackPanel Height="auto" Width="auto"/-->
+                    <ItemsControl ItemsSource="{Binding ChatItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <!--ChatMessageListItem-->
+                                <Border Padding="5">
+                                    <Grid >
+
+                                        <!-- Chat message container -->
+                                        <Grid Margin="25 0 25 0"
+                                          HorizontalAlignment="Stretch"
+                                        >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+
+                                            <!-- Message Text -->
+                                            <StackPanel>
+                                                <Border >
+                                                    <TextBlock  VerticalAlignment="Center"
+                                                                FontFamily="{StaticResource LatoRegular}"
+                                                                TextWrapping="Wrap"
+                                                    >
+                                                        <Run Text="{Binding SenderName}"
+                                                             FontFamily="{StaticResource LatoBold}"
+                                                        />
+                                                        <Run Text="-"/>
+                                                        <Run Text="{Binding MessageSentTime, StringFormat=HH:mm:ss}"/>
+                                                        <LineBreak/>
+                                                        <Run Text="{Binding Title}"
+                                                        />
+                                                    </TextBlock>
+                                                </Border>
+                                                <Separator/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <Grid Margin="0,508,0,0"
+                      Background="PaleTurquoise"
+                >
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="304*"/>
+                        <ColumnDefinition Width="34*"/>
+                        <ColumnDefinition Width="57*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <!-- Message box -->
+                    <TextBox x:Name="MessageInput"  
+                     TextWrapping="Wrap"
+                     Text="{Binding PendingChatMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+                     Margin="5,5,17,5"
+                     Height="auto"
+                     AcceptsReturn="True"
+                     AcceptsTab="True"
+                     VerticalScrollBarVisibility="Auto"
+                     TextChanged="MessageInput_TextChanged"
+                     SpellCheck.IsEnabled="True" Grid.ColumnSpan="2"
+                     >
+                        <TextBox.Effect>
+                            <DropShadowEffect ShadowDepth="5" Color="BurlyWood" Opacity=".4" RenderingBias="Performance" />
+                        </TextBox.Effect>
+
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding SendMessageCommand}" Key="Return" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+
+                    <Button x:Name="button"
+                            Command="{Binding SendMessageCommand}"
+                            Margin="0,0,10,5"
+                            HorizontalAlignment="Right"
+                            Width="45"
+                            Height="40"
+                            BorderThickness="0"
+                            VerticalAlignment="Bottom"
+                            Click="SendButton_Click"
+                            Focusable="False" Grid.Column="2"
+                            >
+                        <Button.BorderBrush>
+                            <SolidColorBrush  Opacity="0"/>
+                        </Button.BorderBrush>
+                        <Button.Background>
+                            <ImageBrush ImageSource="/PolyPaint;component/Resources/icon-send.png" Stretch="Uniform"/>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

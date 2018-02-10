@@ -113,35 +113,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Convertisseurs\Convertisseurs.cs" />
-    <Compile Include="Modeles\ChatWindowModel.cs" />
-    <Compile Include="Modeles\Editeur.cs" />
+    <Compile Include="Converters\Converters.cs" />
+    <Compile Include="Models\ChatWindowModel.cs" />
+    <Compile Include="Models\Editor.cs" />
     <Compile Include="Constants\JsonConstantStrings.cs" />
-    <Compile Include="Modeles\MessagingModels\AuthorModel.cs" />
-    <Compile Include="Modeles\MessagingModels\ChatMessageModel.cs" />
-    <Compile Include="Modeles\MessagingModels\EditorActionModel.cs" />
-    <Compile Include="Modeles\MessagingModels\MessageModelBase.cs" />
-    <Compile Include="Modeles\MessagingModels\RoomModel.cs" />
-    <Compile Include="Utilitaires\ISocketHandler.cs" />
-    <Compile Include="Utilitaires\Messenger.cs" />
-    <Compile Include="Utilitaires\RelayCommand.cs" />
-    <Compile Include="Utilitaires\RestHandler.cs" />
-    <Compile Include="Utilitaires\SocketHandler.cs" />
-    <Compile Include="VueModeles\ChatWindowViewModel.cs" />
-    <Compile Include="VueModeles\LoginWindowViewModel.cs" />
-    <Compile Include="VueModeles\ViewModelBase.cs" />
-    <Compile Include="VueModeles\VueModele.cs" />
-    <Compile Include="Vues\ChatWindowView.xaml.cs">
+    <Compile Include="Models\MessagingModels\AuthorModel.cs" />
+    <Compile Include="Models\MessagingModels\ChatMessageModel.cs" />
+    <Compile Include="Models\MessagingModels\EditorActionModel.cs" />
+    <Compile Include="Models\MessagingModels\MessageModelBase.cs" />
+    <Compile Include="Models\MessagingModels\RoomModel.cs" />
+    <Compile Include="Helpers\Communication\ISocketHandler.cs" />
+    <Compile Include="Helpers\Communication\Messenger.cs" />
+    <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\Communication\RestHandler.cs" />
+    <Compile Include="Helpers\Communication\SocketHandler.cs" />
+    <Compile Include="ViewModels\ChatWindowViewModel.cs" />
+    <Compile Include="ViewModels\LoginWindowViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\EditorViewModel.cs" />
+    <Compile Include="Views\ChatWindowView.xaml.cs">
       <DependentUpon>ChatWindowView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vues\LoginWindowView.xaml.cs">
+    <Compile Include="Views\LoginWindowView.xaml.cs">
       <DependentUpon>LoginWindowView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Vues\ChatWindowView.xaml">
+    <Page Include="Views\ChatWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vues\FenetreDessin.xaml">
+    <Page Include="Views\DrawingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,10 +149,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Vues\FenetreDessin.xaml.cs">
-      <DependentUpon>FenetreDessin.xaml</DependentUpon>
+    <Compile Include="Views\DrawingWindow.xaml.cs">
+      <DependentUpon>DrawingWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Vues\LoginWindowView.xaml">
+    <Page Include="Views\LoginWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,7 +1,7 @@
 ﻿<Application x:Class="PolyPaint.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Vues/FenetreDessin.xaml">
+             StartupUri="Views/DrawingWindow.xaml">
     <Application.Resources>
         <FontFamily x:Key="LatoThin">pack://appliction;,,,/Resources/Fonts/#Lato Thin</FontFamily>
         <FontFamily x:Key="LatoRegular">pack://appliction;,,,/Resources/Fonts/#Lato Regular</FontFamily>
