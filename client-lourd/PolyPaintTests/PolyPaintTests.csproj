@@ -52,8 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilitaires\SocketHandlerTest.cs" />
-    <Compile Include="Utilitaires\MessengerTest.cs" />
+    <Compile Include="Helpers\SocketHandlerTest.cs" />
+    <Compile Include="Helpers\MessengerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
