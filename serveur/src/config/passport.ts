@@ -31,7 +31,11 @@ passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, don
         if (!user) {
             return done(undefined, false, { message: `Email ${email} not found.` });
         }
-        user.comparePassword(password, (err: Error, isMatch: boolean) => {
+
+
+        //TODO: ACTIVATE PASSWORD PROTECTION
+        return done (undefined, user);
+        /*user.comparePassword(password, (err: Error, isMatch: boolean) => {
             if (err) {
                 return done(err);
             }
@@ -39,7 +43,7 @@ passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, don
                 return done(undefined, user);
             }
             return done(undefined, false, { message: "Invalid email or password." });
-        });
+        });*/
     });
 }));
 
