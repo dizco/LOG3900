@@ -14,6 +14,6 @@ namespace PolyPaint.Modeles.MessagingModels
         public RoomModel Room { get; set; }
 
         [JsonProperty(PropertyName = "timestamp")]
-        public int Timestamp { get; set; } = 0;
+        public long Timestamp { get; set; } = 0;
     }
 }
