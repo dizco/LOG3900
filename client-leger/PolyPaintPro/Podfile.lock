@@ -1,35 +1,31 @@
 PODS:
   - Alamofire (4.6.0)
-  - PromiseKit (4.5.1):
-    - PromiseKit/Foundation (= 4.5.1)
-    - PromiseKit/QuartzCore (= 4.5.1)
-    - PromiseKit/UIKit (= 4.5.1)
-  - PromiseKit/Alamofire (4.5.1):
-    - Alamofire (~> 4.0)
+  - PromiseKit (4.5.2):
+    - PromiseKit/Foundation (= 4.5.2)
+    - PromiseKit/QuartzCore (= 4.5.2)
+    - PromiseKit/UIKit (= 4.5.2)
+  - PromiseKit/CorePromise (4.5.2)
+  - PromiseKit/Foundation (4.5.2):
     - PromiseKit/CorePromise
-  - PromiseKit/CorePromise (4.5.1)
-  - PromiseKit/Foundation (4.5.1):
+  - PromiseKit/QuartzCore (4.5.2):
     - PromiseKit/CorePromise
-  - PromiseKit/QuartzCore (4.5.1):
-    - PromiseKit/CorePromise
-  - PromiseKit/UIKit (4.5.1):
+  - PromiseKit/UIKit (4.5.2):
     - PromiseKit/CorePromise
   - Starscream (3.0.4)
   - SwiftLint (0.24.2)
 
 DEPENDENCIES:
-  - Alamofire
-  - PromiseKit
-  - PromiseKit/Alamofire
-  - Starscream
-  - SwiftLint
+  - Alamofire (~> 4.6.0)
+  - PromiseKit (~> 4.5.1)
+  - Starscream (~> 3.0.4)
+  - SwiftLint (~> 0.24.2)
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
-  PromiseKit: 445dac9b2c3c3b4b31b5f842bc325700b848a8bd
+  PromiseKit: 743e497a5f505a470d3bbbf4ce0663c1268af0a4
   Starscream: f5da93fe6984c77b694366bf7299b7dc63a76f26
   SwiftLint: 2aa21b96c8d13396a051bc1cb659d2ce1e0075b0
 
-PODFILE CHECKSUM: 3d65d795a8916f9ae836f10fe8e1eca347ee9a42
+PODFILE CHECKSUM: 4e3b0e82a1ed7765fb173fc08de45b3bda662043
 
 COCOAPODS: 1.4.0
