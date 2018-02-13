@@ -3,6 +3,10 @@ matrix:
     - language: node_js
       node_js: 8
       env: TO_TEST=SERVEUR
+    - language: objective-c
+      os: osx
+      osx_image: xcode9.2
+      env: TO_TEST=CLIENT_LEGER
     #- language: csharp
     #  solution: PolyPaint.sln
     #  env: TO_TEST=CLIENT_LOURD
@@ -10,6 +14,7 @@ matrix:
 
 before_install:
   - if [ "$TO_TEST" = "SERVEUR" ]; then cd serveur; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then cd client-leger/PolyPaintPro; pod repo update; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then cd client-lourd; fi
 
 after_install:
@@ -18,6 +23,8 @@ after_install:
 script:
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build; fi
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run test; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then swiftlint --strict; fi
+  - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then xcodebuild clean test -workspace PolyPaintPro.xcworkspace -scheme PolyPaintPro -destination "platform=iOS Simulator,OS=11.2,name=iPad Air 2" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO -quiet; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then xbuild PolyPaint.sln; fi
 
 notifications:
