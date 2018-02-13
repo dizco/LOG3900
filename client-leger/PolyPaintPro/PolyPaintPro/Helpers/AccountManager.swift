@@ -72,10 +72,12 @@ class AccountManager {
 
     func saveCookies(response: DataResponse<Any>) {
         let jar = HTTPCookieStorage.shared
-        let headerFields = response.response?.allHeaderFields as! [String: String]
-        let url = response.response?.url
-        let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url!)
-        jar.setCookies(cookies, for: url, mainDocumentURL: url)
+        if let headerFields = response.response? // If impossible to cast, will be nil
+            .allHeaderFields as? [String: String] {
+            let url = response.response?.url
+            let cookies = HTTPCookie.cookies(withResponseHeaderFields: headerFields, for: url!)
+            jar.setCookies(cookies, for: url, mainDocumentURL: url)
+        }
     }
 
     func loadCookies() {
