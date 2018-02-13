@@ -5,14 +5,6 @@
 //  Created by Fred Habsfan on 2018-02-03.
 //  Copyright © 2018 Les Pods c'est pour les lunchs. All rights reserved.
 //
-
-//
-//  ChatView.swift
-//  PolyPaintPro
-//
-//  Created by Fred Habsfan on 2018-02-03.
-//  Copyright © 2018 Les Pods c'est pour les lunchs. All rights reserved.
-//
 import Starscream
 import UIKit
 
@@ -43,10 +35,12 @@ class ChatView: UIView, SocketManagerDelegate {
             }
         }
     }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         SocketManager.sharedInstance.delegate = self
     }
+    
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
         let indexPath = IndexPath.init(row: rowNumber, section: 0)
         let messageInfo = messageInfos.author + " " + messageInfos.timestamp
@@ -64,6 +58,7 @@ class ChatView: UIView, SocketManagerDelegate {
         rowNumber += 1
         messageField.text = ""
     }
+    
     func updateContentInsetForTableView( tableView:UITableView,animated:Bool) {
         let lastRow = tableView.numberOfRows(inSection: 0)
         let lastIndex = lastRow > 0 ? lastRow - 1 : 0
@@ -82,12 +77,15 @@ class ChatView: UIView, SocketManagerDelegate {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
     func connect() {
         print("Connecting to server.")
     }
+    
     func disconnect(error: Error?) {
         print ("Disconnected with error: \(String(describing: error?.localizedDescription))")
     }
+    
     func managerDidReceive(data: Data) {
         do {
             print("Data received.")
