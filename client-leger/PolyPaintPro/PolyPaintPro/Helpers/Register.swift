@@ -36,20 +36,21 @@ class Register {
                                   method: .post,
                                   parameters: parameters,
                                   encoding: URLEncoding.default,
-                                  headers: headers).responseJSON { response in
-                                    let decoder = JSONDecoder()
-                                    do {
-                                        let serverResponse = try decoder.decode(ServerResponse.self, from: response.data!)
-                                        if serverResponse.status == "success" {
-                                            fulfill(true)
-                                            //AccountManager.sharedInstance.saveCookies(response: response)
-                                            return
-                                        } else {
-                                            fulfill(false)
-                                        }
-                                    } catch let error {
-                                        reject(error)
-                                    }
+                                  headers: headers)
+                    .responseJSON { response in
+                        let decoder = JSONDecoder()
+                        do {
+                            let serverResponse = try decoder.decode(ServerResponse.self, from: response.data!)
+                            if serverResponse.status == "success" {
+                                fulfill(true)
+                                //AccountManager.sharedInstance.saveCookies(response: response)
+                                return
+                            } else {
+                                fulfill(false)
+                            }
+                        } catch let error {
+                            reject(error)
+                        }
                 }
             }
         }

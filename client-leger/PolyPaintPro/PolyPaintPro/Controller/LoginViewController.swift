@@ -13,24 +13,29 @@ class LoginViewController: UIViewController {
     //Labels
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var connectionErrorLabel: UILabel!
+
     //views
     @IBOutlet var placeHolderView: UIView!
     @IBOutlet weak var connectionView: UIView?
     @IBOutlet weak var registerView: UIView?
     @IBOutlet weak var selectorView: UIView!
     @IBOutlet weak var serverInformationsView: UIView!
+
     //text fields
     //server address textfield
     @IBOutlet weak var serverAddressField: UITextField!
+
     //login text fields
     @IBOutlet weak var loginUsernameField: UITextField!
     @IBOutlet weak var loginPasswordField: UITextField!
+
     //register view text fields
     @IBOutlet weak var registerUsernameField: UITextField!
-    @IBOutlet weak var registerNameField: UITextField! // @fred: "uninstalled from the view" not visible anymore
-    @IBOutlet weak var registerFirstNameField: UITextField! // @fred: "uninstalled from the view" not visible anymore
+    @IBOutlet weak var registerNameField: UITextField!
+    @IBOutlet weak var registerFirstNameField: UITextField!
     @IBOutlet weak var registerPasswordField: UITextField!
-    @IBOutlet weak var registerPasswordValidationField: UITextField! // @fred: "uninstalled from the view" not visible anymore
+    @IBOutlet weak var registerPasswordValidationField: UITextField!
+
     //error messages labels
     @IBOutlet weak var loginErrorTextField: UILabel!
     @IBOutlet weak var registerErrorTextField: UILabel!
@@ -72,7 +77,7 @@ class LoginViewController: UIViewController {
         // need a registration error button
         let username = registerUsernameField!.text!
         let password = registerPasswordField!.text!
-    
+
         if AccountManager.sharedInstance.validateRegister(username: username, password: password) {
             registerErrorTextField?.isHidden = true
             registerAccount(sender: sender, username: username, password: password)

@@ -18,7 +18,7 @@ class ChatView: UIView, SocketManagerDelegate {
     @IBAction func sendButton(_ sender: UIButton) {
       sendMessage()
     }
-    
+
     func sendMessage() {
         let receivedMessage = messageField!.text
         let receivedAuthor = AccountManager.sharedInstance.username!
@@ -35,20 +35,24 @@ class ChatView: UIView, SocketManagerDelegate {
             }
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         SocketManager.sharedInstance.delegate = self
     }
-    
+
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
         let indexPath = IndexPath.init(row: rowNumber, section: 0)
         let messageInfo = messageInfos.author + " " + messageInfos.timestamp
-        authorNameMutableString = NSMutableAttributedString(string: messageInfo,
-                                                                             attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)])
-        authorNameMutableString.addAttribute(NSAttributedStringKey.font,
-                                                             value: UIFont.boldSystemFont(ofSize: 15),
-                                                             range: NSRange(location: 0, length: messageInfos.author.count) )
+        authorNameMutableString = NSMutableAttributedString(
+            string: messageInfo,
+            attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)]
+        )
+        authorNameMutableString.addAttribute(
+            NSAttributedStringKey.font,
+            value: UIFont.boldSystemFont(ofSize: 15),
+            range: NSRange(location: 0, length: messageInfos.author.count)
+        )
         titleHeading.insert(messageInfo, at: rowNumber)
         subtitleHeading.insert(message, at: rowNumber)
         chatTableView.estimatedRowHeight = 55
@@ -58,8 +62,8 @@ class ChatView: UIView, SocketManagerDelegate {
         rowNumber += 1
         messageField.text = ""
     }
-    
-    func updateContentInsetForTableView( tableView:UITableView,animated:Bool) {
+
+    func updateContentInsetForTableView(tableView: UITableView, animated: Bool) {
         let lastRow = tableView.numberOfRows(inSection: 0)
         let lastIndex = lastRow > 0 ? lastRow - 1 : 0
         let lastIndexPath = IndexPath(row: lastIndex, section: 9)
@@ -73,19 +77,19 @@ class ChatView: UIView, SocketManagerDelegate {
         }
         )
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
     func connect() {
         print("Connecting to server.")
     }
-    
+
     func disconnect(error: Error?) {
         print ("Disconnected with error: \(String(describing: error?.localizedDescription))")
     }
-    
+
     func managerDidReceive(data: Data) {
         do {
             print("Data received.")
@@ -101,5 +105,3 @@ class ChatView: UIView, SocketManagerDelegate {
         }
     }
 }
-
-

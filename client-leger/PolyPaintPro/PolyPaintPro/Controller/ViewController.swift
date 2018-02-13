@@ -7,7 +7,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var chatView: UIView!
     @IBOutlet weak var messageField: UITextField!
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the
-    
+
     @IBAction func chatToggleBtn(_ sender: Any) {
         chatToggleFn()
     }
@@ -24,18 +24,18 @@ class ViewController: UIViewController {
         }
         chatShowing = !chatShowing
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboard()
 
         observeKeyboardNotification()
     }
-    
+
     fileprivate func  observeKeyboardNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -46,7 +46,7 @@ class ViewController: UIViewController {
                                                name: NSNotification.Name.UIKeyboardWillHide,
                                                object: nil)
     }
-    
+
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -54,7 +54,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+
     @objc func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y != 0 {
