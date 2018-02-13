@@ -10,11 +10,10 @@ target 'PolyPaintPro' do
   use_frameworks!
 
   # Pods for PolyPaintPro
-  pod 'SwiftLint'
-  pod 'Starscream'
-  pod 'Alamofire'
-  pod 'PromiseKit'
-  pod 'PromiseKit/Alamofire'
+  pod 'SwiftLint', '~> 0.24.2'
+  pod 'Starscream', '~> 3.0.4'
+  pod 'Alamofire', '~> 4.6.0'
+  pod 'PromiseKit', '~> 4.5.1'
 
   target 'PolyPaintProTests' do
       inherit! :search_paths
