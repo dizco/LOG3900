@@ -46,14 +46,13 @@ namespace PolyPaint.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public void SendMessage(object o)
         {
-            Messenger.SendChatMessage(PendingChatMessage);
-
             //Sending all the information about the item
-            if (PendingChatMessage != string.Empty && Messenger.IsConnected)
+            if (!string.IsNullOrWhiteSpace(PendingChatMessage) && Messenger.IsConnected)
             {
+                Messenger.SendChatMessage(PendingChatMessage);
                 AppendMessageToChat(PendingChatMessage);
                 //clear message after it's transmission
                 PendingChatMessage = string.Empty;
