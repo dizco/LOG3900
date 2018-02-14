@@ -465,7 +465,7 @@
                         <outlet property="chatViewConstraint" destination="prm-p3-d70" id="97j-7r-CVh"/>
                         <outlet property="drawView" destination="Cys-yA-DLW" id="Qbu-Bx-1Je"/>
                         <outlet property="messageField" destination="E8N-VT-aFV" id="lw2-ho-NNT"/>
-                        <outlet property="tempImageview" destination="nqG-P9-h52" id="KT3-Yj-fiI"/>
+                        <outlet property="tempImageView" destination="nqG-P9-h52" id="eOm-my-mY6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Zk-AC-UDA" userLabel="First Responder" sceneMemberID="firstResponder"/>
