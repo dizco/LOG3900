@@ -12,12 +12,13 @@ class ViewController: UIViewController {
         chatToggleFn()
     }
 
-    @IBOutlet weak var tempImageView: UIImageView!
-    var lastPoint = CGPoint.zero //last dran point on the cnvas
+
+    @IBOutlet weak var imageView: UIImageView!
+    var lastPoint = CGPoint.zero //last drawn point on the canvas
     var red: CGFloat = 0.0 //RGB, stores the currend rgb value from the selector
     var green: CGFloat = 0.0
     var blue: CGFloat = 0.0
-    var brushWidth: CGFloat = 10.0 //bruhs stroke and opacity
+    var brushWidth: CGFloat = 10.0 //brush stroke and opacity
     var opacity: CGFloat = 1.0
     var swiped = false //if the brush stroke is continuous
 
@@ -31,7 +32,7 @@ class ViewController: UIViewController {
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
 
-        tempImageView.image?.draw(in: view.bounds)
+        imageView.image?.draw(in: view.bounds)
 
         let context = UIGraphicsGetCurrentContext()
 
@@ -44,8 +45,8 @@ class ViewController: UIViewController {
         context?.setBlendMode(CGBlendMode.normal)
         context?.strokePath()
 
-        tempImageView.image = UIGraphicsGetImageFromCurrentImageContext()
-        tempImageView.alpha = opacity
+        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        imageView.alpha = opacity
         UIGraphicsEndImageContext()
     }
 
