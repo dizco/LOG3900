@@ -12,6 +12,7 @@ class ViewController: UIViewController {
         chatToggleFn()
     }
 
+    @IBOutlet weak var tempImageView: UIImageView!
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
