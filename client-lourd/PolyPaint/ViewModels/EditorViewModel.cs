@@ -48,6 +48,9 @@ namespace PolyPaint.ViewModels
             ChooseTool = new RelayCommand<string>(_editor.SelectTool);
             ResetDrawing = new RelayCommand<object>(_editor.Reset);
 
+            OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawing);
+            SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawing);
+
             //Outgoing editor actions
             SendNewStrokeCommand = new RelayCommand<Stroke>(SendNewStroke);
 
@@ -95,6 +98,9 @@ namespace PolyPaint.ViewModels
         public RelayCommand<string> ChooseTool { get; set; }
         public RelayCommand<object> ResetDrawing { get; set; }
 
+        public RelayCommand<object> OpenFileCommand { get; set; }
+        public RelayCommand<object> SaveFileCommand { get; set; }
+        
         //Command for managing the views
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }
 

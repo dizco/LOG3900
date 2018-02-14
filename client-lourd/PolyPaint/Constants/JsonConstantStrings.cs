@@ -10,6 +10,4 @@
         public const string TypeChatMessageIncomingValue = "server.chat.message";
         public const string TypeEditorActionValue = "client.editor.action";
     }
-
-    // TODO: Add static class for other parts of the app needing constant strings
 }
