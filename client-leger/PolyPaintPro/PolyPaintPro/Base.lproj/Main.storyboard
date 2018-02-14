@@ -26,7 +26,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xuu-Z1-uzU">
-                                <rect key="frame" x="128" y="87" width="769" height="128"/>
+                                <rect key="frame" x="128" y="87" width="768.5" height="128"/>
                                 <color key="backgroundColor" red="0.50196078431372548" green="0.75686274509803919" blue="0.83137254901960778" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="WXS-G1-0rA"/>
@@ -43,7 +43,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vS5-Kk-CAK">
-                                <rect key="frame" x="128" y="264" width="769" height="437"/>
+                                <rect key="frame" x="128" y="264" width="768.5" height="437"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bienvenue! Entrez vos informations pour creer un compte PolyPaintPro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gux-i0-Y2K">
                                         <rect key="frame" x="20" y="27" width="749" height="21"/>
@@ -254,7 +254,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Qd-P2-Ql6">
-                                <rect key="frame" x="128" y="215" width="769" height="486"/>
+                                <rect key="frame" x="127.5" y="215" width="769" height="486"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="paZ-qC-qYz">
                                         <rect key="frame" x="310" y="325" width="148" height="30"/>
@@ -363,6 +363,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nqG-P9-h52">
+                                <rect key="frame" x="0.0" y="64" width="1024" height="704"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mzz-8E-ANo" customClass="ChatView" customModule="PolyPaintPro" customModuleProvider="target">
                                 <rect key="frame" x="1024" y="64" width="256" height="704"/>
                                 <subviews>
@@ -439,8 +442,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="nqG-P9-h52" secondAttribute="bottom" id="FKy-0N-HDP"/>
                             <constraint firstItem="Mzz-8E-ANo" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" id="HO5-ip-1FZ"/>
+                            <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="nqG-P9-h52" secondAttribute="bottom" id="Kse-n2-MoJ"/>
+                            <constraint firstItem="nqG-P9-h52" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" id="Z4v-Ci-eOm"/>
+                            <constraint firstItem="nqG-P9-h52" firstAttribute="leading" secondItem="Cys-yA-DLW" secondAttribute="leading" id="l8W-0Z-Sbj"/>
+                            <constraint firstItem="Mzz-8E-ANo" firstAttribute="leading" secondItem="nqG-P9-h52" secondAttribute="trailing" id="p1r-OO-36D"/>
                             <constraint firstItem="Mzz-8E-ANo" firstAttribute="leading" secondItem="Cys-yA-DLW" secondAttribute="leading" constant="1024" id="prm-p3-d70"/>
+                            <constraint firstItem="Mzz-8E-ANo" firstAttribute="leading" secondItem="nqG-P9-h52" secondAttribute="trailing" id="q3Z-np-nsd"/>
                             <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="Mzz-8E-ANo" secondAttribute="bottom" id="ua7-fz-JoJ"/>
                         </constraints>
                     </view>
@@ -456,6 +465,7 @@
                         <outlet property="chatViewConstraint" destination="prm-p3-d70" id="97j-7r-CVh"/>
                         <outlet property="drawView" destination="Cys-yA-DLW" id="Qbu-Bx-1Je"/>
                         <outlet property="messageField" destination="E8N-VT-aFV" id="lw2-ho-NNT"/>
+                        <outlet property="tempImageview" destination="nqG-P9-h52" id="KT3-Yj-fiI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Zk-AC-UDA" userLabel="First Responder" sceneMemberID="firstResponder"/>
