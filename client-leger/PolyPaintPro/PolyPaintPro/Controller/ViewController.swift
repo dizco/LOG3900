@@ -11,8 +11,6 @@ class ViewController: UIViewController {
     @IBAction func chatToggleBtn(_ sender: Any) {
         chatToggleFn()
     }
-
-
     @IBOutlet weak var imageView: UIImageView!
     var lastPoint = CGPoint.zero //last drawn point on the canvas
     var red: CGFloat = 0.0 //RGB, stores the currend rgb value from the selector
