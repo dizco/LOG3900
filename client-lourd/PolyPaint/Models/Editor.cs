@@ -166,8 +166,8 @@ namespace PolyPaint.Models
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 AddExtension = true,
-                DefaultExt = FileExtentionConstants.DefaultExt,
-                Filter = FileExtentionConstants.Filter
+                DefaultExt = FileExtensionConstants.DefaultExt,
+                Filter = FileExtensionConstants.Filter
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -197,8 +197,8 @@ namespace PolyPaint.Models
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
                 AddExtension = true,
-                DefaultExt = FileExtentionConstants.DefaultExt,
-                Filter = FileExtentionConstants.Filter
+                DefaultExt = FileExtensionConstants.DefaultExt,
+                Filter = FileExtensionConstants.Filter
             };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
