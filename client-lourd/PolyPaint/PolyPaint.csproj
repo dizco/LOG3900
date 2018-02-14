@@ -113,6 +113,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Constants\FileExtentionConstants.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="Models\ChatWindowModel.cs" />
     <Compile Include="Models\Editor.cs" />

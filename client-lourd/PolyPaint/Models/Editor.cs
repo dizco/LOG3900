@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 using System.Windows.Ink;
+using PolyPaint.Constants;
 
 namespace PolyPaint.Models
 {
@@ -156,6 +159,71 @@ namespace PolyPaint.Models
         protected void StrokeAdded(Stroke stroke)
         {
             EditorAddedStroke?.Invoke(this, stroke);
+        }
+
+        public void OpenDrawing(object o)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = FileExtentionConstants.DefaultExt,
+                Filter = FileExtentionConstants.Filter
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = Path.GetFullPath(openFileDialog.FileName);
+                FileStream file = null;
+                try
+                {
+                    file = new FileStream(path, FileMode.Open);
+                    StrokeCollection tempStrokesCollection = new StrokeCollection(file);
+                    StrokesCollection.Clear();
+                    tempStrokesCollection.ToList().ForEach(stroke => StrokesCollection.Add(stroke));
+                }
+                catch
+                {
+                    //ignored
+                    // TODO: Handle exception
+                }
+                finally
+                {
+                    file?.Close();
+                }
+            }
+        }
+
+        public void SaveDrawing(object obj)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = FileExtentionConstants.DefaultExt,
+                Filter = FileExtentionConstants.Filter
+            };
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = Path.GetFullPath(saveFileDialog.FileName);
+                FileStream file = null;
+                try
+                {
+                    file = new FileStream(path, FileMode.Create);
+                    StrokesCollection.Save(file);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    // ignored
+                    // TODO: Alert user of error
+                }
+                catch
+                {
+                    // ignored
+                    // TODO: Handle exception
+                }
+                finally
+                {
+                    file?.Close();
+                }
+            }
         }
     }
 }
