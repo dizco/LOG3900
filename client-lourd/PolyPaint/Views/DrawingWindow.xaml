@@ -16,7 +16,7 @@
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="O" Modifiers="Control" Command="{Binding OpenFileCommand}"/>
-        <KeyBinding Key="S" Modifiers="Control" Command="{Binding }"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveFileCommand}"/>
     </Window.InputBindings>
     <DockPanel>
         <Menu IsMainMenu="True" DockPanel.Dock="Top">
