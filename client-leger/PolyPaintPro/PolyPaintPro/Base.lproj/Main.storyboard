@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -451,37 +452,64 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqH-w6-eOY">
-                                <rect key="frame" x="0.0" y="110" width="76" height="628"/>
+                                <rect key="frame" x="0.0" y="110" width="50" height="628"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih2-5F-A0e">
-                                        <rect key="frame" x="15" y="8" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih2-5F-A0e">
+                                        <rect key="frame" x="10" y="8" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="qd4-fM-zgi"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="pencil"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ER-3K-E37">
-                                        <rect key="frame" x="15" y="46" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ER-3K-E37">
+                                        <rect key="frame" x="10" y="46" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="8ER-3K-E37" secondAttribute="height" multiplier="283:256" id="orC-JS-vOa"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="eraser"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-tt-sia">
-                                        <rect key="frame" x="15" y="84" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGC-wv-nF6">
+                                        <rect key="frame" x="10" y="593" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="EGC-wv-nF6" secondAttribute="height" multiplier="283:256" id="Ttk-BX-aBg"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="settings-work-tool"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qG-cl-27P">
-                                        <rect key="frame" x="15" y="122" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-tt-sia">
+                                        <rect key="frame" x="10" y="81" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="OYV-tt-sia" secondAttribute="height" multiplier="283:256" id="b4Z-ek-F2J"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="cut"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGC-wv-nF6">
-                                        <rect key="frame" x="15" y="590" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qG-cl-27P">
+                                        <rect key="frame" x="10" y="116" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="1qG-cl-27P" secondAttribute="height" multiplier="283:256" id="U0Q-V6-Hk7"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="duplicate"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.24705882352941178" green="0.44705882352941173" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="76" id="ggI-Uu-0ZJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="OYV-tt-sia" secondAttribute="trailing" constant="10" id="3VS-1f-GQc"/>
+                                    <constraint firstAttribute="trailing" secondItem="8ER-3K-E37" secondAttribute="trailing" constant="10" id="5t6-Tg-G0x"/>
+                                    <constraint firstItem="EGC-wv-nF6" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="8XL-M1-EyD"/>
+                                    <constraint firstItem="1qG-cl-27P" firstAttribute="top" secondItem="OYV-tt-sia" secondAttribute="bottom" constant="8" id="BdK-WH-EOI"/>
+                                    <constraint firstItem="OYV-tt-sia" firstAttribute="top" secondItem="8ER-3K-E37" secondAttribute="bottom" constant="8" id="Df3-JN-8mN"/>
+                                    <constraint firstItem="8ER-3K-E37" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="Gpj-cp-nS9"/>
+                                    <constraint firstAttribute="trailing" secondItem="EGC-wv-nF6" secondAttribute="trailing" constant="10" id="Kem-FW-TLg"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ih2-5F-A0e" secondAttribute="trailing" constant="10" id="LUr-M2-m6Q"/>
+                                    <constraint firstItem="8ER-3K-E37" firstAttribute="top" secondItem="Ih2-5F-A0e" secondAttribute="bottom" constant="8" id="NDF-t7-LHE"/>
+                                    <constraint firstItem="8ER-3K-E37" firstAttribute="centerX" secondItem="wqH-w6-eOY" secondAttribute="centerX" id="Rp5-lu-98T"/>
+                                    <constraint firstItem="1qG-cl-27P" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="bcC-U2-76U"/>
+                                    <constraint firstItem="Ih2-5F-A0e" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="cWS-8o-82B"/>
+                                    <constraint firstItem="OYV-tt-sia" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="d4b-ON-WUy"/>
+                                    <constraint firstAttribute="width" constant="50" id="ggI-Uu-0ZJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="EGC-wv-nF6" secondAttribute="bottom" constant="8" id="j9G-XA-ah6"/>
+                                    <constraint firstAttribute="trailing" secondItem="1qG-cl-27P" secondAttribute="trailing" constant="10" id="may-SH-vdI"/>
+                                    <constraint firstItem="Ih2-5F-A0e" firstAttribute="top" secondItem="wqH-w6-eOY" secondAttribute="top" constant="8" id="qmw-pl-ZRw"/>
+                                    <constraint firstItem="Ih2-5F-A0e" firstAttribute="top" secondItem="wqH-w6-eOY" secondAttribute="top" constant="8" id="s3N-ju-nF2"/>
                                     <constraint firstAttribute="height" constant="628" id="xdh-xe-swq"/>
                                 </constraints>
                             </view>
@@ -495,6 +523,7 @@
                             <constraint firstItem="Mzz-8E-ANo" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" id="HO5-ip-1FZ"/>
                             <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="nqG-P9-h52" secondAttribute="bottom" id="Kse-n2-MoJ"/>
                             <constraint firstItem="nqG-P9-h52" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" id="Z4v-Ci-eOm"/>
+                            <constraint firstItem="wqH-w6-eOY" firstAttribute="top" secondItem="cFF-gR-fHp" secondAttribute="bottom" constant="8" id="gHP-zY-iRE"/>
                             <constraint firstItem="cFF-gR-fHp" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" constant="8" id="gZj-lq-EG4"/>
                             <constraint firstItem="nqG-P9-h52" firstAttribute="leading" secondItem="Cys-yA-DLW" secondAttribute="leading" id="l8W-0Z-Sbj"/>
                             <constraint firstItem="Mzz-8E-ANo" firstAttribute="leading" secondItem="nqG-P9-h52" secondAttribute="trailing" id="p1r-OO-36D"/>
@@ -589,7 +618,12 @@
     </scenes>
     <resources>
         <image name="background_corrected" width="1600" height="1200"/>
+        <image name="cut" width="512" height="512"/>
+        <image name="duplicate" width="512" height="512"/>
+        <image name="eraser" width="512" height="512"/>
         <image name="icon" width="1024" height="1024"/>
+        <image name="pencil" width="512" height="512"/>
+        <image name="settings-work-tool" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ZMN-EK-Gd2"/>

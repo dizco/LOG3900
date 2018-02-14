@@ -75,8 +75,9 @@ class ViewController: UIViewController {
 
     func toolsToggleFn() {
         toolsView.layer.cornerRadius = 10
+        let sidebarWidth = self.toolsView.frame.width
         if toolsShowing {
-            toolsViewConstraint.constant = -76
+            toolsViewConstraint.constant = -sidebarWidth
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         } else {
             toolsViewConstraint.constant = 0
