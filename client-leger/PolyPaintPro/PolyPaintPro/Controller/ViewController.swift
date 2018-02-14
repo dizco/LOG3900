@@ -3,14 +3,22 @@ import Starscream
 
 class ViewController: UIViewController {
     var chatShowing = false
+    var toolsShowing = false
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
+    @IBOutlet weak var toolsView: UIView!
     @IBOutlet weak var messageField: UITextField!
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the
 
+    @IBOutlet weak var toolsViewConstraint: NSLayoutConstraint! //constraint to show/hide the tools view
     @IBAction func chatToggleBtn(_ sender: Any) {
         chatToggleFn()
     }
+
+    @IBAction func toolsToggleBtn(_ sender: Any) {
+        toolsToggleFn()
+    }
+
     @IBOutlet weak var imageView: UIImageView!
     var lastPoint = CGPoint.zero //last drawn point on the canvas
     var red: CGFloat = 0.0 //RGB, stores the currend rgb value from the selector
@@ -65,6 +73,18 @@ class ViewController: UIViewController {
         }
     }
 
+    func toolsToggleFn() {
+        toolsView.layer.cornerRadius = 10
+        if toolsShowing {
+            toolsViewConstraint.constant = -76
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
+        } else {
+            toolsViewConstraint.constant = 0
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
+        }
+        toolsShowing = !toolsShowing
+    }
+
     func chatToggleFn() { //function called to toggle the chat view
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
@@ -83,9 +103,9 @@ class ViewController: UIViewController {
     }
 
     override func viewDidLoad() {
+        toolsViewConstraint.constant = -76
         super.viewDidLoad()
         self.hideKeyboard()
-
         observeKeyboardNotification()
     }
 
