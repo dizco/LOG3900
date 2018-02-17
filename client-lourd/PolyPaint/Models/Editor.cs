@@ -192,7 +192,7 @@ namespace PolyPaint.Models
             }
         }
 
-        public void SaveDrawing(object obj)
+        public void SaveDrawingPrompt(object obj)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
@@ -203,26 +203,41 @@ namespace PolyPaint.Models
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string path = Path.GetFullPath(saveFileDialog.FileName);
-                FileStream file = null;
-                try
+                SaveDrawing(path, false);
+            }
+        }
+
+        public void SaveDrawing(string savePath, bool autosave)
+        {
+            string path = savePath;
+            if (autosave)
+                path = FileExtensionConstants.AutosavePath + "DrawingName_autosave" + "." +
+                       FileExtensionConstants.DefaultExt;
+
+            FileStream file = null;
+            try
+            {
+                file = new FileStream(path, FileMode.Create);
+                StrokesCollection.Save(file);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                // ignored
+                if (autosave)
                 {
-                    file = new FileStream(path, FileMode.Create);
-                    StrokesCollection.Save(file);
+                    // TODO: Show error in statusbar on autosave
                 }
-                catch (UnauthorizedAccessException e)
-                {
-                    // ignored
-                    // TODO: Alert user of error
-                }
-                catch
-                {
-                    // ignored
-                    // TODO: Handle exception
-                }
-                finally
-                {
-                    file?.Close();
-                }
+
+                // TODO: Alert user of error on promt-save
+            }
+            catch (Exception e)
+            {
+                // ignored
+                // TODO: Handle exception
+            }
+            finally
+            {
+                file?.Close();
             }
         }
     }

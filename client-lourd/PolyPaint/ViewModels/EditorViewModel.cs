@@ -49,7 +49,10 @@ namespace PolyPaint.ViewModels
             ResetDrawing = new RelayCommand<object>(_editor.Reset);
 
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawing);
-            SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawing);
+            SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawingPrompt);
+            AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
+
+            StrokesCollection.StrokesChanged += (sender, obj) => { AutosaveFileCommand.Execute(string.Empty); };
 
             //Outgoing editor actions
             SendNewStrokeCommand = new RelayCommand<Stroke>(SendNewStroke);
@@ -100,7 +103,8 @@ namespace PolyPaint.ViewModels
 
         public RelayCommand<object> OpenFileCommand { get; set; }
         public RelayCommand<object> SaveFileCommand { get; set; }
-        
+        public RelayCommand<object> AutosaveFileCommand { get; set; }
+
         //Command for managing the views
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }
 
@@ -110,6 +114,11 @@ namespace PolyPaint.ViewModels
         public RelayCommand<Stroke> SendNewStrokeCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void AutosaveFile(object obj)
+        {
+            _editor.SaveDrawing(string.Empty, true);
+        }
 
         /// <summary>
         ///     Appelee lorsqu'une propriété de VueModele est modifiée.
