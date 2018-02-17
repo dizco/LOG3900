@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
@@ -51,6 +52,7 @@ namespace PolyPaint.ViewModels
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawing);
             SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawingPrompt);
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
+            LoadAutosaved = new RelayCommand<object>(_editor.OpenAutosave);
 
             StrokesCollection.StrokesChanged += (sender, obj) => { AutosaveFileCommand.Execute(string.Empty); };
 
@@ -91,6 +93,15 @@ namespace PolyPaint.ViewModels
             set => _editor.StrokeSize = value;
         }
 
+        public ObservableCollection<string> RecentAutosaves
+        {
+            get
+            {
+                _editor.UpdateRecentAutosaves();
+                return _editor.RecentAutosaves;
+            }
+        }
+
         public StrokeCollection StrokesCollection { get; set; }
 
         // Commandes sur lesquels la vue pourra se connecter.
@@ -104,6 +115,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> OpenFileCommand { get; set; }
         public RelayCommand<object> SaveFileCommand { get; set; }
         public RelayCommand<object> AutosaveFileCommand { get; set; }
+        public RelayCommand<object> LoadAutosaved { get; set; }
 
         //Command for managing the views
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }

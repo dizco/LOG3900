@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using PolyPaint.Constants;
@@ -78,6 +80,8 @@ namespace PolyPaint.Models
                 PropertyModified();
             }
         }
+
+        public ObservableCollection<string> RecentAutosaves { get; internal set; } = new ObservableCollection<string>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<Stroke> EditorAddedStroke;
@@ -163,6 +167,7 @@ namespace PolyPaint.Models
 
         public void OpenDrawing(object o)
         {
+            UpdateRecentAutosaves();
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 AddExtension = true,
@@ -190,6 +195,12 @@ namespace PolyPaint.Models
                     file?.Close();
                 }
             }
+        }
+
+
+        public void OpenAutosave(object obj)
+        {
+            throw new NotImplementedException();
         }
 
         public void SaveDrawingPrompt(object obj)
@@ -239,6 +250,31 @@ namespace PolyPaint.Models
             {
                 file?.Close();
             }
+        }
+
+        public void UpdateRecentAutosaves()
+        {
+            try
+            {
+                if (!Directory.Exists(FileExtensionConstants.AutosavePath))
+                    return;
+
+                string[] autosavedDrawings = Directory.GetFiles(FileExtensionConstants.AutosavePath);
+
+                foreach (string filePath in autosavedDrawings) ProcessRecentFile(filePath);
+            }
+            catch (Exception e)
+            {
+                var something = e;
+                //ignored
+            }
+        }
+
+        private void ProcessRecentFile(string filePath)
+        {
+            string fileName = Regex.Match(filePath, "[\\w]*.tide").Value;
+            string drawingName = Regex.Replace(fileName, "_[a-z]*.tide", "");
+            RecentAutosaves.Add(drawingName);
         }
     }
 }
