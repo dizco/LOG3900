@@ -23,6 +23,7 @@
             <MenuItem Header="_Fichier">
                 <MenuItem Header="_Ouvrir" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"></MenuItem>
                 <MenuItem Header="Enregistrer _sous" InputGestureText="Ctrl+s" Command="{Binding SaveFileCommand}"></MenuItem>
+                <MenuItem Header="_Récents" ItemsSource="{Binding RecentAutosaves}"></MenuItem>
             </MenuItem>
         </Menu>
         <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0.5" BorderBrush="#77000000">
