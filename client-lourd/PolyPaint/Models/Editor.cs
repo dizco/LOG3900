@@ -165,7 +165,7 @@ namespace PolyPaint.Models
             EditorAddedStroke?.Invoke(this, stroke);
         }
 
-        public void OpenDrawing(object o)
+        public void OpenDrawingPrompt(object o)
         {
             UpdateRecentAutosaves();
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -177,30 +177,36 @@ namespace PolyPaint.Models
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string path = Path.GetFullPath(openFileDialog.FileName);
-                FileStream file = null;
-                try
-                {
-                    file = new FileStream(path, FileMode.Open);
-                    StrokeCollection tempStrokesCollection = new StrokeCollection(file);
-                    StrokesCollection.Clear();
-                    tempStrokesCollection.ToList().ForEach(stroke => StrokesCollection.Add(stroke));
-                }
-                catch
-                {
-                    //ignored
-                    // TODO: Handle exception
-                }
-                finally
-                {
-                    file?.Close();
-                }
+                OpenDrawing(path);
             }
         }
 
-
-        public void OpenAutosave(object obj)
+        public void OpenAutosave(object drawingName)
         {
-            throw new NotImplementedException();
+            string path = string.Format(FileExtensionConstants.AutosaveFilePath, drawingName);
+
+            OpenDrawing(path);
+        }
+
+        private void OpenDrawing(string filePath)
+        {
+            FileStream file = null;
+            try
+            {
+                file = new FileStream(filePath, FileMode.Open);
+                StrokesCollection.Clear();
+                new StrokeCollection(file).ToList().ForEach(stroke => StrokesCollection.Add(stroke));
+            }
+            catch (Exception e)
+            {
+                //ignored
+                // TODO: Handle exception
+                UserErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" + e.HResult);
+            }
+            finally
+            {
+                file?.Close();
+            }
         }
 
         public void SaveDrawingPrompt(object obj)
@@ -218,16 +224,19 @@ namespace PolyPaint.Models
             }
         }
 
-        public void SaveDrawing(string savePath, bool autosave)
+        public void SaveDrawing(string savePath, bool autosave, string drawingName = "DrawingName")
         {
             string path = savePath;
             if (autosave)
-                path = FileExtensionConstants.AutosavePath + "DrawingName_autosave" + "." +
-                       FileExtensionConstants.DefaultExt;
+            {
+                if (StrokesCollection.Count == 0) return;
+                path = string.Format(FileExtensionConstants.AutosaveFilePath, drawingName);
+            }
 
             FileStream file = null;
             try
             {
+                Directory.CreateDirectory(FileExtensionConstants.AutosaveDirPath);
                 file = new FileStream(path, FileMode.Create);
                 StrokesCollection.Save(file);
             }
@@ -239,16 +248,18 @@ namespace PolyPaint.Models
                     // TODO: Show error in statusbar on autosave
                 }
 
-                // TODO: Alert user of error on promt-save
+                UserErrorMessage("Impossible d'accéder au fichier ou répertoire. Exception #" + e.HResult);
             }
             catch (Exception e)
             {
                 // ignored
-                // TODO: Handle exception
+                if (!autosave)
+                    UserErrorMessage("Une erreur est survenue lors de l'ouverture du fichier. Exception #" + e.HResult);
             }
             finally
             {
                 file?.Close();
+                UpdateRecentAutosaves();
             }
         }
 
@@ -256,16 +267,16 @@ namespace PolyPaint.Models
         {
             try
             {
-                if (!Directory.Exists(FileExtensionConstants.AutosavePath))
+                if (!Directory.Exists(FileExtensionConstants.AutosaveDirPath))
                     return;
 
-                string[] autosavedDrawings = Directory.GetFiles(FileExtensionConstants.AutosavePath);
+                string[] autosavedDrawings = Directory.GetFiles(FileExtensionConstants.AutosaveDirPath);
 
+                RecentAutosaves.Clear();
                 foreach (string filePath in autosavedDrawings) ProcessRecentFile(filePath);
             }
-            catch (Exception e)
+            catch
             {
-                var something = e;
                 //ignored
             }
         }
@@ -275,6 +286,11 @@ namespace PolyPaint.Models
             string fileName = Regex.Match(filePath, "[\\w]*.tide").Value;
             string drawingName = Regex.Replace(fileName, "_[a-z]*.tide", "");
             RecentAutosaves.Add(drawingName);
+        }
+
+        private void UserErrorMessage(string message)
+        {
+            MessageBox.Show(message, @"Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

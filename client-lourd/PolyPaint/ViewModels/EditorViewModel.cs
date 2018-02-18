@@ -49,7 +49,7 @@ namespace PolyPaint.ViewModels
             ChooseTool = new RelayCommand<string>(_editor.SelectTool);
             ResetDrawing = new RelayCommand<object>(_editor.Reset);
 
-            OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawing);
+            OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawingPrompt);
             SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawingPrompt);
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
             LoadAutosaved = new RelayCommand<object>(_editor.OpenAutosave);

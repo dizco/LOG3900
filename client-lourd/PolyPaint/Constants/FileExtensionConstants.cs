@@ -6,6 +6,7 @@ namespace PolyPaint.Constants
     {
         public const string Filter = "PolyPaintPro File (*.tide)|*.tide";
         public const string DefaultExt = "tide";
-        public static readonly string AutosavePath = Path.GetTempPath() + "PolyPaintPro\\";
+        public static readonly string AutosaveDirPath = Path.GetTempPath() + "PolyPaintPro\\";
+        public static readonly string AutosaveFilePath = AutosaveDirPath + "{0}_autosave.tide";
     }
 }
