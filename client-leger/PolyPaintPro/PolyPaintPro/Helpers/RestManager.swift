@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import PromiseKit
 
-class Login {
+class RestManager {
     var username: String
     var password: String
     var error: String
@@ -21,7 +21,7 @@ class Login {
         self.error = ""
     }
 
-    func connectToServer() -> Promise<Bool> {
+    func loginToServer() -> Promise<Bool> {
         if ServerLookup.sharedInstance.address.isEmpty {
             error = "No server address found."
             return Promise(value: false)
@@ -44,6 +44,41 @@ class Login {
                             if serverResponse.status == "success" {
                                 fulfill(true)
                                 AccountManager.sharedInstance.saveCookies(response: response)
+                                return
+                            } else {
+                                fulfill(false)
+                            }
+                        } catch let error {
+                            reject(error)
+                        }
+                }
+            }
+        }
+    }
+
+    func registerToServer() -> Promise<Bool> {
+        if ServerLookup.sharedInstance.address.isEmpty {
+            error = "No server address found."
+            return Promise(value: false)
+        } else {
+            return Promise<Bool> { fulfill, reject in
+                let headers = ["Content-Type": "application/x-www-form-urlencoded"]
+                let parameters: [String: String] = [
+                    "email": self.username,
+                    "password": self.password
+                ]
+                Alamofire.request("http://" + ServerLookup.sharedInstance.address + ":5025/register",
+                                  method: .post,
+                                  parameters: parameters,
+                                  encoding: URLEncoding.default,
+                                  headers: headers)
+                    .responseJSON { response in
+                        let decoder = JSONDecoder()
+                        do {
+                            let serverResponse = try decoder.decode(ServerResponse.self, from: response.data!)
+                            if serverResponse.status == "success" {
+                                fulfill(true)
+                                //AccountManager.sharedInstance.saveCookies(response: response)
                                 return
                             } else {
                                 fulfill(false)

@@ -10,18 +10,21 @@ import Alamofire
 import PromiseKit
 
 class LoginViewController: UIViewController {
-    //Labels
+
+    // MARK: - RestManager
+    var restManager: RestManager?
+    // MARK: - Labels
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var connectionErrorLabel: UILabel!
 
-    //views
+    // MARK: - Views
     @IBOutlet var placeHolderView: UIView!
     @IBOutlet weak var connectionView: UIView?
     @IBOutlet weak var registerView: UIView?
     @IBOutlet weak var selectorView: UIView!
     @IBOutlet weak var serverInformationsView: UIView!
 
-    //text fields
+    // MARK: - Text fields
     //server address textfield
     @IBOutlet weak var serverAddressField: UITextField!
 
@@ -36,10 +39,10 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var registerPasswordField: UITextField!
     @IBOutlet weak var registerPasswordValidationField: UITextField!
 
-    //error messages labels
+    // MARK: - Error messages labels
     @IBOutlet weak var loginErrorTextField: UILabel!
     @IBOutlet weak var registerErrorTextField: UILabel!
-    //Buttons
+    // MARK: - Buttons
     @IBAction func connexionButton(_ sender: UIButton) {
         let username = loginUsernameField!.text!
         let password = loginPasswordField!.text!
@@ -54,9 +57,9 @@ class LoginViewController: UIViewController {
 
     private func loginToServer(sender: UIButton, username: String, password: String) {
         print("try to login")
-        let loginManager = Login(username: username, password: password)
+        restManager = RestManager(username: username, password: password)
         firstly {
-            loginManager.connectToServer()
+            restManager!.loginToServer()
         }.then { response -> Void in
             if response == true {
                 self.loginErrorTextField?.isHidden = true
@@ -74,7 +77,6 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func registerButton(_ sender: UIButton) {
-        // need a registration error button
         let username = registerUsernameField!.text!
         let password = registerPasswordField!.text!
 
@@ -89,9 +91,9 @@ class LoginViewController: UIViewController {
 
     private func registerAccount(sender: UIButton, username: String, password: String) {
         print("try to register")
-        let registerManager = Register(username: username, password: password)
+        restManager = RestManager(username: username, password: password)
         firstly {
-            registerManager.connectToServer()
+            restManager!.registerToServer()
             }.then { response -> Void in
                 if response == true {
                     self.loginErrorTextField?.isHidden = true
