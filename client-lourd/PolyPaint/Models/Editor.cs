@@ -81,7 +81,7 @@ namespace PolyPaint.Models
             }
         }
 
-        public ObservableCollection<string> RecentAutosaves { get; internal set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> RecentAutosaves { get; } = new ObservableCollection<string>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<Stroke> EditorAddedStroke;
@@ -201,7 +201,7 @@ namespace PolyPaint.Models
             {
                 //ignored
                 // TODO: Handle exception
-                UserErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" + e.HResult);
+                ShowUserErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" + e.HResult);
             }
             finally
             {
@@ -248,13 +248,13 @@ namespace PolyPaint.Models
                     // TODO: Show error in statusbar on autosave
                 }
 
-                UserErrorMessage("Impossible d'accéder au fichier ou répertoire. Exception #" + e.HResult);
+                ShowUserErrorMessage("Impossible d'accéder au fichier ou répertoire. Exception #" + e.HResult);
             }
             catch (Exception e)
             {
                 // ignored
                 if (!autosave)
-                    UserErrorMessage("Une erreur est survenue lors de l'ouverture du fichier. Exception #" + e.HResult);
+                    ShowUserErrorMessage("Une erreur est survenue lors de l'ouverture du fichier. Exception #" + e.HResult);
             }
             finally
             {
@@ -267,6 +267,7 @@ namespace PolyPaint.Models
         {
             try
             {
+                // If directory doesn't exist, no file was ever autosaved
                 if (!Directory.Exists(FileExtensionConstants.AutosaveDirPath))
                     return;
 
@@ -281,6 +282,12 @@ namespace PolyPaint.Models
             }
         }
 
+        /// <summary>
+        ///     Processes all files in autosave directory
+        ///     First RegExp extracts the filename from filepath (%LocalAppData%/Temp/PolyPaintPro/DrawingName_autosave.tide =>
+        ///     DrawingName_autosave.tide)
+        ///     Second RegExp extracts the drawing name from filename (DrawingName_autosave.tide => DrawingName)
+        /// </summary>
         private void ProcessRecentFile(string filePath)
         {
             string fileName = Regex.Match(filePath, "[\\w]*.tide").Value;
@@ -288,7 +295,7 @@ namespace PolyPaint.Models
             RecentAutosaves.Add(drawingName);
         }
 
-        private void UserErrorMessage(string message)
+        private void ShowUserErrorMessage(string message)
         {
             MessageBox.Show(message, @"Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
