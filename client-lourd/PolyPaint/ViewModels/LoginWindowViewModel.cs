@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
@@ -33,7 +35,7 @@ namespace PolyPaint.ViewModels
         public string UserEmail { get; set; }
 
         // TODO: Get password from the password field
-        public string Password { get; set; } = "hahahaha";
+        public string Password { get; set; }
 
         public string ServerUri
         {
@@ -138,6 +140,7 @@ namespace PolyPaint.ViewModels
 
         private void Login(object o)
         {
+            Password = (o as PasswordBox)?.Password;
             TryLoginRequest();
         }
 
