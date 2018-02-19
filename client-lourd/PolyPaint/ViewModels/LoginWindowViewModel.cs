@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,7 +33,6 @@ namespace PolyPaint.ViewModels
 
         public string UserEmail { get; set; }
 
-        // TODO: Get password from the password field
         public string Password { get; set; }
 
         public string ServerUri
@@ -46,7 +44,6 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> LoginCommand { get; set; }
         public RelayCommand<object> SignupCommand { get; set; }
         public RelayCommand<string> ShowErrorMessageCommand { get; set; }
-        public ChatWindowView ChatWindow { get; private set; }
         public event EventHandler ClosingRequest;
 
         /// <summary>
@@ -96,7 +93,7 @@ namespace PolyPaint.ViewModels
                 _cookies.GetCookies(new Uri(RestHandler.ServerUri)).Cast<Cookie>();
 
             return responseCookies
-                .Select(cookie => new KeyValuePair<string, string>(cookie.Name, cookie.Value)).ToList();
+                   .Select(cookie => new KeyValuePair<string, string>(cookie.Name, cookie.Value)).ToList();
         }
 
         /// <summary>
@@ -135,6 +132,7 @@ namespace PolyPaint.ViewModels
                 ShowErrorMessageCommand.Execute(e.Message);
                 return;
             }
+
             ShowErrorMessageCommand.Execute(responseJson.GetValue("error").ToString());
         }
 
@@ -164,7 +162,7 @@ namespace PolyPaint.ViewModels
             {
                 ChatWindow = new ChatWindowView();
                 ChatWindow.Show();
-                ChatWindow = null;
+                ChatWindow.Closed += (sender, args) => ChatWindow = null;
                 OnClosingRequest();
             }
         }
