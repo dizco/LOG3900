@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     }
 
     func toolsToggleFn() {
-        toolsView.layer.cornerRadius = 10
+
         let sidebarWidth = self.toolsView.frame.width
         if toolsShowing {
             toolsViewConstraint.constant = -sidebarWidth
@@ -104,7 +104,8 @@ class ViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        toolsViewConstraint.constant = -76
+        toolsViewConstraint.constant = -self.toolsView.frame.width
+        toolsView.layer.cornerRadius = 10
         super.viewDidLoad()
         self.hideKeyboard()
         observeKeyboardNotification()
