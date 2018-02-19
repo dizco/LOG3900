@@ -4,12 +4,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Ink;
-using System.Windows.Media;
 using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Strategy.EditorActionStrategy;
 using PolyPaint.Views;
+using Color = System.Windows.Media.Color;
+using ColorConverter = System.Windows.Media.ColorConverter;
 
 namespace PolyPaint.ViewModels
 {
@@ -129,6 +130,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }
 
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
+        public RelayCommand<object> ExportDrawingCommand { get; set; }
 
         //Command for sending editor actions to server
         public RelayCommand<Stroke> SendNewStrokeCommand { get; set; }

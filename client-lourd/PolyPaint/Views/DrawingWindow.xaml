@@ -167,8 +167,9 @@
                         Foreground="Gray"                        
                         TickFrequency="10" TickPlacement="BottomRight" IsSnapToTickEnabled="False">
                 </Slider>
-                <StackPanel Orientation="Vertical" Margin="5,4" VerticalAlignment="Center" Width="286">
-                    <Button x:Name="LoginWindow"  Command="{Binding ShowLoginWindowCommand}" RenderTransformOrigin="0.5,0.5" Click="LoginButtonClick" Height="43" Margin="218,0,1,0" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True">
+                <StackPanel Orientation="Horizontal" Margin="5,4" VerticalAlignment="Center" Width="286">
+                    <Button Command="{Binding ExportDrawingCommand}" CommandParameter="{Binding ElementName=surfaceDessin}" Content="Exporter Dessin" HorizontalAlignment="Right" Width="79" Height="37" RenderTransformOrigin="0.5,0.5"/>
+                    <Button x:Name="LoginWindow" Command="{Binding ShowLoginWindowCommand}" RenderTransformOrigin="0.5,0.5" Click="LoginButtonClick" Height="43" Margin="150,0,1,0" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True" Width="51">
                         <Button.Background>
                             <ImageBrush ImageSource="/PolyPaint;component/Resources/tidepod.png"/>
                         </Button.Background>
@@ -182,7 +183,7 @@
                             <TransformGroup>
                                 <ScaleTransform/>
                                 <SkewTransform/>
-                                <RotateTransform Angle="-0.809"/>
+                                <RotateTransform Angle="0.0"/>
                                 <TranslateTransform/>
                             </TransformGroup>
                         </Button.RenderTransform>
