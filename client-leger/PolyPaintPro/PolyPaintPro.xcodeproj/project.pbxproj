@@ -23,7 +23,7 @@
 		6472425BEFE90D447BE1EFCB /* Pods_PolyPaintPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FBB77A965C181A69459178 /* Pods_PolyPaintPro.framework */; };
 		AD71483325AD99B253B242F5 /* Pods_PolyPaintProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */; };
 		BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE23A188202D2DC800342007 /* AccountManager.swift */; };
-		BE23A18B202D2DC800342007 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE23A189202D2DC800342007 /* Login.swift */; };
+		BE23A18B202D2DC800342007 /* RestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE23A189202D2DC800342007 /* RestManager.swift */; };
 		BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90D92028AEB0003C8F1E /* Timestamp.swift */; };
 		BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */; };
 		BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A1E202102CD00FD1C50 /* SocketManager.swift */; };
@@ -76,7 +76,7 @@
 		5018986DF83B4B9BB3B17B98 /* Pods-PolyPaintPro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.debug.xcconfig"; sourceTree = "<group>"; };
 		5BC84467F4E78A5C51D80C35 /* Pods-PolyPaintProTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.release.xcconfig"; sourceTree = "<group>"; };
 		BE23A188202D2DC800342007 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
-		BE23A189202D2DC800342007 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		BE23A189202D2DC800342007 /* RestManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestManager.swift; sourceTree = "<group>"; };
 		BE2C90D92028AEB0003C8F1E /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
 		BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerLookup.swift; sourceTree = "<group>"; };
 		BE426A1E202102CD00FD1C50 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				BE23A188202D2DC800342007 /* AccountManager.swift */,
-				BE23A189202D2DC800342007 /* Login.swift */,
+				BE23A189202D2DC800342007 /* RestManager.swift */,
 				27080CF9202650CD0071FDC0 /* Extensions.swift */,
 				BE426A1E202102CD00FD1C50 /* SocketManager.swift */,
 				BE426A2020215E3C00FD1C50 /* ChatMessage.swift */,
@@ -565,7 +565,7 @@
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
 				BEA1519D202E1006004704B0 /* Register.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
-				BE23A18B202D2DC800342007 /* Login.swift in Sources */,
+				BE23A18B202D2DC800342007 /* RestManager.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
