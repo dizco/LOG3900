@@ -7,16 +7,25 @@ class ViewController: UIViewController {
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
     @IBOutlet weak var toolsView: UIView!
+    @IBOutlet weak var drawingSettingsView: UIView!
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var messageField: UITextField!
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the
 
     @IBOutlet weak var toolsViewConstraint: NSLayoutConstraint! //constraint to show/hide the tools view
+    @IBOutlet weak var drawingSettingsContraint: NSLayoutConstraint! //constraint to show#hide drawing tools
+    @IBAction func editDrawingSettings(_ sender: Any) {
+        drawingSettingsFn()
+    }
     @IBAction func chatToggleBtn(_ sender: Any) {
         chatToggleFn()
     }
 
     @IBAction func toolsToggleBtn(_ sender: Any) {
         toolsToggleFn()
+        if drawingSettingsShowing {
+            drawingSettingsFn()
+        }
     }
 
     @IBOutlet weak var imageView: UIImageView!
@@ -97,6 +106,17 @@ class ViewController: UIViewController {
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         }
         chatShowing = !chatShowing
+    }
+
+        let settingsView = self.drawingSettingsView.frame.width
+        if drawingSettingsShowing {
+            drawingSettingsContraint.constant = -settingsView
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
+        } else {
+            drawingSettingsContraint.constant = 0
+            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
+        }
+        drawingSettingsShowing = !drawingSettingsShowing
     }
 
     override func didReceiveMemoryWarning() {
