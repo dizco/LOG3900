@@ -95,7 +95,7 @@ describe("websocket decorator", function() {
 
             user1.broadcast.send(data);
 
-            expect(wsSpy1.called).to.be.false;
+            expect(wsSpy1.withArgs(data).calledOnce).to.be.true;
             expect(wsSpy2.withArgs(data).calledOnce).to.be.true;
         });
     });

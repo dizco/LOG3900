@@ -109,7 +109,7 @@ describe("rooms", function() {
             sandbox.restore();
         });
 
-        it("should broadcast to other users of the room", function() {
+        it("should broadcast to all users of the room", function() {
             const ws1 = new FakeWebSocket("ws://localhost");
             const ws2 = new FakeWebSocket("ws://localhost");
             const ws3 = new FakeWebSocket("ws://localhost");
@@ -128,7 +128,7 @@ describe("rooms", function() {
 
             room.broadcast(data, user1);
 
-            expect(wsSpy1.called).to.be.false;
+            expect(wsSpy2.withArgs(data).calledOnce).to.be.true;
             expect(wsSpy2.withArgs(data).calledOnce).to.be.true;
             expect(wsSpy3.withArgs(data).calledOnce).to.be.true;
         });
