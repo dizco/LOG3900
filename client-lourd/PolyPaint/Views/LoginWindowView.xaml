@@ -28,14 +28,14 @@
                     <TextBox Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
 
                     <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
-                    <PasswordBox FontSize="18"/>
+                    <PasswordBox Name="LoginPasswordBox" FontSize="18"/>
                     <CheckBox Content="Se souvenir de moi" FontWeight="Bold" FontSize="18" BorderThickness="1"/>
 
                     <Label Content="Adresse IP du serveur" Margin="0,60,0,0" FontWeight="Bold" FontSize="18"/>
                     <TextBox Text="{Binding ServerUri, Mode=TwoWay}" FontSize="18"/>
 
                 </StackPanel>
-                <Button x:Name="LogInButton" Command="{Binding LoginCommand}" Content="Connexion" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
+                <Button x:Name="LogInButton" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=LoginPasswordBox}" Content="Connexion" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
             </StackPanel>
         </Canvas>
 
@@ -59,7 +59,7 @@
                     <TextBox Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
 
                     <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
-                    <PasswordBox FontSize="18"/>
+                    <PasswordBox Name="RegisterPasswordBox" FontSize="18"/>
 
                     <Label Content="Confirmation du mot de passe" FontWeight="Bold" FontSize="18"/>
                     <PasswordBox FontSize="18"/>
@@ -68,7 +68,7 @@
                     <TextBox Text="{Binding ServerUri, Mode=TwoWay}" Margin="0,0,0,10" FontSize="18"/>
 
                 </StackPanel>
-                <Button x:Name="SignUpButton" Command="{Binding SignupCommand}" Content="Créer un compte" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
+                <Button x:Name="SignUpButton" Command="{Binding SignupCommand}" CommandParameter="{Binding ElementName=RegisterPasswordBox}" Content="Créer un compte" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
             </StackPanel>
         </Canvas>
     </Grid>
