@@ -7,5 +7,5 @@ import { NextFunction, Request, Response } from "express";
  * Ping API
  */
 export let getPing = (req: Request, res: Response, next: NextFunction) => {
-    res.json();
+    res.status(204).send();
 };
