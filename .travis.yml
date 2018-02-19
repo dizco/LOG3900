@@ -3,16 +3,19 @@ matrix:
     - language: node_js
       node_js: 8
       env: TO_TEST=SERVEUR
+        FOLDER=serveur
     - language: objective-c
       os: osx
       osx_image: xcode9.2
       env: TO_TEST=CLIENT_LEGER
-    #- language: csharp
-    #  solution: PolyPaint.sln
-    #  env: TO_TEST=CLIENT_LOURD
+        FOLDER=client-leger
   fast_finish: true
 
 before_install:
+  - git diff --name-only HEAD~ | grep $FOLDER || {
+      echo "No modifications within Job folder, stopping job process.";
+      TO_TEST=;
+    }
   - if [ "$TO_TEST" = "SERVEUR" ]; then cd serveur; fi
   - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then cd client-leger/PolyPaintPro; pod repo update; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then cd client-lourd; fi
