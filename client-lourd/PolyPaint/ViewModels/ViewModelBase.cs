@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.MessagingModels;
+using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels
 {
     internal class ViewModelBase
     {
         private static Messenger _messenger;
+
+        public static LoginWindowView LoginWindow { get; set; }
+        public static ChatWindowView ChatWindow { get; set; }
 
         protected static string DrawingRoomId
         {
@@ -45,6 +49,7 @@ namespace PolyPaint.ViewModels
                 socketHandler.EditorActionReceived += OnEditorActionReceived;
                 _messenger = new Messenger(socketHandler);
             }
+
             return _messenger;
         }
 

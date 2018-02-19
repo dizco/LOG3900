@@ -63,9 +63,6 @@ namespace PolyPaint.ViewModels
             ShowLoginWindowCommand = new RelayCommand<object>(ShowLoginWindow);
         }
 
-        public LoginWindowView LoginWindow { get; set; }
-        public ChatWindowView ChatWindow { get; set; }
-
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
         public DrawingAttributes DrawingAttributes { get; set; }
 
@@ -186,14 +183,26 @@ namespace PolyPaint.ViewModels
             DrawingAttributes.Height = _editor.SelectedTip == "horizontale" ? 1 : _editor.StrokeSize;
         }
 
-        //Show login window
         public void ShowLoginWindow(object o)
         {
-            if (LoginWindow == null)
+            if (Messenger?.IsConnected == true)
+            {
+                if (ChatWindow == null)
+                {
+                    ChatWindow = new ChatWindowView();
+                    ChatWindow.Show();
+                    ChatWindow.Closed += (sender, args) => ChatWindow = null;
+                }
+                else
+                {
+                    ChatWindow.Activate();
+                }
+            }
+            else if (LoginWindow == null)
             {
                 LoginWindow = new LoginWindowView();
                 LoginWindow.Show();
-                LoginWindow.Closed += AddItemViewClosed;
+                LoginWindow.Closed += LoginViewClosed;
             }
             else
             {
@@ -201,7 +210,7 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        private void AddItemViewClosed(object sender, EventArgs e)
+        private void LoginViewClosed(object sender, EventArgs e)
         {
             LoginWindow = null;
         }
