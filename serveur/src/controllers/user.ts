@@ -39,7 +39,7 @@ export let postLogin = (req: Request, res: Response, next: NextFunction) => {
     const errors = req.validationErrors();
 
     if (errors) {
-        return res.status(400).json({status: "error", error: "Validation errors.", hints: errors});
+        return res.status(422).json({status: "error", error: "Validation errors.", hints: errors});
     }
 
     passport.authenticate("local", (err: Error, user: UserModel, info: IVerifyOptions) => {
@@ -93,7 +93,7 @@ export let postRegister = (req: Request, res: Response, next: NextFunction) => {
     const errors = req.validationErrors();
 
     if (errors) {
-        return res.status(400).json({status: "error", error: "Validation errors.", hints: errors});
+        return res.status(422).json({status: "error", error: "Validation errors.", hints: errors});
     }
 
     const user = new User({
