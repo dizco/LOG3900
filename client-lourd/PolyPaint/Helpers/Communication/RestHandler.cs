@@ -10,17 +10,24 @@ namespace PolyPaint.Helpers.Communication
         private static readonly HttpClient Client = new HttpClient(Handler);
         public static string ServerUri { get; set; }
 
+        /// <summary>
+        ///     This method makes a GET request to the server URI specified by the user. If the request throws an exception, the
+        ///     server does not exist at the specified adress.
+        /// </summary>
+        /// <returns></returns>
         public static async Task<bool> ValidateServerUri()
         {
             try
             {
-                await Client.GetAsync(ServerUri);
+                HttpResponseMessage response = await Client.GetAsync(ServerUri + "/ping");
+                if (response.IsSuccessStatusCode) return true;
             }
             catch
             {
                 return false;
             }
-            return true;
+
+            return false;
         }
 
         public static async Task<HttpResponseMessage> LoginInfo(string username, string password)

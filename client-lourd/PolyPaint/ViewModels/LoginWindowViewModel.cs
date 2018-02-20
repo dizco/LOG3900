@@ -52,10 +52,12 @@ namespace PolyPaint.ViewModels
         private async void TryLoginRequest()
         {
             RestHandler.ServerUri = HttpServerUri;
-
-            // TODO: Alert user of invalid URI
+            
             if (!await RestHandler.ValidateServerUri())
+            {
+                ShowErrorMessageCommand.Execute("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
                 return;
+            }
 
             HttpResponseMessage response = await RestHandler.LoginInfo(UserEmail, Password);
 
@@ -71,10 +73,12 @@ namespace PolyPaint.ViewModels
         private async void TryRegisterRequest()
         {
             RestHandler.ServerUri = HttpServerUri;
-
-            // TODO: Alert user of invalid URI
+            
             if (!await RestHandler.ValidateServerUri())
+            {
+                ShowErrorMessageCommand.Execute("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
                 return;
+            }
 
             HttpResponseMessage response = await RestHandler.RegisterInfo(UserEmail, Password);
 
