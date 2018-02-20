@@ -367,7 +367,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nqG-P9-h52">
                                 <rect key="frame" x="0.0" y="64" width="1024" height="704"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Nf-Dt-IWU">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Nf-Dt-IWU" customClass="DrawingToolsview" customModule="PolyPaintPro" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="110" width="298" height="628"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rouge" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q6x-Lt-5cB">
@@ -382,7 +382,7 @@
                                             <constraint firstAttribute="width" constant="163" id="pQN-Hr-BwG"/>
                                         </constraints>
                                         <connections>
-                                            <action selector="redSliderChanged:" destination="KwV-uG-opW" eventType="valueChanged" id="dXT-QS-kMp"/>
+                                            <action selector="redSliderChanged:" destination="3Nf-Dt-IWU" eventType="valueChanged" id="rkc-5i-wbb"/>
                                         </connections>
                                     </slider>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="255" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ftk-9M-px6">
@@ -392,8 +392,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="redTextField:" destination="KwV-uG-opW" eventType="editingDidEnd" id="9Im-Je-52k"/>
-                                            <action selector="redTextFieldChanged:" destination="KwV-uG-opW" eventType="editingDidEnd" id="DOX-Uz-Eao"/>
+                                            <action selector="redTextFieldChanged:" destination="3Nf-Dt-IWU" eventType="editingDidEnd" id="MZz-tG-nMQ"/>
                                         </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vert" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLp-Qg-k3d">
@@ -408,7 +407,7 @@
                                             <constraint firstAttribute="width" constant="163" id="ac5-cJ-tdQ"/>
                                         </constraints>
                                         <connections>
-                                            <action selector="greenSliderChanged:" destination="KwV-uG-opW" eventType="valueChanged" id="jUc-Qe-4sH"/>
+                                            <action selector="greenSliderChanged:" destination="3Nf-Dt-IWU" eventType="valueChanged" id="aLP-Aw-63m"/>
                                         </connections>
                                     </slider>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="255" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S0v-I6-dpj">
@@ -418,7 +417,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="greenTextFieldChanged:" destination="KwV-uG-opW" eventType="editingDidEnd" id="WV9-7k-qFI"/>
+                                            <action selector="greenTextFieldChanged:" destination="3Nf-Dt-IWU" eventType="editingDidEnd" id="H4a-di-rUI"/>
                                         </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bleu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pn1-Ir-Bv3">
@@ -433,7 +432,7 @@
                                             <constraint firstAttribute="width" constant="163" id="vTI-3H-bNA"/>
                                         </constraints>
                                         <connections>
-                                            <action selector="blueSliderChanged:" destination="KwV-uG-opW" eventType="valueChanged" id="Q8P-Di-odU"/>
+                                            <action selector="blueSliderChanged:" destination="3Nf-Dt-IWU" eventType="valueChanged" id="3MB-gT-Q05"/>
                                         </connections>
                                     </slider>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="255" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gx5-uf-uuI">
@@ -443,7 +442,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="blueTextFieldChanged:" destination="KwV-uG-opW" eventType="editingDidEnd" id="CLH-gd-7Ue"/>
+                                            <action selector="blueTextFieldChanged:" destination="3Nf-Dt-IWU" eventType="editingDidEnd" id="nJy-yI-XqR"/>
                                         </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alpha" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RfS-CF-clq">
@@ -458,7 +457,7 @@
                                             <constraint firstAttribute="width" constant="163" id="5gt-qi-jXe"/>
                                         </constraints>
                                         <connections>
-                                            <action selector="alphaSliderChanged:" destination="KwV-uG-opW" eventType="valueChanged" id="GEm-WO-aQH"/>
+                                            <action selector="alphaSliderChanged:" destination="3Nf-Dt-IWU" eventType="valueChanged" id="XrC-PD-qjf"/>
                                         </connections>
                                     </slider>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="100" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IGD-Rs-xvX">
@@ -468,7 +467,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="alphaTextFieldChanged:" destination="KwV-uG-opW" eventType="editingDidEnd" id="p9i-Ny-g1x"/>
+                                            <action selector="alphaTextFieldChanged:" destination="3Nf-Dt-IWU" eventType="editingDidEnd" id="0bV-NL-b0S"/>
                                         </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Résultat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jL-6Y-56h">
@@ -511,6 +510,17 @@
                                     <constraint firstAttribute="height" constant="628" id="rYb-Ys-wB4"/>
                                     <constraint firstItem="ItT-dZ-kbm" firstAttribute="top" secondItem="Q6x-Lt-5cB" secondAttribute="bottom" constant="8" id="xtf-v9-P8i"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="alphaField" destination="IGD-Rs-xvX" id="Dez-w1-Qlf"/>
+                                    <outlet property="alphaSlider" destination="gXE-xI-yuN" id="wJU-P5-9aV"/>
+                                    <outlet property="blueField" destination="gx5-uf-uuI" id="xHX-Gy-0wV"/>
+                                    <outlet property="blueSlider" destination="Vhd-C3-0FF" id="IaY-aI-AtG"/>
+                                    <outlet property="colorPreview" destination="eBj-Jm-Gze" id="CAY-Si-uH7"/>
+                                    <outlet property="greenField" destination="S0v-I6-dpj" id="m8e-r1-ZCq"/>
+                                    <outlet property="greenSlider" destination="B7o-sI-6hk" id="Gje-i9-3Ed"/>
+                                    <outlet property="redField" destination="ftk-9M-px6" id="csS-Go-N5b"/>
+                                    <outlet property="redSlider" destination="ItT-dZ-kbm" id="Kb2-cE-nwR"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mzz-8E-ANo" customClass="ChatView" customModule="PolyPaintPro" customModuleProvider="target">
                                 <rect key="frame" x="1024" y="64" width="256" height="704"/>
@@ -694,22 +704,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="alphaField" destination="IGD-Rs-xvX" id="KSl-rW-IiR"/>
-                        <outlet property="alphaSlider" destination="gXE-xI-yuN" id="aVp-yE-6Tp"/>
-                        <outlet property="blueField" destination="gx5-uf-uuI" id="AqV-hR-Y2l"/>
-                        <outlet property="blueSlider" destination="Vhd-C3-0FF" id="mpM-K1-Sw6"/>
                         <outlet property="chatView" destination="Mzz-8E-ANo" id="jdH-7R-W1h"/>
                         <outlet property="chatViewConstraint" destination="prm-p3-d70" id="97j-7r-CVh"/>
-                        <outlet property="colourExampleView" destination="eBj-Jm-Gze" id="SKd-V5-V89"/>
                         <outlet property="drawView" destination="Cys-yA-DLW" id="Qbu-Bx-1Je"/>
                         <outlet property="drawingSettingsContraint" destination="8BA-4A-FSg" id="5CJ-H7-PGv"/>
                         <outlet property="drawingSettingsView" destination="3Nf-Dt-IWU" id="xPV-aH-K81"/>
-                        <outlet property="greenField" destination="S0v-I6-dpj" id="O0p-LF-Eic"/>
-                        <outlet property="greenSlider" destination="B7o-sI-6hk" id="pkO-aO-OwG"/>
                         <outlet property="imageView" destination="nqG-P9-h52" id="7JK-Xl-Kpa"/>
                         <outlet property="messageField" destination="E8N-VT-aFV" id="lw2-ho-NNT"/>
-                        <outlet property="redField" destination="ftk-9M-px6" id="SY2-Ui-I5D"/>
-                        <outlet property="redSlider" destination="ItT-dZ-kbm" id="JGR-kf-LFv"/>
                         <outlet property="toolsView" destination="wqH-w6-eOY" id="xmw-9V-jaA"/>
                         <outlet property="toolsViewConstraint" destination="3Wu-WD-2uB" id="ZdU-Cx-7vP"/>
                     </connections>

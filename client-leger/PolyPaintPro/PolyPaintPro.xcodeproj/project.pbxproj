@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CF9202650CD0071FDC0 /* Extensions.swift */; };
 		27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CFC2026528E0071FDC0 /* ChatView.swift */; };
+		271C1EC7203CC5D70090D6A5 /* DrawingToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */; };
 		274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0348200EF37900DDAD8D /* AppDelegate.swift */; };
 		274C034B200EF37900DDAD8D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C034A200EF37900DDAD8D /* ViewController.swift */; };
 		274C034E200EF37900DDAD8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 274C034C200EF37900DDAD8D /* Main.storyboard */; };
@@ -53,6 +54,7 @@
 		0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27080CF9202650CD0071FDC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		27080CFC2026528E0071FDC0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingToolsView.swift; sourceTree = "<group>"; };
 		274C0345200EF37900DDAD8D /* PolyPaintPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyPaintPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		274C0348200EF37900DDAD8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; usesTabs = 1; };
 		274C034A200EF37900DDAD8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				27080CFC2026528E0071FDC0 /* ChatView.swift */,
+				271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				274C034B200EF37900DDAD8D /* ViewController.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */,
+				271C1EC7203CC5D70090D6A5 /* DrawingToolsView.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
 				BEA1519D202E1006004704B0 /* Register.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
