@@ -46,45 +46,33 @@ namespace PolyPaint.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public void SendMessage(object o)
         {
             //Sending all the information about the item
             if (!string.IsNullOrWhiteSpace(PendingChatMessage) && Messenger.IsConnected)
             {
                 Messenger.SendChatMessage(PendingChatMessage);
-                AppendMessageToChat(PendingChatMessage);
-                //clear message after it's transmission
                 PendingChatMessage = string.Empty;
             }
         }
 
         private void DisplayReceivedMessage(object sender, ChatMessageModel message)
         {
-            AppendMessageToChat(string.Empty, message);
+            AppendMessageToChat(message);
         }
 
-        private void AppendMessageToChat(string outgoingMessage = "", ChatMessageModel incomingMessage = null)
+        private void AppendMessageToChat(ChatMessageModel incomingMessage = null)
         {
             string message, author;
             DateTime messageTime;
-            bool sentByMe;
 
-            if (outgoingMessage != string.Empty)
-            {
-                message = outgoingMessage;
-                messageTime = DateTime.UtcNow.ToLocalTime();
-                author = "Me";
-                sentByMe = true;
-            }
-            else if (incomingMessage != null)
+            if (incomingMessage != null)
             {
                 DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
                 message = incomingMessage.Message;
                 messageTime = unixEpoch.AddMilliseconds(incomingMessage.Timestamp).ToLocalTime();
-                sentByMe = false;
                 author = incomingMessage.Author?.Name ?? "PodMuncher";
-                sentByMe = false;
             }
             else
             {
@@ -99,7 +87,6 @@ namespace PolyPaint.ViewModels
                     Title = message,
                     MessageSentTime = messageTime,
                     SenderName = author,
-                    SentByMe = sentByMe,
                     NewItem = true
                 });
             }
@@ -122,7 +109,6 @@ namespace PolyPaint.ViewModels
     {
         public string Title { get; set; } = string.Empty;
         public DateTime MessageSentTime { get; set; } = DateTime.UtcNow;
-        public bool SentByMe { get; set; }
         public string SenderName { get; set; } = "missingno";
         public bool NewItem { get; set; } = true;
     }
