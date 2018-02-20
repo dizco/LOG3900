@@ -92,6 +92,9 @@ class ViewController: UIViewController {
 
     func updateColourExample() {
         colourExampleView.backgroundColor = UIColor(red: CGFloat(redValue)/255, green: CGFloat(greenValue)/255, blue: CGFloat(blueValue)/255, alpha:CGFloat(alphaValue)/100)
+        red = CGFloat(redValue)
+        green = CGFloat(greenValue)
+        blue = CGFloat(blueValue)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
