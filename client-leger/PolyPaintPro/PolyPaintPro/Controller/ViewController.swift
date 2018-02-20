@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var chatView: UIView!
     @IBOutlet weak var toolsView: UIView!
     @IBOutlet weak var drawingSettingsView: UIView!
+    @IBOutlet weak var colourExampleView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var messageField: UITextField!
     @IBOutlet weak var redField: UITextField!
@@ -51,34 +52,46 @@ class ViewController: UIViewController {
     @IBAction func redSliderChanged(_ sender: UISlider) {
         redValue = lroundf(sender.value)
         redField.text! = "\(redValue)"
+        updateColourExample()
     }
     @IBAction func greenSliderChanged(_ sender: UISlider) {
         greenValue = lroundf(sender.value)
         greenField.text! = "\(greenValue)"
+        updateColourExample()
     }
     @IBAction func blueSliderChanged(_ sender: UISlider) {
         blueValue = lroundf(sender.value)
         blueField.text! = "\(blueValue)"
+        updateColourExample()
     }
     @IBAction func alphaSliderChanged(_ sender: UISlider) {
         alphaValue = lroundf(sender.value)
         alphaField.text! = "\(alphaValue)"
+        updateColourExample()
     }
     @IBAction func redTextFieldChanged(_ sender: UITextField) {
         redValue = (redField.text as! NSString).integerValue
         redSlider.value = Float(redValue)
+        updateColourExample()
     }
     @IBAction func greenTextFieldChanged(_ sender: UITextField) {
         greenValue = (greenField.text as! NSString).integerValue
         greenSlider.value = Float(greenValue)
+        updateColourExample()
     }
     @IBAction func blueTextFieldChanged(_ sender: Any) {
         blueValue = (blueField.text as! NSString).integerValue
         blueSlider.value = Float(blueValue)
+        updateColourExample()
     }
     @IBAction func alphaTextFieldChanged(_ sender: UITextField) {
         alphaValue = (alphaField.text as! NSString).integerValue
         alphaSlider.value = Float(alphaValue)
+        updateColourExample()
+    }
+
+    func updateColourExample() {
+        colourExampleView.backgroundColor = UIColor(red: CGFloat(redValue)/255, green: CGFloat(greenValue)/255, blue: CGFloat(blueValue)/255, alpha:CGFloat(alphaValue)/100)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

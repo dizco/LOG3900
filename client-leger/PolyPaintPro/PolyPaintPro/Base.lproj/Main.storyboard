@@ -471,6 +471,20 @@
                                             <action selector="alphaTextFieldChanged:" destination="KwV-uG-opW" eventType="editingDidEnd" id="p9i-Ny-g1x"/>
                                         </connections>
                                     </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Résultat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5jL-6Y-56h">
+                                        <rect key="frame" x="118" y="276" width="63" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eBj-Jm-Gze">
+                                        <rect key="frame" x="59" y="305" width="231" height="28"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="231" id="A88-rf-9rr"/>
+                                            <constraint firstAttribute="height" constant="28" id="qjo-Mq-zCc"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.2470588235" green="0.44705882349999998" blue="0.60784313729999995" alpha="0.6366652397260274" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -482,11 +496,15 @@
                                     <constraint firstItem="Q6x-Lt-5cB" firstAttribute="centerX" secondItem="3Nf-Dt-IWU" secondAttribute="centerX" id="KQH-xa-y5d"/>
                                     <constraint firstItem="RfS-CF-clq" firstAttribute="centerX" secondItem="3Nf-Dt-IWU" secondAttribute="centerX" id="Kc6-bb-Ger"/>
                                     <constraint firstItem="gLp-Qg-k3d" firstAttribute="top" secondItem="ItT-dZ-kbm" secondAttribute="bottom" constant="8" id="NpJ-xF-7WK"/>
+                                    <constraint firstItem="5jL-6Y-56h" firstAttribute="top" secondItem="gXE-xI-yuN" secondAttribute="bottom" constant="8" id="PG7-1Y-EAY"/>
                                     <constraint firstItem="Q6x-Lt-5cB" firstAttribute="top" secondItem="3Nf-Dt-IWU" secondAttribute="top" constant="8" id="Pds-xw-ipj"/>
+                                    <constraint firstItem="5jL-6Y-56h" firstAttribute="centerX" secondItem="3Nf-Dt-IWU" secondAttribute="centerX" id="Saz-96-gUc"/>
                                     <constraint firstItem="Vhd-C3-0FF" firstAttribute="top" secondItem="Pn1-Ir-Bv3" secondAttribute="bottom" constant="8" id="UaP-T1-FT7"/>
                                     <constraint firstItem="gXE-xI-yuN" firstAttribute="top" secondItem="RfS-CF-clq" secondAttribute="bottom" constant="8" id="bPC-tw-n7t"/>
+                                    <constraint firstItem="eBj-Jm-Gze" firstAttribute="centerX" secondItem="3Nf-Dt-IWU" secondAttribute="centerX" constant="25.5" id="bXA-Vz-W0w"/>
                                     <constraint firstAttribute="width" constant="298" id="dKi-0R-hrM"/>
                                     <constraint firstItem="Pn1-Ir-Bv3" firstAttribute="centerX" secondItem="3Nf-Dt-IWU" secondAttribute="centerX" id="hyA-2T-G9W"/>
+                                    <constraint firstItem="eBj-Jm-Gze" firstAttribute="top" secondItem="5jL-6Y-56h" secondAttribute="bottom" constant="8" id="lht-vG-siB"/>
                                     <constraint firstItem="Vhd-C3-0FF" firstAttribute="leading" secondItem="3Nf-Dt-IWU" secondAttribute="leading" constant="59" id="nAy-g7-dSU"/>
                                     <constraint firstItem="Pn1-Ir-Bv3" firstAttribute="top" secondItem="B7o-sI-6hk" secondAttribute="bottom" constant="8" id="nI1-oa-1Vn"/>
                                     <constraint firstItem="RfS-CF-clq" firstAttribute="top" secondItem="Vhd-C3-0FF" secondAttribute="bottom" constant="8" id="pxV-tm-hNS"/>
@@ -682,6 +700,7 @@
                         <outlet property="blueSlider" destination="Vhd-C3-0FF" id="mpM-K1-Sw6"/>
                         <outlet property="chatView" destination="Mzz-8E-ANo" id="jdH-7R-W1h"/>
                         <outlet property="chatViewConstraint" destination="prm-p3-d70" id="97j-7r-CVh"/>
+                        <outlet property="colourExampleView" destination="eBj-Jm-Gze" id="SKd-V5-V89"/>
                         <outlet property="drawView" destination="Cys-yA-DLW" id="Qbu-Bx-1Je"/>
                         <outlet property="drawingSettingsContraint" destination="8BA-4A-FSg" id="5CJ-H7-PGv"/>
                         <outlet property="drawingSettingsView" destination="3Nf-Dt-IWU" id="xPV-aH-K81"/>
