@@ -13,6 +13,12 @@ namespace PolyPaint.Helpers.Communication
     {
         private readonly WebSocket _ws;
 
+        public enum DisconnectionReason
+        {
+            Errored = -1,
+            Closed = 0
+        }
+
         public SocketHandler(string uri, List<KeyValuePair<string, string>> cookies)
         {
             _ws = new WebSocket(uri, string.Empty, cookies);
@@ -48,6 +54,7 @@ namespace PolyPaint.Helpers.Communication
 
         public event EventHandler<ChatMessageModel> ChatMessageReceived;
         public event EventHandler<EditorActionModel> EditorActionReceived;
+        public event EventHandler<int> WebSocketDisconnectedEvent;
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
@@ -70,14 +77,12 @@ namespace PolyPaint.Helpers.Communication
 
         private void OnClosed(object sender, EventArgs e)
         {
-            IsConnected = false;
+            WebSocketDisconnected((int)DisconnectionReason.Closed);
         }
 
         private void OnError(object sender, ErrorEventArgs e)
         {
-            // TODO: Implemented reconnection logic
-            ErrorEventArgs args = e;
-            IsConnected = false;
+            WebSocketDisconnected((int)DisconnectionReason.Errored);
         }
 
         private void OnOpened(object sender, EventArgs e)
@@ -95,6 +100,12 @@ namespace PolyPaint.Helpers.Communication
         {
             EditorActionModel actionDeserialized = JsonConvert.DeserializeObject<EditorActionModel>(e);
             EditorActionReceived?.Invoke(this, actionDeserialized);
+        }
+
+        public void WebSocketDisconnected(int e)
+        {
+            IsConnected = false;
+            WebSocketDisconnectedEvent?.Invoke(this, e);
         }
     }
 }
