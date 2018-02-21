@@ -30,5 +30,13 @@ namespace PolyPaint.Views
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
         }
+
+        private void ScrollViewScrollToBottom(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeightChange > 0)
+            {
+                (sender as ScrollViewer)?.ScrollToEnd();
+            }
+        }
     }
 }

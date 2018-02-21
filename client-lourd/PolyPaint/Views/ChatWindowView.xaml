@@ -14,6 +14,7 @@
                           HorizontalAlignment="Right"
                           VerticalScrollBarVisibility="Auto"
                           Width="300"
+                          ScrollChanged="ScrollViewScrollToBottom"
                           >
                     <!--StackPanel Height="auto" Width="auto"/-->
                     <ItemsControl ItemsSource="{Binding ChatItems}">
