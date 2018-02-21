@@ -21,11 +21,9 @@ class ChatView: UIView, SocketManagerDelegate {
 
     func sendMessage() {
         let receivedMessage = messageField!.text
-        let receivedAuthor = AccountManager.sharedInstance.username!
-        let receivedTimestamp = Timestamp()
-        let messageInfos = (receivedAuthor, receivedTimestamp.getCurrentTime())
-        if !receivedMessage!.isEmpty {
-            displayMessage(message: receivedMessage!, messageInfos: messageInfos)
+        let whitespaceSet = CharacterSet.whitespaces
+
+        if !receivedMessage!.trimmingCharacters(in: whitespaceSet).isEmpty {
             do {
                 let outgoingMessage = OutgoingChatMessage(message: receivedMessage!)
                 let encodedData = try JSONEncoder().encode(outgoingMessage)
@@ -38,7 +36,6 @@ class ChatView: UIView, SocketManagerDelegate {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        SocketManager.sharedInstance.delegate = self
     }
 
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
@@ -80,6 +77,9 @@ class ChatView: UIView, SocketManagerDelegate {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        if SocketManager.sharedInstance.delegate == nil {
+            SocketManager.sharedInstance.delegate = self
+        }
     }
 
     func connect() {
@@ -99,7 +99,7 @@ class ChatView: UIView, SocketManagerDelegate {
             let convertTime = Timestamp()
             let timestamp = convertTime.getTimeFromServer(timestamp: incomingMessage.timestamp)
             let messageInfos = (incomingMessage.author.name, timestamp)
-            ChatView().displayMessage(message: incomingMessage.message, messageInfos: messageInfos)
+            self.displayMessage(message: incomingMessage.message, messageInfos: messageInfos)
         } catch let error {
             print(error)
         }
