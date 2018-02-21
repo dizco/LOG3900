@@ -1,6 +1,6 @@
-import { Stroke } from "./stroke";
 import { DrawingAttributes } from "./drawing-attributes";
+import { ServerEditorAction } from "../sockets/server-editor-action";
 
 export interface Drawing extends DrawingAttributes {
-    strokes?: Stroke[];
+    actions?: ServerEditorAction[];
 }

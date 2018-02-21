@@ -20,7 +20,7 @@ export class SocketStrategyEditorAction implements SocketStrategy {
         decorator.decorate(wsDecorator.getWs())
             .then((message: ServerEditorAction) => {
                 //TODO: Validate if user is allowed to broadcast to that room
-                const success = wsDecorator.broadcast.to(message.drawing.id.toString()).send(JSON.stringify(message));
+                const success = wsDecorator.broadcast.send(JSON.stringify(message)); //TODO: .to(message.drawing.id.toString())
                 if (!success) {
                     console.log("EditorAction failed to broadcast");
                     //TODO: Notify emitting user
