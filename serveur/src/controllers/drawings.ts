@@ -3,6 +3,10 @@ import { Drawing } from "../models/drawings/drawing";
 import { Stroke } from "../models/drawings/stroke";
 import { Pixel } from "../models/drawings/pixel";
 import { Owner } from "../models/drawings/owner";
+import { ServerEditorAction } from "../models/sockets/server-editor-action";
+import { StrokeAttributes } from "../models/drawings/stroke-attributes";
+import { ClientEditorAction } from "../models/sockets/client-editor-action";
+import { DrawingAttributes } from "../models/drawings/drawing-attributes";
 
 /**
  * POST /drawings
@@ -31,18 +35,34 @@ export let getDrawing = (req: Request, res: Response) => {
         url: "https://example.com/users/dizco",
         avatar_url: "https://example.com/users/dizco/avatar.jpg",
     };
-    const dots: Pixel[] = [{color: "#fff", x: 1, y: 2}];
-    const strokes: Stroke[] = [{
-        author: { //We don't need to send the whole author information every time
-            id: 134
-        },
-        dots: dots,
-    }];
-    const drawing: Drawing = {
+
+    const drawingAttributes: DrawingAttributes = {
         id: req.params.id,
         name: "This is the way",
         owner: owner,
-        strokes: strokes,
+    };
+
+    const dots: Pixel[] = [{x: 1, y: 2}];
+    const strokeAttributes: StrokeAttributes = { color: "#FF000000", height: 10, width: 10, stylusTip: "Ellipse" };
+    const actions: ServerEditorAction[] = [{
+        type: "server.editor.action",
+        action: { id: 1, name: "NewStroke" },
+        drawing: drawingAttributes,
+        author: {
+            id: 134,
+            username: "dizco",
+            name: "Gabriel",
+            url: "https://example.com/users/dizco",
+            avatar_url: "https://example.com/users/dizco/avatar.jpg",
+        },
+        stroke: { strokeAttributes: strokeAttributes, dots: dots},
+    }];
+
+    const drawing: Drawing = {
+        id: drawingAttributes.id,
+        name: drawingAttributes.name,
+        owner: drawingAttributes.owner,
+        actions: actions,
     };
 
     res.json(drawing);

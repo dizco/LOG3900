@@ -1,5 +1,6 @@
 import { SocketMessage } from "./socket-message";
 import { Action, IsAction } from "./action";
+import { IsStroke, Stroke } from "../drawings/stroke";
 
 export interface ClientEditorAction extends SocketMessage {
     action: Action;
@@ -7,6 +8,8 @@ export interface ClientEditorAction extends SocketMessage {
     drawing: {
         id: number | string;
     };
+
+    stroke: Stroke;
 }
 
 export function IsClientEditorAction(action: any): action is ClientEditorAction {
@@ -21,6 +24,12 @@ export function IsClientEditorAction(action: any): action is ClientEditorAction 
         return false;
     }
     else if (!("id" in action.drawing)) {
+        return false;
+    }
+    else if (!("stroke" in action)) {
+        return false;
+    }
+    else if (!(IsStroke(action.stroke))) {
         return false;
     }
 
