@@ -52,6 +52,7 @@ class DrawingToolsview: UIView {
     @IBAction func sizeSliderChanged(_ sender: UISlider) {
         widthValue = lroundf(sender.value)
         sizeField.text! = "\(widthValue)"
+        updateSize()
     }
     @IBAction func redTextFieldChanged(_ sender: UITextField) {
         redValue = (redField.text as! NSString).integerValue
@@ -76,6 +77,7 @@ class DrawingToolsview: UIView {
     @IBAction func sizeTextFieldChanged(_ sender: UITextField) {
         widthValue = (sizeField.text as! NSString).integerValue
         sizeSlider.value = Float(widthValue)
+        updateSize()
 
     }
 
@@ -84,6 +86,10 @@ class DrawingToolsview: UIView {
         ViewController().red = CGFloat(redValue)
         ViewController().green = CGFloat(greenValue)
         ViewController().blue = CGFloat(blueValue)
+    }
+
+    func updateSize() {
+        ViewController().brushWidth = CGFloat(widthValue)
     }
 
     override init(frame: CGRect) {
