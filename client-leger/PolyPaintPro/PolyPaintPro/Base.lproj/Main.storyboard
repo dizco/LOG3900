@@ -368,7 +368,7 @@
                                 <rect key="frame" x="0.0" y="64" width="1024" height="704"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Nf-Dt-IWU" customClass="DrawingToolsview" customModule="PolyPaintPro" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="110" width="298" height="628"/>
+                                <rect key="frame" x="0.0" y="94" width="298" height="644"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rouge" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q6x-Lt-5cB">
                                         <rect key="frame" x="125" y="8" width="49" height="21"/>
@@ -507,7 +507,6 @@
                                     <constraint firstItem="Vhd-C3-0FF" firstAttribute="leading" secondItem="3Nf-Dt-IWU" secondAttribute="leading" constant="59" id="nAy-g7-dSU"/>
                                     <constraint firstItem="Pn1-Ir-Bv3" firstAttribute="top" secondItem="B7o-sI-6hk" secondAttribute="bottom" constant="8" id="nI1-oa-1Vn"/>
                                     <constraint firstItem="RfS-CF-clq" firstAttribute="top" secondItem="Vhd-C3-0FF" secondAttribute="bottom" constant="8" id="pxV-tm-hNS"/>
-                                    <constraint firstAttribute="height" constant="628" id="rYb-Ys-wB4"/>
                                     <constraint firstItem="ItT-dZ-kbm" firstAttribute="top" secondItem="Q6x-Lt-5cB" secondAttribute="bottom" constant="8" id="xtf-v9-P8i"/>
                                 </constraints>
                                 <connections>
@@ -595,19 +594,8 @@
                                     <outlet property="messageField" destination="E8N-VT-aFV" id="pp6-Hd-LtK"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cFF-gR-fHp">
-                                <rect key="frame" x="20" y="72" width="37" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="37" id="pQS-YF-xP2"/>
-                                    <constraint firstAttribute="height" constant="30" id="pSD-8o-c3g"/>
-                                </constraints>
-                                <state key="normal" title="Tools"/>
-                                <connections>
-                                    <action selector="toolsToggleBtn:" destination="KwV-uG-opW" eventType="touchUpInside" id="pxn-db-73p"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqH-w6-eOY">
-                                <rect key="frame" x="0.0" y="110" width="50" height="628"/>
+                                <rect key="frame" x="0.0" y="94" width="50" height="644"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih2-5F-A0e">
                                         <rect key="frame" x="10" y="8" width="30" height="30"/>
@@ -641,7 +629,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGC-wv-nF6">
-                                        <rect key="frame" x="10" y="593" width="30" height="27"/>
+                                        <rect key="frame" x="10" y="609" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="EGC-wv-nF6" secondAttribute="height" multiplier="283:256" id="Ttk-BX-aBg"/>
                                         </constraints>
@@ -671,7 +659,6 @@
                                     <constraint firstAttribute="trailing" secondItem="1qG-cl-27P" secondAttribute="trailing" constant="10" id="may-SH-vdI"/>
                                     <constraint firstItem="Ih2-5F-A0e" firstAttribute="top" secondItem="wqH-w6-eOY" secondAttribute="top" constant="8" id="qmw-pl-ZRw"/>
                                     <constraint firstItem="Ih2-5F-A0e" firstAttribute="top" secondItem="wqH-w6-eOY" secondAttribute="top" constant="8" id="s3N-ju-nF2"/>
-                                    <constraint firstAttribute="height" constant="628" id="xdh-xe-swq"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -680,23 +667,35 @@
                             <constraint firstItem="wqH-w6-eOY" firstAttribute="leading" secondItem="Cys-yA-DLW" secondAttribute="leading" id="3Wu-WD-2uB"/>
                             <constraint firstItem="3Nf-Dt-IWU" firstAttribute="leading" secondItem="Cys-yA-DLW" secondAttribute="leading" id="8BA-4A-FSg"/>
                             <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="wqH-w6-eOY" secondAttribute="bottom" constant="30" id="9Ez-Eh-R0q"/>
-                            <constraint firstItem="cFF-gR-fHp" firstAttribute="leading" secondItem="Cys-yA-DLW" secondAttribute="leadingMargin" id="DQX-Ka-vbN"/>
                             <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="nqG-P9-h52" secondAttribute="bottom" id="FKy-0N-HDP"/>
                             <constraint firstItem="Mzz-8E-ANo" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" id="HO5-ip-1FZ"/>
                             <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="3Nf-Dt-IWU" secondAttribute="bottom" constant="30" id="KXo-X4-RYn"/>
                             <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="nqG-P9-h52" secondAttribute="bottom" id="Kse-n2-MoJ"/>
+                            <constraint firstItem="wqH-w6-eOY" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" constant="30" id="TIU-57-T5m"/>
                             <constraint firstItem="nqG-P9-h52" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" id="Z4v-Ci-eOm"/>
-                            <constraint firstItem="wqH-w6-eOY" firstAttribute="top" secondItem="cFF-gR-fHp" secondAttribute="bottom" constant="8" id="gHP-zY-iRE"/>
-                            <constraint firstItem="cFF-gR-fHp" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" constant="8" id="gZj-lq-EG4"/>
                             <constraint firstItem="nqG-P9-h52" firstAttribute="leading" secondItem="Cys-yA-DLW" secondAttribute="leading" id="l8W-0Z-Sbj"/>
                             <constraint firstItem="Mzz-8E-ANo" firstAttribute="leading" secondItem="nqG-P9-h52" secondAttribute="trailing" id="p1r-OO-36D"/>
                             <constraint firstItem="Mzz-8E-ANo" firstAttribute="leading" secondItem="Cys-yA-DLW" secondAttribute="leading" constant="1024" id="prm-p3-d70"/>
                             <constraint firstItem="Mzz-8E-ANo" firstAttribute="leading" secondItem="nqG-P9-h52" secondAttribute="trailing" id="q3Z-np-nsd"/>
                             <constraint firstItem="Z3f-vf-mS3" firstAttribute="top" secondItem="Mzz-8E-ANo" secondAttribute="bottom" id="ua7-fz-JoJ"/>
-                            <constraint firstItem="3Nf-Dt-IWU" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" constant="46" id="vfO-QP-xuU"/>
+                            <constraint firstItem="3Nf-Dt-IWU" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" constant="30" id="uga-JM-vlK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PolyPaintPro" id="TCa-OB-kJg">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="ICh-rL-plS">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cFF-gR-fHp">
+                                <rect key="frame" x="20" y="7" width="37" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="37" id="pQS-YF-xP2"/>
+                                    <constraint firstAttribute="height" constant="30" id="pSD-8o-c3g"/>
+                                </constraints>
+                                <state key="normal" title="Tools"/>
+                                <connections>
+                                    <action selector="toolsToggleBtn:" destination="KwV-uG-opW" eventType="touchUpInside" id="pxn-db-73p"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="VBZ-Go-LVA">
                             <connections>
                                 <action selector="chatToggleBtn:" destination="KwV-uG-opW" id="ykz-xm-UeL"/>
