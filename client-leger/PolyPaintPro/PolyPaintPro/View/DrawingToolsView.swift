@@ -14,16 +14,20 @@ class DrawingToolsview: UIView {
     var greenValue: Int = 0
     var  blueValue: Int = 0
     var alphaValue: Int = 100
+    var widthValue: Int = 11
 
     @IBOutlet weak var colorPreview: UIView!
     @IBOutlet weak var redField: UITextField!
     @IBOutlet weak var greenField: UITextField!
     @IBOutlet weak var blueField: UITextField!
     @IBOutlet weak var alphaField: UITextField!
+    @IBOutlet weak var sizeField: UITextField!
     @IBOutlet weak var redSlider: UISlider!
     @IBOutlet weak var greenSlider: UISlider!
     @IBOutlet weak var blueSlider: UISlider!
     @IBOutlet weak var alphaSlider: UISlider!
+    @IBOutlet weak var sizeSlider: UISlider!
+    
 
     @IBAction func redSliderChanged(_ sender: UISlider) {
         redValue = lroundf(sender.value)
@@ -45,6 +49,10 @@ class DrawingToolsview: UIView {
         alphaField.text! = "\(alphaValue)"
         updateColor()
     }
+    @IBAction func sizeSliderChanged(_ sender: UISlider) {
+        widthValue = lroundf(sender.value)
+        sizeField.text! = "\(widthValue)"
+    }
     @IBAction func redTextFieldChanged(_ sender: UITextField) {
         redValue = (redField.text as! NSString).integerValue
         redSlider.value = Float(redValue)
@@ -64,6 +72,11 @@ class DrawingToolsview: UIView {
         alphaValue = (alphaField.text as! NSString).integerValue
         alphaSlider.value = Float(alphaValue)
         updateColor()
+    }
+    @IBAction func sizeTextFieldChanged(_ sender: UITextField) {
+        widthValue = (sizeField.text as! NSString).integerValue
+        sizeSlider.value = Float(widthValue)
+
     }
 
     func updateColor() {
