@@ -15,11 +15,6 @@ class Timestamp {
         self.dateFormatter.dateFormat = "HH:mm:ss"
     }
 
-    func getCurrentTime() -> String {
-        let currentTime = Date()
-        return self.dateFormatter.string(from: currentTime)
-    }
-
     func getTimeFromServer(timestamp: Double) -> String {
         let serverTime = Date(timeIntervalSince1970: (timestamp / 1000))
         return self.dateFormatter.string(from: serverTime)
