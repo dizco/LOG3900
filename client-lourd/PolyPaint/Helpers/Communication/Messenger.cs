@@ -33,8 +33,7 @@ namespace PolyPaint.Helpers.Communication
             if (!IsConnected) _socketHandler.ConnectSocket();
         }
 
-        public static string DrawingRoomId { get; set; }
-
+        public static int DrawingRoomId { get; set; }
         /// <summary>
         ///     Builds a ChatMessageModel for a new message and sends it to the server
         /// </summary>

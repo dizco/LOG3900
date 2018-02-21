@@ -15,6 +15,9 @@ namespace PolyPaint.Models.MessagingModels
 
         [JsonProperty(PropertyName = "stroke")]
         public StrokeModel Stroke { get; set; }
+
+        [JsonProperty(PropertyName = "layer")]
+        public int Layer { get; set; }
     }
 
     public class StrokeActionModel
@@ -36,12 +39,12 @@ namespace PolyPaint.Models.MessagingModels
     public class DrawingModel
     {
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 
     public class StrokeModel
     {
-        [JsonProperty(PropertyName = "drawingAttributes")]
+        [JsonProperty(PropertyName = "strokeAttributes")]
         public DrawingAttributesModel DrawingAttributes { get; set; }
 
         [JsonProperty(PropertyName = "dots")]
