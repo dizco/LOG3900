@@ -130,7 +130,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }
 
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
-        public RelayCommand<object> ExportDrawingCommand { get; set; }
+        public RelayCommand<InkCanvas> ExportDrawingCommand { get; set; }
 
         //Command for sending editor actions to server
         public RelayCommand<Stroke> SendNewStrokeCommand { get; set; }
