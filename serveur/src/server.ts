@@ -35,7 +35,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
     wss.join("test", wsDecorator); //TODO: Remove
 
-    console.log("\nConnection by socket on server with ip", req.connection.remoteAddress);
+    console.log("\nConnection by socket on server with ip", req.connection.remoteAddress, "\n");
 
     ws.on("message", (message: any) => {
         wsDecorator.user = (<any>req).identifiedUser;
@@ -45,7 +45,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             return;
         }
         const socketMessage: SocketMessage = <SocketMessage>parsedMessage;
-        console.log("Message received", socketMessage);
+        console.log("Message received\n", socketMessage, "\n");
 
         //Interpret the message and determine the best strategy to use
         if (SocketStrategyContext.canParse(socketMessage)) {
