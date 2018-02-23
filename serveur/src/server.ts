@@ -8,7 +8,7 @@ import { TryParseJSON } from "./helpers/json";
 import { NextFunction, Request, Response } from "express";
 import { app } from "./app";
 import { verifyClient } from "./websockets/verify-client";
-import { PredefinedRooms } from "./websockets/predefined-rooms";
+import { DefaultRooms } from "./websockets/default-rooms";
 
 /**
  * Error Handler. Provides full stack in dev and test
@@ -34,8 +34,8 @@ const wss = new WebSocketServer(server, verifyClient);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
-    wss.join(PredefinedRooms.General, wsDecorator);
-    wss.join(PredefinedRooms.Chat, wsDecorator);
+    wss.join(DefaultRooms.General, wsDecorator);
+    wss.join(DefaultRooms.Chat, wsDecorator);
 
     console.log("\nConnection by socket on server with ip", req.connection.remoteAddress, "\n");
 

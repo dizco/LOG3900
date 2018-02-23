@@ -6,7 +6,7 @@ import { SinonSandbox } from "sinon";
 import { FakeWebSocket } from "./fake-websocket";
 import { WebSocketServer } from "../../src/websockets/websocket-server";
 import * as http from "http";
-import { PredefinedRooms } from "../../src/websockets/predefined-rooms";
+import { DefaultRooms } from "../../src/websockets/default-rooms";
 
 describe("websocket server", function() {
     describe("creation", function() {
@@ -86,7 +86,7 @@ describe("websocket server", function() {
             const userModel = sandbox.spy() as any;
             user1.user = userModel;
 
-            server.join(PredefinedRooms.General, user1);
+            server.join(DefaultRooms.General, user1);
 
             expect(server.userExists(userModel)).to.be.true;
         });
@@ -97,7 +97,7 @@ describe("websocket server", function() {
             const userModel = sandbox.spy() as any;
             user1.user = userModel;
 
-            server.join(PredefinedRooms.Chat, user1);
+            server.join(DefaultRooms.Chat, user1);
 
             expect(server.userExists(userModel)).to.be.false;
         });

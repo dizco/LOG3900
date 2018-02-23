@@ -6,7 +6,7 @@ import { WebSocketDecorator } from "../decorators/websocket-decorator";
 import { Room } from "./room";
 import { VerifyClientCallbackSync, VerifyClientCallbackAsync } from "ws";
 import { UserModel } from "../models/User";
-import { PredefinedRooms } from "./predefined-rooms";
+import { DefaultRooms } from "./default-rooms";
 
 /*
 Extends the default WebSocket.Server to add Rooms support
@@ -50,7 +50,7 @@ export class WebSocketServer extends WebSocket.Server {
     }
 
     public userExists(user: UserModel): boolean {
-        const room = this.findRoom(PredefinedRooms.General);
+        const room = this.findRoom(DefaultRooms.General);
         if (!room) {
             return false; //If the General room does not exist, no user is yet registered
         }
