@@ -10,24 +10,24 @@ namespace PolyPaint.Strategy.EditorActionStrategy
 {
     internal class EditorActionNewStrokeStrategy : IEditorActionStrategy
     {
-        private readonly EditorActionModel _stroke;
+        private readonly EditorActionModel _newStrokeAction;
 
         public EditorActionNewStrokeStrategy(EditorActionModel action)
         {
-            _stroke = action;
+            _newStrokeAction = action;
         }
 
         public void ExecuteStrategy(Editor editor)
         {
             StylusPointCollection strokePoints =
-                new StylusPointCollection(_stroke.Stroke.Dots.Select(point => new StylusPoint(point.x, point.y)));
+                new StylusPointCollection(_newStrokeAction.Stroke.Dots.Select(point => new StylusPoint(point.x, point.y)));
             DrawingAttributes strokeAttributes = new DrawingAttributes
             {
-                Height = _stroke.Stroke.DrawingAttributes.Height,
-                Width = _stroke.Stroke.DrawingAttributes.Width,
-                Color = (Color) ColorConverter.ConvertFromString(_stroke.Stroke.DrawingAttributes.Color),
+                Height = _newStrokeAction.Stroke.DrawingAttributes.Height,
+                Width = _newStrokeAction.Stroke.DrawingAttributes.Width,
+                Color = (Color) ColorConverter.ConvertFromString(_newStrokeAction.Stroke.DrawingAttributes.Color),
                 StylusTip =
-                    (StylusTip) Enum.Parse(typeof(StylusTip), _stroke.Stroke.DrawingAttributes.StylusTip)
+                    (StylusTip) Enum.Parse(typeof(StylusTip), _newStrokeAction.Stroke.DrawingAttributes.StylusTip)
             };
             Stroke newStroke = new Stroke(strokePoints, strokeAttributes);
 

@@ -26,8 +26,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
                     _strategy = new EditorActionNewStrokeStrategy(action);
                     break;
                 default:
-                    _strategy = new InvalidEditorActionStrategy();
-                    break;
+                    throw new InvalidActionStrategyException();
             }
         }
     }

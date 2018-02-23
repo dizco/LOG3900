@@ -162,7 +162,7 @@ namespace PolyPaint.Models
             _removedStrokesCollection.Clear();
         }
 
-        internal void StrokeAdded(Stroke stroke)
+        private void StrokeAdded(Stroke stroke)
         {
             EditorAddedStroke?.Invoke(this, stroke);
         }

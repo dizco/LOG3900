@@ -1,16 +1,7 @@
 ﻿using System;
-using PolyPaint.Models;
 
 namespace PolyPaint.Strategy.EditorActionStrategy
 {
-    internal class InvalidEditorActionStrategy : IEditorActionStrategy
-    {
-        public void ExecuteStrategy(Editor editor)
-        {
-            throw new InvalidActionStrategyException("Invalid editor action");
-        }
-    }
-
     internal class InvalidActionStrategyException : Exception
     {
         public InvalidActionStrategyException()
