@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using PolyPaint.Constants;
+using Application = System.Windows.Application;
 
 namespace PolyPaint.Models
 {
@@ -160,9 +161,18 @@ namespace PolyPaint.Models
             _removedStrokesCollection.Clear();
         }
 
-        protected void StrokeAdded(Stroke stroke)
+        internal void StrokeAdded(Stroke stroke)
         {
             EditorAddedStroke?.Invoke(this, stroke);
+        }
+
+        internal void AddIncomingStroke(Stroke stroke)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                StrokesCollection.Add(stroke);
+                StrokeAdded(stroke);
+            });
         }
 
         public void OpenDrawingPrompt(object o)
@@ -201,7 +211,8 @@ namespace PolyPaint.Models
             {
                 //ignored
                 // TODO: Handle exception
-                ShowUserErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" + e.HResult);
+                ShowUserErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" +
+                                     e.HResult);
             }
             finally
             {
@@ -254,7 +265,8 @@ namespace PolyPaint.Models
             {
                 // ignored
                 if (!autosave)
-                    ShowUserErrorMessage("Une erreur est survenue lors de l'ouverture du fichier. Exception #" + e.HResult);
+                    ShowUserErrorMessage("Une erreur est survenue lors de l'ouverture du fichier. Exception #" +
+                                         e.HResult);
             }
             finally
             {
