@@ -58,8 +58,6 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
             };
 
             EditorActionStrategyContext context = new EditorActionStrategyContext(action);
-
-            context.ExecuteStrategy(_editor);
         }
 
         [TestMethod]
@@ -94,17 +92,11 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
 
             Assert.AreEqual(_editor.StrokesCollection.Count, 1, "Editor's StrokeCollection should contain 1 stroke");
 
-            Assert.AreEqual(_stroke.DrawingAttributes, _editor.StrokesCollection[0].DrawingAttributes, "Newly added stroke should have the same DrawingAttributes");
+            Assert.AreEqual(_stroke.DrawingAttributes, _editor.StrokesCollection[0].DrawingAttributes,
+                            "Newly added stroke should have the same DrawingAttributes");
 
-            bool ContainSameStylusPoints = true;
-
-            for (int i = 0; i < _stroke.StylusPoints.Count; i++)
-            {
-                if (_stroke.StylusPoints[i] != _editor.StrokesCollection[0].StylusPoints[i])
-                    ContainSameStylusPoints = false;
-            }
-
-            Assert.IsTrue(ContainSameStylusPoints, "Newly added stroke should contain the same StylusPoints as initial stroke");
+            Assert.IsTrue(_stroke.StylusPoints.SequenceEqual(_editor.StrokesCollection[0].StylusPoints),
+                          "Newly added stroke should contain the same StylusPoints as initial stroke");
         }
     }
 }
