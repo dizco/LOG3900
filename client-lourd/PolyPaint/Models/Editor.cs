@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Threading;
@@ -20,7 +22,13 @@ namespace PolyPaint.Models
     /// </summary>
     internal class Editor : INotifyPropertyChanged
     {
+        private const int ErrorSharingViolation = 32;
+
+        private const int ErrorLockViolation = 33;
+
         private readonly StrokeCollection _removedStrokesCollection = new StrokeCollection();
+
+        private bool _isLoadingDrawing;
 
         // Couleur des traits tracés par le crayon.
         private string _selectedColor = "Black";
@@ -203,8 +211,10 @@ namespace PolyPaint.Models
             try
             {
                 file = new FileStream(filePath, FileMode.Open);
+                _isLoadingDrawing = true;
                 StrokesCollection.Clear();
                 new StrokeCollection(file).ToList().ForEach(stroke => StrokesCollection.Add(stroke));
+                _isLoadingDrawing = false;
             }
             catch (Exception e)
             {
@@ -237,18 +247,34 @@ namespace PolyPaint.Models
         public void SaveDrawing(string savePath, bool autosave, string drawingName = "DrawingName")
         {
             string path = savePath;
+
+            if (StrokesCollection.Count == 0 || _isLoadingDrawing)
+                return;
+
             if (autosave)
-            {
-                if (StrokesCollection.Count == 0) return;
                 path = string.Format(FileExtensionConstants.AutosaveFilePath, drawingName);
-            }
 
             FileStream file = null;
             try
             {
                 Directory.CreateDirectory(FileExtensionConstants.AutosaveDirPath);
-                file = new FileStream(path, FileMode.Create);
-                StrokesCollection.Save(file);
+                Task autosaveTask = new Task(() =>
+                {
+                    try
+                    {
+                        file = new FileStream(path, FileMode.Create);
+                        StrokesCollection.Save(file);
+                    }
+                    catch (IOException e)
+                    {
+                        int errorCode = Marshal.GetHRForException(e) & ((1 << 16) - 1);
+
+                        // If exception is not caused by file being in use, rethrow
+                        if (errorCode != ErrorSharingViolation && errorCode != ErrorLockViolation)
+                            throw;
+                    }
+                });
+                autosaveTask.Start();
             }
             catch (UnauthorizedAccessException e)
             {
