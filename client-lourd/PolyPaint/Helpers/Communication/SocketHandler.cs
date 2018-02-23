@@ -71,7 +71,7 @@ namespace PolyPaint.Helpers.Communication
             string type = incomingData.GetValue("type").ToString();
             if (type == JsonConstantStrings.TypeChatMessageIncomingValue)
                 OnChatMessageReceived(e.Message);
-            else if (type == JsonConstantStrings.TypeEditorActionValue)
+            else if (type == JsonConstantStrings.TypeEditorActionIncomingValue)
                 OnEditorActionReceived(e.Message);
         }
 

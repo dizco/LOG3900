@@ -74,7 +74,7 @@ namespace PolyPaint.Helpers.Communication
             {
                 EditorActionModel outgoingNewStrokeAction = new EditorActionModel
                 {
-                    Type = JsonConstantStrings.TypeEditorActionValue,
+                    Type = JsonConstantStrings.TypeEditorActionOutgoingValue,
                     Drawing = new DrawingModel {Id = DrawingRoomId},
                     Action = new StrokeActionModel
                     {

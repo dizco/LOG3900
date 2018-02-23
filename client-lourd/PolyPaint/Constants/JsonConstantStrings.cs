@@ -8,6 +8,7 @@
     {
         public const string TypeChatMessageOutgoingValue = "client.chat.message";
         public const string TypeChatMessageIncomingValue = "server.chat.message";
-        public const string TypeEditorActionValue = "client.editor.action";
+        public const string TypeEditorActionOutgoingValue = "client.editor.action";
+        public const string TypeEditorActionIncomingValue = "server.editor.action";
     }
 }

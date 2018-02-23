@@ -7,6 +7,8 @@ using System.Windows.Ink;
 using System.Windows.Media;
 using PolyPaint.Helpers;
 using PolyPaint.Models;
+using PolyPaint.Models.MessagingModels;
+using PolyPaint.Strategy.EditorActionStrategy;
 using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels
@@ -61,6 +63,15 @@ namespace PolyPaint.ViewModels
 
             //Managing different View
             ShowLoginWindowCommand = new RelayCommand<object>(ShowLoginWindow);
+
+            EditorActionReceived += ProcessReceivedEditorAction;
+        }
+
+        private void ProcessReceivedEditorAction(object sender, EditorActionModel e)
+        {
+            EditorActionStrategyContext context = new EditorActionStrategyContext(e);
+
+            context.ExecuteStrategy(_editor);
         }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
