@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Ink;
+using System.Windows.Threading;
 using PolyPaint.Constants;
 using Application = System.Windows.Application;
 
@@ -168,11 +169,9 @@ namespace PolyPaint.Models
 
         internal void AddIncomingStroke(Stroke stroke)
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                StrokesCollection.Add(stroke);
-                StrokeAdded(stroke);
-            });
+            Dispatcher dispatcher = Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher;
+
+            dispatcher.Invoke(() => { StrokesCollection.Add(stroke); });
         }
 
         public void OpenDrawingPrompt(object o)

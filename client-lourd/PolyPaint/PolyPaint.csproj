@@ -131,6 +131,7 @@
     <Compile Include="Strategy\EditorActionStrategy\EditorActionNewStrokeStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionStrategyContext.cs" />
     <Compile Include="Strategy\EditorActionStrategy\IEditorActionStrategy.cs" />
+    <Compile Include="Strategy\EditorActionStrategy\InvalidEditorActionStrategy.cs" />
     <Compile Include="ViewModels\ChatWindowViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
