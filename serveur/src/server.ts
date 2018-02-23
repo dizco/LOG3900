@@ -8,6 +8,7 @@ import { TryParseJSON } from "./helpers/json";
 import { NextFunction, Request, Response } from "express";
 import { app } from "./app";
 import { verifyClient } from "./websockets/verify-client";
+import { PredefinedRooms } from "./websockets/predefined-rooms";
 
 /**
  * Error Handler. Provides full stack in dev and test
@@ -33,9 +34,12 @@ const wss = new WebSocketServer(server, verifyClient);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
-    wss.join("test", wsDecorator); //TODO: Remove
+    wss.join(PredefinedRooms.General, wsDecorator);
+    wss.join(PredefinedRooms.Chat, wsDecorator);
 
     console.log("\nConnection by socket on server with ip", req.connection.remoteAddress, "\n");
+
+    //TODO: Add an event to allow users to subscribe to specific drawings
 
     ws.on("message", (message: any) => {
         wsDecorator.user = (<any>req).identifiedUser;
@@ -69,4 +73,4 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     wsDecorator.detectDisconnect();
 });
 
-export = server;
+export { server, wss };

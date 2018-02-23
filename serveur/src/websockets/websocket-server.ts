@@ -5,6 +5,8 @@ import * as https from "https";
 import { WebSocketDecorator } from "../decorators/websocket-decorator";
 import { Room } from "./room";
 import { VerifyClientCallbackSync, VerifyClientCallbackAsync } from "ws";
+import { UserModel } from "../models/User";
+import { PredefinedRooms } from "./predefined-rooms";
 
 /*
 Extends the default WebSocket.Server to add Rooms support
@@ -45,6 +47,17 @@ export class WebSocketServer extends WebSocket.Server {
         this.rooms = this.rooms.filter((room: Room) => {
             return !room.isEmpty();
         });
+    }
+
+    public userExists(user: UserModel): boolean {
+        const room = this.findRoom(PredefinedRooms.General);
+        if (!room) {
+            return false; //If the General room does not exist, no user is yet registered
+        }
+        const client = room.getClients().find((client: WebSocketDecorator) => {
+            return client.user.email === user.email;
+        });
+        return client !== undefined;
     }
 
 }

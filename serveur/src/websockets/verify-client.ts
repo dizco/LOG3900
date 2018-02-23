@@ -1,6 +1,6 @@
 import { VerifyClientCallbackAsync, VerifyClientCallbackSync } from "ws";
 import { mongoStore } from "../app";
-import { default as User } from "../models/User";
+import { default as User, UserModel } from "../models/User";
 const cookie = require("cookie");
 
 export const verifyClient: VerifyClientCallbackSync | VerifyClientCallbackAsync = (info, done) => {
@@ -27,7 +27,7 @@ export const verifyClient: VerifyClientCallbackSync | VerifyClientCallbackAsync 
             done(false);
             return;
         }
-        User.findById(session.passport.user, (err, user) => {
+        User.findById(session.passport.user, (err: Error, user: UserModel) => {
             (<any>info.req).identifiedUser = user;
             if (user === undefined) {
                 console.log("Could not verify the client using sessions. WebSockets will not be accessible.");
