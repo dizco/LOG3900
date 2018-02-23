@@ -6,6 +6,7 @@ import { SinonSandbox } from "sinon";
 import { FakeWebSocket } from "./fake-websocket";
 import { WebSocketServer } from "../../src/websockets/websocket-server";
 import * as http from "http";
+import { PredefinedRooms } from "../../src/websockets/predefined-rooms";
 
 describe("websocket server", function() {
     describe("creation", function() {
@@ -73,6 +74,32 @@ describe("websocket server", function() {
 
             server.remove(user1);
             expect(server.findRoom(roomId)).to.exist;
+        });
+
+        it("should not find a user if none has been added", function() {
+            expect(server.userExists(sandbox.spy() as any)).to.be.false;
+        });
+
+        it("should find a user that has been added to general", function() {
+            const ws1 = new FakeWebSocket("ws://localhost");
+            const user1 = new WebSocketDecorator(sandbox.spy() as any, ws1);
+            const userModel = sandbox.spy() as any;
+            user1.user = userModel;
+
+            server.join(PredefinedRooms.General, user1);
+
+            expect(server.userExists(userModel)).to.be.true;
+        });
+
+        it("should not find a user that has not been added to general", function() {
+            const ws1 = new FakeWebSocket("ws://localhost");
+            const user1 = new WebSocketDecorator(sandbox.spy() as any, ws1);
+            const userModel = sandbox.spy() as any;
+            user1.user = userModel;
+
+            server.join(PredefinedRooms.Chat, user1);
+
+            expect(server.userExists(userModel)).to.be.false;
         });
     });
 });
