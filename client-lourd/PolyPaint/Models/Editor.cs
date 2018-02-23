@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -267,7 +266,7 @@ namespace PolyPaint.Models
                     }
                     catch (IOException e)
                     {
-                        int errorCode = Marshal.GetHRForException(e) & ((1 << 16) - 1);
+                        int errorCode = e.HResult & ((1 << 16) - 1);
 
                         // If exception is not caused by file being in use, rethrow
                         if (errorCode != ErrorSharingViolation && errorCode != ErrorLockViolation)
