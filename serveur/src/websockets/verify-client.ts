@@ -1,5 +1,5 @@
 import { VerifyClientCallbackAsync, VerifyClientCallbackSync } from "ws";
-import { mongoStore /*, sessionParser*/ } from "../app";
+import { mongoStore } from "../app";
 import { default as User } from "../models/User";
 const cookie = require("cookie");
 
@@ -35,13 +35,4 @@ export const verifyClient: VerifyClientCallbackSync | VerifyClientCallbackAsync 
             done(user !== undefined);
         });
     });
-
-    //TODO: Remove following comments if sessions work out fine
-    /*sessionParser(<any>info.req, <any>{}, () => {
-        console.log("Session is parsed!", (<any>info.req).user);
-
-        // We can reject the connection by returning false to done(). For example,
-        // reject here if user is unknown.
-        done((<any>info.req).user);
-    });*/
 };

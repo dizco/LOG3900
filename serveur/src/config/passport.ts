@@ -2,7 +2,6 @@ import * as passport from "passport";
 import * as passportLocal from "passport-local";
 import * as passportFacebook from "passport-facebook";
 import * as _ from "lodash";
-// import { User, UserType } from '../models/User';
 import { default as User } from "../models/User";
 import { NextFunction, Request, Response } from "express";
 
@@ -32,10 +31,7 @@ passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, don
             return done(undefined, false, { message: `Email ${email} not found.` });
         }
 
-
-        //TODO: ACTIVATE PASSWORD PROTECTION
-        return done (undefined, user);
-        /*user.comparePassword(password, (err: Error, isMatch: boolean) => {
+        user.comparePassword(password, (err: Error, isMatch: boolean) => {
             if (err) {
                 return done(err);
             }
@@ -43,7 +39,7 @@ passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, don
                 return done(undefined, user);
             }
             return done(undefined, false, { message: "Invalid email or password." });
-        });*/
+        });
     });
 }));
 
