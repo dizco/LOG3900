@@ -1,12 +1,13 @@
 import * as WebSocket from "ws";
 import { ClientChatMessage } from "../models/sockets/client-chat-message";
 import { ServerChatMessage } from "../models/sockets/server-chat-message";
+import { UserModel } from "../models/User";
 
 export class ChatMessageDecorator {
     private clientMessage: ClientChatMessage;
-    private user: any;
+    private user: UserModel;
 
-    public constructor(clientMessage: ClientChatMessage, user: any) {
+    public constructor(clientMessage: ClientChatMessage, user: UserModel) {
         this.clientMessage = clientMessage;
         this.user = user;
     }

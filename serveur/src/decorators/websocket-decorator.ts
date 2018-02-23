@@ -1,6 +1,7 @@
 import * as WebSocket from "ws";
 import { clearInterval } from "timers";
 import { WebSocketServer } from "../websockets/websocket-server";
+import { UserModel } from "../models/User";
 
 export class WebSocketDecorator {
     //Here we unfortunately can't extend WebSocket directly, because the WebSocket instance is created inside the WebSocket.Server
@@ -13,7 +14,7 @@ export class WebSocketDecorator {
     private disconnectsInterval: NodeJS.Timer;
     private isAlive: boolean;
 
-    public user: any;
+    public user: UserModel;
 
     public constructor(wss: WebSocketServer, ws: WebSocket) {
         this.wss = wss;

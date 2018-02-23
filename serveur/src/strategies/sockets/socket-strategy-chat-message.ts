@@ -3,6 +3,7 @@ import { WebSocketDecorator } from "../../decorators/websocket-decorator";
 import { ClientChatMessage } from "../../models/sockets/client-chat-message";
 import { ServerChatMessage } from "../../models/sockets/server-chat-message";
 import { ChatMessageDecorator } from "../../decorators/chat-message-decorator";
+import { PredefinedRooms } from "../../websockets/predefined-rooms";
 
 export class SocketStrategyChatMessage implements SocketStrategy {
     private clientMessage: ClientChatMessage;
@@ -19,7 +20,8 @@ export class SocketStrategyChatMessage implements SocketStrategy {
         const decorator = new ChatMessageDecorator(this.clientMessage, wsDecorator.user);
         decorator.decorate(wsDecorator.getWs())
             .then((message: ServerChatMessage) => {
-                const success = wsDecorator.broadcast.send(JSON.stringify(message)); //TODO: .to(message.room.id.toString())
+                //TODO: If we implement multiple chat rooms, message.room.id.toString()
+                const success = wsDecorator.broadcast.to(PredefinedRooms.Chat).send(JSON.stringify(message));
                 if (!success) {
                     console.log("ChatMessage failed to broadcast");
                     //TODO: Notify emitting user
