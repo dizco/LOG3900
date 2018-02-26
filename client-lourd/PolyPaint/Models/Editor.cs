@@ -272,6 +272,10 @@ namespace PolyPaint.Models
                         if (errorCode != ErrorSharingViolation && errorCode != ErrorLockViolation)
                             throw;
                     }
+                    catch
+                    {
+                        // ignored
+                    }
                 });
                 autosaveTask.Start();
             }
