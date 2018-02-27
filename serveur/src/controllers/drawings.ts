@@ -1,60 +1,54 @@
-import { Request, Response } from "express";
-import { Drawing } from "../models/drawings/drawing";
-import { Stroke } from "../models/drawings/stroke";
-import { Pixel } from "../models/drawings/pixel";
-import { Owner } from "../models/drawings/owner";
-import { ServerEditorAction } from "../models/sockets/server-editor-action";
-import { StrokeAttributes } from "../models/drawings/stroke-attributes";
-import { ClientEditorAction } from "../models/sockets/client-editor-action";
-import { DrawingAttributes } from "../models/drawings/drawing-attributes";
-import { UserFactory } from "../factories/user-factory";
+import { NextFunction, Request, Response } from "express";
+import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
+
+const enum DrawingFields {
+    Name = "name",
+}
 
 /**
  * POST /drawings
  */
-export let postDrawing = (req: Request, res: Response) => {
-    //TODO: Assert that every mandatory field is filled out
-    //TODO: Check cast to Drawing
-    //TODO: Save new database entry with drawing properties and strokes
-    //TODO: Send back json status
-    res.status(500).json({
-        message: "POST not implemented yet",
+export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
+    req.checkBody(DrawingFields.Name, "Drawing name cannot be empty").notEmpty();
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
+    }
+
+    const drawing = new Drawing({ name: req.body[DrawingFields.Name], owner: req.user });
+
+    drawing.save((err) => {
+        if (err) {
+            return next(err);
+        }
+        return res.json({ status: "success", objectId: drawing.id });
     });
 };
 
 /**
  * GET /drawings/:id
  */
-export let getDrawing = (req: Request, res: Response) => {
-    //TODO: Fetch drawing by id in database and cast to Drawing
-    //TODO: Verify if drawing exists. If not, return error
+export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
+    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
+    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
 
-    const owner: Owner = UserFactory.build(req.user);
+    const errors = req.validationErrors();
 
-    const drawingAttributes: DrawingAttributes = {
-        id: req.params.id,
-        name: "This is the way",
-        owner: owner,
-    };
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
+    }
 
-    const dots: Pixel[] = [{x: 1, y: 2}];
-    const strokeAttributes: StrokeAttributes = { color: "#FF000000", height: 10, width: 10, stylusTip: "Ellipse" };
-    const actions: ServerEditorAction[] = [{
-        type: "server.editor.action",
-        action: { id: 1, name: "NewStroke" },
-        drawing: drawingAttributes,
-        author: UserFactory.build(req.user),
-        stroke: { strokeAttributes: strokeAttributes, dots: dots},
-    }];
-
-    const drawing: Drawing = {
-        id: drawingAttributes.id,
-        name: drawingAttributes.name,
-        owner: drawingAttributes.owner,
-        actions: actions,
-    };
-
-    res.json(drawing);
+    Drawing.findOne({_id: req.params.id}).populate("owner", "username").exec((err: any, drawing: DrawingModel) => {
+        if (err) {
+            return next(err);
+        }
+        if (!drawing) {
+            return res.status(404).json({ status: "error", error: "Drawing not found." });
+        }
+        return res.json(drawing);
+    });
 };
 
 /**

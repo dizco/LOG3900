@@ -113,8 +113,8 @@ app.post("/register", userController.postRegister);
  * Drawings
  */
 app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDrawing);
-app.get("/drawings/:id([0-9]+)", passportConfig.isAuthenticated, drawingsController.getDrawing);
-app.put("/drawings/:id([0-9]+)", passportConfig.isAuthenticated, drawingsController.putDrawing);
+app.get("/drawings/:id", passportConfig.isAuthenticated, drawingsController.getDrawing);
+app.put("/drawings/:id", passportConfig.isAuthenticated, drawingsController.putDrawing);
 
 /**
  * Ping
