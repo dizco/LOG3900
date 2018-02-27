@@ -36,6 +36,7 @@ PassportVerifyLocal.setWss(wss);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
+    wsDecorator.user = (<any>req).identifiedUser;
     wss.join(DefaultRooms.General, wsDecorator);
     wss.join(DefaultRooms.Chat, wsDecorator);
 
@@ -44,7 +45,6 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     //TODO: Add an event to allow users to subscribe to specific drawings
 
     ws.on("message", (message: any) => {
-        wsDecorator.user = (<any>req).identifiedUser;
         const parsedMessage = TryParseJSON(message);
         if (!parsedMessage) {
             console.log("Impossible to parse message", message);
