@@ -55,7 +55,7 @@ export class WebSocketServer extends WebSocket.Server {
             return false; //If the General room does not exist, no user is yet registered
         }
         const client = room.getClients().find((client: WebSocketDecorator) => {
-            return client.user.email === user.email;
+            return client.user.id === user.id;
         });
         return client !== undefined;
     }
