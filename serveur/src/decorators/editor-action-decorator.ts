@@ -2,6 +2,7 @@ import * as WebSocket from "ws";
 import { ServerEditorAction } from "../models/sockets/server-editor-action";
 import { ClientEditorAction } from "../models/sockets/client-editor-action";
 import { UserModel } from "../models/User";
+import { UserFactory } from "../factories/user-factory";
 
 export class EditorActionDecorator {
     private clientAction: ClientEditorAction;
@@ -31,12 +32,7 @@ export class EditorActionDecorator {
                     avatar_url: "https://example.com/users/fred/avatar.jpg",
                 }
             },
-            author: {
-                id: this.user.id,
-                username: this.user.email,
-                url: `https://example.com/users/${this.user.id}`,
-                avatar_url: `https://example.com/users/${this.user.id}/avatar.jpg`,
-            },
+            author: UserFactory.build(this.user),
             stroke: this.clientAction.stroke,
             timestamp: Date.now(),
         });

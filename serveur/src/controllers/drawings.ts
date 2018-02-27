@@ -7,6 +7,7 @@ import { ServerEditorAction } from "../models/sockets/server-editor-action";
 import { StrokeAttributes } from "../models/drawings/stroke-attributes";
 import { ClientEditorAction } from "../models/sockets/client-editor-action";
 import { DrawingAttributes } from "../models/drawings/drawing-attributes";
+import { UserFactory } from "../factories/user-factory";
 
 /**
  * POST /drawings
@@ -28,12 +29,7 @@ export let getDrawing = (req: Request, res: Response) => {
     //TODO: Fetch drawing by id in database and cast to Drawing
     //TODO: Verify if drawing exists. If not, return error
 
-    const owner: Owner = {
-        id: req.user.id,
-        username: req.user.email,
-        url: `https://example.com/users/${req.user.id}`,
-        avatar_url: `https://example.com/users/${req.user.id}/avatar.jpg`,
-    };
+    const owner: Owner = UserFactory.build(req.user);
 
     const drawingAttributes: DrawingAttributes = {
         id: req.params.id,
@@ -47,12 +43,7 @@ export let getDrawing = (req: Request, res: Response) => {
         type: "server.editor.action",
         action: { id: 1, name: "NewStroke" },
         drawing: drawingAttributes,
-        author: {
-            id: req.user.id,
-            username: req.user.email,
-            url: `https://example.com/users/${req.user.id}`,
-            avatar_url: `https://example.com/users/${req.user.id}/avatar.jpg`,
-        },
+        author: UserFactory.build(req.user),
         stroke: { strokeAttributes: strokeAttributes, dots: dots},
     }];
 
