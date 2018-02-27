@@ -39,7 +39,7 @@ namespace PolyPaint.Models.MessagingModels
     public class DrawingModel
     {
         [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class StrokeModel

@@ -72,7 +72,7 @@ namespace PolyPaint.ViewModels
                 DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
                 message = incomingMessage.Message;
                 messageTime = unixEpoch.AddMilliseconds(incomingMessage.Timestamp).ToLocalTime();
-                author = incomingMessage.Author?.Name ?? "PodMuncher";
+                author = incomingMessage.Author?.Username ?? "PodMuncher";
             }
             else
             {

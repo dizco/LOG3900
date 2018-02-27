@@ -37,7 +37,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
             EditorActionModel action = new EditorActionModel
             {
                 Type = JsonConstantStrings.TypeEditorActionOutgoingValue,
-                Drawing = new DrawingModel {Id = 0},
+                Drawing = new DrawingModel {Id = "507f1f77bcf86cd799439011"},
                 Action = new StrokeActionModel
                 {
                     Id = -1,
@@ -66,7 +66,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
             EditorActionModel action = new EditorActionModel
             {
                 Type = JsonConstantStrings.TypeEditorActionOutgoingValue,
-                Drawing = new DrawingModel {Id = 0},
+                Drawing = new DrawingModel {Id = "507f1f77bcf86cd799439011"},
                 Action = new StrokeActionModel
                 {
                     Id = (int) ActionIds.NewStroke,
