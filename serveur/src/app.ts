@@ -26,7 +26,7 @@ import * as pingController from "./controllers/ping";
 //import * as contactController from "./controllers/contact";
 import * as drawingsController from "./controllers/drawings";
 // API keys and Passport configuration
-import * as passportMiddlewares from "./config/passport-middlewares";
+import * as passportConfig from "./config/passport";
 
 
 // Create Express server
@@ -96,7 +96,7 @@ app.get("/", homeController.index);
 //app.get("/login", userController.getLogin);
 app.post("/login", userController.postLogin);
 //app.get("/forgot", userController.getForgot);
-app.post("/logout", passportMiddlewares.isAuthenticated, userController.logout);
+app.post("/logout", passportConfig.isAuthenticated, userController.logout);
 //app.post("/forgot", userController.postForgot);
 //app.get("/reset/:token", userController.getReset);
 //app.post("/reset/:token", userController.postReset);
@@ -112,9 +112,9 @@ app.post("/register", userController.postRegister);
 /**
  * Drawings
  */
-app.post("/drawings", passportMiddlewares.isAuthenticated, drawingsController.postDrawing);
-app.get("/drawings/:id([0-9]+)", passportMiddlewares.isAuthenticated, drawingsController.getDrawing);
-app.put("/drawings/:id([0-9]+)", passportMiddlewares.isAuthenticated, drawingsController.putDrawing);
+app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDrawing);
+app.get("/drawings/:id([0-9]+)", passportConfig.isAuthenticated, drawingsController.getDrawing);
+app.put("/drawings/:id([0-9]+)", passportConfig.isAuthenticated, drawingsController.putDrawing);
 
 /**
  * Ping
