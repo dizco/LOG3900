@@ -13,7 +13,7 @@ namespace PolyPaint.ViewModels
         public static LoginWindowView LoginWindow { get; set; }
         public static ChatWindowView ChatWindow { get; set; }
 
-        protected static int DrawingRoomId
+        protected static string DrawingRoomId
         {
             get => Messenger.DrawingRoomId;
             set => Messenger.DrawingRoomId = value;
