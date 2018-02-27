@@ -17,7 +17,7 @@ export abstract class PassportVerifyLocal {
         if (!PassportVerifyLocal.wss) {
             return done(new Error("WebSocketServer must be initialized before verifying a user."));
         }
-        User.findOne({ email: email.toLowerCase() }, (err, user: any) => {
+        User.findOne({ username: email.toLowerCase() }, (err, user: any) => {
             if (err) {
                 return done(err);
             }
@@ -44,7 +44,7 @@ export abstract class PassportVerifyLocal {
     private static isAlreadyLoggedIn(user: UserModel): boolean {
         const exists = this.wss.userExists(user);
         if (exists) {
-            console.log(`Attempted to login with email ${user.email}, but another client is still connected with it.`);
+            console.log(`Attempted to login with username ${user.username}, but another client is still connected with it.`);
         }
         return exists;
     }

@@ -10,7 +10,7 @@ export abstract class UserFactory {
     public static build(user: UserModel): UserAttributes {
         return {
             id: user.id,
-            username: user.email,
+            username: user.username,
             url: `https://example.com/users/${user.id}`,
             avatar_url: `https://example.com/users/${user.id}/avatar.jpg`,
         };
