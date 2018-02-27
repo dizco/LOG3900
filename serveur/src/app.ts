@@ -22,7 +22,6 @@ dotenv.config({ path: ".env" });
 import * as homeController from "./controllers/home";
 import * as userController from "./controllers/user";
 import * as pingController from "./controllers/ping";
-//import * as apiController from "./controllers/api";
 //import * as contactController from "./controllers/contact";
 import * as drawingsController from "./controllers/drawings";
 // API keys and Passport configuration
@@ -95,11 +94,7 @@ app.use(express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }))
 app.get("/", homeController.index);
 //app.get("/login", userController.getLogin);
 app.post("/login", userController.postLogin);
-//app.get("/forgot", userController.getForgot);
 app.post("/logout", passportConfig.isAuthenticated, userController.logout);
-//app.post("/forgot", userController.postForgot);
-//app.get("/reset/:token", userController.getReset);
-//app.post("/reset/:token", userController.postReset);
 //app.get("/signup", userController.getSignup);
 //app.get("/contact", contactController.getContact);
 app.post("/register", userController.postRegister);
@@ -120,19 +115,5 @@ app.put("/drawings/:id", passportConfig.isAuthenticated, drawingsController.putD
  * Ping
  */
 app.get("/ping", pingController.getPing);
-
-/**
- * API examples routes.
- */
-//app.get("/api", apiController.getApi);
-//app.get("/api/facebook", passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
-
-/**
- * OAuth authentication routes. (Sign in)
- */
-//app.get("/auth/facebook", passport.authenticate("facebook", { scope: ["email", "public_profile"] }));
-/*app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => {
-    res.redirect(req.session.returnTo || "/");
-});*/
 
 export { app, sessionParser, mongoStore };
