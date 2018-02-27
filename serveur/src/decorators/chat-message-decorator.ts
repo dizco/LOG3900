@@ -13,8 +13,6 @@ export class ChatMessageDecorator {
     }
 
     public decorate(ws: WebSocket): Promise<ServerChatMessage> {
-        //TODO: Build actual user data
-
         return Promise.resolve({
             type: "server.chat.message",
             message: this.clientMessage.message,
@@ -23,11 +21,10 @@ export class ChatMessageDecorator {
                 name: "Main Chat",
             },
             author: {
-                id: 134,
-                username: "dizco",
-                name: this.user.email,
-                url: "https://example.com/users/dizco",
-                avatar_url: "https://example.com/users/dizco/avatar.jpg",
+                id: this.user.id,
+                username: this.user.email,
+                url: `https://example.com/users/${this.user.id}`,
+                avatar_url: `https://example.com/users/${this.user.id}/avatar.jpg`,
             },
             timestamp: Date.now(),
         });

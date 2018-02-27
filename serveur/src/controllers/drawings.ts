@@ -29,11 +29,10 @@ export let getDrawing = (req: Request, res: Response) => {
     //TODO: Verify if drawing exists. If not, return error
 
     const owner: Owner = {
-        id: 134,
-        username: "dizco",
-        name: "Gabriel",
-        url: "https://example.com/users/dizco",
-        avatar_url: "https://example.com/users/dizco/avatar.jpg",
+        id: req.user.id,
+        username: req.user.email,
+        url: `https://example.com/users/${req.user.id}`,
+        avatar_url: `https://example.com/users/${req.user.id}/avatar.jpg`,
     };
 
     const drawingAttributes: DrawingAttributes = {
@@ -49,11 +48,10 @@ export let getDrawing = (req: Request, res: Response) => {
         action: { id: 1, name: "NewStroke" },
         drawing: drawingAttributes,
         author: {
-            id: 134,
-            username: "dizco",
-            name: "Gabriel",
-            url: "https://example.com/users/dizco",
-            avatar_url: "https://example.com/users/dizco/avatar.jpg",
+            id: req.user.id,
+            username: req.user.email,
+            url: `https://example.com/users/${req.user.id}`,
+            avatar_url: `https://example.com/users/${req.user.id}/avatar.jpg`,
         },
         stroke: { strokeAttributes: strokeAttributes, dots: dots},
     }];
