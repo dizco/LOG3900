@@ -148,6 +148,7 @@ namespace PolyPaint.ViewModels
 
         private void Signup(object o)
         {
+            Password = (o as PasswordBox)?.Password;
             TryRegisterRequest();
         }
 
