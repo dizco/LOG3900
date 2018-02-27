@@ -16,7 +16,7 @@ export class SocketStrategyEditorAction implements SocketStrategy {
      * @param {WebSocketDecorator} wsDecorator
      */
     public execute(wsDecorator: WebSocketDecorator): void {
-        const decorator = new EditorActionDecorator(this.clientAction);
+        const decorator = new EditorActionDecorator(this.clientAction, wsDecorator.user);
         decorator.decorate(wsDecorator.getWs())
             .then((message: ServerEditorAction) => {
                 //TODO: Validate if user is allowed to broadcast to that room
@@ -27,5 +27,7 @@ export class SocketStrategyEditorAction implements SocketStrategy {
                 }
             })
             .catch((reason => console.log("EditorAction failed to fetch db info", reason)));
+
+        //TODO: Save action to database
     }
 }

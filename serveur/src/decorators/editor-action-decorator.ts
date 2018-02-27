@@ -1,12 +1,15 @@
 import * as WebSocket from "ws";
 import { ServerEditorAction } from "../models/sockets/server-editor-action";
 import { ClientEditorAction } from "../models/sockets/client-editor-action";
+import { UserModel } from "../models/User";
 
 export class EditorActionDecorator {
     private clientAction: ClientEditorAction;
+    private user: UserModel;
 
-    public constructor(clientAction: ClientEditorAction) {
+    public constructor(clientAction: ClientEditorAction, user: UserModel) {
         this.clientAction = clientAction;
+        this.user = user;
     }
 
     public decorate(ws: WebSocket): Promise<ServerEditorAction> {
@@ -19,22 +22,20 @@ export class EditorActionDecorator {
                 name: this.clientAction.action.name,
             },
             drawing: {
-                id: this.clientAction.drawing.id, //TODO: Fetch the rest of the drawing info by the id
-                name: "Mona Lisa",
+                id: this.clientAction.drawing.id,
+                name: "Mona Lisa", //TODO: Fetch the rest of the drawing info by the id
                 owner: {
                     id: 132,
                     username: "fred",
-                    name: "Frédéric",
                     url: "https://example.com/users/fred",
                     avatar_url: "https://example.com/users/fred/avatar.jpg",
                 }
             },
             author: {
-                id: 134,
-                username: "dizco",
-                name: "Gabriel",
-                url: "https://example.com/users/dizco",
-                avatar_url: "https://example.com/users/dizco/avatar.jpg",
+                id: this.user.id,
+                username: this.user.email,
+                url: `https://example.com/users/${this.user.id}`,
+                avatar_url: `https://example.com/users/${this.user.id}/avatar.jpg`,
             },
             stroke: this.clientAction.stroke,
             timestamp: Date.now(),
