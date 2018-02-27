@@ -9,6 +9,7 @@ import { NextFunction, Request, Response } from "express";
 import { app } from "./app";
 import { verifyClient } from "./websockets/verify-client";
 import { DefaultRooms } from "./websockets/default-rooms";
+import { PassportVerifyLocal } from "./config/passport-verify-local";
 
 /**
  * Error Handler. Provides full stack in dev and test
@@ -31,6 +32,7 @@ const server = app.listen(app.get("port"), () => {
 });
 
 const wss = new WebSocketServer(server, verifyClient);
+PassportVerifyLocal.setWss(wss);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
@@ -73,4 +75,4 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     wsDecorator.detectDisconnect();
 });
 
-export { server, wss };
+export { server };

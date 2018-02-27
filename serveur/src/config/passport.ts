@@ -1,8 +1,10 @@
 import * as passport from "passport";
 import * as passportLocal from "passport-local";
 import * as passportFacebook from "passport-facebook";
-import { default as User, UserModel } from "../models/User";
-import { wss } from "../server";
+import { default as User } from "../models/User";
+import { PassportVerifyLocal } from "./passport-verify-local";
+import { NextFunction, Request, Response } from "express";
+import * as _ from "lodash";
 
 const LocalStrategy = passportLocal.Strategy;
 const FacebookStrategy = passportFacebook.Strategy;
@@ -21,38 +23,7 @@ passport.deserializeUser((id, done) => {
 /**
  * Sign in using Email and Password.
  */
-passport.use(new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
-    User.findOne({ email: email.toLowerCase() }, (err, user: any) => {
-        if (err) {
-            return done(err);
-        }
-        if (!user) {
-            return done(undefined, false, { message: `Email ${email} not found.` });
-        }
-
-        user = <UserModel>user;
-        user.comparePassword(password, (err: Error, isMatch: boolean) => {
-            if (err) {
-                return done(err);
-            }
-            if (isMatch) {
-                if (isAlreadyLoggedIn(user)) {
-                    return done(undefined, false, { message: "User is already logged in." });
-                }
-                return done(undefined, user);
-            }
-            return done(undefined, false, { message: "Invalid email or password." });
-        });
-    });
-}));
-
-function isAlreadyLoggedIn(user: UserModel): boolean {
-    const exists = wss.userExists(user);
-    if (exists) {
-        console.log(`Attempted to login with email ${user.email}, but another client is still connected with it.`);
-    }
-    return exists;
-}
+passport.use(new LocalStrategy({ usernameField: "email" }, PassportVerifyLocal.verify));
 
 
 /**
@@ -141,3 +112,27 @@ passport.use(new FacebookStrategy({
         });
     }
 }));
+
+/**
+ * Login Required middleware.
+ */
+export let isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    return res.status(401).json({ status: "error", error: "Unauthorized." });
+};
+
+/**
+ * Authorization Required middleware.
+ */
+export let isAuthorized = (req: Request, res: Response, next: NextFunction) => {
+    const provider = req.path.split("/").slice(-1)[0];
+
+    if (_.find(req.user.tokens, { kind: provider })) {
+        next();
+    }
+    else {
+        res.redirect(`/auth/${provider}`);
+    }
+};
