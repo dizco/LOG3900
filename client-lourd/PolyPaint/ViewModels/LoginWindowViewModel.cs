@@ -62,7 +62,10 @@ namespace PolyPaint.ViewModels
             HttpResponseMessage response = await RestHandler.LoginInfo(UserEmail, Password);
 
             if (response.IsSuccessStatusCode)
+            {
                 OpenConnection();
+                Username = UserEmail;
+            }
             else
                 OnResponseError(await response.Content.ReadAsStringAsync());
         }
@@ -83,7 +86,10 @@ namespace PolyPaint.ViewModels
             HttpResponseMessage response = await RestHandler.RegisterInfo(UserEmail, Password);
 
             if (response.IsSuccessStatusCode)
+            {
                 OpenConnection();
+                Username = UserEmail;
+            }
             else
                 OnResponseError(await response.Content.ReadAsStringAsync());
         }
