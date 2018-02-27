@@ -2,6 +2,7 @@ import * as WebSocket from "ws";
 import { ClientChatMessage } from "../models/sockets/client-chat-message";
 import { ServerChatMessage } from "../models/sockets/server-chat-message";
 import { UserModel } from "../models/User";
+import { UserFactory } from "../factories/user-factory";
 
 export class ChatMessageDecorator {
     private clientMessage: ClientChatMessage;
@@ -20,12 +21,7 @@ export class ChatMessageDecorator {
                 id: this.clientMessage.room.id,
                 name: "Main Chat",
             },
-            author: {
-                id: this.user.id,
-                username: this.user.email,
-                url: `https://example.com/users/${this.user.id}`,
-                avatar_url: `https://example.com/users/${this.user.id}/avatar.jpg`,
-            },
+            author: UserFactory.build(this.user),
             timestamp: Date.now(),
         });
     }
