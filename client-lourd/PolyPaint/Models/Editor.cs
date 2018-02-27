@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Threading;
 using PolyPaint.Constants;
+using PolyPaint.CustomComponents;
 using Application = System.Windows.Application;
 
 namespace PolyPaint.Models
@@ -42,6 +43,8 @@ namespace PolyPaint.Models
         private int _strokeSize = 11;
 
         public StrokeCollection StrokesCollection = new StrokeCollection();
+
+        public string CurrentUsername { get; set; }
 
         public string SelectedTool
         {
@@ -110,17 +113,33 @@ namespace PolyPaint.Models
         // S'il y a au moins 1 trait sur la surface, il est possible d'exécuter Stack.
         public bool CanStack(object o)
         {
-            return StrokesCollection.Count > 0;
+            bool authoredOneItem = false;
+
+            int i = 0;
+            while (!authoredOneItem && i < StrokesCollection.Count)
+                if ((StrokesCollection[i] as CustomStroke)?.Author == CurrentUsername)
+                    authoredOneItem = true;
+                else
+                    i++;
+
+            return authoredOneItem || StrokesCollection.Count > 0;
         }
 
         // On retire le trait le plus récent de la surface de dessin et on le place sur une pile.
         public void Stack(object o)
         {
+
             try
             {
-                Stroke trait = StrokesCollection.Last();
-                _removedStrokesCollection.Add(trait);
-                StrokesCollection.Remove(trait);
+                Stroke toRemove = null;
+                foreach (Stroke stroke in StrokesCollection)
+                    if ((stroke as CustomStroke)?.Author == CurrentUsername)
+                        toRemove = stroke;
+                if (toRemove != null)
+                {
+                    _removedStrokesCollection.Add(toRemove);
+                    StrokesCollection.Remove(toRemove);
+                }
             }
             catch
             {
@@ -139,10 +158,10 @@ namespace PolyPaint.Models
         {
             try
             {
-                Stroke trait = _removedStrokesCollection.Last();
-                StrokesCollection.Add(trait);
-                _removedStrokesCollection.Remove(trait);
-                StrokeAdded(trait);
+                Stroke stroke = _removedStrokesCollection.Last();
+                StrokesCollection.Add(stroke);
+                _removedStrokesCollection.Remove(stroke);
+                StrokeAdded(stroke);
             }
             catch
             {

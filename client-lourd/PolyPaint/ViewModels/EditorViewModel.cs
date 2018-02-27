@@ -2,9 +2,12 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
@@ -42,7 +45,7 @@ namespace PolyPaint.ViewModels
 
             StrokesCollection = _editor.StrokesCollection;
 
-            // Pour chaque commande, on effectue la liaison avec des méthodes du modèle.            
+            // Pour chaque commande, on effectue la liaison avec des méthodes du modèle.
             Stack = new RelayCommand<object>(_editor.Stack, _editor.CanStack);
             Unstack = new RelayCommand<object>(_editor.Unstack, _editor.CanUnstack);
             // Pour les commandes suivantes, il est toujours possible des les activer.
@@ -65,13 +68,27 @@ namespace PolyPaint.ViewModels
             ShowLoginWindowCommand = new RelayCommand<object>(ShowLoginWindow);
 
             EditorActionReceived += ProcessReceivedEditorAction;
+
+            LoginStatusChanged += ProcessLoginStatusChange;
+        }
+
+        private void ProcessLoginStatusChange(object sender, string username)
+        {
+            _editor.CurrentUsername = username;
         }
 
         private void ProcessReceivedEditorAction(object sender, EditorActionModel e)
         {
             EditorActionStrategyContext context = new EditorActionStrategyContext(e);
-
             context.ExecuteStrategy(_editor);
+
+            // OVERKILL
+            // Currently the only way to refresh CanExecute bindings
+            (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
+            {
+                CommandManager
+                    .InvalidateRequerySuggested();
+            });
         }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
@@ -244,7 +261,11 @@ namespace PolyPaint.ViewModels
 
         private void SendNewStroke(Stroke stroke)
         {
-            Messenger?.SendEditorActionNewStroke(stroke);
+            if (Messenger != null)
+            {
+                Messenger.SendEditorActionNewStroke(stroke);
+                _editor.StrokesCollection.Remove(stroke);
+            }
         }
     }
 }

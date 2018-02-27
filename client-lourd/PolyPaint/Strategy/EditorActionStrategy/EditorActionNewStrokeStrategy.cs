@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using PolyPaint.CustomComponents;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 
@@ -29,7 +30,8 @@ namespace PolyPaint.Strategy.EditorActionStrategy
                 StylusTip =
                     (StylusTip) Enum.Parse(typeof(StylusTip), _newStrokeAction.Stroke.DrawingAttributes.StylusTip)
             };
-            Stroke newStroke = new Stroke(strokePoints, strokeAttributes);
+
+            CustomStroke newStroke = new CustomStroke(strokePoints, strokeAttributes, _newStrokeAction.Author.Name);
 
             editor.AddIncomingStroke(newStroke);
         }
