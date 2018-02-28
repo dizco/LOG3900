@@ -31,7 +31,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
                     (StylusTip) Enum.Parse(typeof(StylusTip), _newStrokeAction.Stroke.DrawingAttributes.StylusTip)
             };
 
-            CustomStroke newStroke = new CustomStroke(strokePoints, strokeAttributes, _newStrokeAction.Author.Name);
+            CustomStroke newStroke = new CustomStroke(strokePoints, strokeAttributes, _newStrokeAction.Author.Username);
 
             editor.AddIncomingStroke(newStroke);
         }
