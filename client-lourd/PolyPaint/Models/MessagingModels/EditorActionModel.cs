@@ -33,7 +33,8 @@ namespace PolyPaint.Models.MessagingModels
     {
         NewStroke = 1,
         PartialEraseStroke,
-        FullEraseStroke
+        FullEraseStroke,
+        Stack
     }
 
     public class DrawingModel

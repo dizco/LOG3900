@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PolyPaint.Constants;
+using PolyPaint.CustomComponents;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Strategy.EditorActionStrategy;
@@ -61,12 +62,16 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
         }
 
         [TestMethod]
-        public void TestAddNewStroke()
+        public void TestAddNewStrokeOtherUser()
         {
             EditorActionModel action = new EditorActionModel
             {
                 Type = JsonConstantStrings.TypeEditorActionOutgoingValue,
                 Drawing = new DrawingModel {Id = "507f1f77bcf86cd799439011"},
+                Author = new AuthorModel
+                {
+                    Username = "me@me.ca"
+                },
                 Action = new StrokeActionModel
                 {
                     Id = (int) ActionIds.NewStroke,
@@ -97,6 +102,8 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
 
             Assert.IsTrue(_stroke.StylusPoints.SequenceEqual(_editor.StrokesCollection[0].StylusPoints),
                           "Newly added stroke should contain the same StylusPoints as initial stroke");
+
+            Assert.AreEqual("me@me.ca", (_editor.StrokesCollection[0] as CustomStroke)?.Author, "Newly added stroke should have the same author");
         }
     }
 }
