@@ -1,9 +1,39 @@
 import { NextFunction, Request, Response } from "express";
 import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
+import { PaginateResult } from "mongoose";
 
 const enum DrawingFields {
     Name = "name",
 }
+
+/**
+ * GET /drawings
+ */
+export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
+    req.checkQuery("page", "Page number must be an integer above 0").isInt({ min: 1 });
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
+    }
+
+    const options = {
+        select: "name",
+        populate: { path: "owner", select: "username" },
+        page: req.query.page,
+    };
+
+    Drawing.paginate({}, options, (err: any, drawings: PaginateResult<DrawingModel>) => {
+        if (err) {
+            return next(err);
+        }
+        return res.json(drawings);
+    }).catch((reason => {
+        console.log("Failed to fetch and paginate drawings", reason);
+        return next(reason);
+    }));
+};
 
 /**
  * POST /drawings

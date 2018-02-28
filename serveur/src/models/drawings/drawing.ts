@@ -1,6 +1,7 @@
 import { DrawingAttributes } from "./drawing-attributes";
 import { ServerEditorAction } from "../sockets/server-editor-action";
 import * as mongoose from "mongoose";
+import * as mongoosePaginate from "mongoose-paginate";
 
 interface DrawingInterface extends DrawingAttributes {
     actions?: ServerEditorAction[];
@@ -13,6 +14,7 @@ const drawingSchema = new mongoose.Schema({
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     actions: Array,
 }, { timestamps: true });
+drawingSchema.plugin(mongoosePaginate);
 
 const Drawing = mongoose.model("Drawing", drawingSchema);
 export default Drawing;

@@ -9,6 +9,7 @@ import * as mongo from "connect-mongo";
 //import * as flash from "express-flash";
 import * as path from "path";
 import * as mongoose from "mongoose";
+import * as mongoosePaginate from "mongoose-paginate";
 import * as passport from "passport";
 import * as expressValidator from "express-validator";
 import * as bluebird from "bluebird";
@@ -41,6 +42,9 @@ mongoose.connect(mongoUrl, { useMongoClient: true }).then(
     console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
     // process.exit();
 });
+(<any>mongoosePaginate).paginate.options = {
+    limit: 20,
+};
 
 // Express configuration
 app.set("port", process.env.PORT || 3000);
@@ -107,6 +111,7 @@ app.post("/register", userController.postRegister);
 /**
  * Drawings
  */
+app.get("/drawings", passportConfig.isAuthenticated, drawingsController.getDrawings);
 app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDrawing);
 app.get("/drawings/:id", passportConfig.isAuthenticated, drawingsController.getDrawing);
 app.put("/drawings/:id", passportConfig.isAuthenticated, drawingsController.putDrawing);
