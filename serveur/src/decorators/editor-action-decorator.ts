@@ -3,6 +3,7 @@ import { ServerEditorAction } from "../models/sockets/server-editor-action";
 import { ClientEditorAction } from "../models/sockets/client-editor-action";
 import { UserModel } from "../models/User";
 import { UserFactory } from "../factories/user-factory";
+import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
 
 export class EditorActionDecorator {
     private clientAction: ClientEditorAction;
@@ -14,27 +15,31 @@ export class EditorActionDecorator {
     }
 
     public decorate(ws: WebSocket): Promise<ServerEditorAction> {
-        //TODO: Build actual user data
-
-        return Promise.resolve({
-            type: "server.editor.action",
-            action: {
-                id: this.clientAction.action.id,
-                name: this.clientAction.action.name,
-            },
-            drawing: {
-                id: this.clientAction.drawing.id,
-                name: "Mona Lisa", //TODO: Fetch the rest of the drawing info by the id
-                owner: {
-                    id: 132,
-                    username: "fred",
-                    url: "https://example.com/users/fred",
-                    avatar_url: "https://example.com/users/fred/avatar.jpg",
+        return new Promise<ServerEditorAction>((resolve: (value?: ServerEditorAction | PromiseLike<ServerEditorAction>) => void,
+                                                reject: (reason?: any) => void) => {
+            Drawing.findOne({_id: this.clientAction.drawing.id}).populate("owner").exec((err: any, drawing: DrawingModel) => {
+                if (err) {
+                    return reject(err);
                 }
-            },
-            author: UserFactory.build(this.user),
-            stroke: this.clientAction.stroke,
-            timestamp: Date.now(),
+                if (!drawing) {
+                    return reject("Drawing not found.");
+                }
+                return resolve({
+                    type: "server.editor.action",
+                    action: {
+                        id: this.clientAction.action.id,
+                        name: this.clientAction.action.name,
+                    },
+                    drawing: {
+                        id: this.clientAction.drawing.id,
+                        name: drawing.name,
+                        owner: UserFactory.build(<any>drawing.owner),
+                    },
+                    author: UserFactory.build(this.user),
+                    stroke: this.clientAction.stroke,
+                    timestamp: Date.now(),
+                });
+            });
         });
     }
 }
