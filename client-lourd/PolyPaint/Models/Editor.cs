@@ -122,7 +122,7 @@ namespace PolyPaint.Models
                 else
                     i++;
 
-            return authoredOneItem || StrokesCollection.Count > 0;
+            return authoredOneItem;
         }
 
         // On retire le trait le plus récent de la surface de dessin et on le place sur une pile.

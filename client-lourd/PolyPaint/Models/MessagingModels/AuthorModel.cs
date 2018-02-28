@@ -10,9 +10,6 @@ namespace PolyPaint.Models.MessagingModels
         [JsonProperty(PropertyName = "username")]
         public string Username { get; set; }
 
-        [JsonProperty(PropertyName = "name")]
-        public string Name { get; set; }
-
         [JsonProperty(PropertyName = "url")]
         public string Url { get; set; }
 
