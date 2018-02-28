@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -49,6 +50,7 @@ namespace PolyPaint.ViewModels
             // Donc, aucune vérification de type Peut"Action" à faire.
             ChooseTip = new RelayCommand<string>(_editor.SelectTip);
             ChooseTool = new RelayCommand<string>(_editor.SelectTool);
+            ChooseShape = new RelayCommand<Editor.MyShape>(_editor.SelectShape);
             ResetDrawing = new RelayCommand<object>(_editor.Reset);
 
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawingPrompt);
@@ -65,13 +67,6 @@ namespace PolyPaint.ViewModels
             ShowLoginWindowCommand = new RelayCommand<object>(ShowLoginWindow);
 
             EditorActionReceived += ProcessReceivedEditorAction;
-        }
-
-        private void ProcessReceivedEditorAction(object sender, EditorActionModel e)
-        {
-            EditorActionStrategyContext context = new EditorActionStrategyContext(e);
-
-            context.ExecuteStrategy(_editor);
         }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
@@ -95,6 +90,12 @@ namespace PolyPaint.ViewModels
             set => PropertyModified();
         }
 
+        public Editor.MyShape ShapeSelected
+        {
+            get => _editor.SelectedShape;
+            set => PropertyModified();
+        }
+
         public int StrokeSizeSelected
         {
             get => _editor.StrokeSize;
@@ -115,9 +116,11 @@ namespace PolyPaint.ViewModels
         // Commandes sur lesquels la vue pourra se connecter.
         public RelayCommand<object> Stack { get; set; }
 
+        //Commands for choosing the tools
         public RelayCommand<object> Unstack { get; set; }
         public RelayCommand<string> ChooseTip { get; set; }
         public RelayCommand<string> ChooseTool { get; set; }
+        public RelayCommand<Editor.MyShape> ChooseShape { get; set; }
         public RelayCommand<object> ResetDrawing { get; set; }
 
         public RelayCommand<object> OpenFileCommand { get; set; }
@@ -135,9 +138,26 @@ namespace PolyPaint.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private void ProcessReceivedEditorAction(object sender, EditorActionModel e)
+        {
+            EditorActionStrategyContext context = new EditorActionStrategyContext(e);
+
+            context.ExecuteStrategy(_editor);
+        }
+
         private void AutosaveFile(object obj)
         {
             _editor.SaveDrawing(string.Empty, true);
+        }
+
+        public StrokeCollection AddShape(Point start, Point end)
+        {
+            return _editor.AddShape(start, end);
+        }
+
+        public Stroke DrawShape(Point start, Point end)
+        {
+            return _editor.DrawShape(start, end);
         }
 
         /// <summary>
@@ -194,6 +214,11 @@ namespace PolyPaint.ViewModels
             DrawingAttributes.Height = _editor.SelectedTip == "horizontale" ? 1 : _editor.StrokeSize;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="o"></param>
+
+        //Show login window
         public void ShowLoginWindow(object o)
         {
             if (Messenger?.IsConnected == true)

@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Ink;
+using System.Windows.Input;
 using System.Windows.Media;
 using PolyPaint.ViewModels;
-using Application = System.Windows.Application;
-using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace PolyPaint.Views
 {
@@ -15,6 +15,11 @@ namespace PolyPaint.Views
     /// </summary>
     public partial class DrawingWindow : Window
     {
+        private Point _end;
+
+        //Starting and ending point of the mouse during an action
+        private Point _start;
+
         public DrawingWindow()
         {
             InitializeComponent();
@@ -51,6 +56,39 @@ namespace PolyPaint.Views
         {
             Point p = e.GetPosition(surfaceDessin);
             textBlockPosition.Text = Math.Round(p.X) + ", " + Math.Round(p.Y) + "px";
+
+            // Update the X & Y as the mouse moves
+            if (e.LeftButton == MouseButtonState.Pressed) _end = e.GetPosition(surfaceDessin);
+
+            //Transform the cursor in a cross when the tool is shapes
+            if ((DataContext as EditorViewModel)?.ToolSelected == "shapes")
+            {
+                surfaceDessin.UseCustomCursor = true;
+                surfaceDessin.Cursor = Cursors.Cross;
+            }
+            else
+            {
+                surfaceDessin.UseCustomCursor = false;
+            }
+        }
+
+        private void SurfaceDessin_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            //The shape is added and selected in our StrokeCollection in the release of the left mouse
+            if (!_start.Equals(_end) && (DataContext as EditorViewModel)?.ToolSelected == "shapes")
+            {
+                StrokeCollection selectedShape = (DataContext as EditorViewModel).AddShape(_start, _end);
+                surfaceDessin.Select(selectedShape);
+            }
+        }
+
+        private void SurfaceDessin_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //The Dynamic Renderer is updated on each click
+            surfaceDessin.CustomRenderer.SetViewModel(DataContext as EditorViewModel);
+
+            //The position of the mouse is saved
+            _start = e.GetPosition(surfaceDessin);
         }
 
         private void DupliquerSelection(object sender, RoutedEventArgs e)
