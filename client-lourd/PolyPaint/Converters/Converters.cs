@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Navigation;
 
 namespace PolyPaint.Converters
 {
@@ -58,6 +59,8 @@ namespace PolyPaint.Converters
                     return InkCanvasEditingMode.EraseByPoint;
                 case "efface_trait":
                     return InkCanvasEditingMode.EraseByStroke;
+                case "shapes":
+                    return InkCanvasEditingMode.GestureOnly;
                 default:
                     return InkCanvasEditingMode.Ink;
             }

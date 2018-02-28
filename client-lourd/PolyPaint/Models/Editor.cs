@@ -7,8 +7,11 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -39,6 +42,9 @@ namespace PolyPaint.Models
         // Couleur des traits tracés par le crayon.
         private string _selectedColor = "Black";
 
+        // Shape selected
+        private MyShape _selectedShape = MyShape.Line;
+
         // Forme de la pointe du crayon
         private string _selectedTip = "ronde";
 
@@ -65,10 +71,24 @@ namespace PolyPaint.Models
         public string SelectedTip
         {
             get => _selectedTip;
+            //When we select a tip, it is generaly to draw after that a stroke or a shape
+            //That's why we the tip is changed, the tool is automaticaly changed for one of both
             set
             {
-                SelectedTool = "crayon";
                 _selectedTip = value;
+                if (!_selectedTool.Equals("shapes")) SelectedTool = "crayon";
+
+                PropertyModified();
+            }
+        }
+
+        public MyShape SelectedShape
+        {
+            get => _selectedShape;
+            set
+            {
+                SelectedTool = "shapes";
+                _selectedShape = value;
                 PropertyModified();
             }
         }
@@ -76,12 +96,13 @@ namespace PolyPaint.Models
         public string SelectedColor
         {
             get => _selectedColor;
-            // Lorsqu'on sélectionne une couleur c'est généralement pour ensuite dessiner un trait.
-            // C'est pourquoi lorsque la couleur est changée, l'outil est automatiquement changé pour le crayon.
+            //When we select a color, it is generaly to draw after that a stroke or a shape
+            //That's why we the color is changed, the tool is automaticaly changed for one of both
             set
             {
                 _selectedColor = value;
-                SelectedTool = "crayon";
+                if (!_selectedTool.Equals("shapes")) SelectedTool = "crayon";
+
                 PropertyModified();
             }
         }
@@ -190,6 +211,149 @@ namespace PolyPaint.Models
         public void SelectTool(string outil)
         {
             SelectedTool = outil;
+        }
+
+        //The active tool become the one passed in parameter
+        public void SelectShape(MyShape shape)
+        {
+            SelectedShape = shape;
+        }
+
+        //Add a shape in the StrokeCollection
+        public StrokeCollection AddShape(Point start, Point end)
+        {
+            //We add the stroke in our primary StrokeCollection
+            Stroke shapeStroke = DrawShape(start, end);
+            StrokesCollection.Add(shapeStroke);
+            StrokeAdded(shapeStroke);
+
+            //We add the stroke in a temporary StrokeCollection that
+            //is going to be selected by the inkCanvas 
+            StrokeCollection selectedShape = new StrokeCollection();
+            selectedShape.Add(shapeStroke);
+            SelectedTool = "lasso";
+
+            return selectedShape;
+        }
+
+        //Create a stroke of the shape selected
+        public Stroke DrawShape(Point start, Point end)
+        {
+            ShapeMaker shape = new ShapeMaker(start, end);
+
+            //Create a Vertice as a basic stroke
+            Stroke shapeStroke = shape.DrawLine();
+
+            // Draw the correct shape
+            switch (_selectedShape)
+            {
+                case MyShape.Line:
+                    shapeStroke = shape.DrawLine();
+                    break;
+
+                case MyShape.Triangle:
+                    shapeStroke = shape.DrawTriangle();
+                    break;
+
+                case MyShape.Arrow:
+                    shapeStroke = shape.DrawArrow();
+                    break;
+
+                case MyShape.Diamond:
+                    shapeStroke = shape.DrawDiamond();
+                    break;
+
+                case MyShape.LightningBolt:
+                    shapeStroke = shape.DrawLightningBolt();
+                    break;
+
+                case MyShape.ITetrimino:
+                    shapeStroke = shape.DrawITetromino();
+                    break;
+
+                case MyShape.JTetrimino:
+                    shapeStroke = shape.DrawJTetromino();
+                    break;
+
+                case MyShape.LTetrimino:
+                    shapeStroke = shape.DrawLTetromino();
+                    break;
+
+                case MyShape.OTetrimino:
+                    shapeStroke = shape.DrawOTetromino();
+                    break;
+
+                case MyShape.STetrimino:
+                    shapeStroke = shape.DrawSTetromino();
+                    break;
+
+                case MyShape.TTetrimino:
+                    shapeStroke = shape.DrawTTetromino();
+                    break;
+
+                case MyShape.ZTetrimino:
+                    shapeStroke = shape.DrawZTetromino();
+                    break;
+            }
+
+            //Giving selected drawing attributes to our shape
+            shapeStroke.DrawingAttributes.StylusTip = SelectedTip == "ronde" ? StylusTip.Ellipse : StylusTip.Rectangle;
+            shapeStroke.DrawingAttributes.Width = SelectedTip == "verticale" ? 1 : StrokeSize;
+            shapeStroke.DrawingAttributes.Height = SelectedTip == "horizontale" ? 1 : StrokeSize;
+            shapeStroke.DrawingAttributes.Color = (Color) ColorConverter.ConvertFromString(SelectedColor);
+            return shapeStroke;
+        }
+
+        private Stroke DrawLine(Point start, Point end)
+        {
+            //We save the start and the end of the mouse gesture
+            StylusPointCollection LinePoints = new StylusPointCollection();
+            LinePoints.Add(new StylusPoint(start.X, start.Y));
+            LinePoints.Add(new StylusPoint(end.X, end.Y));
+
+            //With the Point variables we create a Stroke
+            Stroke strokeLine = new Stroke(LinePoints);
+            strokeLine.DrawingAttributes.Color = (Color) ColorConverter.ConvertFromString(SelectedColor);
+            return strokeLine;
+        }
+
+        private Stroke DrawTriangle(Point start, Point end)
+        {
+            double width = Math.Abs(start.X - end.X);
+            double height = Math.Abs(end.X - end.Y);
+
+            StylusPointCollection TrianglePoints = new StylusPointCollection();
+            StylusPoint triangleVertice1 = new StylusPoint(start.X, start.Y + height * 3 / 4);
+            StylusPoint triangleVertice2 = new StylusPoint(triangleVertice1.X + width / 2, triangleVertice1.Y);
+            StylusPoint triangleVertice3 = new StylusPoint(triangleVertice2.X, triangleVertice2.Y + height / 4);
+            StylusPoint triangleVertice4 =
+                new StylusPoint(triangleVertice3.X + width / 2, triangleVertice3.Y - height / 2);
+            StylusPoint triangleVertice5 =
+                new StylusPoint(triangleVertice4.X - width / 2, triangleVertice4.Y - height / 2);
+            StylusPoint triangleVertice6 = new StylusPoint(triangleVertice5.X, triangleVertice5.Y + height / 4);
+            StylusPoint triangleVertice7 = new StylusPoint(triangleVertice6.X - width / 2, triangleVertice6.Y);
+            StylusPoint triangleVertice8 = new StylusPoint(triangleVertice7.X, triangleVertice7.Y + height * 2 / 4);
+
+            TrianglePoints.Add(triangleVertice1);
+            TrianglePoints.Add(triangleVertice2);
+            TrianglePoints.Add(triangleVertice3);
+            TrianglePoints.Add(triangleVertice4);
+            TrianglePoints.Add(triangleVertice5);
+            TrianglePoints.Add(triangleVertice6);
+            TrianglePoints.Add(triangleVertice7);
+            TrianglePoints.Add(triangleVertice8);
+
+            //With the Point variables we create a Stroke
+            Stroke strokeLine = new Stroke(TrianglePoints);
+            strokeLine.DrawingAttributes.Color = (Color) ColorConverter.ConvertFromString(SelectedColor);
+            return strokeLine;
+        }
+
+
+        // We add a new shape form passed in parameter
+        public void SelectShape(string point)
+        {
+            SelectedTip = point;
         }
 
         // On vide la surface de dessin de tous ses traits.
@@ -469,6 +633,23 @@ namespace PolyPaint.Models
         private void ShowUserInfoMessage(string message)
         {
             MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        // Drawable Shapes
+        internal enum MyShape
+        {
+            Line,
+            Triangle,
+            Diamond,
+            Arrow,
+            LightningBolt,
+            ITetrimino,
+            JTetrimino,
+            LTetrimino,
+            OTetrimino,
+            STetrimino,
+            TTetrimino,
+            ZTetrimino
         }
     }
 }
