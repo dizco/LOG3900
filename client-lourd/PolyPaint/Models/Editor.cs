@@ -349,7 +349,6 @@ namespace PolyPaint.Models
             return strokeLine;
         }
 
-
         // We add a new shape form passed in parameter
         public void SelectShape(string point)
         {

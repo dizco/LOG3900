@@ -124,7 +124,6 @@ namespace PolyPaint.Models
             lightningBoltPoints.Add(lightningBoltEdge11);
             lightningBoltPoints.Add(lightningBoltEdge1);
 
-
             //With the Point variables we create a Stroke
             Stroke strokeLine = new Stroke(lightningBoltPoints);
             return strokeLine;
@@ -196,7 +195,6 @@ namespace PolyPaint.Models
             oTetrominoPoints.Add(oTetrominoEdge2);
             oTetrominoPoints.Add(oTetrominoEdge9);
             oTetrominoPoints.Add(oTetrominoEdge7);
-
 
             //With the Point variables we create a Stroke
             Stroke strokeLine = new Stroke(oTetrominoPoints);
