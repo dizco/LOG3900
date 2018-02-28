@@ -16,12 +16,10 @@ namespace PolyPaint.CustomComponents
             DynamicRenderer = CustomRenderer;
         }
 
-
         internal class CustomDynamicRenderer : DynamicRenderer
         {
             private static EditorViewModel _viewModel = new EditorViewModel();
             private Point _start;
-
 
             private bool IsManipulating { get; set; }
 
@@ -36,7 +34,6 @@ namespace PolyPaint.CustomComponents
                 _start = (Point) rawStylusInput.GetStylusPoints()[0];
                 base.OnStylusDown(rawStylusInput);
             }
-
 
             protected override void OnDraw(DrawingContext drawingContext,
                 StylusPointCollection stylusPoints,
