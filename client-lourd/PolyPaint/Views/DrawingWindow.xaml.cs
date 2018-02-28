@@ -15,10 +15,13 @@ namespace PolyPaint.Views
     /// </summary>
     public partial class DrawingWindow : Window
     {
+        private Document doc;   //Trang hiện tại của ứng dụng.
+        private string currentFilePath;
         public DrawingWindow()
         {
             InitializeComponent();
             DataContext = new EditorViewModel();
+            doc = new Document(surfaceDessin);
         }
 
         // Pour gérer les points de contrôles.
@@ -89,6 +92,11 @@ namespace PolyPaint.Views
         {
             //TODO: needs implementation
             //(DataContext as VueModele)?.OnStrokeErased(sender, e);
+        }
+
+        private void ExportImage(object sender, RoutedEventArgs e)
+        {
+            doc.SaveFile(currentFilePath); //appelle une fonction de Document.cs
         }
     }
 }
