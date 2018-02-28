@@ -115,10 +115,12 @@
     </ApplicationDefinition>
     <Compile Include="Constants\FileExtensionConstants.cs" />
     <Compile Include="Constants\ImageManipulationConstants.cs" />
+    <Compile Include="CustomComponents\CustomCanvas.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="CustomComponents\CustomStroke.cs" />
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
     <Compile Include="Models\ChatWindowModel.cs" />
+    <Compile Include="Models\ShapeMakerModel.cs" />
     <Compile Include="Models\Editor.cs" />
     <Compile Include="Constants\JsonConstantStrings.cs" />
     <Compile Include="Models\MessagingModels\AuthorModel.cs" />
@@ -237,6 +239,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\testbackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\lightningBolt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
