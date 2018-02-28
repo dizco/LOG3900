@@ -116,6 +116,7 @@
     <Compile Include="Constants\FileExtensionConstants.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="CustomComponents\CustomStroke.cs" />
+    <Compile Include="Helpers\Communication\StrokeHelper.cs" />
     <Compile Include="Models\ChatWindowModel.cs" />
     <Compile Include="Models\Editor.cs" />
     <Compile Include="Constants\JsonConstantStrings.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Helpers\Communication\RestHandler.cs" />
     <Compile Include="Helpers\Communication\SocketHandler.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionNewStrokeStrategy.cs" />
+    <Compile Include="Strategy\EditorActionStrategy\EditorActionStackStrokeStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionStrategyContext.cs" />
     <Compile Include="Strategy\EditorActionStrategy\IEditorActionStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\InvalidActionStrategyException.cs" />

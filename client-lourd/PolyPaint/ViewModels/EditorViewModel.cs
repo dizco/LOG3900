@@ -35,6 +35,7 @@ namespace PolyPaint.ViewModels
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, EditorPropertyModified est appelée.
             _editor.PropertyChanged += EditorPropertyModified;
             _editor.EditorAddedStroke += OnStrokeCollectedHandler;
+            _editor.StrokeStackedEvent += OnStrokeStackedHandler;
 
             // On initialise les attributs de dessin avec les valeurs de départ du modèle.
             DrawingAttributes = new DrawingAttributes
@@ -70,6 +71,12 @@ namespace PolyPaint.ViewModels
             EditorActionReceived += ProcessReceivedEditorAction;
 
             LoginStatusChanged += ProcessLoginStatusChange;
+
+        }
+
+        private void OnStrokeStackedHandler(object sender, Stroke stroke)
+        {
+            Messenger?.SendEditorStrokeStack(stroke);
         }
 
         private void ProcessLoginStatusChange(object sender, string username)

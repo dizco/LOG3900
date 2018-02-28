@@ -11,6 +11,7 @@ using System.Windows.Ink;
 using System.Windows.Threading;
 using PolyPaint.Constants;
 using PolyPaint.CustomComponents;
+using PolyPaint.Helpers.Communication;
 using Application = System.Windows.Application;
 
 namespace PolyPaint.Models
@@ -97,6 +98,7 @@ namespace PolyPaint.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<Stroke> EditorAddedStroke;
+        public event EventHandler<Stroke> StrokeStackedEvent;
 
         /// <summary>
         ///     Appelee lorsqu'une propriété d'Editeur est modifiée.
@@ -132,13 +134,17 @@ namespace PolyPaint.Models
             try
             {
                 Stroke toRemove = null;
-                foreach (Stroke stroke in StrokesCollection)
+                foreach (Stroke stroke in StrokesCollection.ToArray().Reverse())
                     if ((stroke as CustomStroke)?.Author == null)
+                    {
                         toRemove = stroke;
+                        break;
+                    }
                 if (toRemove != null)
                 {
                     _removedStrokesCollection.Add(toRemove);
                     StrokesCollection.Remove(toRemove);
+                    StrokeStackedEvent?.Invoke(this, toRemove);
                 }
             }
             catch
@@ -198,6 +204,27 @@ namespace PolyPaint.Models
             Dispatcher dispatcher = Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher;
 
             dispatcher.Invoke(() => { StrokesCollection.Add(stroke); });
+        }
+
+        internal void RemoveStackedStroke(Stroke stackedStroke)
+        {
+            Dispatcher dispatcher = Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher;
+
+            dispatcher.Invoke(() =>
+            {
+                Stroke toRemove = null;
+
+                foreach (Stroke stroke in StrokesCollection.ToArray().Reverse())
+                {
+                    if (StrokeHelper.AreSameStroke(stackedStroke, stroke))
+                    {
+                        toRemove = stroke;
+                        break;
+                    }
+                }
+
+                if(toRemove != null) StrokesCollection.Remove(toRemove);
+            });
         }
 
         public void OpenDrawingPrompt(object o)

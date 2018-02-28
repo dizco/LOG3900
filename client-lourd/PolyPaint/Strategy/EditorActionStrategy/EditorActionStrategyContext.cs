@@ -25,6 +25,9 @@ namespace PolyPaint.Strategy.EditorActionStrategy
                 case ActionIds.NewStroke:
                     _strategy = new EditorActionNewStrokeStrategy(action);
                     break;
+                case ActionIds.Stack:
+                    _strategy = new EditorActionStackStrokeStrategy(action);
+                    break;
                 default:
                     throw new InvalidActionStrategyException();
             }
