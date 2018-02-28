@@ -20,6 +20,8 @@ namespace PolyPaint.Strategy.EditorActionStrategy
 
         public void ExecuteStrategy(Editor editor)
         {
+            if (_newStrokeAction.Author.Username == editor.CurrentUsername) return;
+
             StylusPointCollection strokePoints =
                 new StylusPointCollection(_newStrokeAction.Stroke.Dots.Select(point => new StylusPoint(point.x, point.y)));
             DrawingAttributes strokeAttributes = new DrawingAttributes

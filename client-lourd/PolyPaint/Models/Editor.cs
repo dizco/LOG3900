@@ -117,7 +117,7 @@ namespace PolyPaint.Models
 
             int i = 0;
             while (!authoredOneItem && i < StrokesCollection.Count)
-                if ((StrokesCollection[i] as CustomStroke)?.Author == CurrentUsername)
+                if ((StrokesCollection[i] as CustomStroke)?.Author == null)
                     authoredOneItem = true;
                 else
                     i++;
@@ -133,7 +133,7 @@ namespace PolyPaint.Models
             {
                 Stroke toRemove = null;
                 foreach (Stroke stroke in StrokesCollection)
-                    if ((stroke as CustomStroke)?.Author == CurrentUsername)
+                    if ((stroke as CustomStroke)?.Author == null)
                         toRemove = stroke;
                 if (toRemove != null)
                 {

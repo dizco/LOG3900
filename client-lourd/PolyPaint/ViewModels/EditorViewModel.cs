@@ -261,11 +261,7 @@ namespace PolyPaint.ViewModels
 
         private void SendNewStroke(Stroke stroke)
         {
-            if (Messenger != null)
-            {
-                Messenger.SendEditorActionNewStroke(stroke);
-                _editor.StrokesCollection.Remove(stroke);
-            }
+            Messenger?.SendEditorActionNewStroke(stroke);
         }
     }
 }
