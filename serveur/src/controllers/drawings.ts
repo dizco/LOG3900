@@ -20,7 +20,9 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
 
     const options = {
         select: "name",
-        populate: { path: "owner", select: "username" },
+        populate: [
+            { path: "owner", select: "username" },
+            ],
         page: req.query.page,
     };
 
@@ -70,7 +72,11 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
         return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
     }
 
-    Drawing.findOne({_id: req.params.id}).populate("owner", "username").exec((err: any, drawing: DrawingModel) => {
+    const populateOptions = [
+        { path: "owner", select: "username" },
+        { path: "actions.author", select: "username" }, //TODO: Decide if we want to send editor actions here or not
+    ];
+    Drawing.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, drawing: DrawingModel) => {
         if (err) {
             return next(err);
         }
@@ -87,5 +93,32 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
 export let putDrawing = (req: Request, res: Response) => {
     res.status(500).json({
         message: "PUT not implemented yet",
+    });
+};
+
+/**
+ * GET /drawings/:id/actions
+ */
+export let getDrawingActions = (req: Request, res: Response, next: NextFunction) => {
+    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
+    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
+    }
+
+    const populateOptions = [
+        { path: "actions.author", select: "username" },
+    ];
+    Drawing.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, drawing: DrawingModel) => {
+        if (err) {
+            return next(err);
+        }
+        if (!drawing) {
+            return res.status(404).json({ status: "error", error: "Drawing not found." });
+        }
+        return res.json(drawing.actions);
     });
 };
