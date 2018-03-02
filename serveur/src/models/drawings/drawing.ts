@@ -12,7 +12,7 @@ export type DrawingModel = mongoose.Document & DrawingInterface;
 const drawingSchema = new mongoose.Schema({
     name: String,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    actions: Array,
+    actions: [{ actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" } }],
 }, { timestamps: true });
 drawingSchema.plugin(mongoosePaginate);
 
