@@ -60,6 +60,8 @@ namespace PolyPaint.ViewModels
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
             LoadAutosaved = new RelayCommand<object>(_editor.OpenAutosave);
 
+            ExportImageCommand = new RelayCommand<object>(_editor.ExportImagePrompt);
+
             StrokesCollection.StrokesChanged += (sender, obj) => { AutosaveFileCommand.Execute(string.Empty); };
 
             //Outgoing editor actions
@@ -149,6 +151,8 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> AutosaveFileCommand { get; set; }
         public RelayCommand<object> LoadAutosaved { get; set; }
 
+        public RelayCommand<object> ExportImageCommand { get; set; }
+
         //Command for managing the views
         public RelayCommand<object> ShowLoginWindowCommand { get; set; }
 
@@ -216,6 +220,11 @@ namespace PolyPaint.ViewModels
             DrawingAttributes.StylusTip = _editor.SelectedTip == "ronde" ? StylusTip.Ellipse : StylusTip.Rectangle;
             DrawingAttributes.Width = _editor.SelectedTip == "verticale" ? 1 : _editor.StrokeSize;
             DrawingAttributes.Height = _editor.SelectedTip == "horizontale" ? 1 : _editor.StrokeSize;
+        }
+
+        public void ExportCanvas(object o)
+        {
+
         }
 
         public void ShowLoginWindow(object o)

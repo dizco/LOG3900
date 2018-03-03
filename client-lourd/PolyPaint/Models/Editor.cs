@@ -6,13 +6,17 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Ink;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using PolyPaint.Constants;
 using PolyPaint.CustomComponents;
 using PolyPaint.Helpers.Communication;
 using Application = System.Windows.Application;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace PolyPaint.Models
 {
@@ -28,6 +32,14 @@ namespace PolyPaint.Models
         private const int ErrorLockViolation = 33;
 
         private readonly StrokeCollection _removedStrokesCollection = new StrokeCollection();
+
+        private InkCanvas _surfaceDessin;
+        /*
+         * https://social.msdn.microsoft.com/Forums/vstudio/en-US/7900f5c0-0a95-4d32-af94-e5f152d436c9/use-of-inkcanvas-cantrol-in-mvvm-pattern-to-save-image?forum=wpf
+         * https://social.msdn.microsoft.com/Forums/vstudio/en-US/5434a8b4-4c80-47a8-ba44-e63e854e0a08/inkcanvas-save-to-image?forum=wpf
+         * https://www.google.ca/search?q=inkcanvas+ExportToPng&rlz=1C1AVNE_enCA705CA705&oq=inkcanvas+ExportToPng+&aqs=chrome..69i57.7711j0j7&sourceid=chrome&ie=UTF-8
+         * https://social.msdn.microsoft.com/Forums/vstudio/en-US/ccb3a286-5615-40a0-8b19-854993709df7/inkcanvas-to-image-black-border-on-top?forum=wpf
+         */
 
         private bool _isLoadingDrawing;
 
@@ -347,6 +359,47 @@ namespace PolyPaint.Models
                 file?.Close();
                 UpdateRecentAutosaves();
             }
+        }
+
+        public void ExportImagePrompt(object inkCanvasParameter)
+        {
+            //cast the parameter of the command as a inkCanvas
+            if (inkCanvasParameter is InkCanvas inkCanvas)
+            {
+                _surfaceDessin = inkCanvas;
+                SaveFileDialog exportImageDialog = new SaveFileDialog
+                {
+                    AddExtension = true,
+                    DefaultExt = FileExtensionConstants.ExportImgDefaultExt,
+                    Filter = FileExtensionConstants.ExportImageFilter
+                };
+                if (exportImageDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string path = Path.GetFullPath(exportImageDialog.FileName);
+                    ExportImage(path);
+                }
+            }
+            
+        }
+
+        /*
+         *https://blogs.msdn.microsoft.com/saveenr/2008/09/18/wpfxaml-saving-a-window-or-canvas-as-a-png-bitmap/
+         *https://www.codeproject.com/Articles/16579/Saving-Rebuilding-InkCanvas-Strokes
+         * https://mtaulty.com/2016/02/16/windows-10-uwp-inkcanvas-and-rendertargetbitmap/
+         * https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/how-to-data-bind-to-an-inkcanvas
+         * cast : https://www.danielcrabtree.com/blog/152/c-sharp-7-is-operator-patterns-you-wont-need-as-as-often
+         */
+        public void ExportImage(string path)
+        {
+            if (StrokesCollection.Count == 0 || _isLoadingDrawing)
+                return;
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)_surfaceDessin.ActualWidth, (int)_surfaceDessin.ActualHeight, 0, 0, PixelFormats.Pbgra32);
+            Directory.CreateDirectory(FileExtensionConstants.AutosaveDirPath);
+
+            FileStream file = new FileStream(path, FileMode.Create);
+            StrokesCollection.Save(file);
+
+            ShowUserErrorMessage("HOLA I REACH");
         }
 
         public void UpdateRecentAutosaves()
