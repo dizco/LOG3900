@@ -24,7 +24,7 @@ struct OutgoingChatMessage: ChatMessage, Codable {
         self.type = "client.chat.message"
         self.room = OutgoingRoom(id: "chat")
         self.message = message
-        self.author = Author(id: -1, username: "", name: "", url: "", avatarUrl: "")
+        self.author = Author(id: "-1", username: "", url: "", avatarUrl: "")
     }
 }
 
@@ -46,16 +46,14 @@ struct IncomingRoom: Codable {
 }
 
 struct Author: Codable {
-    let id: Int
+    let id: String
     let username: String
-    let name: String
     let url: String
     let avatarUrl: String
 
     enum CodingKeys: String, CodingKey {
         case id
         case username
-        case name
         case url
         case avatarUrl = "avatar_url"
     }
