@@ -98,7 +98,7 @@ class ChatView: UIView, SocketManagerDelegate {
             print(incomingMessage.message)
             let convertTime = Timestamp()
             let timestamp = convertTime.getTimeFromServer(timestamp: incomingMessage.timestamp)
-            let messageInfos = (incomingMessage.author.name, timestamp)
+            let messageInfos = (incomingMessage.author.username, timestamp)
             self.displayMessage(message: incomingMessage.message, messageInfos: messageInfos)
         } catch let error {
             print(error)
