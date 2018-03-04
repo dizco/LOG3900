@@ -1,6 +1,6 @@
 //Inspired by https://stackoverflow.com/a/14551263/6316091
 export class ProcessTimer {
-    private static readonly Precision = 3;
+    private static readonly PRECISION = 3;
     private startTime: [number, number];
     private elapsedTime: number;
 
@@ -17,7 +17,7 @@ export class ProcessTimer {
      * @param {number} precision
      * @returns {string} elapsed time in ms
      */
-    public getElapsedTime(precision: number = ProcessTimer.Precision): string {
+    public getElapsedTime(precision: number = ProcessTimer.PRECISION): string {
         return this.elapsedTime.toFixed(precision);
     }
 
