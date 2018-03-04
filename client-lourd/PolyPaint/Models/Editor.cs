@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Ink;
@@ -373,8 +376,9 @@ namespace PolyPaint.Models
             //cast object as a inkCanvas (object from command)
             if (inkCanvasParameter is InkCanvas inkCanvas)
             {
-                //then save it as image
                 _surfaceDessin = inkCanvas;
+
+                //then save it as an image
                 SaveFileDialog exportImageDialog = new SaveFileDialog
                 {
                     Title = "Exporter le dessin",
@@ -384,33 +388,44 @@ namespace PolyPaint.Models
                 };
                 if (exportImageDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string path = Path.GetFullPath(exportImageDialog.FileName);
-                    ExportImage(path, exportImageDialog.FileName, exportImageDialog.FilterIndex);
+                    string directoryPath = Path.GetFullPath(exportImageDialog.FileName);
+                    ExportImage(directoryPath, exportImageDialog.FileName, exportImageDialog.FilterIndex);
                 }
             }
         }
-
-        /*
-         *https://blogs.msdn.microsoft.com/saveenr/2008/09/18/wpfxaml-saving-a-window-or-canvas-as-a-png-bitmap/
-         *https://www.codeproject.com/Articles/16579/Saving-Rebuilding-InkCanvas-Strokes
-         * https://mtaulty.com/2016/02/16/windows-10-uwp-inkcanvas-and-rendertargetbitmap/
-         * https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/how-to-data-bind-to-an-inkcanvas
-         * cast : https://www.danielcrabtree.com/blog/152/c-sharp-7-is-operator-patterns-you-wont-need-as-as-often
-         */
-        public void ExportImage(string path, string fileName, int filterIndex)
+        
+        public void ExportImage(string directoryPath, string fileName, int filterIndex)
         {
-            double dotsPerInch = 100;
             int imageWidth = (int) _surfaceDessin.ActualWidth;
             int imageHeight = (int)_surfaceDessin.ActualHeight;
-            RenderTargetBitmap rtb = new RenderTargetBitmap(imageWidth, imageHeight, dotsPerInch, dotsPerInch, PixelFormats.Pbgra32);
-            rtb.Render(_surfaceDessin);
+            RenderTargetBitmap imageRender = new RenderTargetBitmap(imageWidth, imageHeight, 
+                                                                 ImageManipulationConstants.DotsPerInch,
+                                                                 ImageManipulationConstants.DotsPerInch, 
+                                                                 PixelFormats.Pbgra32);
+            imageRender.Render(_surfaceDessin);
 
-            //Directory.CreateDirectory(FileExtensionConstants.AutosaveDirPath);
-            PngBitmapEncoder pbe = new PngBitmapEncoder();
-            FileStream file = new FileStream(path, FileMode.Create);
-            pbe.Frames.Add(BitmapFrame.Create(rtb));
-            //file = File.Create(fileName);
-            pbe.Save(file);
+            switch (filterIndex)
+            {
+                case 1: //png
+                    PngBitmapEncoder pngEncoder = new PngBitmapEncoder();
+                    FileStream pngImage = new FileStream(directoryPath, FileMode.Create);
+                    pngEncoder.Frames.Add(BitmapFrame.Create(imageRender));
+                    pngEncoder.Save(pngImage);
+                    break;
+                case 2: //jpg or jpeg
+                    JpegBitmapEncoder jpegEncoder = new JpegBitmapEncoder();
+                    FileStream jpegImage = new FileStream(directoryPath, FileMode.Create);
+                    jpegEncoder.Frames.Add(BitmapFrame.Create(imageRender));
+                    jpegEncoder.QualityLevel = 100;//maximum jpeg quality
+                    jpegEncoder.Save(jpegImage);
+                    break;
+                case 3: //bmp
+                    BmpBitmapEncoder bmpEncoder = new BmpBitmapEncoder();
+                    FileStream bmpImage = new FileStream(directoryPath, FileMode.Create);
+                    bmpEncoder.Frames.Add(BitmapFrame.Create(imageRender));
+                    bmpEncoder.Save(bmpImage);
+                    break;
+            }
 
             //result message
             ShowUserInfoMessage("Image exportée avec succès");
