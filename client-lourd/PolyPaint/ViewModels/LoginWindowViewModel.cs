@@ -154,7 +154,19 @@ namespace PolyPaint.ViewModels
 
         private void Signup(object o)
         {
-            Password = (o as PasswordBox)?.Password;
+            if (o is StackPanel passwordContainer)
+            {
+                string firstPassword = (passwordContainer.Children[1] as PasswordBox)?.Password;
+                string confirmPassword = (passwordContainer.Children[3] as PasswordBox)?.Password;
+                if (firstPassword?.Equals(confirmPassword) ?? false)
+                    Password = firstPassword;
+                else
+                {
+                    ShowErrorMessageCommand.Execute("Les mots de passe ne sont pas identiques.");
+                    return;
+                }
+            }
+
             TryRegisterRequest();
         }
 
