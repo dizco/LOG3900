@@ -169,13 +169,32 @@ namespace PolyPaint.ViewModels
 
         private void OpenChatWindow()
         {
-            if (ChatWindow == null)
+            if (HomeMenu == null)
             {
-                ChatWindow = new ChatWindowView();
-                ChatWindow.Show();
-                ChatWindow.Closed += (sender, args) => ChatWindow = null;
+                HomeMenu = new HomeMenu();
+                HomeMenu.Show();
+                HomeMenu.Closed += (s, a) => HomeMenu = null;
                 OnClosingRequest();
             }
+
+            //if (ChatWindow == null)
+            //{
+            //    ChatWindow = new ChatWindowView();
+            //    ChatWindow.Show();
+            //    ChatWindow.Closed += (sender, args) => ChatWindow = null;
+            //    OpenEditor();
+            //}
+        }
+
+        private void OpenEditor()
+        {
+            //if (EditorWindow == null)
+            //{
+            //    EditorWindow = new DrawingWindow();
+            //    EditorWindow.Show();
+            //    EditorWindow.Closed += (sender, args) => EditorWindow = null;
+            //    OnClosingRequest();
+            //}
         }
 
         /// <summary>

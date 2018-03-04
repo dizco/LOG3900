@@ -1,0 +1,24 @@
+﻿<Window x:Class="PolyPaint.Views.HomeMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Home Menu" Height="754" Width="616.336"
+        MinHeight="700" MinWidth="350">
+    <Window.Background>
+        <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg"/>
+    </Window.Background>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="616" Height="726">
+        <Canvas x:Name="CanvasLogo" Background="#FF7DC1D4" Margin="100,45,100,592">
+            <Image Source="/PolyPaint;component/palette.ico" Margin="195,-13,0,0" Height="47"/>
+            <Label Content="PolyPaintPro" Margin="145,39,0,0" Height="37" Width="146" Foreground="White" FontSize="24" FontFamily="Myanmar Text"/>
+        </Canvas>
+        <Grid Margin="100,134,100,59" Background="#FFE4F0F2">
+            <Button x:Name="NewDrawing" Command="{Binding NewDrawingCommand}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,60,66,405" Width="284"/>
+            <Button x:Name="PreviousDrawing" Command="{Binding OldDrawingCommand}" Content="Ouvrir un dessin local" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,160,66,305" Width="284"/>
+            <Button x:Name="JoinDrawing" Command="{Binding JoinDrawingCommand}" Content="Rejoindre un dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,260,66,205" Width="284"/>
+            <Button x:Name="Gallery" Command="{Binding GalleryCommand}" Content="Rejoindre la galerie" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
+        </Grid>
+    </Grid>
+</Window>

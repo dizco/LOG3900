@@ -119,6 +119,10 @@
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="CustomComponents\CustomStroke.cs" />
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
+    <Compile Include="ViewModels\HomeMenuViewModel.cs" />
+    <Compile Include="Views\HomeMenu.xaml.cs">
+      <DependentUpon>HomeMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\ChatWindowModel.cs" />
     <Compile Include="Models\ShapeMakerModel.cs" />
     <Compile Include="Models\Editor.cs" />
@@ -148,6 +152,10 @@
     <Compile Include="Views\LoginWindowView.xaml.cs">
       <DependentUpon>LoginWindowView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\HomeMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ChatWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

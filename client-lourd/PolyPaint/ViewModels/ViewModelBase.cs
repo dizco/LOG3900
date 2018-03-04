@@ -23,7 +23,9 @@ namespace PolyPaint.ViewModels
         }
 
         public static LoginWindowView LoginWindow { get; set; }
+        public static HomeMenu HomeMenu { get; set; }
         public static ChatWindowView ChatWindow { get; set; }
+        public static DrawingWindow EditorWindow { get; set; }
 
         protected static string DrawingRoomId
         {
@@ -46,6 +48,17 @@ namespace PolyPaint.ViewModels
         protected static event EventHandler<EditorActionModel> EditorActionReceived;
 
         /// <summary>
+        ///     Raises event once the WebSocket is connected to refresh bindings that depend on it (HomeMenu)
+        /// </summary>
+        protected static event EventHandler WebSocketConnectedEvent;
+
+        /// <summary>
+        ///     Raises event once the WebSocket disconnects with the disconnect reason code to allow reconnection or return to
+        ///     HomeMenu
+        /// </summary>
+        protected static event EventHandler<int> WebSocketDisconnectedEvent;
+
+        /// <summary>
         ///     LoginSatusChanged event is raised when user logs in or logs out to notify all inherited classes of the change
         /// </summary>
         protected static event EventHandler<string> LoginStatusChanged;
@@ -64,6 +77,8 @@ namespace PolyPaint.ViewModels
                 SocketHandler socketHandler = new SocketHandler(uri, cookies);
                 socketHandler.ChatMessageReceived += OnChatMessageReceived;
                 socketHandler.EditorActionReceived += OnEditorActionReceived;
+                socketHandler.WebSocketConnectedEvent += WebSocketConnectedEvent;
+                socketHandler.WebSocketDisconnectedEvent += WebSocketDisconnectedEvent;
                 _messenger = new Messenger(socketHandler);
             }
 
