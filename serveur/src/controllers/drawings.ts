@@ -69,7 +69,7 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
     const errors = req.validationErrors();
 
     if (errors) {
-        return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
+        return res.status(422).json({ status: "error", error: "Failed to validate drawing id.", hints: errors });
     }
 
     const populateOptions = [
@@ -106,7 +106,7 @@ export let getDrawingActions = (req: Request, res: Response, next: NextFunction)
     const errors = req.validationErrors();
 
     if (errors) {
-        return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
+        return res.status(422).json({ status: "error", error: "Failed to validate drawing id.", hints: errors });
     }
 
     const populateOptions = [
