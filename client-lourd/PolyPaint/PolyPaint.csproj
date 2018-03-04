@@ -114,6 +114,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants\FileExtensionConstants.cs" />
+    <Compile Include="Constants\ImageManipulationConstants.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="CustomComponents\CustomStroke.cs" />
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
