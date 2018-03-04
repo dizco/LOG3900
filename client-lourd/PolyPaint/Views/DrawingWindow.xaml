@@ -23,7 +23,7 @@
             <MenuItem Header="_Fichier">
                 <MenuItem Header="_Ouvrir" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"></MenuItem>
                 <MenuItem Header="Enregistrer _sous" InputGestureText="Ctrl+s" Command="{Binding SaveFileCommand}"></MenuItem>
-                <MenuItem Header="Exporter _le dessin" Command="{Binding ExportImageCommand}" CommandParameter="{Binding ElementName=surfaceDessin}"></MenuItem>
+                <MenuItem Header="_Exporter le dessin" Command="{Binding ExportImageCommand}" CommandParameter="{Binding ElementName=surfaceDessin}"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Récents" ItemsSource="{Binding RecentAutosaves}">
                     <MenuItem.ItemContainerStyle>
@@ -223,7 +223,7 @@
                       DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
                       />
             <Border BorderThickness="5,5,0,0">
-                <InkCanvas ClipToBounds="True" Grid.Column="0" Grid.Row="0" Name="surfaceDessin" 
+                <InkCanvas ClipToBounds="True" Name="surfaceDessin" 
                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                           
                            MouseLeave="surfaceDessin_MouseLeave" MouseMove="surfaceDessin_MouseMove" 
                            StrokeCollected="OnStrokeCollected"
