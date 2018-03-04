@@ -55,6 +55,7 @@ namespace PolyPaint.Helpers.Communication
         public event EventHandler<ChatMessageModel> ChatMessageReceived;
         public event EventHandler<EditorActionModel> EditorActionReceived;
         public event EventHandler<int> WebSocketDisconnectedEvent;
+        public event EventHandler WebSocketConnectedEvent;
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
@@ -87,7 +88,7 @@ namespace PolyPaint.Helpers.Communication
 
         private void OnOpened(object sender, EventArgs e)
         {
-            IsConnected = true;
+            WebSocketConnected();
         }
 
         public void OnChatMessageReceived(string e)
@@ -106,6 +107,12 @@ namespace PolyPaint.Helpers.Communication
         {
             IsConnected = false;
             WebSocketDisconnectedEvent?.Invoke(this, e);
+        }
+
+        public void WebSocketConnected()
+        {
+            IsConnected = true;
+            WebSocketConnectedEvent?.Invoke(this, null);
         }
     }
 }

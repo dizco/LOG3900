@@ -9,7 +9,7 @@
     <Window.Background>
         <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg"/>
     </Window.Background>
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-4.4,0.8" Width="616" Height="726">
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="616" Height="726">
         <Canvas x:Name="CanvasLogo" Background="#FF7DC1D4" Margin="100,45,100,592">
             <Image Source="/PolyPaint;component/palette.ico" Margin="195,-13,0,0" Height="47"/>
             <Label Content="PolyPaintPro" Margin="145,39,0,0" Height="37" Width="146" Foreground="White" FontSize="24" FontFamily="Myanmar Text"/>
