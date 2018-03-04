@@ -222,11 +222,6 @@ namespace PolyPaint.ViewModels
             DrawingAttributes.Height = _editor.SelectedTip == "horizontale" ? 1 : _editor.StrokeSize;
         }
 
-        public void ExportCanvas(object o)
-        {
-
-        }
-
         public void ShowLoginWindow(object o)
         {
             if (Messenger?.IsConnected == true)

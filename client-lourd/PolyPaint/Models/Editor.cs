@@ -363,23 +363,31 @@ namespace PolyPaint.Models
 
         public void ExportImagePrompt(object inkCanvasParameter)
         {
-            //cast the parameter of the command as a inkCanvas
+            //cancels an empty drawing exportation
+            if (StrokesCollection.Count == 0 || _isLoadingDrawing)
+            {
+                ShowUserErrorMessage("Veuillez utiliser un dessin non vide");
+                return;
+            }
+
+            //cast object as a inkCanvas (object from command)
             if (inkCanvasParameter is InkCanvas inkCanvas)
             {
+                //then save it as image
                 _surfaceDessin = inkCanvas;
                 SaveFileDialog exportImageDialog = new SaveFileDialog
                 {
+                    Title = "Exporter le dessin",
+                    Filter = FileExtensionConstants.ExportImageFilter,
                     AddExtension = true,
-                    DefaultExt = FileExtensionConstants.ExportImgDefaultExt,
-                    Filter = FileExtensionConstants.ExportImageFilter
+                    DefaultExt = FileExtensionConstants.ExportImgDefaultExt
                 };
                 if (exportImageDialog.ShowDialog() == DialogResult.OK)
                 {
                     string path = Path.GetFullPath(exportImageDialog.FileName);
-                    ExportImage(path);
+                    ExportImage(path, exportImageDialog.FileName, exportImageDialog.FilterIndex);
                 }
             }
-            
         }
 
         /*
@@ -389,17 +397,23 @@ namespace PolyPaint.Models
          * https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/how-to-data-bind-to-an-inkcanvas
          * cast : https://www.danielcrabtree.com/blog/152/c-sharp-7-is-operator-patterns-you-wont-need-as-as-often
          */
-        public void ExportImage(string path)
+        public void ExportImage(string path, string fileName, int filterIndex)
         {
-            if (StrokesCollection.Count == 0 || _isLoadingDrawing)
-                return;
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)_surfaceDessin.ActualWidth, (int)_surfaceDessin.ActualHeight, 0, 0, PixelFormats.Pbgra32);
-            Directory.CreateDirectory(FileExtensionConstants.AutosaveDirPath);
+            double dotsPerInch = 100;
+            int imageWidth = (int) _surfaceDessin.ActualWidth;
+            int imageHeight = (int)_surfaceDessin.ActualHeight;
+            RenderTargetBitmap rtb = new RenderTargetBitmap(imageWidth, imageHeight, dotsPerInch, dotsPerInch, PixelFormats.Pbgra32);
+            rtb.Render(_surfaceDessin);
 
+            //Directory.CreateDirectory(FileExtensionConstants.AutosaveDirPath);
+            PngBitmapEncoder pbe = new PngBitmapEncoder();
             FileStream file = new FileStream(path, FileMode.Create);
-            StrokesCollection.Save(file);
+            pbe.Frames.Add(BitmapFrame.Create(rtb));
+            //file = File.Create(fileName);
+            pbe.Save(file);
 
-            ShowUserErrorMessage("HOLA I REACH");
+            //result message
+            ShowUserInfoMessage("Image exportée avec succès");
         }
 
         public void UpdateRecentAutosaves()
@@ -437,6 +451,11 @@ namespace PolyPaint.Models
         private void ShowUserErrorMessage(string message)
         {
             MessageBox.Show(message, @"Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void ShowUserInfoMessage(string message)
+        {
+            MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
