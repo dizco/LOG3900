@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Ink;
@@ -19,6 +16,7 @@ using PolyPaint.Constants;
 using PolyPaint.CustomComponents;
 using PolyPaint.Helpers.Communication;
 using Application = System.Windows.Application;
+using Image = System.Drawing.Image;
 using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace PolyPaint.Models
@@ -35,14 +33,6 @@ namespace PolyPaint.Models
         private const int ErrorLockViolation = 33;
 
         private readonly StrokeCollection _removedStrokesCollection = new StrokeCollection();
-
-        private InkCanvas _surfaceDessin;
-        /*
-         * https://social.msdn.microsoft.com/Forums/vstudio/en-US/7900f5c0-0a95-4d32-af94-e5f152d436c9/use-of-inkcanvas-cantrol-in-mvvm-pattern-to-save-image?forum=wpf
-         * https://social.msdn.microsoft.com/Forums/vstudio/en-US/5434a8b4-4c80-47a8-ba44-e63e854e0a08/inkcanvas-save-to-image?forum=wpf
-         * https://www.google.ca/search?q=inkcanvas+ExportToPng&rlz=1C1AVNE_enCA705CA705&oq=inkcanvas+ExportToPng+&aqs=chrome..69i57.7711j0j7&sourceid=chrome&ie=UTF-8
-         * https://social.msdn.microsoft.com/Forums/vstudio/en-US/ccb3a286-5615-40a0-8b19-854993709df7/inkcanvas-to-image-black-border-on-top?forum=wpf
-         */
 
         private bool _isLoadingDrawing;
 
@@ -364,7 +354,7 @@ namespace PolyPaint.Models
             }
         }
 
-        public void ExportImagePrompt(object inkCanvasParameter)
+        public void ExportImagePrompt(object inkCanvas)
         {
             //cancels an empty drawing exportation
             if (StrokesCollection.Count == 0 || _isLoadingDrawing)
@@ -374,61 +364,69 @@ namespace PolyPaint.Models
             }
 
             //cast object as a inkCanvas (object from command)
-            if (inkCanvasParameter is InkCanvas inkCanvas)
+            if (inkCanvas is InkCanvas drawingSurface)
             {
-                _surfaceDessin = inkCanvas;
-
                 //then save it as an image
                 SaveFileDialog exportImageDialog = new SaveFileDialog
                 {
                     Title = "Exporter le dessin",
                     Filter = FileExtensionConstants.ExportImageFilter,
-                    AddExtension = true,
-                    DefaultExt = FileExtensionConstants.ExportImgDefaultExt
+                    AddExtension = true
                 };
                 if (exportImageDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string directoryPath = Path.GetFullPath(exportImageDialog.FileName);
-                    ExportImage(directoryPath, exportImageDialog.FileName, exportImageDialog.FilterIndex);
+                    string filePathNameExt = Path.GetFullPath(exportImageDialog.FileName);
+                    ExportImage(filePathNameExt, drawingSurface);
                 }
             }
         }
         
-        public void ExportImage(string directoryPath, string fileName, int filterIndex)
+        public void ExportImage(string filePathNameExt, InkCanvas drawingSurface)
         {
-            int imageWidth = (int) _surfaceDessin.ActualWidth;
-            int imageHeight = (int)_surfaceDessin.ActualHeight;
-            RenderTargetBitmap imageRender = new RenderTargetBitmap(imageWidth, imageHeight, 
-                                                                 ImageManipulationConstants.DotsPerInch,
-                                                                 ImageManipulationConstants.DotsPerInch, 
-                                                                 PixelFormats.Pbgra32);
-            imageRender.Render(_surfaceDessin);
-
-            switch (filterIndex)
+            FileStream imageStream = null;
+            try
             {
-                case 1: //png
-                    PngBitmapEncoder pngEncoder = new PngBitmapEncoder();
-                    FileStream pngImage = new FileStream(directoryPath, FileMode.Create);
-                    pngEncoder.Frames.Add(BitmapFrame.Create(imageRender));
-                    pngEncoder.Save(pngImage);
-                    break;
-                case 2: //jpg or jpeg
-                    JpegBitmapEncoder jpegEncoder = new JpegBitmapEncoder();
-                    FileStream jpegImage = new FileStream(directoryPath, FileMode.Create);
-                    jpegEncoder.Frames.Add(BitmapFrame.Create(imageRender));
-                    jpegEncoder.QualityLevel = 100;//maximum jpeg quality
-                    jpegEncoder.Save(jpegImage);
-                    break;
-                case 3: //bmp
-                    BmpBitmapEncoder bmpEncoder = new BmpBitmapEncoder();
-                    FileStream bmpImage = new FileStream(directoryPath, FileMode.Create);
-                    bmpEncoder.Frames.Add(BitmapFrame.Create(imageRender));
-                    bmpEncoder.Save(bmpImage);
-                    break;
-            }
+                int imageWidth = (int)drawingSurface.ActualWidth;
+                int imageHeight = (int)drawingSurface.ActualHeight;
+                RenderTargetBitmap imageRender = new RenderTargetBitmap(imageWidth, imageHeight,
+                                                                        ImageManipulationConstants.DotsPerInch,
+                                                                        ImageManipulationConstants.DotsPerInch,
+                                                                        PixelFormats.Pbgra32);
+                imageRender.Render(drawingSurface);
+                imageStream = new FileStream(filePathNameExt, FileMode.Create);
+                BitmapEncoder encoder = null;
 
-            //result message
-            ShowUserInfoMessage("Image exportée avec succès");
+                switch (Path.GetExtension(filePathNameExt))
+                {
+                    case ".png": //png
+                        encoder = new PngBitmapEncoder();
+                        break;
+                    case ".jpg": //jpg or jpeg
+                        encoder = new JpegBitmapEncoder();
+                        ((JpegBitmapEncoder)encoder).QualityLevel = 100;//maximum jpeg quality
+                        break;
+                    case ".bmp": //bmp
+                        encoder = new BmpBitmapEncoder();
+                        break;
+                }
+
+                encoder.Frames.Add(BitmapFrame.Create(imageRender));
+                encoder.Save(imageStream);
+                //result message
+                ShowUserInfoMessage("Image exportée avec succès");
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                ShowUserErrorMessage("L'accès à ce fichier est interdit");
+            }
+            catch (Exception e)
+            {
+                ShowUserErrorMessage("Une erreur est survenue");
+            }
+            finally
+            {
+                imageStream.Close();
+            }
         }
 
         public void UpdateRecentAutosaves()

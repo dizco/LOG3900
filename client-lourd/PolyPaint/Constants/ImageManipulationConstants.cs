@@ -2,6 +2,6 @@
 {
     public static class ImageManipulationConstants
     {
-        public const double DotsPerInch = 90;
+        public const double DotsPerInch = 96;
     }
 }
