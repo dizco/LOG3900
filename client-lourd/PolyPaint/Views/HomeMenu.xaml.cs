@@ -13,5 +13,10 @@ namespace PolyPaint.Views
             InitializeComponent();
             DataContext = new HomeMenuViewModel();
         }
+
+        private void TextBox_TextChanged(object sender)
+        {
+
+        }
     }
 }
