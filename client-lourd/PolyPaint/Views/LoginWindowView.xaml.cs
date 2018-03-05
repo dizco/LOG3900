@@ -12,7 +12,7 @@ namespace PolyPaint.Views
         {
             InitializeComponent();
             DataContext = new LoginWindowViewModel();
-            (DataContext as LoginWindowViewModel).ClosingRequest += (sender, e) => Close();
+            ((LoginWindowViewModel) DataContext).ClosingRequest += (sender, e) => Close();
         }
 
         private void SwitchToSignup(object sender, RoutedEventArgs e)

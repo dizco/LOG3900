@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace PolyPaint.Helpers.Communication
                 {"password", password}
             };
 
-            return await Client.PostAsync(ServerUri + "/login", new FormUrlEncodedContent(userInfo));
+            return await Client.PostAsync($"{ServerUri}/login", new FormUrlEncodedContent(userInfo));
         }
 
         public static async Task<HttpResponseMessage> RegisterInfo(string username, string password)
@@ -48,7 +49,12 @@ namespace PolyPaint.Helpers.Communication
                 {"email", username},
                 {"password", password}
             };
-            return await Client.PostAsync(ServerUri + "/register", new FormUrlEncodedContent(userInfo));
+            return await Client.PostAsync($"{ServerUri}/register", new FormUrlEncodedContent(userInfo));
+        }
+
+        public static async Task<HttpResponseMessage> AllDrawings(int page)
+        {
+            return await Client.GetAsync($"{ServerUri}/drawings?page={page}");
         }
     }
 }

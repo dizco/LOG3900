@@ -32,11 +32,12 @@
                 <ComboBoxItem Name="Stroke">Trait</ComboBoxItem>
             </ComboBox>
         </Grid>
-        <Grid Margin="100,134,100,59" ZIndex="-1" Background="#FFE4F0F2" Visibility="{Binding MainMenuVisibility}">
+        <Grid Margin="100,134,100,59" ZIndex="15" Background="#FFE4F0F2" Visibility="{Binding MainMenuVisibility}">
             <Button x:Name="NewDrawing" Command="{Binding NewDrawingCommand}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,60,66,405" Width="284"/>
             <Button x:Name="PreviousDrawing" Command="{Binding OldDrawingCommand}" Content="Ouvrir un dessin local" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,160,66,305" Width="284"/>
             <Button x:Name="JoinDrawing" Command="{Binding JoinDrawingCommand}" Content="Rejoindre un dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,260,66,205" Width="284"/>
             <Button x:Name="Gallery" Command="{Binding GalleryCommand}" Content="Rejoindre la galerie" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
+            <Button x:Name="Login" Command="{Binding BackToLogin}" Content="Se Connecter" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="12" Margin="138,466,129,30" Width="149" Visibility="{Binding LoginButtonVisibility}"/>
         </Grid>
     </Grid>
 </Window>
