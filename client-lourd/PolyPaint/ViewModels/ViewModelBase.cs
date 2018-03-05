@@ -77,8 +77,8 @@ namespace PolyPaint.ViewModels
                 SocketHandler socketHandler = new SocketHandler(uri, cookies);
                 socketHandler.ChatMessageReceived += OnChatMessageReceived;
                 socketHandler.EditorActionReceived += OnEditorActionReceived;
-                socketHandler.WebSocketConnectedEvent += WebSocketConnectedEvent;
-                socketHandler.WebSocketDisconnectedEvent += WebSocketDisconnectedEvent;
+                socketHandler.WebSocketConnectedEvent += OnWebSocketConnected;
+                socketHandler.WebSocketDisconnectedEvent += OnWebSocketDisconnected;
                 _messenger = new Messenger(socketHandler);
             }
 
@@ -87,12 +87,22 @@ namespace PolyPaint.ViewModels
 
         public static void OnChatMessageReceived(object sender, ChatMessageModel chatMessageModel)
         {
-            ChatMessageReceived?.Invoke(null, chatMessageModel);
+            ChatMessageReceived?.Invoke(sender, chatMessageModel);
         }
 
         public static void OnEditorActionReceived(object sender, EditorActionModel editorActionModel)
         {
-            EditorActionReceived?.Invoke(null, editorActionModel);
+            EditorActionReceived?.Invoke(sender, editorActionModel);
+        }
+
+        public static void OnWebSocketConnected(object sender, EventArgs e)
+        {
+            WebSocketConnectedEvent?.Invoke(sender, e);
+        }
+
+        private static void OnWebSocketDisconnected(object sender, int e)
+        {
+            WebSocketDisconnectedEvent?.Invoke(sender, e);
         }
     }
 }

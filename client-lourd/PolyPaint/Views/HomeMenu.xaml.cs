@@ -12,11 +12,7 @@ namespace PolyPaint.Views
         {
             InitializeComponent();
             DataContext = new HomeMenuViewModel();
-        }
-
-        private void TextBox_TextChanged(object sender)
-        {
-
+            ((HomeMenuViewModel) DataContext).ClosingRequest += (sender, e) => Close();
         }
     }
 }
