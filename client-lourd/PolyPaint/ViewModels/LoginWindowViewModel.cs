@@ -23,9 +23,13 @@ namespace PolyPaint.ViewModels
         {
             LoginCommand = new RelayCommand<object>(Login);
             SignupCommand = new RelayCommand<object>(Signup);
+            OfflineCommand = new RelayCommand<object>(SkipLogin);
             ShowErrorMessageCommand = new RelayCommand<string>(ShowMessageBox);
             _cookies = new CookieContainer();
             RestHandler.Handler.CookieContainer = _cookies;
+
+            // TODO: Remove before PR (it exists so Resharper doesn't remove the function)
+            OpenEditor();
         }
 
         private string HttpServerUri => "http://" + ServerUri;
@@ -44,6 +48,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> LoginCommand { get; set; }
         public RelayCommand<object> SignupCommand { get; set; }
         public RelayCommand<string> ShowErrorMessageCommand { get; set; }
+        public RelayCommand<object> OfflineCommand { get; set; }
         public event EventHandler ClosingRequest;
 
         /// <summary>
@@ -52,10 +57,11 @@ namespace PolyPaint.ViewModels
         private async void TryLoginRequest()
         {
             RestHandler.ServerUri = HttpServerUri;
-            
+
             if (!await RestHandler.ValidateServerUri())
             {
-                ShowErrorMessageCommand.Execute("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
+                ShowErrorMessageCommand
+                    .Execute("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
                 return;
             }
 
@@ -76,10 +82,11 @@ namespace PolyPaint.ViewModels
         private async void TryRegisterRequest()
         {
             RestHandler.ServerUri = HttpServerUri;
-            
+
             if (!await RestHandler.ValidateServerUri())
             {
-                ShowErrorMessageCommand.Execute("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
+                ShowErrorMessageCommand
+                    .Execute("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
                 return;
             }
 
@@ -113,7 +120,7 @@ namespace PolyPaint.ViewModels
         {
             List<KeyValuePair<string, string>> cookies = GetCookiesAsList();
             StartMessenger(WsServerUri, cookies);
-            OpenChatWindow();
+            OpenHomeMenu();
         }
 
         /// <summary>
@@ -159,7 +166,9 @@ namespace PolyPaint.ViewModels
                 string firstPassword = (passwordContainer.Children[1] as PasswordBox)?.Password;
                 string confirmPassword = (passwordContainer.Children[3] as PasswordBox)?.Password;
                 if (firstPassword?.Equals(confirmPassword) ?? false)
+                {
                     Password = firstPassword;
+                }
                 else
                 {
                     ShowErrorMessageCommand.Execute("Les mots de passe ne sont pas identiques.");
@@ -179,7 +188,12 @@ namespace PolyPaint.ViewModels
             MessageBox.Show(errorMessage, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void OpenChatWindow()
+        private void SkipLogin(object obj)
+        {
+            OpenHomeMenu();
+        }
+
+        private void OpenHomeMenu()
         {
             if (HomeMenu == null)
             {
@@ -189,6 +203,7 @@ namespace PolyPaint.ViewModels
                 OnClosingRequest();
             }
 
+            // TODO: Move this to appropriate place in HomeMenuViewModel
             //if (ChatWindow == null)
             //{
             //    ChatWindow = new ChatWindowView();
@@ -200,6 +215,7 @@ namespace PolyPaint.ViewModels
 
         private void OpenEditor()
         {
+            // TODO: Mode this to appropriate place in HomeMenuViewModel
             //if (EditorWindow == null)
             //{
             //    EditorWindow = new DrawingWindow();

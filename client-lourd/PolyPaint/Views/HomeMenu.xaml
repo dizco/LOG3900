@@ -14,7 +14,25 @@
             <Image Source="/PolyPaint;component/palette.ico" Margin="195,-13,0,0" Height="47"/>
             <Label Content="PolyPaintPro" Margin="145,39,0,0" Height="37" Width="146" Foreground="White" FontSize="24" FontFamily="Myanmar Text"/>
         </Canvas>
-        <Grid Margin="100,134,100,59" Background="#FFE4F0F2">
+        <Grid Margin="100,134,100,59" ZIndex="1" Background="#FFE4F0F2" Visibility="{Binding JoinDrawingVisibility}">
+            <Button x:Name="BackButtonJoinDrawing" Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
+            <Label Content="Nom du dessin" Margin="66,25,66,471" FontWeight="Bold" FontSize="18"/>
+            <TextBox Name="SearchOnlineDrawings" Text="{Binding DrawingSearchTerms, Mode=OneWayToSource}" FontSize="18" Margin="66,62,66,438"></TextBox>
+            <ListBox ItemsSource="{Binding SearchableDrawings}" Margin="66,100,66,178" FontSize="18"/>
+            <Button x:Name="Rejoindre" Command="{Binding JoinDrawingCommand}" Content="Rejoindre le dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
+        </Grid>
+        <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding NewDrawingVisibility}">
+            <Button x:Name="BackButtonNewDrawing" Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
+            <Label Content="Nom du dessin" Margin="66,126,66,374" FontWeight="Bold" FontSize="18"/>
+            <TextBox Text="{Binding NewDrawingName, Mode=TwoWay}" Margin="66,164,66,331" FontSize="18"/>
+            <Button x:Name="CreateNewDrawing" Command="{Binding NewDrawingCommand}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
+            <Label Content="Mode d'édition" Margin="66,223,66,277" FontWeight="Bold" FontSize="18"/>
+            <ComboBox Margin="66,261,66,233" FontSize="18" SelectedIndex="1">
+                <ComboBoxItem Name="Pixel">Pixel</ComboBoxItem>
+                <ComboBoxItem Name="Stroke">Trait</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+        <Grid Margin="100,134,100,59" ZIndex="-1" Background="#FFE4F0F2" Visibility="{Binding MainMenuVisibility}">
             <Button x:Name="NewDrawing" Command="{Binding NewDrawingCommand}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,60,66,405" Width="284"/>
             <Button x:Name="PreviousDrawing" Command="{Binding OldDrawingCommand}" Content="Ouvrir un dessin local" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,160,66,305" Width="284"/>
             <Button x:Name="JoinDrawing" Command="{Binding JoinDrawingCommand}" Content="Rejoindre un dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,260,66,205" Width="284"/>

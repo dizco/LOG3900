@@ -23,7 +23,7 @@
                     <Button x:Name="SignUpToggle" Click="SwitchToSignup" Content="Créer un compte" Margin="33,0,20,0" FontWeight="Bold" Foreground="Black" MinWidth="100"/>
                 </StackPanel>
                 <!-- user info log in section -->
-                <StackPanel MinWidth="200" MinHeight="364">
+                <StackPanel MinWidth="200" MinHeight="300">
                     <Label Content="Courriel" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
                     <TextBox Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
 
@@ -32,9 +32,9 @@
                     
                     <Label Content="Adresse IP du serveur" Margin="0,60,0,0" FontWeight="Bold" FontSize="18"/>
                     <TextBox Text="{Binding ServerUri, Mode=TwoWay}" FontSize="18"/>
-
                 </StackPanel>
                 <Button x:Name="LogInButton" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=LoginPasswordBox}" Content="Connexion" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
+                <Button x:Name="OfflineButtonLogin" Command="{Binding OfflineCommand}" Content="Mode hors ligne" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="0,10,0,0"/>
             </StackPanel>
         </Canvas>
 
@@ -61,8 +61,8 @@
                     <TextBox Text="{Binding ServerUri, Mode=TwoWay}" Margin="0,0,0,10" FontSize="18"/>
 
                 </StackPanel>
-                <Button x:Name="SignUpButton" Command="{Binding SignupCommand}" CommandParameter="{Binding ElementName=PasswordBoxes}" Content="Créer un compte" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18">
-                </Button>
+                <Button x:Name="SignUpButton" Command="{Binding SignupCommand}" CommandParameter="{Binding ElementName=PasswordBoxes}" Content="Créer un compte" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
+                <Button x:Name="OfflineButtonRegister" Command="{Binding OfflineCommand}" Content="Mode hors ligne" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="0,10,0,0"/>
             </StackPanel>
         </Canvas>
     </Grid>
