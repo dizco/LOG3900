@@ -117,7 +117,7 @@ namespace PolyPaint.Helpers.Communication
         /// <summary>
         ///     Builds an EditorActionModel for a stroke that was stacked by the current user and sends the action to the server
         /// </summary>
-        /// <param name="stroke">Stroke that has just been put on the stackc</param>
+        /// <param name="stroke">Stroke that has just been put on the stack</param>
         /// <returns>Stringified JSON object if sending was successful, else returns an empty string</returns>
         public string SendEditorStrokeStack(Stroke stroke)
         {

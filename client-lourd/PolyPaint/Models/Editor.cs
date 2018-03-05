@@ -223,7 +223,7 @@ namespace PolyPaint.Models
                     }
                 }
 
-                if(toRemove != null) StrokesCollection.Remove(toRemove);
+                if (toRemove != null) StrokesCollection.Remove(toRemove);
             });
         }
 
