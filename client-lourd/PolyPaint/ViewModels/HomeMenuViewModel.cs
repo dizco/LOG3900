@@ -1,26 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Net.Http;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
-using PolyPaint.Helpers.Communication;
+using PolyPaint.Models;
+using PolyPaint.Models.ApiModels;
 using PolyPaint.Views;
+using Application = System.Windows.Application;
 
 namespace PolyPaint.ViewModels
 {
     internal class HomeMenuViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        private readonly HomeMenuModel _homeMenu;
+
         public HomeMenuViewModel()
         {
-            NewDrawingCommand = new RelayCommand<object>(OpenNewDrawingSubMenu);
+            _homeMenu = new HomeMenuModel();
+            FilteredDrawings = _homeMenu.FilteredDrawings;
+
+            GoToNewDrawingSubMenuCommand = new RelayCommand<object>(OpenNewDrawingSubMenu);
             OldDrawingCommand = new RelayCommand<object>(OpenOldDrawing);
-            JoinDrawingCommand = new RelayCommand<object>(OpenOnlineDrawingSubMenu, IsOnline);
+            GoToOnlineDrawingSubMenuCommand = new RelayCommand<object>(OpenOnlineDrawingSubMenu, IsOnline);
+            JoinDrawingCommand = new RelayCommand<object>(JoinOnlineDrawing);
             GalleryCommand = new RelayCommand<object>(OpenGallery);
             GoToMenuCommand = new RelayCommand<object>(OpenMenu);
             BackToLogin = new RelayCommand<object>(OpenLogin);
@@ -32,16 +36,22 @@ namespace PolyPaint.ViewModels
         public Visibility NewDrawingVisibility { get; set; } = Visibility.Collapsed;
         public Visibility JoinDrawingVisibility { get; set; } = Visibility.Collapsed;
         public Visibility LoginButtonVisibility { get; set; } = Visibility.Hidden;
-        public CollectionViewSource FilteredDrawings { get; set; }
-        public List<OnlineDrawingModel> OnlineDrawingList { get; set; } = new List<OnlineDrawingModel>();
 
-        public string DrawingSearchTerms { get; set; }
+        public ObservableCollection<OnlineDrawingModel> FilteredDrawings { get; set; }
+
+        public string DrawingSearchTerms
+        {
+            set => _homeMenu.SearchTextChangedHandlers(value.ToLower());
+        }
 
         public string DrawingName { get; set; }
 
+        public OnlineDrawingModel SelectedOnlineDrawing { get; set; }
+
         public RelayCommand<object> GalleryCommand { get; set; }
+        public RelayCommand<object> GoToOnlineDrawingSubMenuCommand { get; set; }
         public RelayCommand<object> JoinDrawingCommand { get; set; }
-        public RelayCommand<object> NewDrawingCommand { get; set; }
+        public RelayCommand<object> GoToNewDrawingSubMenuCommand { get; set; }
         public RelayCommand<object> OldDrawingCommand { get; set; }
         public RelayCommand<object> GoToMenuCommand { get; set; }
         public RelayCommand<object> BackToLogin { get; set; }
@@ -113,46 +123,18 @@ namespace PolyPaint.ViewModels
 
         private void OpenOnlineDrawingSubMenu(object obj)
         {
-            LoadDrawings();
+            _homeMenu.LoadDrawings();
             MainMenuVisibility = Visibility.Collapsed;
             NewDrawingVisibility = Visibility.Collapsed;
             JoinDrawingVisibility = Visibility.Visible;
             UpdateVisibilityProperties();
         }
 
-        private async void LoadDrawings()
+        private void JoinOnlineDrawing(object obj)
         {
-            OnlineDrawingList.Clear();
+            if (SelectedOnlineDrawing == null) UserAlerts.ShowErrorMessage("Veuillez choisir un dessin");
 
-            int currentPage = 1;
-            int MaxPages = 0;
-            int MaxRetries = 3;
-            int retryCount = 0;
-            do
-            {
-                HttpResponseMessage response = await RestHandler.AllDrawings(currentPage);
-                if (!response.IsSuccessStatusCode)
-                {
-                    retryCount++;
-                    continue;
-                }
-
-                try
-                {
-                    JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
-                    MaxPages = content.GetValue("pages").ToObject<int>();
-                    OnlineDrawingModel[] docsArray = content.GetValue("docs").ToObject<OnlineDrawingModel[]>();
-                    foreach (OnlineDrawingModel drawing in docsArray) OnlineDrawingList.Add(drawing);
-                }
-                catch
-                {
-                    retryCount++;
-                    continue;
-                }
-
-                currentPage++;
-                retryCount = 0;
-            } while (currentPage < MaxPages && retryCount < MaxRetries);
+            // TODO: Fetch drawing from server, open editor and load the drawing
         }
 
         private void UpdateVisibilityProperties()
@@ -161,15 +143,6 @@ namespace PolyPaint.ViewModels
             OnPropertyChanged("MainMenuVisibility");
             OnPropertyChanged("NewDrawingVisibility");
             OnPropertyChanged("JoinDrawingVisibility");
-        }
-
-        internal class OnlineDrawingModel
-        {
-            [JsonProperty(PropertyName = "name")]
-            private string Name { get; set; }
-
-            [JsonProperty(PropertyName = "_id")]
-            private string Id { get; set; }
         }
     }
 }

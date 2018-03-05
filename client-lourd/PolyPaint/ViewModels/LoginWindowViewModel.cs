@@ -24,7 +24,7 @@ namespace PolyPaint.ViewModels
             LoginCommand = new RelayCommand<object>(Login);
             SignupCommand = new RelayCommand<object>(Signup);
             OfflineCommand = new RelayCommand<object>(SkipLogin);
-            ShowErrorMessageCommand = new RelayCommand<string>(ShowMessageBox);
+            ShowErrorMessageCommand = new RelayCommand<string>(UserAlerts.ShowErrorMessage);
             _cookies = new CookieContainer();
             RestHandler.Handler.CookieContainer = _cookies;
 
@@ -177,15 +177,6 @@ namespace PolyPaint.ViewModels
             }
 
             TryRegisterRequest();
-        }
-
-        /// <summary>
-        ///     Implementation of the SHowMessageBoxCommand for displaying an error message to the user
-        /// </summary>
-        /// <param name="errorMessage">Error message to be displayed</param>
-        private void ShowMessageBox(string errorMessage)
-        {
-            MessageBox.Show(errorMessage, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void SkipLogin(object obj)

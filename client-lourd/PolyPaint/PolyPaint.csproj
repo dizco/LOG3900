@@ -119,6 +119,9 @@
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="CustomComponents\CustomStroke.cs" />
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
+    <Compile Include="Helpers\UserAlerts.cs" />
+    <Compile Include="Models\ApiModels\HomeMenuViewModel.cs" />
+    <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
     <Compile Include="Views\HomeMenu.xaml.cs">
       <DependentUpon>HomeMenu.xaml</DependentUpon>
