@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using PolyPaint.Constants;
 using PolyPaint.CustomComponents;
+using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -154,7 +155,6 @@ namespace PolyPaint.Models
         // On retire le trait le plus récent de la surface de dessin et on le place sur une pile.
         public void Stack(object o)
         {
-
             try
             {
                 Stroke toRemove = null;
@@ -164,6 +164,7 @@ namespace PolyPaint.Models
                         toRemove = stroke;
                         break;
                     }
+
                 if (toRemove != null)
                 {
                     _removedStrokesCollection.Add(toRemove);
@@ -336,13 +337,11 @@ namespace PolyPaint.Models
                 Stroke toRemove = null;
 
                 foreach (Stroke stroke in StrokesCollection.ToArray().Reverse())
-                {
                     if (StrokeHelper.AreSameStroke(stackedStroke, stroke))
                     {
                         toRemove = stroke;
                         break;
                     }
-                }
 
                 if (toRemove != null) StrokesCollection.Remove(toRemove);
             });
@@ -384,10 +383,9 @@ namespace PolyPaint.Models
             }
             catch (Exception e)
             {
-                //ignored
                 // TODO: Handle exception
-                ShowUserErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" +
-                                     e.HResult);
+                UserAlerts.ShowErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" +
+                                            e.HResult);
             }
             finally
             {
@@ -454,14 +452,14 @@ namespace PolyPaint.Models
                     // TODO: Show error in statusbar on autosave
                 }
 
-                ShowUserErrorMessage("Impossible d'accéder au fichier ou répertoire. Exception #" + e.HResult);
+                UserAlerts.ShowErrorMessage("Impossible d'accéder au fichier ou répertoire. Exception #" + e.HResult);
             }
             catch (Exception e)
             {
                 // ignored
                 if (!autosave)
-                    ShowUserErrorMessage("Une erreur est survenue lors de l'ouverture du fichier. Exception #" +
-                                         e.HResult);
+                    UserAlerts.ShowErrorMessage("Une erreur est survenue lors de l'ouverture du fichier. Exception #" +
+                                                e.HResult);
             }
             finally
             {
@@ -576,12 +574,6 @@ namespace PolyPaint.Models
             string drawingName = Regex.Replace(fileName, "_[a-z]*.tide", "");
             RecentAutosaves.Add(drawingName);
         }
-
-        private void ShowUserErrorMessage(string message)
-        {
-            MessageBox.Show(message, @"Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
         private void ShowUserInfoMessage(string message)
         {
             MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
