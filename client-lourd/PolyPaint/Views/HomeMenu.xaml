@@ -14,8 +14,8 @@
             <Image Source="/PolyPaint;component/palette.ico" Margin="195,-13,0,0" Height="47"/>
             <Label Content="PolyPaintPro" Margin="145,39,0,0" Height="37" Width="146" Foreground="White" FontSize="24" FontFamily="Myanmar Text"/>
         </Canvas>
-        <Grid Margin="100,134,100,59" ZIndex="1" Background="#FFE4F0F2" Visibility="{Binding JoinDrawingVisibility}">
-            <Button x:Name="BackButtonJoinDrawing" Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
+        <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding JoinDrawingVisibility}">
+            <Button Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
             <Label Content="Nom du dessin" Margin="20,25,20,471" FontWeight="Bold" FontSize="18"/>
             <TextBox Name="SearchOnlineDrawings" Text="{Binding DrawingSearchTerms, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"  FontSize="18" Margin="20,62,20,438"></TextBox>
             <ListView Name="OnlineDrawingListView" ItemsSource="{Binding FilteredDrawings}" SelectedItem="{Binding SelectedOnlineDrawing}" Margin="20,100,20,178" FontSize="18">
@@ -30,23 +30,20 @@
             </ListView>
             <Button x:Name="Rejoindre" Command="{Binding JoinDrawingCommand}" Content="Rejoindre le dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
         </Grid>
-        <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding NewDrawingVisibility}">
-            <Button x:Name="BackButtonNewDrawing" Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
+        <Grid Margin="100,134,100,59" ZIndex="1" Background="#FFE4F0F2" Visibility="{Binding NewDrawingVisibility}">
+            <Button Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
             <Label Content="Nom du dessin" Margin="66,126,66,374" FontWeight="Bold" FontSize="18"/>
-            <TextBox Text="{Binding NewDrawingName, Mode=TwoWay}" Margin="66,164,66,331" FontSize="18"/>
-            <Button x:Name="CreateNewDrawing" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
+            <TextBox Text="{Binding DrawingName, Mode=OneWayToSource}" Margin="66,164,66,331" FontSize="18"/>
+            <Button Command="{Binding StartNewDrawing}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
             <Label Content="Mode d'édition" Margin="66,223,66,277" FontWeight="Bold" FontSize="18"/>
-            <ComboBox Margin="66,261,66,233" FontSize="18" SelectedIndex="1">
-                <ComboBoxItem Name="Pixel">Pixel</ComboBoxItem>
-                <ComboBoxItem Name="Stroke">Trait</ComboBoxItem>
-            </ComboBox>
+            <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="66,261,66,233" FontSize="18"/>
         </Grid>
         <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding MainMenuVisibility}">
-            <Button x:Name="NewDrawing" Command="{Binding GoToNewDrawingSubMenuCommand}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,60,66,405" Width="284"/>
-            <Button x:Name="PreviousDrawing" Command="{Binding OldDrawingCommand}" Content="Ouvrir un dessin local" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,160,66,305" Width="284"/>
-            <Button x:Name="JoinDrawing" Command="{Binding GoToOnlineDrawingSubMenuCommand}" Content="Rejoindre un dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,260,66,205" Width="284"/>
-            <Button x:Name="Gallery" Command="{Binding GalleryCommand}" Content="Rejoindre la galerie" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
-            <Button x:Name="Login" Command="{Binding BackToLogin}" Content="Se Connecter" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="12" Margin="138,466,129,30" Width="149" Visibility="{Binding LoginButtonVisibility}"/>
+            <Button Command="{Binding GoToNewDrawingSubMenuCommand}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,60,66,405" Width="284"/>
+            <Button Command="{Binding OldDrawingCommand}" Content="Ouvrir un dessin local" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,160,66,305" Width="284"/>
+            <Button Command="{Binding GoToOnlineDrawingSubMenuCommand}" Content="Rejoindre un dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,260,66,205" Width="284"/>
+            <Button Command="{Binding GalleryCommand}" Content="Rejoindre la galerie" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
+            <Button Command="{Binding BackToLogin}" Content="Se Connecter" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="12" Margin="138,466,129,30" Width="149" Visibility="{Binding LoginButtonVisibility}"/>
         </Grid>
     </Grid>
 </Window>
