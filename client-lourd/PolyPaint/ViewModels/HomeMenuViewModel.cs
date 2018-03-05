@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -14,6 +15,12 @@ namespace PolyPaint.ViewModels
 {
     internal class HomeMenuViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        private enum EditingModeOption
+        {
+            Trait,
+            Pixel
+        };
+
         private readonly HomeMenuModel _homeMenu;
 
         public HomeMenuViewModel()
@@ -22,6 +29,7 @@ namespace PolyPaint.ViewModels
             FilteredDrawings = _homeMenu.FilteredDrawings;
 
             GoToNewDrawingSubMenuCommand = new RelayCommand<object>(OpenNewDrawingSubMenu);
+            StartNewDrawing = new RelayCommand<object>(CreateNewDrawing);
             OldDrawingCommand = new RelayCommand<object>(OpenOldDrawing);
             GoToOnlineDrawingSubMenuCommand = new RelayCommand<object>(OpenOnlineDrawingSubMenu, IsOnline);
             JoinDrawingCommand = new RelayCommand<object>(JoinOnlineDrawing);
@@ -36,6 +44,8 @@ namespace PolyPaint.ViewModels
         public Visibility NewDrawingVisibility { get; set; } = Visibility.Collapsed;
         public Visibility JoinDrawingVisibility { get; set; } = Visibility.Collapsed;
         public Visibility LoginButtonVisibility { get; set; } = Visibility.Hidden;
+        public string SelectedEditingMode { get; set; }
+        public Array EditingModes => Enum.GetValues(typeof(EditingModeOption));
 
         public ObservableCollection<OnlineDrawingModel> FilteredDrawings { get; set; }
 
@@ -44,7 +54,7 @@ namespace PolyPaint.ViewModels
             set => _homeMenu.SearchTextChangedHandlers(value.ToLower());
         }
 
-        public string DrawingName { get; set; }
+        public string DrawingName { private get; set; }
 
         public OnlineDrawingModel SelectedOnlineDrawing { get; set; }
 
@@ -52,6 +62,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> GoToOnlineDrawingSubMenuCommand { get; set; }
         public RelayCommand<object> JoinDrawingCommand { get; set; }
         public RelayCommand<object> GoToNewDrawingSubMenuCommand { get; set; }
+        public RelayCommand<object> StartNewDrawing { get; set; }
         public RelayCommand<object> OldDrawingCommand { get; set; }
         public RelayCommand<object> GoToMenuCommand { get; set; }
         public RelayCommand<object> BackToLogin { get; set; }
@@ -111,6 +122,30 @@ namespace PolyPaint.ViewModels
             NewDrawingVisibility = Visibility.Visible;
             JoinDrawingVisibility = Visibility.Collapsed;
             UpdateVisibilityProperties();
+        }
+
+        private void CreateNewDrawing(object obj)
+        {
+            if (string.IsNullOrWhiteSpace(DrawingName))
+            {
+                UserAlerts.ShowErrorMessage("Le nom ne peut pas être vide.");
+                return;
+            }
+
+            if (!Enum.TryParse<EditingModeOption>(SelectedEditingMode, out EditingModeOption selectedMode))
+            {
+                UserAlerts.ShowErrorMessage("Vous devez choisir un mode d'édition.");
+                return;
+            }
+
+            switch (selectedMode)
+            {
+                case EditingModeOption.Trait: break;
+                case EditingModeOption.Pixel:
+                    UserAlerts.ShowErrorMessage("Ce mode n'est pas encore supporté.");
+                    break;
+                default: return;
+            }
         }
 
         private void OpenMenu(object obj)
