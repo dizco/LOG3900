@@ -10,4 +10,10 @@ namespace PolyPaint.Models.ApiModels
         [JsonProperty(PropertyName = "_id")]
         public string Id { get; set; }
     }
+
+    public enum EditingModeOption
+    {
+        Trait,
+        Pixel
+    }
 }

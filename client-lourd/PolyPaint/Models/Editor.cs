@@ -119,6 +119,8 @@ namespace PolyPaint.Models
             }
         }
 
+        public string DrawingName { get; set; }
+
         public ObservableCollection<string> RecentAutosaves { get; } = new ObservableCollection<string>();
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -408,15 +410,18 @@ namespace PolyPaint.Models
             }
         }
 
-        public void SaveDrawing(string savePath, bool autosave, string drawingName = "DrawingName")
+        public void SaveDrawing(string savePath, bool autosave)
         {
             string path = savePath;
 
             if (StrokesCollection.Count == 0 || _isLoadingDrawing)
                 return;
 
+            if (string.IsNullOrWhiteSpace(DrawingName))
+                return;
+
             if (autosave)
-                path = string.Format(FileExtensionConstants.AutosaveFilePath, drawingName);
+                path = string.Format(FileExtensionConstants.AutosaveFilePath, DrawingName);
 
             FileStream file = null;
             try

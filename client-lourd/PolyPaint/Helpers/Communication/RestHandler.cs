@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using PolyPaint.Models.ApiModels;
 
 namespace PolyPaint.Helpers.Communication
 {
@@ -55,6 +55,16 @@ namespace PolyPaint.Helpers.Communication
         public static async Task<HttpResponseMessage> AllDrawings(int page)
         {
             return await Client.GetAsync($"{ServerUri}/drawings?page={page}");
+        }
+
+        public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option)
+        {
+            Dictionary<string, string> drawingInfo = new Dictionary<string, string>
+            {
+                {"name", drawingName}
+            };
+
+            return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
         }
     }
 }

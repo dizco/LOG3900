@@ -36,6 +36,7 @@ namespace PolyPaint.ViewModels
             _editor.PropertyChanged += EditorPropertyModified;
             _editor.EditorAddedStroke += OnStrokeCollectedHandler;
             _editor.StrokeStackedEvent += OnStrokeStackedHandler;
+            _editor.DrawingName = DrawingName;
 
             // On initialise les attributs de dessin avec les valeurs de départ du modèle.
             DrawingAttributes = new DrawingAttributes
@@ -74,31 +75,6 @@ namespace PolyPaint.ViewModels
             EditorActionReceived += ProcessReceivedEditorAction;
 
             LoginStatusChanged += ProcessLoginStatusChange;
-
-        }
-
-        private void OnStrokeStackedHandler(object sender, Stroke stroke)
-        {
-            Messenger?.SendEditorStrokeStack(stroke);
-        }
-
-        private void ProcessLoginStatusChange(object sender, string username)
-        {
-            _editor.CurrentUsername = username;
-        }
-
-        private void ProcessReceivedEditorAction(object sender, EditorActionModel e)
-        {
-            EditorActionStrategyContext context = new EditorActionStrategyContext(e);
-            context.ExecuteStrategy(_editor);
-
-            // OVERKILL
-            // Currently the only way to refresh CanExecute bindings
-            (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
-            {
-                CommandManager
-                    .InvalidateRequerySuggested();
-            });
         }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
@@ -171,6 +147,30 @@ namespace PolyPaint.ViewModels
         public RelayCommand<Stroke> SendNewStrokeCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnStrokeStackedHandler(object sender, Stroke stroke)
+        {
+            Messenger?.SendEditorStrokeStack(stroke);
+        }
+
+        private void ProcessLoginStatusChange(object sender, string username)
+        {
+            _editor.CurrentUsername = username;
+        }
+
+        private void ProcessReceivedEditorAction(object sender, EditorActionModel e)
+        {
+            EditorActionStrategyContext context = new EditorActionStrategyContext(e);
+            context.ExecuteStrategy(_editor);
+
+            // OVERKILL
+            // Currently the only way to refresh CanExecute bindings
+            (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
+            {
+                CommandManager
+                    .InvalidateRequerySuggested();
+            });
+        }
 
         private void AutosaveFile(object obj)
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -9,23 +8,17 @@ using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Models.ApiModels;
 using PolyPaint.Views;
-using Application = System.Windows.Application;
 
 namespace PolyPaint.ViewModels
 {
     internal class HomeMenuViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private enum EditingModeOption
-        {
-            Trait,
-            Pixel
-        };
-
         private readonly HomeMenuModel _homeMenu;
 
         public HomeMenuViewModel()
         {
             _homeMenu = new HomeMenuModel();
+            _homeMenu.NewDrawingCreated += DrawingLoadedHandler;
             FilteredDrawings = _homeMenu.FilteredDrawings;
 
             GoToNewDrawingSubMenuCommand = new RelayCommand<object>(OpenNewDrawingSubMenu);
@@ -83,7 +76,7 @@ namespace PolyPaint.ViewModels
             ClosingRequest?.Invoke(this, EventArgs.Empty);
         }
 
-        private void RefreshHomeMenuBindings()
+        private static void RefreshHomeMenuBindings()
         {
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
@@ -132,7 +125,7 @@ namespace PolyPaint.ViewModels
                 return;
             }
 
-            if (!Enum.TryParse<EditingModeOption>(SelectedEditingMode, out EditingModeOption selectedMode))
+            if (!Enum.TryParse(SelectedEditingMode, out EditingModeOption selectedMode))
             {
                 UserAlerts.ShowErrorMessage("Vous devez choisir un mode d'édition.");
                 return;
@@ -143,9 +136,11 @@ namespace PolyPaint.ViewModels
                 case EditingModeOption.Trait: break;
                 case EditingModeOption.Pixel:
                     UserAlerts.ShowErrorMessage("Ce mode n'est pas encore supporté.");
-                    break;
+                    return;
                 default: return;
             }
+
+            _homeMenu.CreateNewDrawing(DrawingName, selectedMode);
         }
 
         private void OpenMenu(object obj)
@@ -178,6 +173,32 @@ namespace PolyPaint.ViewModels
             OnPropertyChanged("MainMenuVisibility");
             OnPropertyChanged("NewDrawingVisibility");
             OnPropertyChanged("JoinDrawingVisibility");
+        }
+
+        private void DrawingLoadedHandler(object sender, Tuple<string, string, EditingModeOption> drawingParams)
+        {
+            DrawingRoomId = drawingParams.Item1;
+            ViewModelBase.DrawingName = drawingParams.Item2;
+            if (EditorWindow == null)
+            {
+                EditorWindow = new DrawingWindow();
+                EditorWindow.Show();
+                EditorWindow.Closed += OnEditorClosedHandler;
+                OnClosingRequest();
+            }
+        }
+
+        private void OnEditorClosedHandler(object sender, EventArgs e)
+        {
+            if (HomeMenu == null)
+            {
+                HomeMenu = new HomeMenu();
+                HomeMenu.Show();
+                HomeMenu.Closed += (s, a) => HomeMenu = null;
+                OnClosingRequest();
+            }
+
+            EditorWindow = null;
         }
     }
 }
