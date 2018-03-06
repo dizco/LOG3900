@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
 import { PaginateResult } from "mongoose";
+import { DrawingAttributes } from "../models/drawings/drawing-attributes";
 
 const enum DrawingFields {
     Name = "name",
+    Protection = "protection",
 }
 
 /**
@@ -42,6 +44,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
  */
 export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
     req.checkBody(DrawingFields.Name, "Drawing name cannot be empty").notEmpty();
+    req.checkBody(DrawingFields.Protection, "Protection must be a boolean").optional().isBoolean();
 
     const errors = req.validationErrors();
 
@@ -50,6 +53,9 @@ export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const drawing = new Drawing({ name: req.body[DrawingFields.Name], owner: req.user });
+    if (req.body[DrawingFields.Protection]) {
+        drawing.protected = true;
+    }
 
     drawing.save((err) => {
         if (err) {
@@ -122,3 +128,40 @@ export let getDrawingActions = (req: Request, res: Response, next: NextFunction)
         return res.json(drawing.actions);
     });
 };
+
+/**
+ * PATCH /drawings/:id
+ */
+export let patchDrawing = (req: Request, res: Response, next: NextFunction) => {
+    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
+    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
+    req.checkBody(DrawingFields.Protection, "Protection must be a boolean").optional().isBoolean();
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Failed to validate parameters or body.", hints: errors });
+    }
+
+    Drawing.findByIdAndUpdate(req.params.id, buildUpdateFields(req), (err: any, drawing: DrawingModel) => {
+        if (err) {
+            return next(err);
+        }
+        if (!drawing) {
+            return res.status(404).json({ status: "error", error: "Drawing not found." });
+        }
+        return res.json({ status: "success" });
+    });
+};
+
+function buildUpdateFields(req: Request): any {
+    const fields: any = {};
+    if (req.body[DrawingFields.ProtectionActive] !== undefined) {
+        const password = (req.body[DrawingFields.ProtectionPassword] !== undefined) ? req.body[DrawingFields.ProtectionPassword] : "";
+        fields.protection = {
+            active: req.body[DrawingFields.ProtectionActive],
+            password: password,
+        };
+    }
+    return fields;
+}

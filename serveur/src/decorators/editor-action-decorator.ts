@@ -33,6 +33,7 @@ export class EditorActionDecorator {
                     drawing: {
                         id: this.clientAction.drawing.id,
                         name: drawing.name,
+                        protected: drawing.protected,
                         owner: UserFactory.build(<any>drawing.owner),
                     },
                     author: UserFactory.build(this.user),
