@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
 import { PaginateResult } from "mongoose";
-import { DrawingAttributes } from "../models/drawings/drawing-attributes";
 
 const enum DrawingFields {
     Name = "name",
-    Protection = "protection",
+    ProtectionActive = "protection-active",
+    ProtectionPassword = "protection-password",
 }
 
 /**
@@ -21,7 +21,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const options = {
-        select: "name",
+        select: "name protection",
         populate: [
             { path: "owner", select: "username" },
             ],
@@ -32,6 +32,9 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
         if (err) {
             return next(err);
         }
+        drawings.docs = <any>drawings.docs.map(function(drawing) {
+            return drawing.toObject(); //Transform every drawing
+        });
         return res.json(drawings);
     }).catch((reason => {
         console.log("Failed to fetch and paginate drawings", reason);
@@ -44,7 +47,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
  */
 export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
     req.checkBody(DrawingFields.Name, "Drawing name cannot be empty").notEmpty();
-    req.checkBody(DrawingFields.Protection, "Protection must be a boolean").optional().isBoolean();
+    validateProtectionParameters(req);
 
     const errors = req.validationErrors();
 
@@ -52,10 +55,14 @@ export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
         return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
     }
 
-    const drawing = new Drawing({ name: req.body[DrawingFields.Name], owner: req.user });
-    if (req.body[DrawingFields.Protection]) {
-        drawing.protected = true;
-    }
+    const drawing = new Drawing({
+        name: req.body[DrawingFields.Name],
+        owner: req.user,
+        protection: {
+            active: req.body[DrawingFields.ProtectionActive],
+            password: req.body[DrawingFields.ProtectionPassword],
+        },
+    });
 
     drawing.save((err) => {
         if (err) {
@@ -71,6 +78,7 @@ export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
 export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
     req.checkParams("id", "Drawing id cannot be empty").notEmpty();
     req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
+    req.checkHeaders(DrawingFields.ProtectionPassword, "Protection password cannot be empty").optional().notEmpty();
 
     const errors = req.validationErrors();
 
@@ -82,16 +90,40 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
         { path: "owner", select: "username" },
         { path: "actions.author", select: "username" }, //TODO: Decide if we want to send editor actions here or not
     ];
-    Drawing.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, drawing: DrawingModel) => {
+    Drawing.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, drawing: any) => {
         if (err) {
             return next(err);
         }
         if (!drawing) {
             return res.status(404).json({ status: "error", error: "Drawing not found." });
         }
-        return res.json(drawing);
+
+        if (drawing.protection.active) { //Password protected
+            return handlePasswordProtectedDrawing(drawing, req, res, next);
+        }
+        else { //Not password protected
+            return res.json(drawing.toObject());
+        }
     });
 };
+
+function handlePasswordProtectedDrawing(drawing: any, req: Request, res: Response, next: NextFunction) {
+    drawing = <DrawingModel>drawing;
+    if (req.headers[DrawingFields.ProtectionPassword] !== undefined) {
+        drawing.comparePassword(req.headers[DrawingFields.ProtectionPassword], (err: Error, isMatch: boolean) => {
+            if (err) {
+                return next(err);
+            }
+            if (isMatch) {
+                return res.json(drawing.toObject());
+            }
+            return res.status(401).json({ status: "error", error: "Invalid password on password protected drawing." });
+        });
+    }
+    else {
+        return res.status(401).json({ status: "error", error: "Invalid password on password protected drawing." });
+    }
+}
 
 /**
  * PUT /drawings/:id
@@ -135,7 +167,7 @@ export let getDrawingActions = (req: Request, res: Response, next: NextFunction)
 export let patchDrawing = (req: Request, res: Response, next: NextFunction) => {
     req.checkParams("id", "Drawing id cannot be empty").notEmpty();
     req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
-    req.checkBody(DrawingFields.Protection, "Protection must be a boolean").optional().isBoolean();
+    validateProtectionParameters(req);
 
     const errors = req.validationErrors();
 
@@ -164,4 +196,11 @@ function buildUpdateFields(req: Request): any {
         };
     }
     return fields;
+}
+
+function validateProtectionParameters(req: Request): void {
+    req.checkBody(DrawingFields.ProtectionActive, "Protection active must be a boolean").optional().isBoolean();
+    if (req.body[DrawingFields.ProtectionActive]) {
+        req.checkBody(DrawingFields.ProtectionPassword, "Protection password must be at least 4 characters long").len({ min: 4 });
+    }
 }
