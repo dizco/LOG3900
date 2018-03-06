@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Threading;
+using PolyPaint.Constants;
 using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Models.ApiModels;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Views;
+using Application = System.Windows.Application;
 
 namespace PolyPaint.ViewModels
 {
@@ -93,7 +99,7 @@ namespace PolyPaint.ViewModels
         private void OpenGallery(object obj)
         {
             // TODO: Create gallery and link it here
-            throw new NotImplementedException();
+            UserAlerts.ShowErrorMessage("Is this the Krusty Krab?");
         }
 
         private void OpenLogin(object obj)
@@ -109,7 +115,34 @@ namespace PolyPaint.ViewModels
 
         private void OpenOldDrawing(object obj)
         {
-            throw new NotImplementedException();
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = FileExtensionConstants.DefaultExt,
+                Filter = FileExtensionConstants.Filter
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = Path.GetFullPath(openFileDialog.FileName);
+                FileStream file = null;
+                try
+                {
+                    file = new FileStream(path, FileMode.Open);
+                    StrokeCollection strokes = new StrokeCollection();
+                    new StrokeCollection(file).ToList().ForEach(stroke => strokes.Add(stroke));
+                    OpenEditorWindow(strokes);
+                }
+                catch (Exception e)
+                {
+                    // TODO: Handle exception
+                    UserAlerts.ShowErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" +
+                                                e.HResult);
+                }
+                finally
+                {
+                    file?.Close();
+                }
+            }
         }
 
         private void OpenNewDrawingSubMenu(object obj)
@@ -203,13 +236,27 @@ namespace PolyPaint.ViewModels
         private void OpenEditorWindow(EditingModeOption option = EditingModeOption.Trait,
             List<EditorActionModel> actions = null)
         {
-            // TODO: Use drawingParams.Item3 (EditingModeOption) to open the proper editor
+            // TODO: Use EditingModeOption to open the proper editor
             if (EditorWindow == null)
             {
                 EditorWindow = new DrawingWindow();
                 EditorWindow.Show();
                 // TODO: Modify this function once server saving protocol is established
                 (EditorWindow.DataContext as EditorViewModel)?.ReplayActions(actions);
+                EditorWindow.Closed += OnEditorClosedHandler;
+                OnClosingRequest();
+            }
+        }
+
+        private void OpenEditorWindow(StrokeCollection strokes)
+        {
+            {
+                EditorWindow = new DrawingWindow();
+                EditorWindow.Show();
+                // TODO: Modify this function once server saving protocol is established
+                if (EditorWindow.DataContext is EditorViewModel editorViewModel)
+                    foreach (Stroke stroke in strokes)
+                        editorViewModel.StrokesCollection.Add(stroke);
                 EditorWindow.Closed += OnEditorClosedHandler;
                 OnClosingRequest();
             }

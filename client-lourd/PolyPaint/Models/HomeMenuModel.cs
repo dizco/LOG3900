@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Net.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
@@ -32,7 +30,8 @@ namespace PolyPaint.Models
         /// <summary>
         ///     Tuple contains DrawingId, DrawingName, EditingModeOption (Stroke/Pixel) and actions to replay
         /// </summary>
-        public event EventHandler<Tuple<string, string, EditingModeOption, List<EditorActionModel>>> OnlineDrawingJoined;
+        public event EventHandler<Tuple<string, string, EditingModeOption, List<EditorActionModel>>>
+            OnlineDrawingJoined;
 
         internal async void LoadDrawings()
         {
@@ -119,12 +118,10 @@ namespace PolyPaint.Models
             }
         }
 
-
         internal async void JoinOnlineDrawing(string id)
         {
             HttpResponseMessage response = await RestHandler.GetOnlineDrawing(id);
             if (response.IsSuccessStatusCode)
-            {
                 try
                 {
                     JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -143,7 +140,6 @@ namespace PolyPaint.Models
                 {
                     UserAlerts.ShowErrorMessage("Une erreure est survenue");
                 }
-            }
         }
 
         private void OnNewDrawingCreated(Tuple<string, string, EditingModeOption> drawingParams)
@@ -156,7 +152,8 @@ namespace PolyPaint.Models
             OnNewDrawingCreated(new Tuple<string, string, EditingModeOption>(string.Empty, drawingName, option));
         }
 
-        private void OnOnlineDrawingJoined(string drawingId, string drawingName, EditingModeOption option, List<EditorActionModel> actions)
+        private void OnOnlineDrawingJoined(string drawingId, string drawingName, EditingModeOption option,
+            List<EditorActionModel> actions)
         {
             Tuple<string, string, EditingModeOption, List<EditorActionModel>> drawingParams =
                 new Tuple<string, string, EditingModeOption, List<EditorActionModel>>(drawingId, drawingName, option,

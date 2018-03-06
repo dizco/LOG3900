@@ -14,9 +14,10 @@ namespace PolyPaint.Views
     /// </summary>
     public partial class DrawingWindow : Window
     {
+        private Point _end;
+
         //Starting and ending point of the mouse during an action
         private Point _start;
-        private Point _end;
 
         public DrawingWindow()
         {

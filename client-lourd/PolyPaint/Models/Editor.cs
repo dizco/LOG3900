@@ -6,8 +6,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -499,14 +499,14 @@ namespace PolyPaint.Models
                 }
             }
         }
-        
+
         public void ExportImage(string filePathNameExt, InkCanvas drawingSurface)
         {
             FileStream imageStream = null;
             try
             {
-                int imageWidth = (int)drawingSurface.ActualWidth;
-                int imageHeight = (int)drawingSurface.ActualHeight;
+                int imageWidth = (int) drawingSurface.ActualWidth;
+                int imageHeight = (int) drawingSurface.ActualHeight;
                 RenderTargetBitmap imageRender = new RenderTargetBitmap(imageWidth, imageHeight,
                                                                         ImageManipulationConstants.DotsPerInch,
                                                                         ImageManipulationConstants.DotsPerInch,
@@ -522,7 +522,7 @@ namespace PolyPaint.Models
                         break;
                     case ".jpg": //jpg or jpeg
                         encoder = new JpegBitmapEncoder();
-                        ((JpegBitmapEncoder)encoder).QualityLevel = 100;//maximum jpeg quality
+                        ((JpegBitmapEncoder) encoder).QualityLevel = 100; //maximum jpeg quality
                         break;
                     case ".bmp": //bmp
                         encoder = new BmpBitmapEncoder();
@@ -579,6 +579,7 @@ namespace PolyPaint.Models
             string drawingName = Regex.Replace(fileName, "_[a-z]*.tide", "");
             RecentAutosaves.Add(drawingName);
         }
+
         private void ShowUserInfoMessage(string message)
         {
             MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
