@@ -4,6 +4,7 @@ matrix:
       node_js: 8
       env: TO_TEST=SERVEUR
         FOLDER=serveur
+        NODE_ENV=development
     - language: objective-c
       os: osx
       osx_image: xcode9.2
