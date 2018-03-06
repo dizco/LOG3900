@@ -12,9 +12,10 @@ export type DrawingModel = mongoose.Document & DrawingInterface;
 const drawingSchema = new mongoose.Schema({
     name: String,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    protected: { type: Boolean, default: false },
     actions: [{ actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" } }],
 }, { timestamps: true });
 drawingSchema.plugin(mongoosePaginate);
 
-const Drawing = mongoose.model("Drawing", drawingSchema);
+const Drawing = mongoose.model<DrawingModel>("Drawing", drawingSchema);
 export default Drawing;
