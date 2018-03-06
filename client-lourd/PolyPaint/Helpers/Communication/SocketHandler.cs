@@ -11,13 +11,13 @@ namespace PolyPaint.Helpers.Communication
 {
     public class SocketHandler : ISocketHandler
     {
-        private readonly WebSocket _ws;
-
         public enum DisconnectionReason
         {
             Errored = -1,
             Closed = 0
         }
+
+        private readonly WebSocket _ws;
 
         public SocketHandler(string uri, List<KeyValuePair<string, string>> cookies)
         {
@@ -49,6 +49,7 @@ namespace PolyPaint.Helpers.Communication
                 _ws.Send(data);
                 return true;
             }
+
             return false;
         }
 
@@ -69,6 +70,7 @@ namespace PolyPaint.Helpers.Communication
                 // ignored
                 return;
             }
+
             string type = incomingData.GetValue("type").ToString();
             if (type == JsonConstantStrings.TypeChatMessageIncomingValue)
                 OnChatMessageReceived(e.Message);
@@ -78,12 +80,12 @@ namespace PolyPaint.Helpers.Communication
 
         private void OnClosed(object sender, EventArgs e)
         {
-            WebSocketDisconnected((int)DisconnectionReason.Closed);
+            WebSocketDisconnected((int) DisconnectionReason.Closed);
         }
 
         private void OnError(object sender, ErrorEventArgs e)
         {
-            WebSocketDisconnected((int)DisconnectionReason.Errored);
+            WebSocketDisconnected((int) DisconnectionReason.Errored);
         }
 
         private void OnOpened(object sender, EventArgs e)

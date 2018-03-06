@@ -296,7 +296,7 @@
                 </Slider>
                 <StackPanel>
                     <StackPanel Orientation="Vertical" Margin="5,8" VerticalAlignment="Center" Width="88">
-                        <Button x:Name="LoginWindow"  Command="{Binding ShowLoginWindowCommand}" RenderTransformOrigin="0.5,0.5" Click="LoginButtonClick" Height="43" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True" HorizontalAlignment="Right" Width="50">
+                        <Button x:Name="LoginWindow"  Command="{Binding OpenChatWindowCommand}" Visibility="{Binding ChatVisibility}" RenderTransformOrigin="0.5,0.5" Click="LoginButtonClick" Height="43" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True" HorizontalAlignment="Right" Width="50">
                             <Button.Background>
                                 <ImageBrush ImageSource="/PolyPaint;component/Resources/tidepod.png"/>
                             </Button.Background>

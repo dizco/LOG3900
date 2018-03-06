@@ -71,7 +71,7 @@ namespace PolyPaint.ViewModels
             SendNewStrokeCommand = new RelayCommand<Stroke>(SendNewStroke);
 
             //Managing different View
-            ShowLoginWindowCommand = new RelayCommand<object>(ShowLoginWindow);
+            OpenChatWindowCommand = new RelayCommand<object>(OpenChatWindow, CanOpenChat);
 
             EditorActionReceived += ProcessReceivedEditorAction;
 
@@ -120,6 +120,16 @@ namespace PolyPaint.ViewModels
             }
         }
 
+        public Visibility ChatVisibility
+        {
+            get
+            {
+                if (Messenger?.IsConnected ?? false)
+                    return Visibility.Visible;
+                return Visibility.Hidden;
+            }
+        }
+
         public StrokeCollection StrokesCollection { get; set; }
 
         // Commandes sur lesquels la vue pourra se connecter.
@@ -140,7 +150,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> ExportImageCommand { get; set; }
 
         //Command for managing the views
-        public RelayCommand<object> ShowLoginWindowCommand { get; set; }
+        public RelayCommand<object> OpenChatWindowCommand { get; set; }
 
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
@@ -256,31 +266,23 @@ namespace PolyPaint.ViewModels
             DrawingAttributes.Height = _editor.SelectedTip == "horizontale" ? 1 : _editor.StrokeSize;
         }
 
-        //Show login window
-        public void ShowLoginWindow(object o)
+        private bool CanOpenChat(object obj)
         {
-            if (Messenger?.IsConnected == true)
+            return Messenger?.IsConnected ?? false;
+        }
+
+        //Show login window
+        public void OpenChatWindow(object o)
+        {
+            if (ChatWindow == null)
             {
-                if (ChatWindow == null)
-                {
-                    ChatWindow = new ChatWindowView();
-                    ChatWindow.Show();
-                    ChatWindow.Closed += (sender, args) => ChatWindow = null;
-                }
-                else
-                {
-                    ChatWindow.Activate();
-                }
-            }
-            else if (LoginWindow == null)
-            {
-                LoginWindow = new LoginWindowView();
-                LoginWindow.Show();
-                LoginWindow.Closed += LoginViewClosed;
+                ChatWindow = new ChatWindowView();
+                ChatWindow.Show();
+                ChatWindow.Closed += (sender, args) => ChatWindow = null;
             }
             else
             {
-                LoginWindow.Activate();
+                ChatWindow.Activate();
             }
         }
 
