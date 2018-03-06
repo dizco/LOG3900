@@ -14,11 +14,11 @@
             <Image Source="/PolyPaint;component/palette.ico" Margin="195,-13,0,0" Height="47"/>
             <Label Content="PolyPaintPro" Margin="145,39,0,0" Height="37" Width="146" Foreground="White" FontSize="24" FontFamily="Myanmar Text"/>
         </Canvas>
-        <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding JoinDrawingVisibility}">
+        <Grid Margin="100,134,100,59" ZIndex="1" Background="#FFE4F0F2" Visibility="{Binding JoinDrawingVisibility}">
             <Button Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
             <Label Content="Nom du dessin" Margin="20,25,20,471" FontWeight="Bold" FontSize="18"/>
-            <TextBox Name="SearchOnlineDrawings" Text="{Binding DrawingSearchTerms, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"  FontSize="18" Margin="20,62,20,438"></TextBox>
-            <ListView Name="OnlineDrawingListView" ItemsSource="{Binding FilteredDrawings}" SelectedItem="{Binding SelectedOnlineDrawing}" Margin="20,100,20,178" FontSize="18">
+            <TextBox Name="SearchOnlineDrawings" Text="{Binding DrawingSearchTerms, UpdateSourceTrigger=PropertyChanged}"  FontSize="18" Margin="20,62,20,438"></TextBox>
+            <ListView Name="OnlineDrawingListView" SelectionMode="Single" ItemsSource="{Binding FilteredDrawings}" SelectedItem="{Binding SelectedOnlineDrawing}" Margin="20,100,20,178" FontSize="18">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
@@ -30,10 +30,10 @@
             </ListView>
             <Button x:Name="Rejoindre" Command="{Binding JoinDrawingCommand}" Content="Rejoindre le dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
         </Grid>
-        <Grid Margin="100,134,100,59" ZIndex="1" Background="#FFE4F0F2" Visibility="{Binding NewDrawingVisibility}">
+        <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding NewDrawingVisibility}">
             <Button Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
             <Label Content="Nom du dessin" Margin="66,126,66,374" FontWeight="Bold" FontSize="18"/>
-            <TextBox Text="{Binding DrawingName, Mode=OneWayToSource}" Margin="66,164,66,331" FontSize="18"/>
+            <TextBox Text="{Binding NewDrawingName, Mode=OneWayToSource}" Margin="66,164,66,331" FontSize="18"/>
             <Button Command="{Binding StartNewDrawing}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
             <Label Content="Mode d'édition" Margin="66,223,66,277" FontWeight="Bold" FontSize="18"/>
             <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="66,261,66,233" FontSize="18"/>

@@ -66,5 +66,10 @@ namespace PolyPaint.Helpers.Communication
 
             return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
         }
+
+        public static async Task<HttpResponseMessage> GetOnlineDrawing(string drawingId)
+        {
+            return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}");
+        }
     }
 }

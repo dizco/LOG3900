@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -7,6 +8,7 @@ using System.Windows.Threading;
 using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Models.ApiModels;
+using PolyPaint.Models.MessagingModels;
 using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels
@@ -19,6 +21,7 @@ namespace PolyPaint.ViewModels
         {
             _homeMenu = new HomeMenuModel();
             _homeMenu.NewDrawingCreated += DrawingLoadedHandler;
+            _homeMenu.OnlineDrawingJoined += OnlineDrawingLoadedHandler;
             FilteredDrawings = _homeMenu.FilteredDrawings;
 
             GoToNewDrawingSubMenuCommand = new RelayCommand<object>(OpenNewDrawingSubMenu);
@@ -47,7 +50,7 @@ namespace PolyPaint.ViewModels
             set => _homeMenu.SearchTextChangedHandlers(value.ToLower());
         }
 
-        public string DrawingName { private get; set; }
+        public string NewDrawingName { get; set; }
 
         public OnlineDrawingModel SelectedOnlineDrawing { get; set; }
 
@@ -119,7 +122,7 @@ namespace PolyPaint.ViewModels
 
         private void CreateNewDrawing(object obj)
         {
-            if (string.IsNullOrWhiteSpace(DrawingName))
+            if (string.IsNullOrWhiteSpace(NewDrawingName))
             {
                 UserAlerts.ShowErrorMessage("Le nom ne peut pas être vide.");
                 return;
@@ -140,7 +143,7 @@ namespace PolyPaint.ViewModels
                 default: return;
             }
 
-            _homeMenu.CreateNewDrawing(DrawingName, selectedMode);
+            _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode);
         }
 
         private void OpenMenu(object obj)
@@ -162,14 +165,21 @@ namespace PolyPaint.ViewModels
 
         private void JoinOnlineDrawing(object obj)
         {
-            if (SelectedOnlineDrawing == null) UserAlerts.ShowErrorMessage("Veuillez choisir un dessin");
+            if (SelectedOnlineDrawing == null)
+            {
+                UserAlerts.ShowErrorMessage("Veuillez choisir un dessin");
+                return;
+            }
+
+            _homeMenu.JoinOnlineDrawing(SelectedOnlineDrawing.Id);
 
             // TODO: Fetch drawing from server, open editor and load the drawing
         }
 
         private void UpdateVisibilityProperties()
         {
-            DrawingName = string.Empty;
+            NewDrawingName = string.Empty;
+            OnPropertyChanged("DrawingSearchTerms");
             OnPropertyChanged("MainMenuVisibility");
             OnPropertyChanged("NewDrawingVisibility");
             OnPropertyChanged("JoinDrawingVisibility");
@@ -178,11 +188,28 @@ namespace PolyPaint.ViewModels
         private void DrawingLoadedHandler(object sender, Tuple<string, string, EditingModeOption> drawingParams)
         {
             DrawingRoomId = drawingParams.Item1;
-            ViewModelBase.DrawingName = drawingParams.Item2;
+            DrawingName = drawingParams.Item2;
+            OpenEditorWindow(drawingParams.Item3);
+        }
+
+        private void OnlineDrawingLoadedHandler(object sender,
+            Tuple<string, string, EditingModeOption, List<EditorActionModel>> drawingParams)
+        {
+            DrawingRoomId = drawingParams.Item1;
+            DrawingName = drawingParams.Item2;
+            OpenEditorWindow(drawingParams.Item3, drawingParams.Item4);
+        }
+
+        private void OpenEditorWindow(EditingModeOption option = EditingModeOption.Trait,
+            List<EditorActionModel> actions = null)
+        {
+            // TODO: Use drawingParams.Item3 (EditingModeOption) to open the proper editor
             if (EditorWindow == null)
             {
                 EditorWindow = new DrawingWindow();
                 EditorWindow.Show();
+                // TODO: Modify this function once server saving protocol is established
+                (EditorWindow.DataContext as EditorViewModel)?.ReplayActions(actions);
                 EditorWindow.Closed += OnEditorClosedHandler;
                 OnClosingRequest();
             }

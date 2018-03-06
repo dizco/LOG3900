@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -185,6 +186,20 @@ namespace PolyPaint.ViewModels
         public Stroke DrawShape(Point start, Point end)
         {
             return _editor.DrawShape(start, end);
+        }
+
+        // TODO: Modify this function once server saving protocol is established
+        /// <summary>
+        ///     Replays all actions to load up the new drawing
+        /// </summary>
+        /// <param name="actions">List of actions to replay</param>
+        internal void ReplayActions(List<EditorActionModel> actions)
+        {
+            if (actions == null) return;
+
+            foreach (EditorActionModel action in actions)
+                if (action.Action != null)
+                    ProcessReceivedEditorAction(this, action);
         }
 
         /// <summary>

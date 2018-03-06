@@ -66,6 +66,16 @@ namespace PolyPaint.Helpers.Communication
             return string.Empty;
         }
 
+        /// <summary>
+        ///     Sends the action to the server is the drawing is an online drawing (has a DrawingId)
+        /// </summary>
+        /// <param name="actionSerialized">Serialized action to send to the server</param>
+        /// <returns>Boolean representing sent status.</returns>
+        private bool SendDrawingAction(string actionSerialized)
+        {
+            return DrawingRoomId != null && _socketHandler.SendMessage(actionSerialized);
+        }
+
         private EditorActionModel BuildOutgoingAction(ActionIds action)
         {
             return new EditorActionModel
@@ -105,7 +115,7 @@ namespace PolyPaint.Helpers.Communication
 
                 string actionSerialized = JsonConvert.SerializeObject(outgoingNewStrokeAction);
 
-                bool isSent = _socketHandler.SendMessage(actionSerialized);
+                bool isSent = SendDrawingAction(actionSerialized);
 
                 if (isSent)
                     return actionSerialized;
@@ -139,7 +149,7 @@ namespace PolyPaint.Helpers.Communication
 
                 string actionSerialized = JsonConvert.SerializeObject(outgoingStrokeStackAction);
 
-                bool isSent = _socketHandler.SendMessage(actionSerialized);
+                bool isSent = SendDrawingAction(actionSerialized);
 
                 if (isSent)
                     return actionSerialized;
