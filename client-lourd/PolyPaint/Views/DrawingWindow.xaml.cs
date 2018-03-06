@@ -15,10 +15,9 @@ namespace PolyPaint.Views
     /// </summary>
     public partial class DrawingWindow : Window
     {
-        private Point _end;
-
         //Starting and ending point of the mouse during an action
         private Point _start;
+        private Point _end;
 
         public DrawingWindow()
         {
@@ -58,7 +57,7 @@ namespace PolyPaint.Views
             textBlockPosition.Text = Math.Round(p.X) + ", " + Math.Round(p.Y) + "px";
 
             // Update the X & Y as the mouse moves
-            if (e.LeftButton == MouseButtonState.Pressed) _end = e.GetPosition(surfaceDessin);
+            if (e.LeftButton == MouseButtonState.Pressed) _end = p;
 
             //Transform the cursor in a cross when the tool is shapes
             if ((DataContext as EditorViewModel)?.ToolSelected == "shapes")

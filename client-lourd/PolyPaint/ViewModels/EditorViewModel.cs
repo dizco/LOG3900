@@ -53,7 +53,7 @@ namespace PolyPaint.ViewModels
             // Donc, aucune vérification de type Peut"Action" à faire.
             ChooseTip = new RelayCommand<string>(_editor.SelectTip);
             ChooseTool = new RelayCommand<string>(_editor.SelectTool);
-            ChooseShape = new RelayCommand<Editor.MyShape>(_editor.SelectShape);
+            ChooseShape = new RelayCommand<Editor.DrawableShapes>(_editor.SelectShape);
             ResetDrawing = new RelayCommand<object>(_editor.Reset);
 
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawingPrompt);
@@ -122,7 +122,7 @@ namespace PolyPaint.ViewModels
             set => PropertyModified();
         }
 
-        public Editor.MyShape ShapeSelected
+        public Editor.DrawableShapes ShapeSelected
         {
             get => _editor.SelectedShape;
             set => PropertyModified();
@@ -152,7 +152,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> Unstack { get; set; }
         public RelayCommand<string> ChooseTip { get; set; }
         public RelayCommand<string> ChooseTool { get; set; }
-        public RelayCommand<Editor.MyShape> ChooseShape { get; set; }
+        public RelayCommand<Editor.DrawableShapes> ChooseShape { get; set; }
         public RelayCommand<object> ResetDrawing { get; set; }
 
         public RelayCommand<object> OpenFileCommand { get; set; }
@@ -171,13 +171,6 @@ namespace PolyPaint.ViewModels
         public RelayCommand<Stroke> SendNewStrokeCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void ProcessReceivedEditorAction(object sender, EditorActionModel e)
-        {
-            EditorActionStrategyContext context = new EditorActionStrategyContext(e);
-
-            context.ExecuteStrategy(_editor);
-        }
 
         private void AutosaveFile(object obj)
         {
@@ -247,10 +240,6 @@ namespace PolyPaint.ViewModels
             DrawingAttributes.Width = _editor.SelectedTip == "verticale" ? 1 : _editor.StrokeSize;
             DrawingAttributes.Height = _editor.SelectedTip == "horizontale" ? 1 : _editor.StrokeSize;
         }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="o"></param>
 
         //Show login window
         public void ShowLoginWindow(object o)

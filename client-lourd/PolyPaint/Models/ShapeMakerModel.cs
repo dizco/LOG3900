@@ -11,10 +11,10 @@ namespace PolyPaint.Models
             Start = mouseStart;
             End = mouseEnd;
             Width = End.X - Start.X;
-            Height = -(End.Y - Start.Y);
+            Height = End.Y - Start.Y;
         }
 
-        private Point Start { get; }
+        public Point Start { get;}
         private Point End { get; }
         private double Width { get; }
         private double Height { get; }
@@ -35,347 +35,251 @@ namespace PolyPaint.Models
 
         public Stroke DrawArrow()
         {
-            StylusPointCollection arrowPoints = new StylusPointCollection();
-            StylusPoint arrowEdge1 = new StylusPoint(Start.X, Start.Y - Height * 3 / 4);
-            StylusPoint arrowEdge2 = new StylusPoint(arrowEdge1.X + Width / 2, arrowEdge1.Y);
-            StylusPoint arrowEdge3 = new StylusPoint(arrowEdge2.X, arrowEdge2.Y - Height / 4);
-            StylusPoint arrowEdge4 = new StylusPoint(arrowEdge3.X + Width / 2, arrowEdge3.Y + Height / 2);
-            StylusPoint arrowEdge5 = new StylusPoint(arrowEdge4.X - Width / 2, arrowEdge4.Y + Height / 2);
-            StylusPoint arrowEdge6 = new StylusPoint(arrowEdge5.X, arrowEdge5.Y - Height / 4);
-            StylusPoint arrowEdge7 = new StylusPoint(arrowEdge6.X - Width / 2, arrowEdge6.Y);
-            StylusPoint arrowEdge8 = new StylusPoint(arrowEdge7.X, arrowEdge7.Y - Height / 2);
+            StylusPoint[] arrowEdges = new StylusPoint[8];
 
-            arrowPoints.Add(arrowEdge1);
-            arrowPoints.Add(arrowEdge2);
-            arrowPoints.Add(arrowEdge3);
-            arrowPoints.Add(arrowEdge4);
-            arrowPoints.Add(arrowEdge5);
-            arrowPoints.Add(arrowEdge6);
-            arrowPoints.Add(arrowEdge7);
-            arrowPoints.Add(arrowEdge8);
+            arrowEdges[0] = new StylusPoint(Start.X, Start.Y + Height * 3 / 4);
+            arrowEdges[1] = new StylusPoint(arrowEdges[0].X + Width / 2, arrowEdges[0].Y);
+            arrowEdges[2] = new StylusPoint(arrowEdges[1].X, arrowEdges[1].Y + Height / 4);
+            arrowEdges[3] = new StylusPoint(arrowEdges[2].X + Width / 2, arrowEdges[2].Y - Height / 2);
+            arrowEdges[4] = new StylusPoint(arrowEdges[3].X - Width / 2, arrowEdges[3].Y - Height / 2);
+            arrowEdges[5] = new StylusPoint(arrowEdges[4].X, arrowEdges[4].Y + Height / 4);
+            arrowEdges[6] = new StylusPoint(arrowEdges[5].X - Width / 2, arrowEdges[5].Y);
+            arrowEdges[7] = new StylusPoint(arrowEdges[6].X, arrowEdges[6].Y + Height / 2);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(arrowPoints);
-            return strokeLine;
+            StylusPointCollection arrowPoints = new StylusPointCollection(arrowEdges);
+            return new Stroke(arrowPoints);
         }
 
         public Stroke DrawTriangle()
         {
-            StylusPointCollection trianglePoints = new StylusPointCollection();
-            StylusPoint triangleEdge1 = new StylusPoint(Start.X, Start.Y);
-            StylusPoint triangleEdge2 = new StylusPoint(Start.X + Width, Start.Y);
-            StylusPoint triangleEdge3 = new StylusPoint(Start.X + Width / 2, Start.Y - Height);
+            StylusPoint[] triangleEdges = new StylusPoint[4];
 
-            trianglePoints.Add(triangleEdge1);
-            trianglePoints.Add(triangleEdge2);
-            trianglePoints.Add(triangleEdge3);
-            trianglePoints.Add(triangleEdge1);
+            triangleEdges[0] = new StylusPoint(Start.X, Start.Y);
+            triangleEdges[1] = new StylusPoint(Start.X + Width, Start.Y);
+            triangleEdges[2] = new StylusPoint(Start.X + Width / 2, Start.Y + Height);
+            triangleEdges[3] = new StylusPoint(Start.X, Start.Y);
 
             //With the Point variables we create a Stroke
-            //CustomStroke strokeLine = new CustomStroke(TrianglePoints, start, end);
-            Stroke stroke = new Stroke(trianglePoints);
-            return stroke;
+            StylusPointCollection trianglePoints = new StylusPointCollection(triangleEdges);
+            return new Stroke(trianglePoints);
         }
 
         public Stroke DrawDiamond()
         {
-            StylusPointCollection diamondPoints = new StylusPointCollection();
-            StylusPoint diamondEdge1 = new StylusPoint(Start.X + Width / 2, Start.Y);
-            StylusPoint diamondEdge2 = new StylusPoint(Start.X + Width, Start.Y - Height / 2);
-            StylusPoint diamondEdge3 = new StylusPoint(Start.X + Width / 2, Start.Y - Height);
-            StylusPoint diamondEdge4 = new StylusPoint(Start.X, Start.Y - Height / 2);
+            StylusPoint[] diamondEdges = new StylusPoint[5];
 
-            diamondPoints.Add(diamondEdge1);
-            diamondPoints.Add(diamondEdge2);
-            diamondPoints.Add(diamondEdge3);
-            diamondPoints.Add(diamondEdge4);
-            diamondPoints.Add(diamondEdge1);
+            diamondEdges[0] = new StylusPoint(Start.X + Width / 2, Start.Y);
+            diamondEdges[1] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
+            diamondEdges[2] = new StylusPoint(Start.X + Width / 2, Start.Y + Height);
+            diamondEdges[3] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            diamondEdges[4] = new StylusPoint(Start.X + Width / 2, Start.Y);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(diamondPoints);
-            return strokeLine;
+            StylusPointCollection diamondPoints = new StylusPointCollection(diamondEdges);
+            return new Stroke(diamondPoints);
         }
 
         public Stroke DrawLightningBolt()
         {
-            StylusPointCollection lightningBoltPoints = new StylusPointCollection();
-            StylusPoint lightningBoltEdge1 = new StylusPoint(Start.X, Start.Y - Height * 3 / 4);
-            StylusPoint lightningBoltEdge2 = new StylusPoint(Start.X + Width / 3, Start.Y - Height * 3 / 5);
-            StylusPoint lightningBoltEdge3 = new StylusPoint(Start.X + Width / 4, Start.Y - Height / 2);
-            StylusPoint lightningBoltEdge4 = new StylusPoint(Start.X + Width * 3 / 5, Start.Y - Height / 3);
-            StylusPoint lightningBoltEdge5 = new StylusPoint(Start.X + Width / 2, Start.Y - Height * 1 / 4);
-            StylusPoint lightningBoltEdge6 = new StylusPoint(Start.X + Width, Start.Y);
-            StylusPoint lightningBoltEdge7 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height / 3);
-            StylusPoint lightningBoltEdge8 = new StylusPoint(Start.X + Width * 3 / 4, Start.Y - Height * 2 / 5);
-            StylusPoint lightningBoltEdge9 = new StylusPoint(Start.X + Width / 2, Start.Y - Height * 2 / 3);
-            StylusPoint lightningBoltEdge10 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height * 7 / 10);
-            StylusPoint lightningBoltEdge11 = new StylusPoint(Start.X + Width / 3, Start.Y - Height);
+            StylusPoint[] lightningBoltEdges = new StylusPoint[12];
 
-            lightningBoltPoints.Add(lightningBoltEdge1);
-            lightningBoltPoints.Add(lightningBoltEdge2);
-            lightningBoltPoints.Add(lightningBoltEdge3);
-            lightningBoltPoints.Add(lightningBoltEdge4);
-            lightningBoltPoints.Add(lightningBoltEdge5);
-            lightningBoltPoints.Add(lightningBoltEdge6);
-            lightningBoltPoints.Add(lightningBoltEdge7);
-            lightningBoltPoints.Add(lightningBoltEdge8);
-            lightningBoltPoints.Add(lightningBoltEdge9);
-            lightningBoltPoints.Add(lightningBoltEdge10);
-            lightningBoltPoints.Add(lightningBoltEdge11);
-            lightningBoltPoints.Add(lightningBoltEdge1);
+            lightningBoltEdges[0] = new StylusPoint(Start.X, Start.Y + Height * 3 / 4);
+            lightningBoltEdges[1] = new StylusPoint(Start.X + Width / 3, Start.Y + Height * 3 / 5);
+            lightningBoltEdges[2] = new StylusPoint(Start.X + Width / 4, Start.Y + Height / 2);
+            lightningBoltEdges[3] = new StylusPoint(Start.X + Width * 3 / 5, Start.Y + Height / 3);
+            lightningBoltEdges[4] = new StylusPoint(Start.X + Width / 2, Start.Y + Height * 1 / 4);
+            lightningBoltEdges[5] = new StylusPoint(Start.X + Width, Start.Y);
+            lightningBoltEdges[6] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 3);
+            lightningBoltEdges[7] = new StylusPoint(Start.X + Width * 3 / 4, Start.Y + Height * 2 / 5);
+            lightningBoltEdges[8] = new StylusPoint(Start.X + Width / 2, Start.Y + Height * 2 / 3);
+            lightningBoltEdges[9] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height * 7 / 10);
+            lightningBoltEdges[10] = new StylusPoint(Start.X + Width / 3, Start.Y + Height);
+            lightningBoltEdges[11] = new StylusPoint(Start.X, Start.Y + Height * 3 / 4);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(lightningBoltPoints);
-            return strokeLine;
+            StylusPointCollection lightningBoltPoints = new StylusPointCollection(lightningBoltEdges);
+            return new Stroke(lightningBoltPoints);
         }
 
         public Stroke DrawITetromino()
         {
-            StylusPointCollection iTetrominoPoints = new StylusPointCollection();
-            StylusPoint iTetrominoEdge1 = new StylusPoint(Start.X, Start.Y);
-            StylusPoint iTetrominoEdge2 = new StylusPoint(Start.X, Start.Y - Height);
-            StylusPoint iTetrominoEdge3 = new StylusPoint(Start.X + Width / 4, Start.Y - Height);
-            StylusPoint iTetrominoEdge4 = new StylusPoint(Start.X + Width / 4, Start.Y);
-            StylusPoint iTetrominoEdge5 = new StylusPoint(Start.X + Width / 2, Start.Y);
-            StylusPoint iTetrominoEdge6 = new StylusPoint(Start.X + Width / 2, Start.Y - Height);
-            StylusPoint iTetrominoEdge7 = new StylusPoint(Start.X + Width * 3 / 4, Start.Y - Height);
-            StylusPoint iTetrominoEdge8 = new StylusPoint(Start.X + Width * 3 / 4, Start.Y);
-            StylusPoint iTetrominoEdge9 = new StylusPoint(Start.X + Width, Start.Y);
-            StylusPoint iTetrominoEdge10 = new StylusPoint(Start.X + Width, Start.Y - Height);
+            StylusPoint[] iTetrominoEdges = new StylusPoint[17];
 
-            iTetrominoPoints.Add(iTetrominoEdge1);
-            iTetrominoPoints.Add(iTetrominoEdge2);
-            iTetrominoPoints.Add(iTetrominoEdge3);
-            iTetrominoPoints.Add(iTetrominoEdge4);
-            iTetrominoPoints.Add(iTetrominoEdge5);
-            iTetrominoPoints.Add(iTetrominoEdge6);
-            iTetrominoPoints.Add(iTetrominoEdge7);
-            iTetrominoPoints.Add(iTetrominoEdge8);
-            iTetrominoPoints.Add(iTetrominoEdge9);
-            iTetrominoPoints.Add(iTetrominoEdge10);
-            iTetrominoPoints.Add(iTetrominoEdge7);
-            iTetrominoPoints.Add(iTetrominoEdge8);
-            iTetrominoPoints.Add(iTetrominoEdge5);
-            iTetrominoPoints.Add(iTetrominoEdge6);
-            iTetrominoPoints.Add(iTetrominoEdge3);
-            iTetrominoPoints.Add(iTetrominoEdge4);
-            iTetrominoPoints.Add(iTetrominoEdge1);
+            iTetrominoEdges[0] = new StylusPoint(Start.X, Start.Y);
+            iTetrominoEdges[1] = new StylusPoint(Start.X, Start.Y + Height);
+            iTetrominoEdges[2] = new StylusPoint(Start.X + Width / 4, Start.Y + Height);
+            iTetrominoEdges[3] = new StylusPoint(Start.X + Width / 4, Start.Y);
+            iTetrominoEdges[4] = new StylusPoint(Start.X + Width / 2, Start.Y);
+            iTetrominoEdges[5] = new StylusPoint(Start.X + Width / 2, Start.Y + Height);
+            iTetrominoEdges[6] = new StylusPoint(Start.X + Width * 3 / 4, Start.Y + Height);
+            iTetrominoEdges[7] = new StylusPoint(Start.X + Width * 3 / 4, Start.Y);
+            iTetrominoEdges[8] = new StylusPoint(Start.X + Width, Start.Y);
+            iTetrominoEdges[9] = new StylusPoint(Start.X + Width, Start.Y + Height);
+            iTetrominoEdges[10] = new StylusPoint(Start.X + Width * 3 / 4, Start.Y + Height);
+            iTetrominoEdges[11] = new StylusPoint(Start.X + Width * 3 / 4, Start.Y);
+            iTetrominoEdges[12] = new StylusPoint(Start.X + Width / 2, Start.Y);
+            iTetrominoEdges[13] = new StylusPoint(Start.X + Width / 2, Start.Y + Height);
+            iTetrominoEdges[14] = new StylusPoint(Start.X + Width / 4, Start.Y + Height);
+            iTetrominoEdges[15] = new StylusPoint(Start.X + Width / 4, Start.Y);
+            iTetrominoEdges[16] = new StylusPoint(Start.X, Start.Y);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(iTetrominoPoints);
-            return strokeLine;
+            StylusPointCollection iTetrominoPoints = new StylusPointCollection(iTetrominoEdges);
+            return new Stroke(iTetrominoPoints);
         }
 
         public Stroke DrawOTetromino()
         {
-            StylusPointCollection oTetrominoPoints = new StylusPointCollection();
-            StylusPoint oTetrominoEdge1 = new StylusPoint(Start.X + Width / 2, Start.Y - Height / 2);
-            StylusPoint oTetrominoEdge2 = new StylusPoint(Start.X + Width / 2, Start.Y);
-            StylusPoint oTetrominoEdge3 = new StylusPoint(Start.X, Start.Y);
-            StylusPoint oTetrominoEdge4 = new StylusPoint(Start.X, Start.Y - Height / 2);
-            StylusPoint oTetrominoEdge5 = new StylusPoint(Start.X + Width / 2, Start.Y - Height);
-            StylusPoint oTetrominoEdge6 = new StylusPoint(Start.X, Start.Y - Height);
-            StylusPoint oTetrominoEdge7 = new StylusPoint(Start.X + Width, Start.Y - Height / 2);
-            StylusPoint oTetrominoEdge8 = new StylusPoint(Start.X + Width, Start.Y - Height);
-            StylusPoint oTetrominoEdge9 = new StylusPoint(Start.X + Width, Start.Y);
+            StylusPoint[] oTetrominoEdges = new StylusPoint[16];
 
-            oTetrominoPoints.Add(oTetrominoEdge1);
-            oTetrominoPoints.Add(oTetrominoEdge2);
-            oTetrominoPoints.Add(oTetrominoEdge3);
-            oTetrominoPoints.Add(oTetrominoEdge4);
-            oTetrominoPoints.Add(oTetrominoEdge1);
-            oTetrominoPoints.Add(oTetrominoEdge5);
-            oTetrominoPoints.Add(oTetrominoEdge6);
-            oTetrominoPoints.Add(oTetrominoEdge4);
-            oTetrominoPoints.Add(oTetrominoEdge1);
-            oTetrominoPoints.Add(oTetrominoEdge7);
-            oTetrominoPoints.Add(oTetrominoEdge8);
-            oTetrominoPoints.Add(oTetrominoEdge5);
-            oTetrominoPoints.Add(oTetrominoEdge1);
-            oTetrominoPoints.Add(oTetrominoEdge2);
-            oTetrominoPoints.Add(oTetrominoEdge9);
-            oTetrominoPoints.Add(oTetrominoEdge7);
+            oTetrominoEdges[0] = new StylusPoint(Start.X + Width / 2, Start.Y + Height / 2);
+            oTetrominoEdges[1] = new StylusPoint(Start.X + Width / 2, Start.Y);
+            oTetrominoEdges[2] = new StylusPoint(Start.X, Start.Y);
+            oTetrominoEdges[3] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            oTetrominoEdges[4] = new StylusPoint(Start.X + Width / 2, Start.Y + Height / 2);
+            oTetrominoEdges[5] = new StylusPoint(Start.X + Width / 2, Start.Y + Height);
+            oTetrominoEdges[6] = new StylusPoint(Start.X, Start.Y + Height);
+            oTetrominoEdges[7] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            oTetrominoEdges[8] = new StylusPoint(Start.X + Width / 2, Start.Y + Height / 2);
+            oTetrominoEdges[9] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
+            oTetrominoEdges[10] = new StylusPoint(Start.X + Width, Start.Y + Height);
+            oTetrominoEdges[11] = new StylusPoint(Start.X + Width / 2, Start.Y + Height);
+            oTetrominoEdges[12] = new StylusPoint(Start.X + Width / 2, Start.Y + Height / 2);
+            oTetrominoEdges[13] = new StylusPoint(Start.X + Width / 2, Start.Y);
+            oTetrominoEdges[14] = new StylusPoint(Start.X + Width, Start.Y);
+            oTetrominoEdges[15] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(oTetrominoPoints);
-            return strokeLine;
+            StylusPointCollection oTetrominoPoints = new StylusPointCollection(oTetrominoEdges);
+            return new Stroke(oTetrominoPoints);
         }
 
         public Stroke DrawLTetromino()
         {
-            StylusPointCollection lTetrominoPoints = new StylusPointCollection();
-            StylusPoint lTetrominoEdge1 = new StylusPoint(Start.X, Start.Y);
-            StylusPoint lTetrominoEdge2 = new StylusPoint(Start.X + Width / 3, Start.Y);
-            StylusPoint lTetrominoEdge3 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
-            StylusPoint lTetrominoEdge4 = new StylusPoint(Start.X + Width, Start.Y);
-            StylusPoint lTetrominoEdge5 = new StylusPoint(Start.X, Start.Y - Height / 2);
-            StylusPoint lTetrominoEdge6 = new StylusPoint(Start.X + Width / 3, Start.Y - Height / 2);
-            StylusPoint lTetrominoEdge7 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height / 2);
-            StylusPoint lTetrominoEdge8 = new StylusPoint(Start.X + Width, Start.Y - Height / 2);
-            StylusPoint lTetrominoEdge9 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height);
-            StylusPoint lTetrominoEdge10 = new StylusPoint(Start.X + Width, Start.Y - Height);
+            StylusPoint[] lTetrominoEdges = new StylusPoint[17];
 
-            lTetrominoPoints.Add(lTetrominoEdge1);
-            lTetrominoPoints.Add(lTetrominoEdge5);
-            lTetrominoPoints.Add(lTetrominoEdge6);
-            lTetrominoPoints.Add(lTetrominoEdge2);
-            lTetrominoPoints.Add(lTetrominoEdge3);
-            lTetrominoPoints.Add(lTetrominoEdge7);
-            lTetrominoPoints.Add(lTetrominoEdge8);
-            lTetrominoPoints.Add(lTetrominoEdge10);
-            lTetrominoPoints.Add(lTetrominoEdge9);
-            lTetrominoPoints.Add(lTetrominoEdge7);
-            lTetrominoPoints.Add(lTetrominoEdge8);
-            lTetrominoPoints.Add(lTetrominoEdge4);
-            lTetrominoPoints.Add(lTetrominoEdge3);
-            lTetrominoPoints.Add(lTetrominoEdge7);
-            lTetrominoPoints.Add(lTetrominoEdge6);
-            lTetrominoPoints.Add(lTetrominoEdge2);
-            lTetrominoPoints.Add(lTetrominoEdge1);
+            lTetrominoEdges[0] = new StylusPoint(Start.X, Start.Y);
+            lTetrominoEdges[1] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            lTetrominoEdges[2] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            lTetrominoEdges[3] = new StylusPoint(Start.X + Width / 3, Start.Y);
+            lTetrominoEdges[4] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
+            lTetrominoEdges[5] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            lTetrominoEdges[6] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
+            lTetrominoEdges[7] = new StylusPoint(Start.X + Width, Start.Y + Height);
+            lTetrominoEdges[8] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height);
+            lTetrominoEdges[9] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            lTetrominoEdges[10] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
+            lTetrominoEdges[11] = new StylusPoint(Start.X + Width, Start.Y);
+            lTetrominoEdges[12] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
+            lTetrominoEdges[13] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            lTetrominoEdges[14] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            lTetrominoEdges[15] = new StylusPoint(Start.X + Width / 3, Start.Y);
+            lTetrominoEdges[16] = new StylusPoint(Start.X, Start.Y);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(lTetrominoPoints);
-            return strokeLine;
+            StylusPointCollection lTetrominoPoints = new StylusPointCollection(lTetrominoEdges);
+            return new Stroke(lTetrominoPoints);
         }
 
         public Stroke DrawJTetromino()
         {
-            StylusPointCollection jTetrominoPoints = new StylusPointCollection();
-            StylusPoint jTetrominoEdge1 = new StylusPoint(Start.X, Start.Y);
-            StylusPoint jTetrominoEdge2 = new StylusPoint(Start.X + Width / 3, Start.Y);
-            StylusPoint jTetrominoEdge3 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
-            StylusPoint jTetrominoEdge4 = new StylusPoint(Start.X + Width, Start.Y);
-            StylusPoint jTetrominoEdge5 = new StylusPoint(Start.X, Start.Y - Height / 2);
-            StylusPoint jTetrominoEdge6 = new StylusPoint(Start.X + Width / 3, Start.Y - Height / 2);
-            StylusPoint jTetrominoEdge7 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height / 2);
-            StylusPoint jTetrominoEdge8 = new StylusPoint(Start.X + Width, Start.Y - Height / 2);
-            StylusPoint jTetrominoEdge9 = new StylusPoint(Start.X, Start.Y - Height);
-            StylusPoint jTetrominoEdge10 = new StylusPoint(Start.X + Width / 3, Start.Y - Height);
+            StylusPoint[] jTetrominoEdges = new StylusPoint[16];
 
-            jTetrominoPoints.Add(jTetrominoEdge6);
-            jTetrominoPoints.Add(jTetrominoEdge2);
-            jTetrominoPoints.Add(jTetrominoEdge3);
-            jTetrominoPoints.Add(jTetrominoEdge7);
-            jTetrominoPoints.Add(jTetrominoEdge8);
-            jTetrominoPoints.Add(jTetrominoEdge4);
-            jTetrominoPoints.Add(jTetrominoEdge3);
-            jTetrominoPoints.Add(jTetrominoEdge7);
-            jTetrominoPoints.Add(jTetrominoEdge6);
-            jTetrominoPoints.Add(jTetrominoEdge5);
-            jTetrominoPoints.Add(jTetrominoEdge9);
-            jTetrominoPoints.Add(jTetrominoEdge10);
-            jTetrominoPoints.Add(jTetrominoEdge6);
-            jTetrominoPoints.Add(jTetrominoEdge5);
-            jTetrominoPoints.Add(jTetrominoEdge1);
-            jTetrominoPoints.Add(jTetrominoEdge2);
+            jTetrominoEdges[0] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            jTetrominoEdges[1] = new StylusPoint(Start.X + Width / 3, Start.Y);
+            jTetrominoEdges[2] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
+            jTetrominoEdges[3] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            jTetrominoEdges[4] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
+            jTetrominoEdges[5] = new StylusPoint(Start.X + Width, Start.Y);
+            jTetrominoEdges[6] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
+            jTetrominoEdges[7] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            jTetrominoEdges[8] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            jTetrominoEdges[9] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            jTetrominoEdges[10] = new StylusPoint(Start.X, Start.Y + Height);
+            jTetrominoEdges[11] = new StylusPoint(Start.X + Width / 3, Start.Y + Height);
+            jTetrominoEdges[12] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            jTetrominoEdges[13] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            jTetrominoEdges[14] = new StylusPoint(Start.X, Start.Y);
+            jTetrominoEdges[15] = new StylusPoint(Start.X + Width / 3, Start.Y);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(jTetrominoPoints);
-            return strokeLine;
+            StylusPointCollection jTetrominoPoints = new StylusPointCollection(jTetrominoEdges);
+            return new Stroke(jTetrominoPoints);
         }
 
         public Stroke DrawTTetromino()
         {
-            StylusPointCollection tTetrominoPoints = new StylusPointCollection();
-            StylusPoint tTetrominoEdge1 = new StylusPoint(Start.X, Start.Y);
-            StylusPoint tTetrominoEdge2 = new StylusPoint(Start.X + Width / 3, Start.Y);
-            StylusPoint tTetrominoEdge3 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
-            StylusPoint tTetrominoEdge4 = new StylusPoint(Start.X + Width, Start.Y);
-            StylusPoint tTetrominoEdge5 = new StylusPoint(Start.X, Start.Y - Height / 2);
-            StylusPoint tTetrominoEdge6 = new StylusPoint(Start.X + Width / 3, Start.Y - Height / 2);
-            StylusPoint tTetrominoEdge7 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height / 2);
-            StylusPoint tTetrominoEdge8 = new StylusPoint(Start.X + Width, Start.Y - Height / 2);
-            StylusPoint tTetrominoEdge9 = new StylusPoint(Start.X + Width / 3, Start.Y - Height);
-            StylusPoint tTetrominoEdge10 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height);
+            StylusPoint[] tTetrominoEdges = new StylusPoint[14];
 
-            tTetrominoPoints.Add(tTetrominoEdge2);
-            tTetrominoPoints.Add(tTetrominoEdge6);
-            tTetrominoPoints.Add(tTetrominoEdge5);
-            tTetrominoPoints.Add(tTetrominoEdge1);
-            tTetrominoPoints.Add(tTetrominoEdge2);
-            tTetrominoPoints.Add(tTetrominoEdge3);
-            tTetrominoPoints.Add(tTetrominoEdge7);
-            tTetrominoPoints.Add(tTetrominoEdge6);
-            tTetrominoPoints.Add(tTetrominoEdge9);
-            tTetrominoPoints.Add(tTetrominoEdge10);
-            tTetrominoPoints.Add(tTetrominoEdge7);
-            tTetrominoPoints.Add(tTetrominoEdge8);
-            tTetrominoPoints.Add(tTetrominoEdge4);
-            tTetrominoPoints.Add(tTetrominoEdge3);
+            tTetrominoEdges[0] = new StylusPoint(Start.X + Width / 3, Start.Y);
+            tTetrominoEdges[1] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            tTetrominoEdges[2] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            tTetrominoEdges[3] = new StylusPoint(Start.X, Start.Y);
+            tTetrominoEdges[4] = new StylusPoint(Start.X + Width / 3, Start.Y);
+            tTetrominoEdges[5] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
+            tTetrominoEdges[6] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            tTetrominoEdges[7] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            tTetrominoEdges[8] = new StylusPoint(Start.X + Width / 3, Start.Y + Height);
+            tTetrominoEdges[9] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height);
+            tTetrominoEdges[10] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            tTetrominoEdges[11] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
+            tTetrominoEdges[12] = new StylusPoint(Start.X + Width, Start.Y);
+            tTetrominoEdges[13] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(tTetrominoPoints);
-            return strokeLine;
+            StylusPointCollection tTetrominoPoints = new StylusPointCollection(tTetrominoEdges);
+            return new Stroke(tTetrominoPoints);
         }
 
         public Stroke DrawSTetromino()
         {
-            StylusPointCollection sTetrominoPoints = new StylusPointCollection();
-            StylusPoint sTetrominoEdge1 = new StylusPoint(Start.X, Start.Y);
-            StylusPoint sTetrominoEdge2 = new StylusPoint(Start.X + Width / 3, Start.Y);
-            StylusPoint sTetrominoEdge3 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
-            StylusPoint sTetrominoEdge4 = new StylusPoint(Start.X, Start.Y - Height / 2);
-            StylusPoint sTetrominoEdge5 = new StylusPoint(Start.X + Width / 3, Start.Y - Height / 2);
-            StylusPoint sTetrominoEdge6 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height / 2);
-            StylusPoint sTetrominoEdge7 = new StylusPoint(Start.X + Width, Start.Y - Height / 2);
-            StylusPoint sTetrominoEdge8 = new StylusPoint(Start.X + Width / 3, Start.Y - Height);
-            StylusPoint sTetrominoEdge9 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height);
-            StylusPoint sTetrominoEdge10 = new StylusPoint(Start.X + Width, Start.Y - Height);
+            StylusPoint[] sTetrominoEdges = new StylusPoint[15];
 
-            sTetrominoPoints.Add(sTetrominoEdge5);
-            sTetrominoPoints.Add(sTetrominoEdge2);
-            sTetrominoPoints.Add(sTetrominoEdge1);
-            sTetrominoPoints.Add(sTetrominoEdge4);
-            sTetrominoPoints.Add(sTetrominoEdge5);
-            sTetrominoPoints.Add(sTetrominoEdge8);
-            sTetrominoPoints.Add(sTetrominoEdge9);
-            sTetrominoPoints.Add(sTetrominoEdge6);
-            sTetrominoPoints.Add(sTetrominoEdge5);
-            sTetrominoPoints.Add(sTetrominoEdge2);
-            sTetrominoPoints.Add(sTetrominoEdge3);
-            sTetrominoPoints.Add(sTetrominoEdge6);
-            sTetrominoPoints.Add(sTetrominoEdge7);
-            sTetrominoPoints.Add(sTetrominoEdge10);
-            sTetrominoPoints.Add(sTetrominoEdge9);
+            sTetrominoEdges[0] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            sTetrominoEdges[1] = new StylusPoint(Start.X + Width / 3, Start.Y);
+            sTetrominoEdges[2] = new StylusPoint(Start.X, Start.Y);
+            sTetrominoEdges[3] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            sTetrominoEdges[4] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            sTetrominoEdges[5] = new StylusPoint(Start.X + Width / 3, Start.Y + Height);
+            sTetrominoEdges[6] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height);
+            sTetrominoEdges[7] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            sTetrominoEdges[8] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            sTetrominoEdges[9] = new StylusPoint(Start.X + Width / 3, Start.Y);
+            sTetrominoEdges[10] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
+            sTetrominoEdges[11] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            sTetrominoEdges[12] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
+            sTetrominoEdges[13] = new StylusPoint(Start.X + Width, Start.Y + Height);
+            sTetrominoEdges[14] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(sTetrominoPoints);
-            return strokeLine;
+            StylusPointCollection sTetrominoPoints = new StylusPointCollection(sTetrominoEdges);
+            return new Stroke(sTetrominoPoints);
         }
 
         public Stroke DrawZTetromino()
         {
-            StylusPointCollection zTetrominoPoints = new StylusPointCollection();
-            StylusPoint zTetrominoEdge1 = new StylusPoint(Start.X + Width / 3, Start.Y);
-            StylusPoint zTetrominoEdge2 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
-            StylusPoint zTetrominoEdge3 = new StylusPoint(Start.X + Width, Start.Y);
-            StylusPoint zTetrominoEdge4 = new StylusPoint(Start.X, Start.Y - Height / 2);
-            StylusPoint zTetrominoEdge5 = new StylusPoint(Start.X + Width / 3, Start.Y - Height / 2);
-            StylusPoint zTetrominoEdge6 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height / 2);
-            StylusPoint zTetrominoEdge7 = new StylusPoint(Start.X + Width, Start.Y - Height / 2);
-            StylusPoint zTetrominoEdge8 = new StylusPoint(Start.X, Start.Y - Height);
-            StylusPoint zTetrominoEdge9 = new StylusPoint(Start.X + Width / 3, Start.Y - Height);
-            StylusPoint zTetrominoEdge10 = new StylusPoint(Start.X + Width * 2 / 3, Start.Y - Height);
+            StylusPoint[] zTetrominoEdges = new StylusPoint[15];
 
-            zTetrominoPoints.Add(zTetrominoEdge5);
-            zTetrominoPoints.Add(zTetrominoEdge9);
-            zTetrominoPoints.Add(zTetrominoEdge8);
-            zTetrominoPoints.Add(zTetrominoEdge4);
-            zTetrominoPoints.Add(zTetrominoEdge5);
-            zTetrominoPoints.Add(zTetrominoEdge1);
-            zTetrominoPoints.Add(zTetrominoEdge2);
-            zTetrominoPoints.Add(zTetrominoEdge6);
-            zTetrominoPoints.Add(zTetrominoEdge5);
-            zTetrominoPoints.Add(zTetrominoEdge9);
-            zTetrominoPoints.Add(zTetrominoEdge10);
-            zTetrominoPoints.Add(zTetrominoEdge6);
-            zTetrominoPoints.Add(zTetrominoEdge7);
-            zTetrominoPoints.Add(zTetrominoEdge3);
-            zTetrominoPoints.Add(zTetrominoEdge2);
+            zTetrominoEdges[0] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            zTetrominoEdges[1] = new StylusPoint(Start.X + Width / 3, Start.Y + Height);
+            zTetrominoEdges[2] = new StylusPoint(Start.X, Start.Y + Height);
+            zTetrominoEdges[3] = new StylusPoint(Start.X, Start.Y + Height / 2);
+            zTetrominoEdges[4] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            zTetrominoEdges[5] = new StylusPoint(Start.X + Width / 3, Start.Y);
+            zTetrominoEdges[6] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
+            zTetrominoEdges[7] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            zTetrominoEdges[8] = new StylusPoint(Start.X + Width / 3, Start.Y + Height / 2);
+            zTetrominoEdges[9] = new StylusPoint(Start.X + Width / 3, Start.Y + Height);
+            zTetrominoEdges[10] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height);
+            zTetrominoEdges[11] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y + Height / 2);
+            zTetrominoEdges[12] = new StylusPoint(Start.X + Width, Start.Y + Height / 2);
+            zTetrominoEdges[13] = new StylusPoint(Start.X + Width, Start.Y);
+            zTetrominoEdges[14] = new StylusPoint(Start.X + Width * 2 / 3, Start.Y);
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(zTetrominoPoints);
-            return strokeLine;
+            StylusPointCollection zTetrominoPoints = new StylusPointCollection(zTetrominoEdges);
+            return new Stroke(zTetrominoPoints);
         }
     }
 }
