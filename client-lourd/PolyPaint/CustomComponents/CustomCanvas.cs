@@ -53,19 +53,19 @@ namespace PolyPaint.CustomComponents
                     IsManipulating = false;
                 }
 
-                // Draw linear gradient ellipses between 
-                // all the StylusPoints that have come in.
-                Point end = new Point();
-                for (int i = 0; i < stylusPoints.Count; i++)
-                {
-                    end = (Point) stylusPoints[i];
+                // Draw forms between all the StylusPoints that have come in.
+                int lastStylus = stylusPoints.Count - 1;
+                Point end = (Point) stylusPoints[lastStylus];
 
-                    if (_viewModel.ToolSelected == "shapes")
-                        //Draw a shape when the tool shapes is selected
-                        drawingContext.DrawGeometry(fillBrush, null, _viewModel.DrawShape(_start, end).GetGeometry());
-                    else
-                        //The stylus wont be overrided
-                        base.OnDraw(drawingContext, stylusPoints, geometry, fillBrush);
+                if (_viewModel.ToolSelected == "shapes")
+                {
+                    //Draw a shape when the tool shapes is selected
+                    drawingContext.DrawGeometry(fillBrush, null, _viewModel.DrawShape(_start, end).GetGeometry());
+                }
+                else
+                {
+                    //The stylus wont be overrided
+                    base.OnDraw(drawingContext, stylusPoints, geometry, fillBrush);
                 }
             }
         }

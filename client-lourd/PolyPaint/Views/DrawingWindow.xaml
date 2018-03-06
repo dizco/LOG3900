@@ -157,117 +157,117 @@
                 <StackPanel Orientation="Vertical" Margin="5,5,5,5" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Button Name="Line" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.Line}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.Line}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.Line}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.Line}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.Line}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.Line}"
                         >
                             <Line X1="0" Y1="10" X2="10" Y2="00" Stroke="Black" StrokeThickness="1" />
                         </Button>
                         <Button Name="Triangle" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.Triangle}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.Triangle}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.Triangle}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.Triangle}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.Triangle}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.Triangle}"
                         >
                             <Polyline Points="0,10 10,10 5,0 0,10" Stroke="Black" StrokeThickness="1" />
                         </Button>
                         <Button Name="Diamond" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.Diamond}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.Diamond}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.Diamond}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.Diamond}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.Diamond}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.Diamond}"
                         >
                             <Polyline Points="5,0 0,5 5,10 10,5 5,0" Stroke="Black" StrokeThickness="1" />
                         </Button>
                         <Button Name="Arrow" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.Arrow}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.Arrow}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.Arrow}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.Arrow}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.Arrow}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.Arrow}"
                         >
                             <Polyline Points="0,3 6,3 6,0 10,5 6,10 6,7 0,7 0,3 " Stroke="Black" StrokeThickness="1" />
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Name="LightningBolt" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.LightningBolt}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.LightningBolt}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.LightningBolt}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.LightningBolt}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.LightningBolt}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.LightningBolt}"
                         >
                             <StackPanel>
                                 <Image Source="/Resources/Icons/lightningBolt.png" Height="14" Width="13" />
                             </StackPanel>
                         </Button>
                         <Button Name="ITetrimino" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.ITetrimino}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.ITetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.ITetrimino}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.ITetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.ITetrimino}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.ITetrimino}"
                         >
                             <Polyline Points="0,0 0,2.5 2.5,2.5 2.5,0 5,0 5,2.5 7.5,2.5 7.5,0 10,0 10,2.5 7.5,2.5 7.5,0 5,0 5,2.5 2.5,2.5 2.5,0 0,0 " Stroke="Black" StrokeThickness="1" />
 
                         </Button>
                         <Button Name="OTetrimino" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.OTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.ITetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.OTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.ITetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.OTetrimino}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.OTetrimino}"
                         >
                             <Polyline Points="5,5 5,0 0,0 0,5 5,5 5,10 0,10 0,5 5,5 10,5 10,0 5,0 5,5 5,10 10,10 10,5 " Stroke="Black" StrokeThickness="1" />
                         </Button>
                         <Button Name="TTetrimino" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.TTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.TTetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.TTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.TTetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.TTetrimino}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.TTetrimino}"
                         >
                             <Polyline Points="3,3 3,6 0,6 0,3 3,3 3,0 6,0 6,3 3,3 3,6 6,6 6,3 9,3 9,6 6,6" Stroke="Black" StrokeThickness="1" />
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Name="JTetrimino" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.LTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.LTetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.LTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.LTetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.JTetrimino}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.JTetrimino}"
                         >
                             <Polyline Points="3,3 3,6 0,6 0,3 3,3 3,0 0,0 0,3 3,3 6,3 6,6 9,6 9,3 6,3 6,6 3,6" Stroke="Black" StrokeThickness="1" />
                         </Button>
                         <Button Name="LTetrimino" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.JTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.JTetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.JTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.JTetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.LTetrimino}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.LTetrimino}"
                         >
                             <Polyline Points="6,3 6,6 9,6 9,3 6,3 6,0 9,0 9,3 6,3 3,3 3,6 0,6 0,3 3,3 3,6 6,6" Stroke="Black" StrokeThickness="1" />
                         </Button>
                         <Button Name="STetrimino" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.STetrimino}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.STetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.STetrimino}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.STetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.STetrimino}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.STetrimino}"
                         >
                             <Polyline Points="3,3 3,6 0,6 0,3 3,3 3,0 6,0 6,3 3,3 3,6 6,6 6,3 9,3 9,0 6,0" Stroke="Black" StrokeThickness="1" />
                         </Button>
                         <Button Name="ZTetrimino" Width="18" Height="18" Margin="0"
-                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+MyShape.ZTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
-                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+MyShape.ZTetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
+                                BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.ZTetrimino}, UpdateSourceTrigger=PropertyChanged}" 
+                                Background="{Binding Path=ToolSelected,  Converter={StaticResource BackgroundColorConverter}, ConverterParameter={x:Static local:Editor+DrawableShapes.ZTetrimino}, UpdateSourceTrigger=PropertyChanged}"                         
                                 HorizontalContentAlignment="Center"
                                 Command="{Binding ChooseShape}"
-                                CommandParameter="{x:Static local:Editor+MyShape.ZTetrimino}"
+                                CommandParameter="{x:Static local:Editor+DrawableShapes.ZTetrimino}"
                         >
                             <Polyline Points="6,3 6,6 9,6 9,3 6,3 6,0 3,0 3,3 0,3 0,0 3,0 3,3 6,3 6,6 3,6 3,3" Stroke="Black" StrokeThickness="1" />
                         </Button>
@@ -320,8 +320,6 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-
-
         <Border DockPanel.Dock="Bottom" Height="25" BorderThickness="0,0.75,0,0.75" BorderBrush="#77000000">
             <StackPanel Orientation="Horizontal" Background="#FFF0F0F0">
                 <Image Source="Resources/position.png" Margin="5,5,5,5" VerticalAlignment="Center"/>
@@ -342,15 +340,15 @@
             </Grid.RowDefinitions>
             <Thumb Name="horizontal" Grid.Row="0" Grid.Column="1" Background="White" 
                       Width="6" Height="6" DragDelta="GlisserMouvementRecu" 
-                      DragStarted="GlisserCommence" DragCompleted="GlisserTermine" Grid.ColumnSpan="2" Margin="2,152,288,153"
+                      DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
                       />
             <Thumb Name="diagonal" Grid.Row="1" Grid.Column="1" Background="White" 
                       Width="6" Height="6" DragDelta="GlisserMouvementRecu" 
-                      DragStarted="GlisserCommence" DragCompleted="GlisserTermine" Grid.ColumnSpan="2" Margin="2,1,288,0"
+                      DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
                       />
             <Thumb Name="vertical" Grid.Row="1" Grid.Column="0" Background="White" 
                       Width="6" Height="6" DragDelta="GlisserMouvementRecu" 
-                      DragStarted="GlisserCommence" DragCompleted="GlisserTermine" Margin="272,1,272,0"
+                      DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
                       />
             <Border BorderThickness="5,5,0,0" >
                 <customInkCanvas:CustomRenderingInkCanvas ClipToBounds="True" Grid.Column="0" Grid.Row="0" x:Name="surfaceDessin" 
