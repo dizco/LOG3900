@@ -16,8 +16,8 @@ import { PassportVerifyLocal } from "./config/passport-verify-local";
  */
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     console.log("Unhandled error detected.", err);
-    if (req.app.get("env") === "development" || req.app.get("env") === "test") {
-        //Development and test environments print stack traces
+    if (req.app.get("env") === "development") {
+        //Development env print stack trace
         return res.status(err.statusCode || 500).json({status: "error", error: err.message, stack: err.stack});
     }
     return res.status(err.statusCode || 500).json({status: "error", error: err.message});

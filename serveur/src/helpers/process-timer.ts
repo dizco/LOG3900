@@ -22,10 +22,10 @@ export class ProcessTimer {
     }
 
     /**
-     * Prints the time taken by the operation, only if DEBUG is active
+     * Prints the time taken by the operation, only if in dev mode
      */
     public print(operation?: string): void {
-        if (process.env.DEBUG) {
+        if (process.env.NODE_ENV === "development") {
             operation = (operation) ? "- " + operation : "";
             console.log(`Operations took ${this.getElapsedTime()} ms ${operation}`);
         }
