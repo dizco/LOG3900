@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.ApiModels;
+using PolyPaint.Models.MessagingModels;
 
 namespace PolyPaint.Models
 {
@@ -21,14 +24,15 @@ namespace PolyPaint.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        ///     Tuple containing DrawingId, DrawingName and EditingModeOption (Stroke/Pixel)
+        ///     Tuple contains DrawingId, DrawingName and EditingModeOption (Stroke/Pixel)
         /// </summary>
         public event EventHandler<Tuple<string, string, EditingModeOption>> NewDrawingCreated;
 
-        private void OnNewDrawingCreated(Tuple<string, string, EditingModeOption> drawingParams)
-        {
-            NewDrawingCreated?.Invoke(this, drawingParams);
-        }
+        // TODO: Modify this function once server saving protocol is established
+        /// <summary>
+        ///     Tuple contains DrawingId, DrawingName, EditingModeOption (Stroke/Pixel) and actions to replay
+        /// </summary>
+        public event EventHandler<Tuple<string, string, EditingModeOption, List<EditorActionModel>>> OnlineDrawingJoined;
 
         internal async void LoadDrawings()
         {
@@ -68,6 +72,7 @@ namespace PolyPaint.Models
 
             if (retryCount >= maxRetries)
                 return;
+
             foreach (OnlineDrawingModel drawing in OnlineDrawingList) FilteredDrawings.Add(drawing);
         }
 
@@ -114,9 +119,50 @@ namespace PolyPaint.Models
             }
         }
 
+
+        internal async void JoinOnlineDrawing(string id)
+        {
+            HttpResponseMessage response = await RestHandler.GetOnlineDrawing(id);
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+                    // TODO: Modify this function once server saving protocol is established
+                    List<EditorActionModel> editorActionHistory =
+                        content.GetValue("actions").ToObject<List<EditorActionModel>>();
+                    string drawingName = content.GetValue("name").ToString();
+
+                    // TODO: Get actual editing mode from drawing info once implemented
+                    EditingModeOption option = EditingModeOption.Trait;
+
+                    OnOnlineDrawingJoined(id, drawingName, option, editorActionHistory);
+                }
+                catch
+                {
+                    UserAlerts.ShowErrorMessage("Une erreure est survenue");
+                }
+            }
+        }
+
+        private void OnNewDrawingCreated(Tuple<string, string, EditingModeOption> drawingParams)
+        {
+            NewDrawingCreated?.Invoke(this, drawingParams);
+        }
+
         private void CreateNewOfflineDrawing(string drawingName, EditingModeOption option)
         {
             OnNewDrawingCreated(new Tuple<string, string, EditingModeOption>(string.Empty, drawingName, option));
+        }
+
+        private void OnOnlineDrawingJoined(string drawingId, string drawingName, EditingModeOption option, List<EditorActionModel> actions)
+        {
+            Tuple<string, string, EditingModeOption, List<EditorActionModel>> drawingParams =
+                new Tuple<string, string, EditingModeOption, List<EditorActionModel>>(drawingId, drawingName, option,
+                                                                                      actions);
+
+            OnlineDrawingJoined?.Invoke(this, drawingParams);
         }
     }
 }

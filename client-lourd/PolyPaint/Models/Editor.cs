@@ -478,7 +478,7 @@ namespace PolyPaint.Models
             //cancels an empty drawing exportation
             if (StrokesCollection.Count == 0 || _isLoadingDrawing)
             {
-                ShowUserErrorMessage("Veuillez utiliser un dessin non vide");
+                UserAlerts.ShowErrorMessage("Veuillez utiliser un dessin non vide");
                 return;
             }
 
@@ -529,22 +529,22 @@ namespace PolyPaint.Models
                         break;
                 }
 
-                encoder.Frames.Add(BitmapFrame.Create(imageRender));
-                encoder.Save(imageStream);
+                encoder?.Frames.Add(BitmapFrame.Create(imageRender));
+                encoder?.Save(imageStream);
                 //result message
                 ShowUserInfoMessage("Image exportée avec succès");
             }
             catch (UnauthorizedAccessException e)
             {
-                ShowUserErrorMessage("L'accès à ce fichier est interdit");
+                UserAlerts.ShowErrorMessage("L'accès à ce fichier est interdit");
             }
             catch (Exception e)
             {
-                ShowUserErrorMessage("Une erreur est survenue");
+                UserAlerts.ShowErrorMessage("Une erreur est survenue");
             }
             finally
             {
-                imageStream.Close();
+                imageStream?.Close();
             }
         }
 
