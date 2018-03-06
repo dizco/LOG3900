@@ -4,6 +4,7 @@ import { ClientEditorAction } from "../models/sockets/client-editor-action";
 import { UserModel } from "../models/User";
 import { UserFactory } from "../factories/user-factory";
 import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
+import { DrawingAttributes } from "../models/drawings/drawing-attributes";
 
 export class EditorActionDecorator {
     private clientAction: ClientEditorAction;
@@ -24,6 +25,7 @@ export class EditorActionDecorator {
                 if (!drawing) {
                     return reject("Drawing not found.");
                 }
+                const drawingObject: DrawingAttributes = <DrawingAttributes>drawing.toObject();
                 return resolve({
                     type: "server.editor.action",
                     action: {
@@ -32,9 +34,9 @@ export class EditorActionDecorator {
                     },
                     drawing: {
                         id: this.clientAction.drawing.id,
-                        name: drawing.name,
-                        protected: drawing.protected,
-                        owner: UserFactory.build(<any>drawing.owner),
+                        name: drawingObject.name,
+                        protection: drawingObject.protection,
+                        owner: UserFactory.build(<any>drawingObject.owner),
                     },
                     author: UserFactory.build(this.user),
                     stroke: this.clientAction.stroke,

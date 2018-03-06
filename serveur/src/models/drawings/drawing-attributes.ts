@@ -3,6 +3,6 @@ import { Owner } from "./owner";
 export interface DrawingAttributes {
     id: number | string;
     name: string;
-    protected: boolean;
+    protection: { active: boolean, password?: string };
     owner: Owner;
 }
