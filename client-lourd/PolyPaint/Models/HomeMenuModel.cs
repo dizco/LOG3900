@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.ApiModels;
 
@@ -17,6 +19,16 @@ namespace PolyPaint.Models
             new ObservableCollection<OnlineDrawingModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        ///     Tuple containing DrawingId, DrawingName and EditingModeOption (Stroke/Pixel)
+        /// </summary>
+        public event EventHandler<Tuple<string, string, EditingModeOption>> NewDrawingCreated;
+
+        private void OnNewDrawingCreated(Tuple<string, string, EditingModeOption> drawingParams)
+        {
+            NewDrawingCreated?.Invoke(this, drawingParams);
+        }
 
         internal async void LoadDrawings()
         {
@@ -54,6 +66,8 @@ namespace PolyPaint.Models
                 retryCount = 0;
             } while (currentPage < maxPages && retryCount < maxRetries);
 
+            if (retryCount >= maxRetries)
+                return;
             foreach (OnlineDrawingModel drawing in OnlineDrawingList) FilteredDrawings.Add(drawing);
         }
 
@@ -70,6 +84,39 @@ namespace PolyPaint.Models
                 {
                     FilteredDrawings.Add(drawing);
                 }
+        }
+
+        internal async void CreateNewDrawing(string drawingName, EditingModeOption option)
+        {
+            if (await RestHandler.ValidateServerUri())
+            {
+                HttpResponseMessage response = await RestHandler.CreateDrawing(drawingName, option);
+
+                if (response.IsSuccessStatusCode)
+                    try
+                    {
+                        JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+                        string drawingId = content.GetValue("objectId").ToString();
+                        OnNewDrawingCreated(new Tuple<string, string, EditingModeOption>(drawingId, drawingName,
+                                                                                         option));
+                    }
+                    catch
+                    {
+                        UserAlerts.ShowErrorMessage("Le dessin sera créer en mode hors ligne");
+                        CreateNewOfflineDrawing(drawingName, option);
+                    }
+                else
+                    CreateNewOfflineDrawing(drawingName, option);
+            }
+            else
+            {
+                CreateNewOfflineDrawing(drawingName, option);
+            }
+        }
+
+        private void CreateNewOfflineDrawing(string drawingName, EditingModeOption option)
+        {
+            OnNewDrawingCreated(new Tuple<string, string, EditingModeOption>(string.Empty, drawingName, option));
         }
     }
 }

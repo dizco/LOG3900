@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Home Menu" Height="754" Width="616.336"
+        Title="PolyPaintPro" Height="754" Width="616.336"
         MinHeight="700" MinWidth="350">
     <Window.Background>
         <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg"/>

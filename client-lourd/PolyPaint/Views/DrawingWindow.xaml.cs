@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -103,12 +102,6 @@ namespace PolyPaint.Views
 
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
-        }
-
-        //Shutdown all the app when the user close the main window
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         private void OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
