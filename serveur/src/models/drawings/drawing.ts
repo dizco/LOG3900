@@ -15,7 +15,7 @@ const drawingSchema = new mongoose.Schema({
     name: String,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     protection: { active: { type: Boolean, default: false }, password: { type: String, default: "" } },
-    actions: [{ actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" } }],
+    actions: [{ actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, timestamp: Number }],
 }, { timestamps: true });
 drawingSchema.plugin(mongoosePaginate);
 
@@ -61,6 +61,14 @@ drawingSchema.methods.comparePassword = function(candidatePassword: string, cb: 
 if (!(<any>drawingSchema).options.toObject) (<any>drawingSchema).options.toObject = {};
 (<any>drawingSchema).options.toObject.transform = function (doc: any, ret: any, options: any) {
     delete ret.protection.password;
+    if (ret.actions) {
+        ret.actions = <any>ret.actions.map((action: any) => {
+            action.id = action.actionId;
+            delete action.actionId;
+            delete action._id;
+            return action;
+        });
+    }
     return ret;
 };
 

@@ -33,8 +33,6 @@ export class SocketStrategyEditorAction implements SocketStrategy {
                 }
             })
             .catch((reason => console.log("EditorAction failed to fetch db info", reason)));
-
-        //TODO: Save action to database
     }
 
     private static saveAction(message: ServerEditorAction): void {
@@ -48,7 +46,7 @@ export class SocketStrategyEditorAction implements SocketStrategy {
                 console.log("Could not find the author of the user action");
             }
             else {
-                const action = { actionId: message.action.id, name: message.action.name, author: user };
+                const action = { actionId: message.action.id, name: message.action.name, author: user, timestamp: message.timestamp };
                 Drawing.findByIdAndUpdate(message.drawing.id, { $push: { actions: action }}, (err: any, drawing: DrawingModel) => {
                     if (err) {
                         console.log("An error occurred while saving a user action", err);

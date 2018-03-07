@@ -88,9 +88,8 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
 
     const populateOptions = [
         { path: "owner", select: "username" },
-        { path: "actions.author", select: "username" }, //TODO: Decide if we want to send editor actions here or not
     ];
-    Drawing.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, drawing: any) => {
+    Drawing.findOne({_id: req.params.id}, {actions: 0}).populate(populateOptions).exec((err: any, drawing: any) => {
         if (err) {
             return next(err);
         }
@@ -102,7 +101,7 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
             return handlePasswordProtectedDrawing(drawing, req, res, next);
         }
         else { //Not password protected
-            return res.json(drawing.toObject());
+            return res.json(drawing.toObject({ versionKey: false }));
         }
     });
 };
@@ -115,7 +114,7 @@ function handlePasswordProtectedDrawing(drawing: any, req: Request, res: Respons
                 return next(err);
             }
             if (isMatch) {
-                return res.json(drawing.toObject());
+                return res.json(drawing.toObject({ versionKey: false }));
             }
             return res.status(401).json({ status: "error", error: "Invalid password on password protected drawing." });
         });
@@ -157,7 +156,7 @@ export let getDrawingActions = (req: Request, res: Response, next: NextFunction)
         if (!drawing) {
             return res.status(404).json({ status: "error", error: "Drawing not found." });
         }
-        return res.json(drawing.actions);
+        return res.json((<any>drawing.toObject()).actions);
     });
 };
 
