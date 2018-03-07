@@ -204,6 +204,15 @@
                                             <constraint firstAttribute="width" constant="49" id="i35-fM-dF6"/>
                                         </constraints>
                                     </switch>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FEG-Zd-kJ4">
+                                        <rect key="frame" x="576" y="360" width="144" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="connexion hors-ligne"/>
+                                        <connections>
+                                            <action selector="offlineMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aou-La-hCe"/>
+                                            <segue destination="0Cu-TT-IAo" kind="show" id="HvG-ge-kdz"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.89411764709999997" green="0.94117647059999998" blue="0.94901960780000005" alpha="0.49954516269999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -756,6 +765,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="chatToggleBtn" destination="VBZ-Go-LVA" id="qk1-t5-l1P"/>
                         <outlet property="chatView" destination="Mzz-8E-ANo" id="jdH-7R-W1h"/>
                         <outlet property="chatViewConstraint" destination="prm-p3-d70" id="97j-7r-CVh"/>
                         <outlet property="drawView" destination="Cys-yA-DLW" id="Qbu-Bx-1Je"/>
@@ -848,6 +858,7 @@
         <image name="verticalLine" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="HvG-ge-kdz"/>
         <segue reference="ZMN-EK-Gd2"/>
     </inferredMetricsTieBreakers>
 </document>
