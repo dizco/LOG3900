@@ -59,7 +59,7 @@ export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
         name: req.body[DrawingFields.Name],
         owner: req.user,
         protection: {
-            active: req.body[DrawingFields.ProtectionActive],
+            active: protectionParameterIsActive(req),
             password: req.body[DrawingFields.ProtectionPassword],
         },
     });
@@ -176,12 +176,19 @@ export let patchDrawing = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
+function protectionParameterIsActive(req: Request): boolean {
+    if (req.body[DrawingFields.ProtectionActive] !== undefined) {
+        return req.body[DrawingFields.ProtectionActive].toLowerCase() === "true";
+    }
+    return false;
+}
+
 function buildUpdateFields(req: Request): any {
     const fields: any = {};
     if (req.body[DrawingFields.ProtectionActive] !== undefined) {
         const password = (req.body[DrawingFields.ProtectionPassword] !== undefined) ? req.body[DrawingFields.ProtectionPassword] : "";
         fields.protection = {
-            active: req.body[DrawingFields.ProtectionActive],
+            active: protectionParameterIsActive(req),
             password: password,
         };
     }
