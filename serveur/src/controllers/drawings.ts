@@ -125,15 +125,6 @@ function handlePasswordProtectedDrawing(drawing: any, req: Request, res: Respons
 }
 
 /**
- * PUT /drawings/:id
- */
-export let putDrawing = (req: Request, res: Response) => {
-    res.status(500).json({
-        message: "PUT not implemented yet",
-    });
-};
-
-/**
  * GET /drawings/:id/actions
  */
 export let getDrawingActions = (req: Request, res: Response, next: NextFunction) => {
