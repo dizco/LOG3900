@@ -31,12 +31,20 @@ drawingSchema.pre("save", function save(next) {
 });
 drawingSchema.pre("findOneAndUpdate", function findOneAndUpdate(next) {
     const drawing = this.getUpdate();
+    drawing.id = this.getQuery()._id;
     if (!(drawing && drawing.protection && drawing.protection.password !== undefined)) { //protection has not been modified
         return next();
     }
     hashPassword(drawing, next);
 });
 function hashPassword(drawing: any, next: NextFunction) {
+    if (!drawing.protection.active) { //Bypass password hashing if its not active
+        if (process.env.NODE_ENV === "development") {
+            console.log(`Bypassing drawing (id ${drawing.id}) password hashing because protection is inactive.`);
+        }
+        delete drawing.protection.password;
+        return next();
+    }
     bcrypt.genSalt(10, (err, salt) => {
         if (err) {
             return next(err);
