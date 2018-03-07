@@ -22,6 +22,7 @@ class ViewController: UIViewController {
         chatToggleFn()
     }
 
+    @IBOutlet weak var chatToggleBtn: UIBarButtonItem!
     @IBAction func toolsToggleBtn(_ sender: Any) {
         toolsToggleFn()
         if drawingSettingsShowing {
@@ -131,6 +132,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboard()
         observeKeyboardNotification()
+        print(LoginViewController().onlineUser) //TODO probleme ici, les valeurs communiquent pas
+        if(!LoginViewController().onlineUser){
+            chatToggleBtn.isEnabled = false
+        }
     }
 
     fileprivate func  observeKeyboardNotification() {

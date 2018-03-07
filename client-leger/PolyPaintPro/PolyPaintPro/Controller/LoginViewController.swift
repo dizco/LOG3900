@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
 
     // MARK: - RestManager
     var restManager: RestManager?
+    var onlineUser = true //variable for connexion status
     // MARK: - Labels
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var connectionErrorLabel: UILabel!
@@ -53,6 +54,11 @@ class LoginViewController: UIViewController {
             loginErrorTextField?.text = AccountManager.sharedInstance.usernameError
             loginErrorTextField?.isHidden = false
         }
+    }
+    
+    @IBAction func offlineMode(_ sender: UIButton) {
+        onlineUser = false
+        print(onlineUser)
     }
 
     private func loginToServer(sender: UIButton, username: String, password: String) {
