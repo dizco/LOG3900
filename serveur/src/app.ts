@@ -114,7 +114,6 @@ app.post("/register", userController.postRegister);
 app.get("/drawings", passportConfig.isAuthenticated, drawingsController.getDrawings);
 app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDrawing);
 app.get("/drawings/:id", passportConfig.isAuthenticated, drawingsController.getDrawing);
-app.put("/drawings/:id", passportConfig.isAuthenticated, drawingsController.putDrawing);
 app.get("/drawings/:id/actions", passportConfig.isAuthenticated, drawingsController.getDrawingActions);
 app.patch("/drawings/:id", passportConfig.isAuthenticated, drawingsController.patchDrawing);
 
