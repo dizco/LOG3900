@@ -15,10 +15,15 @@ namespace PolyPaint.Strategy.EditorActionStrategy
 
         public void ExecuteStrategy(Editor editor)
         {
-            if (_newStrokeAction.Author.Username == editor.CurrentUsername) return;
+            if (_newStrokeAction.Author.Username == editor.CurrentUsername)
+            {
+                return;
+            }
 
             foreach (StrokeModel stroke in _newStrokeAction.Delta.Add)
+            {
                 editor.AddIncomingStroke(StrokeHelper.BuildIncomingStroke(stroke, _newStrokeAction.Author.Username));
+            }
         }
     }
 }

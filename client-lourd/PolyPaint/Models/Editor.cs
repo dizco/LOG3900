@@ -16,7 +16,7 @@ using System.Windows.Threading;
 using PolyPaint.Constants;
 using PolyPaint.CustomComponents;
 using PolyPaint.Helpers;
-using PolyPaint.Helpers.Communication;
+using PolyPaint.ViewModels;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.Forms.MessageBox;
 
@@ -54,7 +54,7 @@ namespace PolyPaint.Models
 
         public StrokeCollection StrokesCollection = new StrokeCollection();
 
-        public string CurrentUsername { get; set; }
+        public string CurrentUsername { get; set; } = ViewModelBase.Username;
 
         public string SelectedTool
         {
@@ -337,19 +337,42 @@ namespace PolyPaint.Models
             dispatcher.Invoke(() => { StrokesCollection.Add(stroke); });
         }
 
-        internal void RemoveStackedStroke(Stroke stackedStroke)
+        internal CustomStroke AssignUuidToStroke(Stroke stroke)
+        {
+            StrokesCollection.Remove(stroke);
+            CustomStroke customStroke = new CustomStroke(stroke.StylusPoints, stroke.DrawingAttributes);
+            StrokesCollection.Add(customStroke);
+
+            return customStroke;
+        }
+
+        // TODO: Fix sync on this function
+        internal void ReplaceStroke(string remove, StrokeCollection add)
         {
             Dispatcher dispatcher = Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher;
 
             dispatcher.Invoke(() =>
             {
-                Stroke toRemove = StrokesCollection
-                                  .ToArray().Reverse()
-                                  .FirstOrDefault(stroke => StrokeHelper.AreSameStroke(stackedStroke, stroke));
-
-                if (toRemove != null)
+                try
                 {
-                    StrokesCollection.Remove(toRemove);
+                    Stroke toRemove = StrokesCollection.First(stroke => (stroke as CustomStroke)?.Uuid == remove);
+
+                    if (add.Count > 0)
+                    {
+                        StrokesCollection.Replace(toRemove, add);
+                    }
+                    else
+                    {
+                        StrokesCollection.Remove(toRemove);
+                    }
+                }
+                catch (ArgumentNullException e)
+                {
+                    UserAlerts.ShowErrorMessage("Synchronisation error");
+                }
+                catch
+                {
+                    UserAlerts.ShowErrorMessage("Une erreure est survenue.");
                 }
             });
         }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,6 +39,7 @@ namespace PolyPaint.ViewModels
             _editor.EditorAddedStroke += OnStrokeCollectedHandler;
             _editor.StrokeStackedEvent += OnStrokeStackedHandler;
             _editor.DrawingName = DrawingName;
+            _editor.StrokesCollection.StrokesChanged += StrokesCollectionOnStrokesChanged;
 
             // On initialise les attributs de dessin avec les valeurs de départ du modèle.
             DrawingAttributes = new DrawingAttributes
@@ -74,9 +75,9 @@ namespace PolyPaint.ViewModels
             //Managing different View
             OpenChatWindowCommand = new RelayCommand<object>(OpenChatWindow, CanOpenChat);
 
-            EditorActionReceived += ProcessReceivedEditorAction;
-
             LoginStatusChanged += ProcessLoginStatusChange;
+
+            EditorActionReceived += ProcessReceivedEditorAction;
         }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
@@ -161,11 +162,14 @@ namespace PolyPaint.ViewModels
         //Command for sending editor actions to server
         public RelayCommand<Stroke> SendNewStrokeCommand { get; set; }
 
+        internal bool IsErasingByPoint { get; set; }
+        internal bool IsErasingByStroke { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnStrokeStackedHandler(object sender, Stroke stroke)
         {
-            Messenger?.SendEditorStrokeStack(stroke);
+            Messenger?.SendEditorActionRemoveStroke(stroke);
         }
 
         private void ProcessLoginStatusChange(object sender, string username)
@@ -218,7 +222,7 @@ namespace PolyPaint.ViewModels
             {
                 if (action.Action != null)
                 {
-                    ProcessReceivedEditorAction(this, action);
+                    //ProcessReceivedEditorAction(this, action);
                 }
             }
         }
@@ -297,13 +301,8 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        private void LoginViewClosed(object sender, EventArgs e)
-        {
-            LoginWindow = null;
-        }
-
         /// <summary>
-        ///     Handler for InkCanvas events
+        ///     Handler for InkCanvas event
         /// </summary>
         public void OnStrokeCollectedHandler(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
@@ -311,16 +310,70 @@ namespace PolyPaint.ViewModels
         }
 
         /// <summary>
-        ///     Handler for Editeur events (depilage)
+        ///     Handler for Editor event (unstack)
         /// </summary>
         public void OnStrokeCollectedHandler(object sender, Stroke stroke)
         {
             SendNewStrokeCommand.Execute(stroke);
         }
 
+        public void OnStrokeErasingHandler(object sender, InkCanvasStrokeErasingEventArgs e)
+        {
+            IsErasingByPoint = (sender as CustomRenderingInkCanvas)?.EditingMode == InkCanvasEditingMode.EraseByPoint;
+            IsErasingByStroke = (sender as CustomRenderingInkCanvas)?.EditingMode == InkCanvasEditingMode.EraseByStroke;
+        }
+
+        private void StrokesCollectionOnStrokesChanged(object sender, StrokeCollectionChangedEventArgs e)
+        {
+            // User uses erases by point
+            if (IsErasingByPoint)
+            {
+                string[] removedUuids = e.Removed.Select(stroke => (stroke as CustomStroke)?.Uuid).ToArray();
+
+                // Refreshes UUID values for the new strokes
+                foreach (Stroke stroke in e.Added)
+                {
+                    (stroke as CustomStroke)?.RefreshUuid();
+                }
+
+                SendRemoveStroke(removedUuids, e.Added);
+
+                IsErasingByPoint = false;
+            }
+            else if (IsErasingByStroke)
+            {
+                string[] removedUuids = e.Removed.Select(stroke => (stroke as CustomStroke)?.Uuid).ToArray();
+
+                SendRemoveStroke(removedUuids);
+
+                IsErasingByStroke = false;
+            }
+        }
+
+        /// <summary>
+        ///     Replaces the Stroke by a CustomStroke (with UUID) and proceeds to send the stroke to the server.
+        /// </summary>
+        /// <param name="stroke">Newly added stroke</param>
         private void SendNewStroke(Stroke stroke)
         {
+            CustomStroke customStroke = _editor.AssignUuidToStroke(stroke);
+
+            SendNewStroke(customStroke);
+        }
+
+        private void SendNewStroke(CustomStroke stroke)
+        {
             Messenger?.SendEditorActionNewStroke(stroke);
+        }
+
+        /// <summary>
+        ///     Replaces the Stroke(s) by CustomStroke(s) (with UUIDs) and proceeds to send the action to the server
+        /// </summary>
+        /// <param name="removed">Collection of strokes to be removed</param>
+        /// <param name="added">Collection of strokes to replace the removed strokes</param>
+        private void SendRemoveStroke(string[] removed, StrokeCollection added = null)
+        {
+            Messenger?.SendEditorActionReplaceStroke(removed, added);
         }
     }
 }
