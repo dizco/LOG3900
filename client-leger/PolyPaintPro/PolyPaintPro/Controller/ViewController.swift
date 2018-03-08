@@ -124,6 +124,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+    var status = true
     override func viewDidLoad() {
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
@@ -132,8 +133,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboard()
         observeKeyboardNotification()
-        print(LoginViewController().onlineUser) //TODO probleme ici, les valeurs communiquent pas
-        if(!LoginViewController().onlineUser){
+        if(!status){
             chatToggleBtn.isEnabled = false
         }
     }

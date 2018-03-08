@@ -210,7 +210,7 @@
                                         <state key="normal" title="connexion hors-ligne"/>
                                         <connections>
                                             <action selector="offlineMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aou-La-hCe"/>
-                                            <segue destination="0Cu-TT-IAo" kind="show" id="HvG-ge-kdz"/>
+                                            <segue destination="0Cu-TT-IAo" kind="show" identifier="offline" id="HvG-ge-kdz"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -784,7 +784,7 @@
         <!--Accueil-->
         <scene sceneID="XTj-SZ-q69">
             <objects>
-                <viewController id="NfL-mq-pCc" sceneMemberID="viewController">
+                <viewController id="NfL-mq-pCc" customClass="RecentsViewController" customModule="PolyPaintPro" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="97S-bH-D0f"/>
                         <viewControllerLayoutGuide type="bottom" id="MUZ-OA-kRW"/>
@@ -798,7 +798,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Nouveau dessin"/>
                                 <connections>
-                                    <segue destination="KwV-uG-opW" kind="show" id="wG9-9o-pkE"/>
+                                    <action selector="newDrawing:" destination="NfL-mq-pCc" eventType="touchUpInside" id="chJ-Z3-Yk4"/>
+                                    <segue destination="KwV-uG-opW" kind="show" identifier="create" id="wG9-9o-pkE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEK-6N-qKy">
@@ -806,7 +807,8 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Ouvrir un dessin"/>
                                 <connections>
-                                    <segue destination="KwV-uG-opW" kind="show" id="ZMN-EK-Gd2"/>
+                                    <action selector="openDrawing:" destination="NfL-mq-pCc" eventType="touchUpInside" id="P0K-sN-Pjo"/>
+                                    <segue destination="KwV-uG-opW" kind="show" identifier="open" id="ZMN-EK-Gd2"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dessins récents" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4S-H4-Dan">
@@ -823,7 +825,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jsD-ko-Lvy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="824" y="531"/>
+            <point key="canvasLocation" x="823.828125" y="530.46875"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mj6-gf-oj6">
@@ -859,6 +861,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="HvG-ge-kdz"/>
-        <segue reference="ZMN-EK-Gd2"/>
+        <segue reference="wG9-9o-pkE"/>
     </inferredMetricsTieBreakers>
 </document>
