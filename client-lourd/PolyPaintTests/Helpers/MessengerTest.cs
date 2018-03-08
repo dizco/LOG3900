@@ -1,7 +1,9 @@
-﻿using System.Windows.Ink;
+﻿using System;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PolyPaint.CustomComponents;
 using PolyPaint.Helpers.Communication;
 
 namespace PolyPaintTests.Helpers
@@ -89,7 +91,7 @@ namespace PolyPaintTests.Helpers
             Messenger.DrawingRoomId = "drawingId";
 
             string expectedOutputString =
-                "{\"action\":{\"id\":1,\"name\":\"NewStroke\"},\"author\":null,\"drawing\":{\"id\":\"drawingId\"},\"stroke\":{\"strokeAttributes\":{\"color\":\"#FF000000\",\"height\":2.0031496062992127,\"width\":2.0031496062992127,\"stylusTip\":\"Ellipse\"},\"dots\":[{\"x\":1.0,\"y\":1.0},{\"x\":2.0,\"y\":2.0},{\"x\":3.0,\"y\":3.0},{\"x\":4.0,\"y\":4.0},{\"x\":5.0,\"y\":5.0},{\"x\":6.0,\"y\":6.0},{\"x\":7.0,\"y\":7.0},{\"x\":8.0,\"y\":8.0},{\"x\":9.0,\"y\":9.0},{\"x\":10.0,\"y\":10.0}]},\"layer\":0,\"type\":\"client.editor.action\"}";
+                "{\"action\":{\"id\":1,\"name\":\"NewStroke\"},\"author\":null,\"drawing\":{\"id\":null},\"delta\":{\"add\":[{\"strokeUuid\":\"00000000-0000-0000-0000-000000000000\",\"strokeAttributes\":{\"color\":\"#FF000000\",\"height\":2.0031496062992127,\"width\":2.0031496062992127,\"stylusTip\":\"Ellipse\"},\"dots\":[{\"x\":1.0,\"y\":1.0},{\"x\":2.0,\"y\":2.0},{\"x\":3.0,\"y\":3.0},{\"x\":4.0,\"y\":4.0},{\"x\":5.0,\"y\":5.0},{\"x\":6.0,\"y\":6.0},{\"x\":7.0,\"y\":7.0},{\"x\":8.0,\"y\":8.0},{\"x\":9.0,\"y\":9.0},{\"x\":10.0,\"y\":10.0}]}],\"remove\":null},\"layer\":0,\"type\":\"client.editor.action\"}";
 
             //Generate stylus points
             StylusPointCollection points = new StylusPointCollection();
@@ -100,8 +102,10 @@ namespace PolyPaintTests.Helpers
             DrawingAttributes attributes = new DrawingAttributes {Color = Colors.Black};
 
             //Create stroke
-            Stroke stroke = new Stroke(points, attributes);
-            string realOutputString = _messenger.SendEditorActionNewStroke(stroke);
+            CustomStroke stroke = new CustomStroke(points, attributes)
+            {
+                Uuid = Guid.Empty.ToString()
+            };
 
             Messenger.DrawingRoomId = null;
             Assert.AreEqual(expectedOutputString, realOutputString,
@@ -187,7 +191,7 @@ namespace PolyPaintTests.Helpers
             DrawingAttributes attributes = new DrawingAttributes {Color = Colors.Black};
 
             //Create stroke
-            Stroke stroke = new Stroke(points, attributes);
+            CustomStroke stroke = new CustomStroke(points, attributes);
 
             string realOutputString = _messengerFail.SendEditorActionNewStroke(stroke);
 

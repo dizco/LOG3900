@@ -238,8 +238,7 @@ namespace PolyPaint.Models
 
             //We add the stroke in a temporary StrokeCollection that
             //is going to be selected by the inkCanvas 
-            StrokeCollection selectedShape = new StrokeCollection();
-            selectedShape.Add(shapeStroke);
+            StrokeCollection selectedShape = new StrokeCollection {shapeStroke};
             SelectedTool = "lasso";
 
             return selectedShape;

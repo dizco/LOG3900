@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Input;
+using PolyPaint.CustomComponents;
 
 namespace PolyPaint.Models
 {
@@ -29,8 +30,7 @@ namespace PolyPaint.Models
             };
 
             //With the Point variables we create a Stroke
-            Stroke strokeLine = new Stroke(linePoints);
-            return strokeLine;
+            return new CustomStroke(linePoints);
         }
 
         public Stroke DrawArrow()
@@ -48,7 +48,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection arrowPoints = new StylusPointCollection(arrowEdges);
-            return new Stroke(arrowPoints);
+            return new CustomStroke(arrowPoints);
         }
 
         public Stroke DrawTriangle()
@@ -62,7 +62,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection trianglePoints = new StylusPointCollection(triangleEdges);
-            return new Stroke(trianglePoints);
+            return new CustomStroke(trianglePoints);
         }
 
         public Stroke DrawDiamond()
@@ -77,7 +77,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection diamondPoints = new StylusPointCollection(diamondEdges);
-            return new Stroke(diamondPoints);
+            return new CustomStroke(diamondPoints);
         }
 
         public Stroke DrawLightningBolt()
@@ -99,7 +99,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection lightningBoltPoints = new StylusPointCollection(lightningBoltEdges);
-            return new Stroke(lightningBoltPoints);
+            return new CustomStroke(lightningBoltPoints);
         }
 
         public Stroke DrawITetromino()
@@ -126,7 +126,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection iTetrominoPoints = new StylusPointCollection(iTetrominoEdges);
-            return new Stroke(iTetrominoPoints);
+            return new CustomStroke(iTetrominoPoints);
         }
 
         public Stroke DrawOTetromino()
@@ -152,7 +152,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection oTetrominoPoints = new StylusPointCollection(oTetrominoEdges);
-            return new Stroke(oTetrominoPoints);
+            return new CustomStroke(oTetrominoPoints);
         }
 
         public Stroke DrawLTetromino()
@@ -179,7 +179,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection lTetrominoPoints = new StylusPointCollection(lTetrominoEdges);
-            return new Stroke(lTetrominoPoints);
+            return new CustomStroke(lTetrominoPoints);
         }
 
         public Stroke DrawJTetromino()
@@ -205,7 +205,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection jTetrominoPoints = new StylusPointCollection(jTetrominoEdges);
-            return new Stroke(jTetrominoPoints);
+            return new CustomStroke(jTetrominoPoints);
         }
 
         public Stroke DrawTTetromino()
@@ -229,7 +229,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection tTetrominoPoints = new StylusPointCollection(tTetrominoEdges);
-            return new Stroke(tTetrominoPoints);
+            return new CustomStroke(tTetrominoPoints);
         }
 
         public Stroke DrawSTetromino()
@@ -254,7 +254,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection sTetrominoPoints = new StylusPointCollection(sTetrominoEdges);
-            return new Stroke(sTetrominoPoints);
+            return new CustomStroke(sTetrominoPoints);
         }
 
         public Stroke DrawZTetromino()
@@ -279,7 +279,7 @@ namespace PolyPaint.Models
 
             //With the Point variables we create a Stroke
             StylusPointCollection zTetrominoPoints = new StylusPointCollection(zTetrominoEdges);
-            return new Stroke(zTetrominoPoints);
+            return new CustomStroke(zTetrominoPoints);
         }
     }
 }
