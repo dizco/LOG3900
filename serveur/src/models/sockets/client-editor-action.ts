@@ -1,6 +1,6 @@
 import { SocketMessage } from "./socket-message";
 import { Action, IsAction } from "./action";
-import { IsStroke, Stroke } from "../drawings/stroke";
+import { Delta, IsDelta } from "../drawings/delta";
 
 export interface ClientEditorAction extends SocketMessage {
     action: Action;
@@ -9,12 +9,15 @@ export interface ClientEditorAction extends SocketMessage {
         id: number | string;
     };
 
-    stroke: Stroke;
+    delta: Delta;
 }
 
 export function IsClientEditorAction(action: any): action is ClientEditorAction {
     action = <ClientEditorAction>action;
-    if (!("action" in action)) {
+    if (action === null || action === undefined) {
+        return false;
+    }
+    else if (!("action" in action)) {
         return false;
     }
     else if (!(IsAction(action.action))) {
@@ -26,10 +29,10 @@ export function IsClientEditorAction(action: any): action is ClientEditorAction 
     else if (!("id" in action.drawing)) {
         return false;
     }
-    else if (!("stroke" in action)) {
+    else if (!("delta" in action)) {
         return false;
     }
-    else if (!(IsStroke(action.stroke))) {
+    else if (!(IsDelta(action.delta))) {
         return false;
     }
 

@@ -39,7 +39,7 @@ export class EditorActionDecorator {
                         owner: UserFactory.build(<any>drawingObject.owner),
                     },
                     author: UserFactory.build(this.user),
-                    stroke: this.clientAction.stroke,
+                    delta: this.clientAction.delta,
                     timestamp: Date.now(),
                 });
             });
