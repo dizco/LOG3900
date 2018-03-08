@@ -44,8 +44,7 @@ namespace PolyPaint.Models.MessagingModels
     public enum ActionIds
     {
         NewStroke = 1,
-        PartialEraseStroke,
-        FullEraseStroke,
+        ReplaceStroke,
         Stack
     }
 

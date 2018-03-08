@@ -16,7 +16,6 @@ namespace PolyPaintTests.Helpers
         [TestInitialize]
         public async Task SocketHandlerInit()
         {
-            
             // TODO: uncomment following code with server running to test
             //RestHandler.ServerUri = HttpServerUri;
 
@@ -30,7 +29,6 @@ namespace PolyPaintTests.Helpers
 
             //_socketHandler = new SocketHandler("ws://localhost:3000/", cookiesList);
         }
-
 
         [TestMethod]
         public void TestSend()

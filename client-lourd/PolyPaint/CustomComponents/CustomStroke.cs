@@ -33,5 +33,10 @@ namespace PolyPaint.CustomComponents
 
         public string Author { get; set; }
         public string Uuid { get; set; }
+
+        internal void RefreshUuid()
+        {
+            Uuid = Guid.NewGuid().ToString();
+        }
     }
 }

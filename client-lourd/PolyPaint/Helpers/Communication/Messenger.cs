@@ -106,7 +106,7 @@ namespace PolyPaint.Helpers.Communication
             if (stroke != null)
             {
                 EditorActionModel outgoingNewStrokeAction = BuildOutgoingAction(ActionIds.NewStroke);
-                outgoingNewStrokeAction.Delta = new DeltaModel()
+                outgoingNewStrokeAction.Delta = new DeltaModel
                 {
                     Add = new[]
                     {
@@ -144,17 +144,41 @@ namespace PolyPaint.Helpers.Communication
         /// </summary>
         /// <param name="stroke">Stroke that has just been put on the stack</param>
         /// <returns>Stringified JSON object if sending was successful, else returns an empty string</returns>
-        public string SendEditorStrokeStack(Stroke stroke)
+        public string SendEditorActionRemoveStroke(Stroke stroke)
         {
-            if (stroke != null)
+            if (stroke is CustomStroke customStroke)
             {
-                EditorActionModel outgoingStrokeStackAction = BuildOutgoingAction(ActionIds.FullEraseStroke);
-                outgoingStrokeStackAction.Delta = new DeltaModel()
+                return SendEditorActionReplaceStroke(new[] {customStroke.Uuid});
+            }
+
+            return string.Empty;
+        }
+
+        public string SendEditorActionReplaceStroke(string[] remove, StrokeCollection add = null)
+        {
+            if (remove.Length > 0)
+            {
+                EditorActionModel outgoingRemoveStrokeAction = BuildOutgoingAction(ActionIds.ReplaceStroke);
+
+                outgoingRemoveStrokeAction.Delta = new DeltaModel
                 {
-                    Remove = new []{(stroke as CustomStroke)?.Uuid}
+                    Remove = remove,
+                    Add = add?.Select(stroke => new StrokeModel
+                    {
+                        Uuid = (stroke as CustomStroke)?.Uuid,
+                        DrawingAttributes = new DrawingAttributesModel
+                        {
+                            Color = stroke.DrawingAttributes.Color.ToString(),
+                            Height = stroke.DrawingAttributes.Height,
+                            Width = stroke.DrawingAttributes.Width,
+                            StylusTip = stroke.DrawingAttributes.StylusTip.ToString()
+                        },
+                        Dots = stroke.StylusPoints
+                                     .Select(point => new StylusPointModel {X = point.X, Y = point.Y}).ToArray()
+                    }).ToArray()
                 };
 
-                string actionSerialized = JsonConvert.SerializeObject(outgoingStrokeStackAction);
+                string actionSerialized = JsonConvert.SerializeObject(outgoingRemoveStrokeAction);
 
                 bool isSent = SendDrawingAction(actionSerialized);
 

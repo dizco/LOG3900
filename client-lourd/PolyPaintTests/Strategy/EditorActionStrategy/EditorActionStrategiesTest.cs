@@ -4,11 +4,14 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using PolyPaint.Constants;
 using PolyPaint.CustomComponents;
+using PolyPaint.Helpers.Communication;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Strategy.EditorActionStrategy;
+using PolyPaintTests.Helpers;
 
 namespace PolyPaintTests.Strategy.EditorActionStrategy
 {
@@ -16,16 +19,24 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
     public class EditorActionStrategiesTest
     {
         private static Editor _editor;
+        private static Messenger _messenger;
         private static Stroke _stroke;
 
         [ClassInitialize]
         public static void InitializeMessenger(TestContext context)
         {
             _editor = new Editor();
+            _messenger = new Messenger(new MessengerTest.SocketHandlerMock("ws://something"));
+
+            Messenger.DrawingRoomId = "507f1f77bcf86cd799439011";
+            _editor.CurrentUsername = "me2@me.ca";
 
             StylusPointCollection points = new StylusPointCollection();
             for (int i = 0; i < 10; i++)
+            {
                 points.Add(new StylusPoint(i + 1, i + 1));
+            }
+
             DrawingAttributes attributes = new DrawingAttributes {Color = Colors.Black};
 
             _stroke = new CustomStroke(points, attributes)
@@ -55,45 +66,19 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
         [TestMethod]
         public void TestAddNewStrokeOtherUser()
         {
-            EditorActionModel action = new EditorActionModel
+            string actionStr = _messenger.SendEditorActionNewStroke(_stroke);
+            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+
+            action.Author = new AuthorModel
             {
-                Type = JsonConstantStrings.TypeEditorActionOutgoingValue,
-                Drawing = new DrawingModel {Id = "507f1f77bcf86cd799439011"},
-                Author = new AuthorModel
-                {
-                    Username = "me@me.ca"
-                },
-                Action = new StrokeActionModel
-                {
-                    Id = (int) ActionIds.NewStroke,
-                    Name = Enum.GetName(typeof(ActionIds), ActionIds.NewStroke)
-                },
-                Delta = new DeltaModel
-                {
-                    Add = new[]
-                    {
-                        new StrokeModel
-                        {
-                            Uuid = Guid.Empty.ToString(),
-                            DrawingAttributes = new DrawingAttributesModel
-                            {
-                                Color = _stroke.DrawingAttributes.Color.ToString(),
-                                Height = _stroke.DrawingAttributes.Height,
-                                Width = _stroke.DrawingAttributes.Width,
-                                StylusTip = _stroke.DrawingAttributes.StylusTip.ToString()
-                            },
-                            Dots = _stroke.StylusPoints
-                                          .Select(point => new StylusPointModel {X = point.X, Y = point.Y}).ToArray()
-                        }
-                    }
-                }
+                Username = "me@me.ca"
             };
 
             EditorActionStrategyContext context = new EditorActionStrategyContext(action);
 
             context.ExecuteStrategy(_editor);
 
-            Assert.AreEqual(_editor.StrokesCollection.Count, 1, "Editor's StrokeCollection should contain 1 stroke");
+            Assert.AreEqual(1, _editor.StrokesCollection.Count, "Editor's StrokeCollection should contain 1 stroke");
 
             Assert.AreEqual(_stroke.DrawingAttributes, _editor.StrokesCollection[0].DrawingAttributes,
                             "Newly added stroke should have the same DrawingAttributes");
@@ -103,6 +88,30 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
 
             Assert.AreEqual("me@me.ca", (_editor.StrokesCollection[0] as CustomStroke)?.Author,
                             "Newly added stroke should have the same author");
+
+            _editor.StrokesCollection.Clear();
+        }
+
+        [TestMethod]
+        public void TestRemoveStrokeSuccess()
+        {
+            _editor.StrokesCollection.Add(_stroke);
+
+            string actionStr = _messenger.SendEditorActionRemoveStroke(_stroke);
+            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+
+            action.Author = new AuthorModel
+            {
+                Username = "me@me.ca"
+            };
+
+            EditorActionStrategyContext context = new EditorActionStrategyContext(action);
+
+            context.ExecuteStrategy(_editor);
+
+            Assert.AreEqual(0, _editor.StrokesCollection.Count, "StrokeCollection should be empty");
+
+            _editor.StrokesCollection.Clear();
         }
     }
 }

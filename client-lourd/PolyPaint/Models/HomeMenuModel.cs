@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using PolyPaint.Constants;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.ApiModels;
@@ -155,8 +154,7 @@ namespace PolyPaint.Models
                     JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
 
                     // TODO: Modify this function once server saving protocol is established
-                    List<EditorActionModel> editorActionHistory =
-                        content.GetValue("actions").ToObject<List<EditorActionModel>>();
+                    List<EditorActionModel> editorActionHistory = null;
                     string drawingName = content.GetValue("name").ToString();
 
                     // TODO: Get actual editing mode from drawing info once implemented

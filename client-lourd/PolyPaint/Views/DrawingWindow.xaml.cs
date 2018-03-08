@@ -40,9 +40,14 @@ namespace PolyPaint.Views
         {
             string nom = (sender as Thumb).Name;
             if (nom == "horizontal" || nom == "diagonal")
+            {
                 colonne.Width = new GridLength(Math.Max(32, colonne.Width.Value + e.HorizontalChange));
+            }
+
             if (nom == "vertical" || nom == "diagonal")
+            {
                 ligne.Height = new GridLength(Math.Max(32, ligne.Height.Value + e.VerticalChange));
+            }
         }
 
         // Pour la gestion de l'affichage de position du pointeur.
@@ -57,7 +62,10 @@ namespace PolyPaint.Views
             textBlockPosition.Text = Math.Round(p.X) + ", " + Math.Round(p.Y) + "px";
 
             // Update the X & Y as the mouse moves
-            if (e.LeftButton == MouseButtonState.Pressed) _end = p;
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                _end = p;
+            }
 
             //Transform the cursor in a cross when the tool is shapes
             if ((DataContext as EditorViewModel)?.ToolSelected == "shapes")
@@ -112,14 +120,7 @@ namespace PolyPaint.Views
 
         private void OnStrokeErasing(object sender, InkCanvasStrokeErasingEventArgs e)
         {
-            //TODO: needs implementation
-            //(DataContext as VueModele)?.OnStrokeErasingHandler(sender, e);
-        }
-
-        private void OnStrokeErased(object sender, RoutedEventArgs e)
-        {
-            //TODO: needs implementation
-            //(DataContext as VueModele)?.OnStrokeErased(sender, e);
+            (DataContext as EditorViewModel)?.OnStrokeErasingHandler(sender, e);
         }
     }
 }

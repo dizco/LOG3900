@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Input.StylusPlugIns;
@@ -17,17 +16,9 @@ namespace PolyPaint.CustomComponents
             DynamicRenderer = CustomRenderer;
         }
 
-        // TODO: Raise the same event so that EditorViewModel can call the messenger with the appropriate info
-        //protected override void OnStrokeCollected(InkCanvasStrokeCollectedEventArgs e)
-        //{
-        //    Strokes.Remove(e.Stroke);
-        //    CustomStroke customStroke = new CustomStroke(e.Stroke.StylusPoints, e.Stroke.DrawingAttributes);
-        //    Strokes.Add(customStroke);
-        //}
-
         internal class CustomDynamicRenderer : DynamicRenderer
         {
-            private static EditorViewModel _viewModel = new EditorViewModel();
+            private static EditorViewModel _viewModel;
             private Point _start;
 
             private bool IsManipulating { get; set; }

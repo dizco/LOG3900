@@ -15,7 +15,7 @@ namespace PolyPaint.Models
             Height = End.Y - Start.Y;
         }
 
-        public Point Start { get;}
+        public Point Start { get; }
         private Point End { get; }
         private double Width { get; }
         private double Height { get; }
