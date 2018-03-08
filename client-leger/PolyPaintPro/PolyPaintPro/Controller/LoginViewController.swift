@@ -55,10 +55,16 @@ class LoginViewController: UIViewController {
             loginErrorTextField?.isHidden = false
         }
     }
-    
+
     @IBAction func offlineMode(_ sender: UIButton) {
         onlineUser = false
-        print(onlineUser)
+        performSegue(withIdentifier: "offline", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nav = segue.destination as! UINavigationController
+        var secondController = nav.topViewController as! RecentsViewController
+        secondController.status = onlineUser
     }
 
     private func loginToServer(sender: UIButton, username: String, password: String) {
