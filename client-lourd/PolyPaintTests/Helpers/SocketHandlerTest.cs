@@ -22,7 +22,7 @@ namespace PolyPaintTests.Helpers
 
             //CookieContainer cookies = new CookieContainer();
 
-            //HttpResponseMessage response = await RestHandler.LoginInfo("me@me.ca", "hahahaha");
+            //HttpResponseMessage response = await RestHandler.LoginUser("me@me.ca", "hahahaha");
 
             //List<KeyValuePair<string, string>> cookiesList = cookies
             //    .GetCookies(new Uri(HttpServerUri)).Cast<Cookie>()
