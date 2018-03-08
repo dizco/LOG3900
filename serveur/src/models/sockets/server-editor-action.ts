@@ -2,7 +2,7 @@ import { SocketMessage } from "./socket-message";
 import { Author } from "./author";
 import { DrawingAttributes } from "../drawings/drawing-attributes";
 import { Action } from "./action";
-import { Stroke } from "../drawings/stroke";
+import { Delta } from "../drawings/delta";
 
 export interface ServerEditorAction extends SocketMessage {
     action: Action;
@@ -11,5 +11,5 @@ export interface ServerEditorAction extends SocketMessage {
 
     author: Author;
 
-    stroke: Stroke;
+    delta: Delta;
 }

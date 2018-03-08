@@ -10,7 +10,10 @@ export interface ClientChatMessage extends SocketMessage {
 
 export function IsClientChatMessage(message: any): message is ClientChatMessage {
     message = <ClientChatMessage>message;
-    if (!("message" in message)) {
+    if (message === null || message === undefined) {
+        return false;
+    }
+    else if (!("message" in message)) {
         return false;
     }
     else if (!("room" in message)) {
