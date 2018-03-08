@@ -12,18 +12,35 @@ namespace PolyPaint.Helpers.Communication
     {
         public static CustomStroke BuildStrokeFromAction(EditorActionModel action)
         {
-            StylusPointCollection strokePoints =
-                new StylusPointCollection(action.Stroke.Dots.Select(point => new StylusPoint(point.x, point.y)));
+            //StylusPointCollection strokePoints =
+            //    new StylusPointCollection(action.Stroke.Dots.Select(point => new StylusPoint(point.x, point.y)));
+            //DrawingAttributes strokeAttributes = new DrawingAttributes
+            //{
+            //    Height = action.Stroke.DrawingAttributes.Height,
+            //    Width = action.Stroke.DrawingAttributes.Width,
+            //    Color = (Color)ColorConverter.ConvertFromString(action.Stroke.DrawingAttributes.Color),
+            //    StylusTip =
+            //        (StylusTip)Enum.Parse(typeof(StylusTip), action.Stroke.DrawingAttributes.StylusTip)
+            //};
+
+            //return new CustomStroke(strokePoints, strokeAttributes, action.Author.Username);
+
+            return null;
+        }
+
+        public static CustomStroke BuildIncomingStroke(StrokeModel stroke, string author)
+        {
+            StylusPointCollection strokePoints = new StylusPointCollection(stroke.Dots.Select(point => new StylusPoint(point.X, point.Y)));
             DrawingAttributes strokeAttributes = new DrawingAttributes
             {
-                Height = action.Stroke.DrawingAttributes.Height,
-                Width = action.Stroke.DrawingAttributes.Width,
-                Color = (Color) ColorConverter.ConvertFromString(action.Stroke.DrawingAttributes.Color),
+                Height = stroke.DrawingAttributes.Height,
+                Width = stroke.DrawingAttributes.Width,
+                Color = (Color)ColorConverter.ConvertFromString(stroke.DrawingAttributes.Color),
                 StylusTip =
-                    (StylusTip) Enum.Parse(typeof(StylusTip), action.Stroke.DrawingAttributes.StylusTip)
+                    (StylusTip)Enum.Parse(typeof(StylusTip), stroke.DrawingAttributes.StylusTip)
             };
-
-            return new CustomStroke(strokePoints, strokeAttributes, action.Author.Username);
+            
+            return new CustomStroke(strokePoints, strokeAttributes, author, stroke.Uuid);
         }
 
         public static bool AreSameStroke(Stroke stroke1, Stroke stroke2)

@@ -13,11 +13,23 @@ namespace PolyPaint.Models.MessagingModels
         [JsonProperty(PropertyName = "drawing")]
         public DrawingModel Drawing { get; set; }
 
-        [JsonProperty(PropertyName = "stroke")]
-        public StrokeModel Stroke { get; set; }
+        [JsonProperty(PropertyName = "delta")]
+        public DeltaModel Delta { get; set; }
+
+        //[JsonProperty(PropertyName = "stroke")]
+        //public StrokeModel Stroke { get; set; }
 
         [JsonProperty(PropertyName = "layer")]
         public int Layer { get; set; }
+    }
+
+    public class DeltaModel
+    {
+        [JsonProperty(PropertyName = "add")]
+        public StrokeModel[] Add { get; set; }
+
+        [JsonProperty(PropertyName = "remove")]
+        public string[] Remove { get; set; }
     }
 
     public class StrokeActionModel
@@ -45,6 +57,9 @@ namespace PolyPaint.Models.MessagingModels
 
     public class StrokeModel
     {
+        [JsonProperty(PropertyName = "strokeUuid")]
+        public string Uuid { get; set; }
+
         [JsonProperty(PropertyName = "strokeAttributes")]
         public DrawingAttributesModel DrawingAttributes { get; set; }
 
@@ -69,7 +84,9 @@ namespace PolyPaint.Models.MessagingModels
 
     public class StylusPointModel
     {
-        public double x { get; set; }
-        public double y { get; set; }
+        [JsonProperty(PropertyName = "x")]
+        public double X { get; set; }
+        [JsonProperty(PropertyName = "y")]
+        public double Y { get; set; }
     }
 }

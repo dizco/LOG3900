@@ -9,6 +9,7 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using PolyPaint.CustomComponents;
 using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;

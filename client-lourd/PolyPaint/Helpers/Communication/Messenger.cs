@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Ink;
 using Newtonsoft.Json;
 using PolyPaint.Constants;
+using PolyPaint.CustomComponents;
 using PolyPaint.Models.MessagingModels;
 
 namespace PolyPaint.Helpers.Communication
@@ -105,17 +106,24 @@ namespace PolyPaint.Helpers.Communication
             if (stroke != null)
             {
                 EditorActionModel outgoingNewStrokeAction = BuildOutgoingAction(ActionIds.NewStroke);
-                outgoingNewStrokeAction.Stroke = new StrokeModel
+                outgoingNewStrokeAction.Delta = new DeltaModel()
                 {
-                    DrawingAttributes = new DrawingAttributesModel
+                    Add = new[]
                     {
-                        Color = stroke.DrawingAttributes.Color.ToString(),
-                        Height = stroke.DrawingAttributes.Height,
-                        Width = stroke.DrawingAttributes.Width,
-                        StylusTip = stroke.DrawingAttributes.StylusTip.ToString()
-                    },
-                    Dots = stroke.StylusPoints
-                                 .Select(point => new StylusPointModel {x = point.X, y = point.Y}).ToArray()
+                        new StrokeModel
+                        {
+                            Uuid = (stroke as CustomStroke)?.Uuid,
+                            DrawingAttributes = new DrawingAttributesModel
+                            {
+                                Color = stroke.DrawingAttributes.Color.ToString(),
+                                Height = stroke.DrawingAttributes.Height,
+                                Width = stroke.DrawingAttributes.Width,
+                                StylusTip = stroke.DrawingAttributes.StylusTip.ToString()
+                            },
+                            Dots = stroke.StylusPoints
+                                         .Select(point => new StylusPointModel {X = point.X, Y = point.Y}).ToArray()
+                        }
+                    }
                 };
 
                 string actionSerialized = JsonConvert.SerializeObject(outgoingNewStrokeAction);
@@ -140,18 +148,10 @@ namespace PolyPaint.Helpers.Communication
         {
             if (stroke != null)
             {
-                EditorActionModel outgoingStrokeStackAction = BuildOutgoingAction(ActionIds.Stack);
-                outgoingStrokeStackAction.Stroke = new StrokeModel
+                EditorActionModel outgoingStrokeStackAction = BuildOutgoingAction(ActionIds.FullEraseStroke);
+                outgoingStrokeStackAction.Delta = new DeltaModel()
                 {
-                    DrawingAttributes = new DrawingAttributesModel
-                    {
-                        Color = stroke.DrawingAttributes.Color.ToString(),
-                        Height = stroke.DrawingAttributes.Height,
-                        Width = stroke.DrawingAttributes.Width,
-                        StylusTip = stroke.DrawingAttributes.StylusTip.ToString()
-                    },
-                    Dots = stroke.StylusPoints
-                                 .Select(point => new StylusPointModel {x = point.X, y = point.Y}).ToArray()
+                    Remove = new []{(stroke as CustomStroke)?.Uuid}
                 };
 
                 string actionSerialized = JsonConvert.SerializeObject(outgoingStrokeStackAction);

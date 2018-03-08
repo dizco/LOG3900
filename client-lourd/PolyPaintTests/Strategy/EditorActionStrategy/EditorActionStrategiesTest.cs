@@ -28,7 +28,10 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
                 points.Add(new StylusPoint(i + 1, i + 1));
             DrawingAttributes attributes = new DrawingAttributes {Color = Colors.Black};
 
-            _stroke = new Stroke(points, attributes);
+            _stroke = new CustomStroke(points, attributes)
+            {
+                Uuid = Guid.Empty.ToString()
+            };
         }
 
         [TestMethod]
@@ -43,18 +46,6 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
                 {
                     Id = -1,
                     Name = "FakeAction"
-                },
-                Stroke = new StrokeModel
-                {
-                    DrawingAttributes = new DrawingAttributesModel
-                    {
-                        Color = _stroke.DrawingAttributes.Color.ToString(),
-                        Height = _stroke.DrawingAttributes.Height,
-                        Width = _stroke.DrawingAttributes.Width,
-                        StylusTip = _stroke.DrawingAttributes.StylusTip.ToString()
-                    },
-                    Dots = _stroke.StylusPoints
-                                  .Select(point => new StylusPointModel {x = point.X, y = point.Y}).ToArray()
                 }
             };
 
@@ -77,17 +68,24 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
                     Id = (int) ActionIds.NewStroke,
                     Name = Enum.GetName(typeof(ActionIds), ActionIds.NewStroke)
                 },
-                Stroke = new StrokeModel
+                Delta = new DeltaModel
                 {
-                    DrawingAttributes = new DrawingAttributesModel
+                    Add = new[]
                     {
-                        Color = _stroke.DrawingAttributes.Color.ToString(),
-                        Height = _stroke.DrawingAttributes.Height,
-                        Width = _stroke.DrawingAttributes.Width,
-                        StylusTip = _stroke.DrawingAttributes.StylusTip.ToString()
-                    },
-                    Dots = _stroke.StylusPoints
-                                  .Select(point => new StylusPointModel {x = point.X, y = point.Y}).ToArray()
+                        new StrokeModel
+                        {
+                            Uuid = Guid.Empty.ToString(),
+                            DrawingAttributes = new DrawingAttributesModel
+                            {
+                                Color = _stroke.DrawingAttributes.Color.ToString(),
+                                Height = _stroke.DrawingAttributes.Height,
+                                Width = _stroke.DrawingAttributes.Width,
+                                StylusTip = _stroke.DrawingAttributes.StylusTip.ToString()
+                            },
+                            Dots = _stroke.StylusPoints
+                                          .Select(point => new StylusPointModel {X = point.X, Y = point.Y}).ToArray()
+                        }
+                    }
                 }
             };
 
@@ -103,7 +101,8 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
             Assert.IsTrue(_stroke.StylusPoints.SequenceEqual(_editor.StrokesCollection[0].StylusPoints),
                           "Newly added stroke should contain the same StylusPoints as initial stroke");
 
-            Assert.AreEqual("me@me.ca", (_editor.StrokesCollection[0] as CustomStroke)?.Author, "Newly added stroke should have the same author");
+            Assert.AreEqual("me@me.ca", (_editor.StrokesCollection[0] as CustomStroke)?.Author,
+                            "Newly added stroke should have the same author");
         }
     }
 }
