@@ -33,7 +33,10 @@ namespace PolyPaint.Helpers.Communication
         /// </summary>
         public void ReconnectMessenger()
         {
-            if (!IsConnected) _socketHandler.ConnectSocket();
+            if (!IsConnected)
+            {
+                _socketHandler.ConnectSocket();
+            }
         }
 
         /// <summary>
@@ -60,14 +63,16 @@ namespace PolyPaint.Helpers.Communication
                 bool isSent = _socketHandler.SendMessage(messageSerialized);
 
                 if (isSent)
+                {
                     return messageSerialized;
+                }
             }
 
             return string.Empty;
         }
 
         /// <summary>
-        ///     Sends the action to the server is the drawing is an online drawing (has a DrawingId)
+        ///     Sends the action to the server if the drawing is an online drawing (has a DrawingId)
         /// </summary>
         /// <param name="actionSerialized">Serialized action to send to the server</param>
         /// <returns>Boolean representing sent status.</returns>
@@ -118,7 +123,9 @@ namespace PolyPaint.Helpers.Communication
                 bool isSent = SendDrawingAction(actionSerialized);
 
                 if (isSent)
+                {
                     return actionSerialized;
+                }
             }
 
             return string.Empty;
@@ -152,7 +159,9 @@ namespace PolyPaint.Helpers.Communication
                 bool isSent = SendDrawingAction(actionSerialized);
 
                 if (isSent)
+                {
                     return actionSerialized;
+                }
             }
 
             return string.Empty;

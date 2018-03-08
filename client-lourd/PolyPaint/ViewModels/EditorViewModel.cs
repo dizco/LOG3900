@@ -61,7 +61,7 @@ namespace PolyPaint.ViewModels
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawingPrompt);
             SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawingPrompt);
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
-            LoadAutosaved = new RelayCommand<object>(_editor.OpenAutosave);
+            LoadAutosaved = new RelayCommand<string>(_editor.OpenAutosave);
 
             ExportImageCommand = new RelayCommand<object>(_editor.ExportImagePrompt);
 
@@ -125,7 +125,10 @@ namespace PolyPaint.ViewModels
             get
             {
                 if (Messenger?.IsConnected ?? false)
+                {
                     return Visibility.Visible;
+                }
+
                 return Visibility.Hidden;
             }
         }
@@ -145,7 +148,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> OpenFileCommand { get; set; }
         public RelayCommand<object> SaveFileCommand { get; set; }
         public RelayCommand<object> AutosaveFileCommand { get; set; }
-        public RelayCommand<object> LoadAutosaved { get; set; }
+        public RelayCommand<string> LoadAutosaved { get; set; }
 
         public RelayCommand<object> ExportImageCommand { get; set; }
 
@@ -205,11 +208,18 @@ namespace PolyPaint.ViewModels
         /// <param name="actions">List of actions to replay</param>
         internal void ReplayActions(List<EditorActionModel> actions)
         {
-            if (actions == null) return;
+            if (actions == null)
+            {
+                return;
+            }
 
             foreach (EditorActionModel action in actions)
+            {
                 if (action.Action != null)
+                {
                     ProcessReceivedEditorAction(this, action);
+                }
+            }
         }
 
         /// <summary>

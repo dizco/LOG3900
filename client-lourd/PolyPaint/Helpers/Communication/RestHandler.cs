@@ -21,7 +21,10 @@ namespace PolyPaint.Helpers.Communication
             try
             {
                 HttpResponseMessage response = await Client.GetAsync(ServerUri + "/ping");
-                if (response.IsSuccessStatusCode) return true;
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
             }
             catch
             {
@@ -31,7 +34,7 @@ namespace PolyPaint.Helpers.Communication
             return false;
         }
 
-        public static async Task<HttpResponseMessage> LoginInfo(string username, string password)
+        public static async Task<HttpResponseMessage> LoginUser(string username, string password)
         {
             Dictionary<string, string> userInfo = new Dictionary<string, string>
             {
@@ -52,7 +55,7 @@ namespace PolyPaint.Helpers.Communication
             return await Client.PostAsync($"{ServerUri}/register", new FormUrlEncodedContent(userInfo));
         }
 
-        public static async Task<HttpResponseMessage> AllDrawings(int page)
+        public static async Task<HttpResponseMessage> GetOnlineDrawingsForPage(int page)
         {
             return await Client.GetAsync($"{ServerUri}/drawings?page={page}");
         }

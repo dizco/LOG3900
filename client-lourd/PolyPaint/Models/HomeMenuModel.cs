@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using PolyPaint.Constants;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.ApiModels;
@@ -19,6 +21,8 @@ namespace PolyPaint.Models
         public ObservableCollection<OnlineDrawingModel> FilteredDrawings { get; } =
             new ObservableCollection<OnlineDrawingModel>();
 
+        public ObservableCollection<string> AutosavedDrawings { get; set; } = new ObservableCollection<string>();
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -33,7 +37,7 @@ namespace PolyPaint.Models
         public event EventHandler<Tuple<string, string, EditingModeOption, List<EditorActionModel>>>
             OnlineDrawingJoined;
 
-        internal async void LoadDrawings()
+        internal async void LoadOnlineDrawingsList()
         {
             OnlineDrawingList.Clear();
             FilteredDrawings.Clear();
@@ -44,7 +48,7 @@ namespace PolyPaint.Models
             int retryCount = 0;
             do
             {
-                HttpResponseMessage response = await RestHandler.AllDrawings(currentPage);
+                HttpResponseMessage response = await RestHandler.GetOnlineDrawingsForPage(currentPage);
                 if (!response.IsSuccessStatusCode)
                 {
                     retryCount++;
@@ -57,7 +61,10 @@ namespace PolyPaint.Models
                     maxPages = content.GetValue("pages").ToObject<int>();
                     OnlineDrawingModel[] docsArray =
                         content.GetValue("docs").ToObject<OnlineDrawingModel[]>();
-                    foreach (OnlineDrawingModel drawing in docsArray) OnlineDrawingList.Add(drawing);
+                    foreach (OnlineDrawingModel drawing in docsArray)
+                    {
+                        OnlineDrawingList.Add(drawing);
+                    }
                 }
                 catch
                 {
@@ -67,27 +74,42 @@ namespace PolyPaint.Models
 
                 currentPage++;
                 retryCount = 0;
-            } while (currentPage < maxPages && retryCount < maxRetries);
+            } while (currentPage <= maxPages && retryCount < maxRetries);
 
             if (retryCount >= maxRetries)
+            {
                 return;
+            }
 
-            foreach (OnlineDrawingModel drawing in OnlineDrawingList) FilteredDrawings.Add(drawing);
+            foreach (OnlineDrawingModel drawing in OnlineDrawingList)
+            {
+                FilteredDrawings.Add(drawing);
+            }
+        }
+
+        internal void LoadAutosavedDrawingsList()
+        {
+            Editor.FetchAutosavedDrawings().ToList()
+                  .ForEach(drawing => AutosavedDrawings.Add(Editor.AutosaveFileNameToString(drawing)));
         }
 
         internal void SearchTextChangedHandlers(string keyword)
         {
             FilteredDrawings.Clear();
             foreach (OnlineDrawingModel drawing in OnlineDrawingList)
+            {
                 if (!string.IsNullOrWhiteSpace(keyword))
                 {
                     if (drawing.Name.ToLower().Contains(keyword) || drawing.Id.ToLower().Contains(keyword))
+                    {
                         FilteredDrawings.Add(drawing);
+                    }
                 }
                 else
                 {
                     FilteredDrawings.Add(drawing);
                 }
+            }
         }
 
         internal async void CreateNewDrawing(string drawingName, EditingModeOption option)
@@ -97,6 +119,7 @@ namespace PolyPaint.Models
                 HttpResponseMessage response = await RestHandler.CreateDrawing(drawingName, option);
 
                 if (response.IsSuccessStatusCode)
+                {
                     try
                     {
                         JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -109,8 +132,11 @@ namespace PolyPaint.Models
                         UserAlerts.ShowErrorMessage("Le dessin sera créer en mode hors ligne");
                         CreateNewOfflineDrawing(drawingName, option);
                     }
+                }
                 else
+                {
                     CreateNewOfflineDrawing(drawingName, option);
+                }
             }
             else
             {
@@ -122,6 +148,7 @@ namespace PolyPaint.Models
         {
             HttpResponseMessage response = await RestHandler.GetOnlineDrawing(id);
             if (response.IsSuccessStatusCode)
+            {
                 try
                 {
                     JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -140,6 +167,7 @@ namespace PolyPaint.Models
                 {
                     UserAlerts.ShowErrorMessage("Une erreure est survenue");
                 }
+            }
         }
 
         private void OnNewDrawingCreated(Tuple<string, string, EditingModeOption> drawingParams)

@@ -21,14 +21,10 @@ namespace PolyPaint.ViewModels
         public LoginWindowViewModel()
         {
             LoginCommand = new RelayCommand<object>(Login);
-            SignupCommand = new RelayCommand<object>(Signup);
+            SignupCommand = new RelayCommand<StackPanel>(Signup);
             OfflineCommand = new RelayCommand<object>(SkipLogin);
-            ShowErrorMessageCommand = new RelayCommand<string>(UserAlerts.ShowErrorMessage);
             _cookies = new CookieContainer();
             RestHandler.Handler.CookieContainer = _cookies;
-
-            // TODO: Remove before PR (it exists so Resharper doesn't remove the function)
-            OpenEditor();
         }
 
         private string HttpServerUri => "http://" + ServerUri;
@@ -45,8 +41,7 @@ namespace PolyPaint.ViewModels
         }
 
         public RelayCommand<object> LoginCommand { get; set; }
-        public RelayCommand<object> SignupCommand { get; set; }
-        public RelayCommand<string> ShowErrorMessageCommand { get; set; }
+        public RelayCommand<StackPanel> SignupCommand { get; set; }
         public RelayCommand<object> OfflineCommand { get; set; }
         public event EventHandler ClosingRequest;
 
@@ -59,12 +54,11 @@ namespace PolyPaint.ViewModels
 
             if (!await RestHandler.ValidateServerUri())
             {
-                ShowErrorMessageCommand
-                    .Execute("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
+                UserAlerts.ShowErrorMessage("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
                 return;
             }
 
-            HttpResponseMessage response = await RestHandler.LoginInfo(UserEmail, Password);
+            HttpResponseMessage response = await RestHandler.LoginUser(UserEmail, Password);
 
             if (response.IsSuccessStatusCode)
             {
@@ -86,8 +80,7 @@ namespace PolyPaint.ViewModels
 
             if (!await RestHandler.ValidateServerUri())
             {
-                ShowErrorMessageCommand
-                    .Execute("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
+                UserAlerts.ShowErrorMessage("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
                 return;
             }
 
@@ -149,11 +142,11 @@ namespace PolyPaint.ViewModels
             }
             catch (JsonReaderException e)
             {
-                ShowErrorMessageCommand.Execute(e.Message);
+                UserAlerts.ShowErrorMessage(e.Message);
                 return;
             }
 
-            ShowErrorMessageCommand.Execute(responseJson.GetValue("error").ToString());
+            UserAlerts.ShowErrorMessage(responseJson.GetValue("error").ToString());
         }
 
         private void Login(object o)
@@ -162,21 +155,18 @@ namespace PolyPaint.ViewModels
             TryLoginRequest();
         }
 
-        private void Signup(object o)
+        private void Signup(StackPanel passwordContainer)
         {
-            if (o is StackPanel passwordContainer)
+            string firstPassword = (passwordContainer.Children[1] as PasswordBox)?.Password;
+            string confirmPassword = (passwordContainer.Children[3] as PasswordBox)?.Password;
+            if (firstPassword?.Equals(confirmPassword) ?? false)
             {
-                string firstPassword = (passwordContainer.Children[1] as PasswordBox)?.Password;
-                string confirmPassword = (passwordContainer.Children[3] as PasswordBox)?.Password;
-                if (firstPassword?.Equals(confirmPassword) ?? false)
-                {
-                    Password = firstPassword;
-                }
-                else
-                {
-                    ShowErrorMessageCommand.Execute("Les mots de passe ne sont pas identiques.");
-                    return;
-                }
+                Password = firstPassword;
+            }
+            else
+            {
+                UserAlerts.ShowErrorMessage("Les mots de passe ne sont pas identiques.");
+                return;
             }
 
             TryRegisterRequest();
@@ -196,27 +186,6 @@ namespace PolyPaint.ViewModels
                 HomeMenu.Closed += (s, a) => HomeMenu = null;
                 OnClosingRequest();
             }
-
-            // TODO: Move this to appropriate place in HomeMenuViewModel
-            //if (ChatWindow == null)
-            //{
-            //    ChatWindow = new ChatWindowView();
-            //    ChatWindow.Show();
-            //    ChatWindow.Closed += (sender, args) => ChatWindow = null;
-            //    OpenEditor();
-            //}
-        }
-
-        private void OpenEditor()
-        {
-            // TODO: Mode this to appropriate place in HomeMenuViewModel
-            //if (EditorWindow == null)
-            //{
-            //    EditorWindow = new DrawingWindow();
-            //    EditorWindow.Show();
-            //    EditorWindow.Closed += (sender, args) => EditorWindow = null;
-            //    OnClosingRequest();
-            //}
         }
 
         /// <summary>
