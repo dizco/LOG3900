@@ -124,7 +124,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-    var status = true
+    var connexionStatus = true
     override func viewDidLoad() {
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
@@ -133,7 +133,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboard()
         observeKeyboardNotification()
-        if(!status){
+        if(!connexionStatus){
             chatToggleBtn.isEnabled = false
         }
     }
