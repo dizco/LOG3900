@@ -1,152 +1,98 @@
-﻿using System;
-
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PolyPaint.ViewModels;
 
-
 namespace PolyPaint.Views
 {
-    /// <summary>
-    ///     Interaction logic for DrawingPixelWindow.xaml
-    /// </summary>
     public partial class DrawingPixelWindowView : Window
     {
-        static WriteableBitmap writeableBitmap;
-        static Window w;
-        public static Image i;
+        private static WriteableBitmap writeableBmp;
+        private Point _newPosition;
+        private Point _oldPosition;
+        private readonly Image waveform = new Image();
+        private int _thickness = 10;
 
         public DrawingPixelWindowView()
         {
             InitializeComponent();
             DataContext = new DrawingPixelWindowViewModel();
-
-            var i = new Image();
-            RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.NearestNeighbor);
-            RenderOptions.SetEdgeMode(i, EdgeMode.Aliased);
-
-            w = new Window();
-            w.Content = i;
-            w.Show();
-
-            writeableBitmap = new WriteableBitmap(
-                                                  (int)w.ActualWidth,
-                                                  (int)w.ActualHeight,
-                                                  96,
-                                                  96,
-                                                  PixelFormats.Bgr32,
-                                                  null);
-
-            i.Source = writeableBitmap;
-
-            i.Stretch = Stretch.None;
-            i.HorizontalAlignment = HorizontalAlignment.Left;
-            i.VerticalAlignment = VerticalAlignment.Top;
-
-            i.MouseMove += new MouseEventHandler(i_MouseMove);
-            i.MouseLeftButtonDown +=
-                new MouseButtonEventHandler(i_MouseLeftButtonDown);
-            i.MouseRightButtonDown +=
-                new MouseButtonEventHandler(i_MouseRightButtonDown);
-
-            w.MouseWheel += new MouseWheelEventHandler(w_MouseWheel);
-
-           
+            InitiateBitmap();
+            SurfaceDessin.MouseMove += myCanvas_MouseMove;
+            SurfaceDessin.MouseEnter += SurfaceDessin_MouseEnterMouseDown;
+            SurfaceDessin.PreviewMouseDown += SurfaceDessin_PreviewMouseDown;
         }
 
-        static void DrawPixel(MouseEventArgs e)
+        private void SurfaceDessin_MouseEnterMouseDown(object sender, MouseEventArgs e)
         {
-            int column = (int)e.GetPosition(i).X;
-            int row = (int)e.GetPosition(i).Y;
+            _oldPosition = e.GetPosition(SurfaceDessin);
+        }
 
-            // Reserve the back buffer for updates.
-            writeableBitmap.Lock();
+        private void SurfaceDessin_PreviewMouseDown(object sender, MouseEventArgs e)
+        {
+            _oldPosition = e.GetPosition(SurfaceDessin);
+        }
 
-            unsafe
+        private void InitiateBitmap()
+        {
+            // http://writeablebitmapex.codeplex.com/
+            writeableBmp = BitmapFactory.New(240, 1270);
+            writeableBmp.Clear(Colors.White);
+
+            using (writeableBmp.GetBitmapContext())
             {
-                // Get a pointer to the back buffer.
-                int pBackBuffer = (int)writeableBitmap.BackBuffer;
-
-                // Find the address of the pixel to draw.
-                pBackBuffer += row * writeableBitmap.BackBufferStride;
-                pBackBuffer += column * 4;
-
-                // Compute the pixel's color.
-                int color_data = 255 << 16; // R
-                color_data |= 128 << 8;   // G
-                color_data |= 255 << 0;   // B
-
-                // Assign the color data to the pixel.
-                *((int*)pBackBuffer) = color_data;
+                waveform.Source = writeableBmp;
+                SurfaceDessin.Children.Add(waveform);
             }
-
-            // Specify the area of the bitmap that changed.
-            writeableBitmap.AddDirtyRect(new Int32Rect(column, row, 1, 1));
-
-            // Release the back buffer and make it available for display.
-            writeableBitmap.Unlock();
         }
 
-        static void ErasePixel(MouseEventArgs e)
-        {
-            byte[] ColorData = { 0, 0, 0, 0 }; // B G R
-
-            Int32Rect rect = new Int32Rect(
-                    (int)(e.GetPosition(i).X),
-                    (int)(e.GetPosition(i).Y),
-                    1,
-                    1);
-
-            writeableBitmap.WritePixels(rect, ColorData, 4, 0);
-        }
-
-        static void i_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ErasePixel(e);
-        }
-
-        static void i_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            DrawPixel(e);
-        }
-
-        static void i_MouseMove(object sender, MouseEventArgs e)
+        private void myCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                DrawPixel(e);
+                _newPosition = e.GetPosition(SurfaceDessin);
+                DrawPixel(_oldPosition, _newPosition);
+                _oldPosition = _newPosition;
             }
             else if (e.RightButton == MouseButtonState.Pressed)
             {
-                ErasePixel(e);
+                _newPosition = e.GetPosition(SurfaceDessin);
+                ErasePixel(_oldPosition, _newPosition);
+                _oldPosition = _newPosition;
             }
         }
 
-        static void w_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void DrawPixel(Point oldPosition, Point newPosition)
         {
-            System.Windows.Media.Matrix m = i.RenderTransform.Value;
+            //Todo: Add color change
+            //Todo: Add Thickness change
+            //Todo: Add pencil cursor
 
-            if (e.Delta > 0)
+            for (int a = 0; a < _thickness; a++)
             {
-                m.ScaleAt(
-                    1.5,
-                    1.5,
-                    e.GetPosition(w).X,
-                    e.GetPosition(w).Y);
-            }
-            else
-            {
-                m.ScaleAt(
-                    1.0 / 1.5,
-                    1.0 / 1.5,
-                    e.GetPosition(w).X,
-                    e.GetPosition(w).Y);
+                for (int i = 0; i < _thickness; i++)
+                {
+                    writeableBmp.DrawLine((int)oldPosition.X + i, (int)oldPosition.Y + a, (int)newPosition.X + i, (int)newPosition.Y + a, Colors.Black);
+                }
             }
 
-            i.RenderTransform = new MatrixTransform(m);
+            // waveform.Source = writeableBmp;
+        }
+
+        private void ErasePixel(Point oldPosition, Point newPosition)
+        {
+            //Todo: Add Thickness change
+            //Todo: Add Erasor cursor
+            for (int a = 0; a < _thickness; a++)
+            {
+                for (int i = 0; i < _thickness; i++)
+                {
+                    writeableBmp.DrawLine((int) oldPosition.X + i, (int) oldPosition.Y + a, (int) newPosition.X + i,
+                                          (int) newPosition.Y + a, Colors.White);
+                }
+            }
         }
     }
 }
