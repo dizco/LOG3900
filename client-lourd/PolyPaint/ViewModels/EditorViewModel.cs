@@ -218,13 +218,7 @@ namespace PolyPaint.ViewModels
                 return;
             }
 
-            foreach (EditorActionModel action in actions)
-            {
-                if (action.Action != null)
-                {
-                    //ProcessReceivedEditorAction(this, action);
-                }
-            }
+            // TODO: Modify this function once server saving protocol is established
         }
 
         /// <summary>
