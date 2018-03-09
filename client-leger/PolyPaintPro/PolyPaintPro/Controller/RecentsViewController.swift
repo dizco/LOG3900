@@ -9,7 +9,7 @@
 import UIKit
 
 class RecentsViewController: UIViewController {
-  var status = true
+  var connexionStatus = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ class RecentsViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! ViewController
-        vc.status = status
+        vc.connexionStatus = connexionStatus
     }
 
 }
