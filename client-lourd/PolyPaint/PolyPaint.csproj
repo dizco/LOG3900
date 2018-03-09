@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -124,7 +125,11 @@
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
+    <Compile Include="ViewModels\DrawingPixelWindowViewModel.cs" />
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
+    <Compile Include="Views\DrawingPixelWindowView.xaml.cs">
+      <DependentUpon>DrawingPixelWindowView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomeMenu.xaml.cs">
       <DependentUpon>HomeMenu.xaml</DependentUpon>
     </Compile>
@@ -157,6 +162,10 @@
     <Compile Include="Views\LoginWindowView.xaml.cs">
       <DependentUpon>LoginWindowView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DrawingPixelWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\HomeMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
