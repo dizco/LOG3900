@@ -296,7 +296,8 @@
                 </Slider>
                 <StackPanel>
                     <StackPanel Orientation="Vertical" Margin="5,8" VerticalAlignment="Center" Width="88">
-                        <Button x:Name="LoginWindow"  Command="{Binding OpenChatWindowCommand}" Visibility="{Binding ChatVisibility}" RenderTransformOrigin="0.5,0.5" Click="LoginButtonClick" Height="43" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True" HorizontalAlignment="Right" Width="50">
+                        <Button Click="RotateStrokes" Height="43" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True" HorizontalAlignment="Right" Width="45" Margin="-2,0,45,0"></Button>
+                        <Button x:Name="LoginWindow"  Command="{Binding OpenChatWindowCommand}" Visibility="{Binding ChatVisibility}" RenderTransformOrigin="0.5,0.5" Click="LoginButtonClick" Height="43" FontSize="9" FontWeight="Bold" BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True" HorizontalAlignment="Right" Width="45" Margin="-2,0,45,0">
                             <Button.Background>
                                 <ImageBrush ImageSource="/PolyPaint;component/Resources/tidepod.png"/>
                             </Button.Background>
@@ -359,6 +360,7 @@
                            StrokeErasing="OnStrokeErasing"
                            Strokes="{Binding Path=StrokesCollection, Mode=OneTime}" EditingMode="{Binding Path=ToolSelected, Converter={StaticResource EditingToolConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                            DefaultDrawingAttributes="{Binding Path=DrawingAttributes, Mode=OneTime}"/>
+
                 <Border.Effect>
                     <DropShadowEffect Opacity="0.3" BlurRadius="10"/>
                 </Border.Effect>
