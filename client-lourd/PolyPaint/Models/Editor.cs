@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -225,7 +226,21 @@ namespace PolyPaint.Models
         public void SelectTool(string outil)
         {
             SelectedTool = outil;
+            if (outil == "lasso")
+            {
+                //AddThumb();
+            }
         }
+
+        //Add a visual control that allows the rotation of selected strokes
+//        public void AddThumb()
+//        {
+//            // Add the rotating strokes adorner to the InkPresenter.
+//            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(drawingSurf);
+//            RotatingStrokesAdorner adorner = new RotatingStrokesAdorner(inkPresenter1);
+//
+//            adornerLayer.Add(adorner);
+//        }
 
         //The active tool become the one passed in parameter
         public void SelectShape(DrawableShapes shape)
