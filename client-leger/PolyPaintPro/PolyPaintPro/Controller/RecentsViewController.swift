@@ -22,7 +22,7 @@ class RecentsViewController: UIViewController {
     }
 
     @IBAction func newDrawing(_ sender: UIButton) {
-        performSegue(withIdentifier: "create", sender: self)
+        performSegue(withIdentifier: "open", sender: self)
     }
 
     @IBAction func openDrawing(_ sender: UIButton) {

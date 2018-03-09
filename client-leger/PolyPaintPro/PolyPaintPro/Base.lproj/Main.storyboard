@@ -799,7 +799,6 @@
                                 <state key="normal" title="Nouveau dessin"/>
                                 <connections>
                                     <action selector="newDrawing:" destination="NfL-mq-pCc" eventType="touchUpInside" id="chJ-Z3-Yk4"/>
-                                    <segue destination="KwV-uG-opW" kind="show" identifier="create" id="wG9-9o-pkE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEK-6N-qKy">
@@ -861,6 +860,5 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="HvG-ge-kdz"/>
-        <segue reference="wG9-9o-pkE"/>
     </inferredMetricsTieBreakers>
 </document>
