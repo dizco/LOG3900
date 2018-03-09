@@ -16,9 +16,6 @@ namespace PolyPaint.Models.MessagingModels
         [JsonProperty(PropertyName = "delta")]
         public DeltaModel Delta { get; set; }
 
-        //[JsonProperty(PropertyName = "stroke")]
-        //public StrokeModel Stroke { get; set; }
-
         [JsonProperty(PropertyName = "layer")]
         public int Layer { get; set; }
     }
