@@ -101,7 +101,7 @@ namespace PolyPaint.Helpers.Communication
         /// </summary>
         /// <param name="stroke">Newly added stroke</param>
         /// <returns>Stringified JSON object if sending was successful, else returns an empty string</returns>
-        public string SendEditorActionNewStroke(Stroke stroke)
+        internal string SendEditorActionNewStroke(CustomStroke stroke)
         {
             if (stroke != null)
             {
@@ -112,7 +112,7 @@ namespace PolyPaint.Helpers.Communication
                     {
                         new StrokeModel
                         {
-                            Uuid = (stroke as CustomStroke)?.Uuid,
+                            Uuid = stroke?.Uuid.ToString(),
                             DrawingAttributes = new DrawingAttributesModel
                             {
                                 Color = stroke.DrawingAttributes.Color.ToString(),
@@ -144,14 +144,9 @@ namespace PolyPaint.Helpers.Communication
         /// </summary>
         /// <param name="stroke">Stroke that has just been put on the stack</param>
         /// <returns>Stringified JSON object if sending was successful, else returns an empty string</returns>
-        public string SendEditorActionRemoveStroke(Stroke stroke)
+        internal string SendEditorActionRemoveStroke(CustomStroke stroke)
         {
-            if (stroke is CustomStroke customStroke)
-            {
-                return SendEditorActionReplaceStroke(new[] {customStroke.Uuid});
-            }
-
-            return string.Empty;
+            return SendEditorActionReplaceStroke(new[] {stroke.Uuid.ToString()});
         }
 
         public string SendEditorActionReplaceStroke(string[] remove, StrokeCollection add = null)
@@ -165,7 +160,7 @@ namespace PolyPaint.Helpers.Communication
                     Remove = remove,
                     Add = add?.Select(stroke => new StrokeModel
                     {
-                        Uuid = (stroke as CustomStroke)?.Uuid,
+                        Uuid = (stroke as CustomStroke)?.Uuid.ToString(),
                         DrawingAttributes = new DrawingAttributesModel
                         {
                             Color = stroke.DrawingAttributes.Color.ToString(),

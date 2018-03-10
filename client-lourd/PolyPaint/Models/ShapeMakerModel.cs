@@ -20,7 +20,7 @@ namespace PolyPaint.Models
         private double Width { get; }
         private double Height { get; }
 
-        public Stroke DrawLine()
+        internal CustomStroke DrawLine()
         {
             //We save the start and the end of the mouse gesture
             StylusPointCollection linePoints = new StylusPointCollection
@@ -33,7 +33,7 @@ namespace PolyPaint.Models
             return new CustomStroke(linePoints);
         }
 
-        public Stroke DrawArrow()
+        internal CustomStroke DrawArrow()
         {
             StylusPoint[] arrowEdges = new StylusPoint[8];
 
@@ -51,7 +51,7 @@ namespace PolyPaint.Models
             return new CustomStroke(arrowPoints);
         }
 
-        public Stroke DrawTriangle()
+        internal CustomStroke DrawTriangle()
         {
             StylusPoint[] triangleEdges = new StylusPoint[4];
 
@@ -65,7 +65,7 @@ namespace PolyPaint.Models
             return new CustomStroke(trianglePoints);
         }
 
-        public Stroke DrawDiamond()
+        internal CustomStroke DrawDiamond()
         {
             StylusPoint[] diamondEdges = new StylusPoint[5];
 
@@ -80,7 +80,7 @@ namespace PolyPaint.Models
             return new CustomStroke(diamondPoints);
         }
 
-        public Stroke DrawLightningBolt()
+        internal CustomStroke DrawLightningBolt()
         {
             StylusPoint[] lightningBoltEdges = new StylusPoint[12];
 
@@ -102,7 +102,7 @@ namespace PolyPaint.Models
             return new CustomStroke(lightningBoltPoints);
         }
 
-        public Stroke DrawITetromino()
+        internal CustomStroke DrawITetromino()
         {
             StylusPoint[] iTetrominoEdges = new StylusPoint[17];
 
@@ -129,7 +129,7 @@ namespace PolyPaint.Models
             return new CustomStroke(iTetrominoPoints);
         }
 
-        public Stroke DrawOTetromino()
+        internal CustomStroke DrawOTetromino()
         {
             StylusPoint[] oTetrominoEdges = new StylusPoint[16];
 
@@ -155,7 +155,7 @@ namespace PolyPaint.Models
             return new CustomStroke(oTetrominoPoints);
         }
 
-        public Stroke DrawLTetromino()
+        internal CustomStroke DrawLTetromino()
         {
             StylusPoint[] lTetrominoEdges = new StylusPoint[17];
 
@@ -182,7 +182,7 @@ namespace PolyPaint.Models
             return new CustomStroke(lTetrominoPoints);
         }
 
-        public Stroke DrawJTetromino()
+        internal CustomStroke DrawJTetromino()
         {
             StylusPoint[] jTetrominoEdges = new StylusPoint[16];
 
@@ -208,7 +208,7 @@ namespace PolyPaint.Models
             return new CustomStroke(jTetrominoPoints);
         }
 
-        public Stroke DrawTTetromino()
+        internal CustomStroke DrawTTetromino()
         {
             StylusPoint[] tTetrominoEdges = new StylusPoint[14];
 
@@ -232,7 +232,7 @@ namespace PolyPaint.Models
             return new CustomStroke(tTetrominoPoints);
         }
 
-        public Stroke DrawSTetromino()
+        internal CustomStroke DrawSTetromino()
         {
             StylusPoint[] sTetrominoEdges = new StylusPoint[15];
 
@@ -257,7 +257,7 @@ namespace PolyPaint.Models
             return new CustomStroke(sTetrominoPoints);
         }
 
-        public Stroke DrawZTetromino()
+        internal CustomStroke DrawZTetromino()
         {
             StylusPoint[] zTetrominoEdges = new StylusPoint[15];
 

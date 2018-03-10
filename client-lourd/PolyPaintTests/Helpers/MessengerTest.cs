@@ -79,7 +79,7 @@ namespace PolyPaintTests.Helpers
             object stroke = new object();
             string expectedOutputString = string.Empty;
 
-            string realOutputString = _messenger.SendEditorActionNewStroke(stroke as Stroke);
+            string realOutputString = _messenger.SendEditorActionNewStroke(stroke as CustomStroke);
 
             Assert.AreEqual(expectedOutputString, realOutputString,
                             "Should return empty string since stroke is not of type stroke/is null");
@@ -106,7 +106,7 @@ namespace PolyPaintTests.Helpers
             //Create stroke
             CustomStroke stroke = new CustomStroke(points, attributes)
             {
-                Uuid = Guid.Empty.ToString()
+                Uuid = Guid.Empty
             };
 
             Messenger.DrawingRoomId = "SomeRoom";
@@ -190,14 +190,6 @@ namespace PolyPaintTests.Helpers
         }
 
         [TestMethod]
-        public void TestEditorSendActionRemoveNullStroke()
-        {
-            string realOutputString = _messenger.SendEditorActionRemoveStroke(null);
-
-            Assert.AreEqual(string.Empty, realOutputString, "Should return an empty string if stroke is null");
-        }
-
-        [TestMethod]
         public void TestEditorSendActionReplaceStroke()
         {
             Messenger.DrawingRoomId = "drawing";
@@ -219,11 +211,11 @@ namespace PolyPaintTests.Helpers
             //Create stroke
             CustomStroke stroke1 = new CustomStroke(points1, attributes)
             {
-                Uuid = Guid.Empty.ToString()
+                Uuid = Guid.Empty
             };
             CustomStroke stroke2 = new CustomStroke(points2, attributes)
             {
-                Uuid = Guid.Empty.ToString()
+                Uuid = Guid.Empty
             };
             StrokeCollection strokes = new StrokeCollection
             {

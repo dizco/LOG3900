@@ -167,7 +167,7 @@ namespace PolyPaint.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnStrokeStackedHandler(object sender, Stroke stroke)
+        private void OnStrokeStackedHandler(object sender, CustomStroke stroke)
         {
             Messenger?.SendEditorActionRemoveStroke(stroke);
         }
@@ -322,7 +322,7 @@ namespace PolyPaint.ViewModels
             // User uses erases by point
             if (IsErasingByPoint)
             {
-                string[] removedUuids = e.Removed.Select(stroke => (stroke as CustomStroke)?.Uuid).ToArray();
+                string[] removedUuids = e.Removed.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString()).ToArray();
 
                 // Refreshes UUID values for the new strokes
                 foreach (Stroke stroke in e.Added)
@@ -336,7 +336,7 @@ namespace PolyPaint.ViewModels
             }
             else if (IsErasingByStroke)
             {
-                string[] removedUuids = e.Removed.Select(stroke => (stroke as CustomStroke)?.Uuid).ToArray();
+                string[] removedUuids = e.Removed.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString()).ToArray();
 
                 SendRemoveStroke(removedUuids);
 
