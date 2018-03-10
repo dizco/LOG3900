@@ -351,36 +351,18 @@ namespace PolyPaint.Models
             return customStroke;
         }
 
-        // TODO: Fix sync on this function
         internal void ReplaceStroke(string remove, StrokeCollection add)
         {
-            Dispatcher dispatcher = Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher;
+            Stroke toRemove = StrokesCollection.First(stroke => (stroke as CustomStroke)?.Uuid.ToString() == remove);
 
-            dispatcher.Invoke(() =>
+            if (add.Count > 0)
             {
-                try
-                {
-                    Stroke toRemove =
-                        StrokesCollection.First(stroke => (stroke as CustomStroke)?.Uuid.ToString() == remove);
-
-                    if (add.Count > 0)
-                    {
-                        StrokesCollection.Replace(toRemove, add);
-                    }
-                    else
-                    {
-                        StrokesCollection.Remove(toRemove);
-                    }
-                }
-                catch (ArgumentNullException e)
-                {
-                    UserAlerts.ShowErrorMessage("Synchronisation error");
-                }
-                catch
-                {
-                    UserAlerts.ShowErrorMessage("Une erreure est survenue.");
-                }
-            });
+                StrokesCollection.Replace(toRemove, add);
+            }
+            else
+            {
+                StrokesCollection.Remove(toRemove);
+            }
         }
 
         public void OpenDrawingPrompt(object o)
@@ -577,13 +559,13 @@ namespace PolyPaint.Models
                 //result message
                 ShowUserInfoMessage("Image exportée avec succès");
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 UserAlerts.ShowErrorMessage("L'accès à ce fichier est interdit");
             }
             catch (Exception e)
             {
-                UserAlerts.ShowErrorMessage("Une erreur est survenue");
+                UserAlerts.ShowErrorMessage($"Une erreur est survenue.\n{e.Message}\nCode:{e.HResult & ((1 << 16) - 1)}");
             }
             finally
             {

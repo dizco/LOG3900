@@ -7,7 +7,7 @@
     xmlns:converters="clr-namespace:PolyPaint.Converters"
     xmlns:customInkCanvas="clr-namespace:PolyPaint.CustomComponents"
     xmlns:local="clr-namespace:PolyPaint.Models"
-    x:Class="PolyPaint.Views.DrawingWindow"
+    x:Class="PolyPaint.Views.EditorView"
         mc:Ignorable="d"
         Title="Poly Paint" Height="700" Width="900" Background="#CBD4E4" MinWidth="627" MinHeight="200">
     <Window.Resources>
@@ -25,7 +25,7 @@
             <MenuItem Header="_Fichier">
                 <MenuItem Header="_Ouvrir" InputGestureText="Ctrl+O" Command="{Binding OpenFileCommand}"></MenuItem>
                 <MenuItem Header="Enregistrer _sous" InputGestureText="Ctrl+s" Command="{Binding SaveFileCommand}"></MenuItem>
-                <MenuItem Header="_Exporter le dessin" Command="{Binding ExportImageCommand}" CommandParameter="{Binding ElementName=surfaceDessin}"></MenuItem>
+                <MenuItem Header="_Exporter le dessin" Command="{Binding ExportImageCommand}" CommandParameter="{Binding ElementName=DrawingSurface}"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="_Récents" ItemsSource="{Binding RecentAutosaves}">
                     <MenuItem.ItemContainerStyle>
@@ -46,7 +46,7 @@
                         <GradientStop Color="#FFE0E0E0" Offset="1"/>
                     </LinearGradientBrush>
                 </StackPanel.Background>
-                <Button x:Name="reinitialiser" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding ResetDrawing}" Content="♺" FontSize="18"/>
+                <Button x:Name="reinitialiser" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding ResetDrawingCommand}" Content="♺" FontSize="18"/>
                 <Button x:Name="empiler" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding Stack}" Content="≚" FontSize="18"/>
                 <Button x:Name="depiler" Width="30" Height="30" Margin="5" Background="#00000000" Command="{Binding Unstack}" Content="≙" FontSize="18"/>
                 <StackPanel Orientation="Horizontal">
@@ -322,7 +322,7 @@
         </Border>
         <Border DockPanel.Dock="Bottom" Height="25" BorderThickness="0,0.75,0,0.75" BorderBrush="#77000000">
             <StackPanel Orientation="Horizontal" Background="#FFF0F0F0">
-                <Image Source="Resources/position.png" Margin="5,5,5,5" VerticalAlignment="Center"/>
+                <Image Source="/PolyPaint;component/Resources/position.png" Margin="5,5,5,5" VerticalAlignment="Center"/>
                 <TextBlock Name="textBlockPosition" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </StackPanel>
         </Border>
@@ -351,7 +351,7 @@
                       DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
                       />
             <Border BorderThickness="5,5,0,0" >
-                <customInkCanvas:CustomRenderingInkCanvas ClipToBounds="True" Grid.Column="0" Grid.Row="0" x:Name="surfaceDessin" 
+                <customInkCanvas:CustomRenderingInkCanvas ClipToBounds="True" x:Name="DrawingSurface" 
                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                            MouseLeave="surfaceDessin_MouseLeave" MouseMove="surfaceDessin_MouseMove"
                            PreviewMouseDown="SurfaceDessin_OnPreviewMouseDown" MouseUp="SurfaceDessin_OnMouseUp"

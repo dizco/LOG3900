@@ -274,24 +274,24 @@ namespace PolyPaint.ViewModels
             List<EditorActionModel> actions = null)
         {
             // TODO: Use EditingModeOption to open the proper editor
-            if (EditorWindow == null)
+            if (EditorView == null)
             {
-                EditorWindow = new DrawingWindow();
-                EditorWindow.Show();
+                EditorView = new EditorView();
+                EditorView.Show();
                 // TODO: Modify this function once server saving protocol is established
-                (EditorWindow.DataContext as EditorViewModel)?.ReplayActions(actions);
-                EditorWindow.Closed += OnEditorClosedHandler;
+                (EditorView.DataContext as EditorViewModel)?.ReplayActions(actions);
+                EditorView.Closed += OnEditorClosedHandler;
                 OnClosingRequest();
             }
         }
 
         private void OpenEditorWindow(StrokeCollection strokes)
         {
-            if (EditorWindow == null)
+            if (EditorView == null)
             {
-                EditorWindow = new DrawingWindow();
-                EditorWindow.Show();
-                if (EditorWindow.DataContext is EditorViewModel editorViewModel)
+                EditorView = new EditorView();
+                EditorView.Show();
+                if (EditorView.DataContext is EditorViewModel editorViewModel)
                 {
                     foreach (Stroke stroke in strokes)
                     {
@@ -299,23 +299,23 @@ namespace PolyPaint.ViewModels
                     }
                 }
 
-                EditorWindow.Closed += OnEditorClosedHandler;
+                EditorView.Closed += OnEditorClosedHandler;
                 OnClosingRequest();
             }
         }
 
         private void OpenEditorWindow(string autosaveDrawingName)
         {
-            if (EditorWindow == null)
+            if (EditorView == null)
             {
-                EditorWindow = new DrawingWindow();
-                EditorWindow.Show();
-                if (EditorWindow.DataContext is EditorViewModel editorViewModel)
+                EditorView = new EditorView();
+                EditorView.Show();
+                if (EditorView.DataContext is EditorViewModel editorViewModel)
                 {
                     editorViewModel.LoadAutosaved.Execute(autosaveDrawingName);
                 }
 
-                EditorWindow.Closed += OnEditorClosedHandler;
+                EditorView.Closed += OnEditorClosedHandler;
                 OnClosingRequest();
             }
         }
@@ -330,7 +330,7 @@ namespace PolyPaint.ViewModels
                 OnClosingRequest();
             }
 
-            EditorWindow = null;
+            EditorView = null;
         }
     }
 }

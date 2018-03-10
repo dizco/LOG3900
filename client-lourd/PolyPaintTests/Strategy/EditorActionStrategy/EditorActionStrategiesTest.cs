@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -45,6 +46,12 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
             };
         }
 
+        [TestInitialize]
+        public void ResetEditor()
+        {
+            _editor.StrokesCollection.Clear();
+        }
+
         [TestMethod]
         [ExpectedException(typeof(InvalidActionStrategyException))]
         public void TestInvalidEditorAction()
@@ -88,13 +95,31 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
 
             Assert.AreEqual("me@me.ca", (_editor.StrokesCollection[0] as CustomStroke)?.Author,
                             "Newly added stroke should have the same author");
+        }
 
-            _editor.StrokesCollection.Clear();
+        [TestMethod]
+        public void TestAddNewStrokeCurrentUser()
+        {
+            string actionStr = _messenger.SendEditorActionNewStroke(_stroke);
+            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+
+            action.Author = new AuthorModel
+            {
+                Username = _editor.CurrentUsername
+            };
+
+            EditorActionStrategyContext context = new EditorActionStrategyContext(action);
+
+            context.ExecuteStrategy(_editor);
+
+            Assert.AreEqual(0, _editor.StrokesCollection.Count, "Editor's StrokeCollection should be empty");
         }
 
         [TestMethod]
         public void TestRemoveStrokeSuccess()
         {
+            AutoResetEvent are = new AutoResetEvent(false);
+
             _editor.StrokesCollection.Add(_stroke);
 
             string actionStr = _messenger.SendEditorActionRemoveStroke(_stroke);
@@ -105,13 +130,79 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
                 Username = "me@me.ca"
             };
 
+            _editor.StrokesCollection.StrokesChanged += (s, e) => are.Set();
+
             EditorActionStrategyContext context = new EditorActionStrategyContext(action);
 
             context.ExecuteStrategy(_editor);
 
+            bool strokesChanged = are.WaitOne(TimeSpan.FromSeconds(1));
+
+            Assert.IsTrue(strokesChanged, "StrokeCollection should have changed");
             Assert.AreEqual(0, _editor.StrokesCollection.Count, "StrokeCollection should be empty");
+        }
+
+        [TestMethod]
+        public void TestRemoveStrokeCurrentUser()
+        {
+            AutoResetEvent are = new AutoResetEvent(false);
+
+            _editor.StrokesCollection.Add(_stroke);
+
+            string actionStr = _messenger.SendEditorActionRemoveStroke(_stroke);
+            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+
+            action.Author = new AuthorModel
+            {
+                Username = _editor.CurrentUsername
+            };
+
+            _editor.StrokesCollection.StrokesChanged += (s, e) => are.Set();
+
+            EditorActionStrategyContext context = new EditorActionStrategyContext(action);
+
+            context.ExecuteStrategy(_editor);
+
+            bool strokesChanged = are.WaitOne(TimeSpan.FromSeconds(1));
+
+            Assert.IsFalse(strokesChanged, "StrokeCollection should not have changed");
+            Assert.AreEqual(1, _editor.StrokesCollection.Count, "StrokeCollection should not be empty");
 
             _editor.StrokesCollection.Clear();
+        }
+
+        [TestMethod]
+        public void TestReplaceStroke()
+        {
+            AutoResetEvent are = new AutoResetEvent(false);
+
+            _editor.StrokesCollection.Add(_stroke);
+
+            CustomStroke stroke1 = new CustomStroke(new StylusPointCollection(new[] {new StylusPoint(3, 7)}));
+
+            CustomStroke stroke2 = new CustomStroke(new StylusPointCollection(new[] {new StylusPoint(1, 3)}));
+
+            StrokeCollection strokes = new StrokeCollection {stroke1, stroke2};
+
+            string actionStr = _messenger.SendEditorActionReplaceStroke(new[] {Guid.Empty.ToString()}, strokes);
+            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+
+            action.Author = new AuthorModel
+            {
+                Username = "me@me.ca"
+            };
+
+            _editor.StrokesCollection.StrokesChanged += (s, e) => are.Set();
+
+            EditorActionStrategyContext context = new EditorActionStrategyContext(action);
+
+            context.ExecuteStrategy(_editor);
+
+            bool strokesChanged = are.WaitOne(TimeSpan.FromSeconds(1));
+
+            Assert.IsTrue(strokesChanged, "StrokeCollection should have changed");
+
+            Assert.AreEqual(2, _editor.StrokesCollection.Count, "StrokeCollection should contain 2 strokes");
         }
     }
 }

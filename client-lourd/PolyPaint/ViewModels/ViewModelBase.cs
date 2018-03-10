@@ -25,7 +25,7 @@ namespace PolyPaint.ViewModels
         public static LoginWindowView LoginWindow { get; set; }
         public static HomeMenu HomeMenu { get; set; }
         public static ChatWindowView ChatWindow { get; set; }
-        public static DrawingWindow EditorWindow { get; set; }
+        public static EditorView EditorView { get; set; }
 
         protected static string DrawingRoomId
         {
