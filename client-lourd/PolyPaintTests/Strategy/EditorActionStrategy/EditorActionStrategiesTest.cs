@@ -20,7 +20,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
     {
         private static Editor _editor;
         private static Messenger _messenger;
-        private static Stroke _stroke;
+        private static CustomStroke _stroke;
 
         [ClassInitialize]
         public static void InitializeMessenger(TestContext context)
@@ -41,7 +41,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
 
             _stroke = new CustomStroke(points, attributes)
             {
-                Uuid = Guid.Empty.ToString()
+                Uuid = Guid.Empty
             };
         }
 

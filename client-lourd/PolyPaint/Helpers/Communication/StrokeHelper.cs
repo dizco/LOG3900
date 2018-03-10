@@ -26,9 +26,9 @@ namespace PolyPaint.Helpers.Communication
             return new CustomStroke(strokePoints, strokeAttributes, author, stroke.Uuid);
         }
 
-        public static bool AreSameStroke(Stroke stroke1, Stroke stroke2)
+        public static bool AreSameStroke(CustomStroke stroke1, CustomStroke stroke2)
         {
-            return (stroke1 as CustomStroke)?.Uuid == (stroke2 as CustomStroke)?.Uuid;
+            return stroke1?.Uuid == stroke2?.Uuid;
         }
     }
 }

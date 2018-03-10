@@ -8,35 +8,35 @@ namespace PolyPaint.CustomComponents
     {
         public CustomStroke(StylusPointCollection stylusPoints) : base(stylusPoints)
         {
-            Uuid = Guid.NewGuid().ToString();
+            Uuid = Guid.NewGuid();
         }
 
         public CustomStroke(StylusPointCollection stylusPoints, DrawingAttributes drawingAttributes) :
             base(stylusPoints, drawingAttributes)
         {
-            Uuid = Guid.NewGuid().ToString();
+            Uuid = Guid.NewGuid();
         }
 
         public CustomStroke(StylusPointCollection stylusPoints, DrawingAttributes drawingAttributes, string author) :
             base(stylusPoints, drawingAttributes)
         {
             Author = author;
-            Uuid = Guid.NewGuid().ToString();
+            Uuid = Guid.NewGuid();
         }
 
         public CustomStroke(StylusPointCollection stylusPoints, DrawingAttributes drawingAttributes, string author,
             string uuid) : base(stylusPoints, drawingAttributes)
         {
             Author = author;
-            Uuid = uuid;
+            Uuid = new Guid(uuid);
         }
 
         public string Author { get; set; }
-        public string Uuid { get; set; }
+        public Guid Uuid { get; set; }
 
         internal void RefreshUuid()
         {
-            Uuid = Guid.NewGuid().ToString();
+            Uuid = Guid.NewGuid();
         }
     }
 }

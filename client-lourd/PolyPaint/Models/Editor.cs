@@ -54,7 +54,12 @@ namespace PolyPaint.Models
 
         public StrokeCollection StrokesCollection = new StrokeCollection();
 
-        public string CurrentUsername { get; set; } = ViewModelBase.Username;
+        public Editor()
+        {
+            CurrentUsername = ViewModelBase.Username;
+        }
+
+        public string CurrentUsername { get; set; }
 
         public string SelectedTool
         {
@@ -130,8 +135,8 @@ namespace PolyPaint.Models
         public ObservableCollection<string> RecentAutosaves { get; } = new ObservableCollection<string>();
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<Stroke> EditorAddedStroke;
-        public event EventHandler<Stroke> StrokeStackedEvent;
+        public event EventHandler<CustomStroke> EditorAddedStroke;
+        public event EventHandler<CustomStroke> StrokeStackedEvent;
 
         /// <summary>
         ///     Appelee lorsqu'une propriété d'Editeur est modifiée.
@@ -179,7 +184,7 @@ namespace PolyPaint.Models
                 {
                     _removedStrokesCollection.Add(toRemove);
                     StrokesCollection.Remove(toRemove);
-                    StrokeStackedEvent?.Invoke(this, toRemove);
+                    StrokeStackedEvent?.Invoke(this, toRemove as CustomStroke);
                 }
             }
             catch
@@ -202,7 +207,7 @@ namespace PolyPaint.Models
                 Stroke stroke = _removedStrokesCollection.Last();
                 StrokesCollection.Add(stroke);
                 _removedStrokesCollection.Remove(stroke);
-                StrokeAdded(stroke);
+                StrokeAdded(stroke as CustomStroke);
             }
             catch
             {
@@ -232,7 +237,7 @@ namespace PolyPaint.Models
         public StrokeCollection AddShape(Point start, Point end)
         {
             //We add the stroke in our primary StrokeCollection
-            Stroke shapeStroke = DrawShape(start, end);
+            CustomStroke shapeStroke = DrawShape(start, end);
             StrokesCollection.Add(shapeStroke);
             StrokeAdded(shapeStroke);
 
@@ -245,12 +250,12 @@ namespace PolyPaint.Models
         }
 
         //Create a stroke of the shape selected
-        public Stroke DrawShape(Point start, Point end)
+        public CustomStroke DrawShape(Point start, Point end)
         {
             ShapeMaker shape = new ShapeMaker(start, end);
 
             //Create a Vertice as a basic stroke
-            Stroke shapeStroke = shape.DrawLine();
+            CustomStroke shapeStroke = shape.DrawLine();
 
             // Draw the correct shape
             switch (_selectedShape)
@@ -325,12 +330,12 @@ namespace PolyPaint.Models
             _removedStrokesCollection.Clear();
         }
 
-        private void StrokeAdded(Stroke stroke)
+        private void StrokeAdded(CustomStroke stroke)
         {
             EditorAddedStroke?.Invoke(this, stroke);
         }
 
-        internal void AddIncomingStroke(Stroke stroke)
+        internal void AddIncomingStroke(CustomStroke stroke)
         {
             Dispatcher dispatcher = Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher;
 
@@ -355,7 +360,8 @@ namespace PolyPaint.Models
             {
                 try
                 {
-                    Stroke toRemove = StrokesCollection.First(stroke => (stroke as CustomStroke)?.Uuid == remove);
+                    Stroke toRemove =
+                        StrokesCollection.First(stroke => (stroke as CustomStroke)?.Uuid.ToString() == remove);
 
                     if (add.Count > 0)
                     {

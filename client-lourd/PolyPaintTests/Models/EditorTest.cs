@@ -27,7 +27,7 @@ namespace PolyPaintTests.Models
 
             Assert.AreEqual(typeof(CustomStroke), typeof(CustomStroke),
                             "AssignUuidToStroke should return a CustomStroke");
-            Assert.IsTrue(((CustomStroke) customStroke).Uuid.Length > 0);
+            Assert.IsTrue(((CustomStroke) customStroke).Uuid != null);
             Assert.AreNotSame(Guid.Empty.ToString(), ((CustomStroke) customStroke).Uuid,
                               "Assigned UUID should not be an empty UUID");
         }
