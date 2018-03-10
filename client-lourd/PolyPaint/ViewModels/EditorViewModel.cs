@@ -58,8 +58,7 @@ namespace PolyPaint.ViewModels
             ChooseTip = new RelayCommand<string>(_editor.SelectTip);
             ChooseTool = new RelayCommand<string>(_editor.SelectTool);
             ChooseShape = new RelayCommand<Editor.DrawableShapes>(_editor.SelectShape);
-            ResetDrawing = new RelayCommand<object>(_editor.Reset);
-
+            ResetDrawingCommand = new RelayCommand<object>(ResetDrawing);
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawingPrompt);
             SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawingPrompt);
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
@@ -145,7 +144,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<string> ChooseTip { get; set; }
         public RelayCommand<string> ChooseTool { get; set; }
         public RelayCommand<Editor.DrawableShapes> ChooseShape { get; set; }
-        public RelayCommand<object> ResetDrawing { get; set; }
+        public RelayCommand<object> ResetDrawingCommand { get; set; }
 
         public RelayCommand<object> OpenFileCommand { get; set; }
         public RelayCommand<object> SaveFileCommand { get; set; }
@@ -295,6 +294,13 @@ namespace PolyPaint.ViewModels
             }
         }
 
+        internal void ResetDrawing(object o)
+        {
+            string[] removeAll = _editor.StrokesCollection.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString()).ToArray();
+            _editor.Reset(o);
+            SendRemoveStroke(removeAll);
+        }
+
         /// <summary>
         ///     Handler for InkCanvas event
         /// </summary>
@@ -322,7 +328,7 @@ namespace PolyPaint.ViewModels
             // User uses erases by point
             if (IsErasingByPoint)
             {
-                string[] removedUuids = e.Removed.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString()).ToArray();
+                string removedUuids = (e.Removed.First() as CustomStroke)?.Uuid.ToString();
 
                 // Refreshes UUID values for the new strokes
                 foreach (Stroke stroke in e.Added)
@@ -330,15 +336,15 @@ namespace PolyPaint.ViewModels
                     (stroke as CustomStroke)?.RefreshUuid();
                 }
 
-                SendRemoveStroke(removedUuids, e.Added);
+                SendRemoveStroke(new[] {removedUuids}, e.Added);
 
                 IsErasingByPoint = false;
             }
             else if (IsErasingByStroke)
             {
-                string[] removedUuids = e.Removed.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString()).ToArray();
+                string removedUuids = (e.Removed.First() as CustomStroke)?.Uuid.ToString();
 
-                SendRemoveStroke(removedUuids);
+                SendRemoveStroke(new[] {removedUuids});
 
                 IsErasingByStroke = false;
             }
