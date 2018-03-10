@@ -596,6 +596,9 @@ namespace PolyPaint.Models
             string[] autosavedDrawings = FetchAutosavedDrawings();
 
             RecentAutosaves.Clear();
+
+            if (autosavedDrawings == null) return;
+
             foreach (string filePath in autosavedDrawings)
             {
                 ProcessRecentFile(filePath);
