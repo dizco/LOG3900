@@ -28,7 +28,6 @@ class DrawingToolsview: UIView {
     @IBOutlet weak var alphaSlider: UISlider!
     @IBOutlet weak var sizeSlider: UISlider!
     
-
     @IBAction func redSliderChanged(_ sender: UISlider) {
         redValue = lroundf(sender.value)
         redField.text! = "\(redValue)"

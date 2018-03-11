@@ -662,41 +662,54 @@
                                     <outlet property="messageField" destination="E8N-VT-aFV" id="pp6-Hd-LtK"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqH-w6-eOY">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqH-w6-eOY" customClass="ToolsView" customModule="PolyPaintPro" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="94" width="50" height="644"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih2-5F-A0e">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih2-5F-A0e" userLabel="pen">
                                         <rect key="frame" x="10" y="8" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="qd4-fM-zgi"/>
                                         </constraints>
                                         <state key="normal" title="Button" image="pencil"/>
+                                        <connections>
+                                            <action selector="penButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="dse-ma-kNv"/>
+                                            <action selector="penButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="rRv-DS-LeG"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ER-3K-E37">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ER-3K-E37" userLabel="eraser">
                                         <rect key="frame" x="10" y="46" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8ER-3K-E37" secondAttribute="height" multiplier="283:256" id="orC-JS-vOa"/>
                                         </constraints>
                                         <state key="normal" title="Button" image="eraser"/>
+                                        <connections>
+                                            <action selector="eraseButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="NiP-md-gR5"/>
+                                            <action selector="eraseButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="uEt-FJ-VDV"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-tt-sia">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-tt-sia" userLabel="cut">
                                         <rect key="frame" x="10" y="81" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="OYV-tt-sia" secondAttribute="height" multiplier="283:256" id="b4Z-ek-F2J"/>
                                         </constraints>
                                         <state key="normal" title="Button" image="cut"/>
+                                        <connections>
+                                            <action selector="cutButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="6Z9-F4-Cee"/>
+                                            <action selector="cutButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="8aB-xC-f9b"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qG-cl-27P">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qG-cl-27P" userLabel="paste">
                                         <rect key="frame" x="10" y="116" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="1qG-cl-27P" secondAttribute="height" multiplier="283:256" id="U0Q-V6-Hk7"/>
                                         </constraints>
                                         <state key="normal" title="Button" image="duplicate"/>
                                         <connections>
-                                            <action selector="editDrawingSettingsToggle:" destination="KwV-uG-opW" eventType="touchUpInside" id="Mwt-jm-EXx"/>
+                                            <action selector="pasteButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="rUU-ZU-T0I"/>
+                                            <action selector="pasteButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="vdi-9x-Jjk"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGC-wv-nF6">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGC-wv-nF6" userLabel="settings">
                                         <rect key="frame" x="10" y="609" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="EGC-wv-nF6" secondAttribute="height" multiplier="283:256" id="Ttk-BX-aBg"/>
@@ -704,30 +717,92 @@
                                         <state key="normal" title="Button" image="settings-work-tool"/>
                                         <connections>
                                             <action selector="editDrawingSettings:" destination="KwV-uG-opW" eventType="touchUpInside" id="G0h-nK-bze"/>
+                                            <action selector="settingsButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="ZLy-ci-jqo"/>
+                                            <action selector="settingsButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="ppD-H5-PZK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwV-9L-yEa" userLabel="reset">
+                                        <rect key="frame" x="10" y="151" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="lSU-1Q-c0e"/>
+                                        </constraints>
+                                        <state key="normal" image="reset.png">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="resetButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="fFB-kp-rp3"/>
+                                            <action selector="resetButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="fzm-K8-zWb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2dV-YF-BCM">
+                                        <rect key="frame" x="10" y="186" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="4wh-bS-YbF"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                        <state key="normal" title="≚">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="stackButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="2Wi-RH-Txp"/>
+                                            <action selector="stackButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="OQR-2I-1dH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgU-f3-qdr">
+                                        <rect key="frame" x="10" y="221" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="27" id="PMk-8f-qgC"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                        <state key="normal" title="≙">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="unstackButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="HAM-Np-9MZ"/>
+                                            <action selector="unstackButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="Of4-4x-1NS"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.24705882352941178" green="0.44705882352941173" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="OYV-tt-sia" secondAttribute="trailing" constant="10" id="3VS-1f-GQc"/>
+                                    <constraint firstItem="hwV-9L-yEa" firstAttribute="top" secondItem="1qG-cl-27P" secondAttribute="bottom" constant="8" id="46T-Tg-ujy"/>
                                     <constraint firstAttribute="trailing" secondItem="8ER-3K-E37" secondAttribute="trailing" constant="10" id="5t6-Tg-G0x"/>
                                     <constraint firstItem="EGC-wv-nF6" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="8XL-M1-EyD"/>
+                                    <constraint firstItem="hwV-9L-yEa" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="9fG-wz-nBc"/>
+                                    <constraint firstItem="2dV-YF-BCM" firstAttribute="top" secondItem="hwV-9L-yEa" secondAttribute="bottom" constant="8" id="BL8-uQ-yTW"/>
                                     <constraint firstItem="1qG-cl-27P" firstAttribute="top" secondItem="OYV-tt-sia" secondAttribute="bottom" constant="8" id="BdK-WH-EOI"/>
+                                    <constraint firstAttribute="trailing" secondItem="rgU-f3-qdr" secondAttribute="trailing" constant="10" id="BzO-CI-5B3"/>
                                     <constraint firstItem="OYV-tt-sia" firstAttribute="top" secondItem="8ER-3K-E37" secondAttribute="bottom" constant="8" id="Df3-JN-8mN"/>
+                                    <constraint firstItem="2dV-YF-BCM" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="E0w-EQ-Pu4"/>
                                     <constraint firstItem="8ER-3K-E37" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="Gpj-cp-nS9"/>
                                     <constraint firstAttribute="trailing" secondItem="EGC-wv-nF6" secondAttribute="trailing" constant="10" id="Kem-FW-TLg"/>
                                     <constraint firstAttribute="trailing" secondItem="Ih2-5F-A0e" secondAttribute="trailing" constant="10" id="LUr-M2-m6Q"/>
                                     <constraint firstItem="8ER-3K-E37" firstAttribute="top" secondItem="Ih2-5F-A0e" secondAttribute="bottom" constant="8" id="NDF-t7-LHE"/>
                                     <constraint firstItem="8ER-3K-E37" firstAttribute="centerX" secondItem="wqH-w6-eOY" secondAttribute="centerX" id="Rp5-lu-98T"/>
+                                    <constraint firstItem="rgU-f3-qdr" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="VQx-Gw-8Xa"/>
                                     <constraint firstItem="1qG-cl-27P" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="bcC-U2-76U"/>
                                     <constraint firstItem="Ih2-5F-A0e" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="cWS-8o-82B"/>
                                     <constraint firstItem="OYV-tt-sia" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="d4b-ON-WUy"/>
                                     <constraint firstAttribute="width" constant="50" id="ggI-Uu-0ZJ"/>
                                     <constraint firstAttribute="bottom" secondItem="EGC-wv-nF6" secondAttribute="bottom" constant="8" id="j9G-XA-ah6"/>
                                     <constraint firstAttribute="trailing" secondItem="1qG-cl-27P" secondAttribute="trailing" constant="10" id="may-SH-vdI"/>
+                                    <constraint firstItem="rgU-f3-qdr" firstAttribute="top" secondItem="2dV-YF-BCM" secondAttribute="bottom" constant="8" id="p4k-Ey-AuA"/>
                                     <constraint firstItem="Ih2-5F-A0e" firstAttribute="top" secondItem="wqH-w6-eOY" secondAttribute="top" constant="8" id="qmw-pl-ZRw"/>
+                                    <constraint firstAttribute="trailing" secondItem="hwV-9L-yEa" secondAttribute="trailing" constant="10" id="rQ3-8e-46v"/>
                                     <constraint firstItem="Ih2-5F-A0e" firstAttribute="top" secondItem="wqH-w6-eOY" secondAttribute="top" constant="8" id="s3N-ju-nF2"/>
+                                    <constraint firstAttribute="trailing" secondItem="2dV-YF-BCM" secondAttribute="trailing" constant="10" id="zJd-my-nXq"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="cutButton" destination="OYV-tt-sia" id="2uO-wC-nbx"/>
+                                    <outlet property="eraseButton" destination="8ER-3K-E37" id="TlJ-ji-fg3"/>
+                                    <outlet property="pasteButton" destination="1qG-cl-27P" id="eyf-Qe-Rk2"/>
+                                    <outlet property="penButton" destination="Ih2-5F-A0e" id="4iH-Zg-vMk"/>
+                                    <outlet property="resetButton" destination="hwV-9L-yEa" id="8e6-DZ-8gH"/>
+                                    <outlet property="settingsButton" destination="EGC-wv-nF6" id="Bdg-GD-2yj"/>
+                                    <outlet property="stackButton" destination="2dV-YF-BCM" id="KDf-N9-Wfe"/>
+                                    <outlet property="unstackButton" destination="rgU-f3-qdr" id="051-5z-4t5"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -778,6 +853,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Zk-AC-UDA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="APT-NG-B5d" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1515.8203125" y="529.6875"/>
         </scene>
@@ -854,6 +930,7 @@
         <image name="horizontalLine" width="260" height="260"/>
         <image name="icon" width="1024" height="1024"/>
         <image name="pencil" width="512" height="512"/>
+        <image name="reset.png" width="128" height="128"/>
         <image name="settings-work-tool" width="512" height="512"/>
         <image name="square" width="225" height="225"/>
         <image name="verticalLine" width="512" height="512"/>
