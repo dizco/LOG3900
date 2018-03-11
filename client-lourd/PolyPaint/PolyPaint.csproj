@@ -125,6 +125,7 @@
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
+    <Compile Include="Models\DrawingPixelModels\DrawingPixelWindowModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
