@@ -1,9 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PolyPaint.ViewModels;
+using System.Diagnostics;
 
 namespace PolyPaint.Views
 {
@@ -20,78 +23,68 @@ namespace PolyPaint.Views
             InitializeComponent();
             DataContext = new DrawingPixelWindowViewModel();
             InitiateBitmap();
-            SurfaceDessin.MouseMove += myCanvas_MouseMove;
-            SurfaceDessin.MouseEnter += SurfaceDessin_MouseEnterMouseDown;
-            SurfaceDessin.PreviewMouseDown += SurfaceDessin_PreviewMouseDown;
         }
 
-        private void SurfaceDessin_MouseEnterMouseDown(object sender, MouseEventArgs e)
+        private void GlisserCommence(object sender, DragStartedEventArgs e)
+        {
+            (sender as Thumb).Background = Brushes.Black;
+        }
+
+        private void GlisserTermine(object sender, DragCompletedEventArgs e)
+        {
+            (sender as Thumb).Background = Brushes.White;
+        }
+
+        private void GlisserMouvementRecu(object sender, DragDeltaEventArgs e)
+        {
+            string nom = (sender as Thumb).Name;
+            if (nom == "horizontal" || nom == "diagonal")
+                colonne.Width = new GridLength(Math.Max(32, colonne.Width.Value + e.HorizontalChange));
+            if (nom == "vertical" || nom == "diagonal")
+                ligne.Height = new GridLength(Math.Max(32, ligne.Height.Value + e.VerticalChange));
+        }
+
+        private void SurfaceDessinMouseEnter(object sender, MouseEventArgs e)
         {
             _oldPosition = e.GetPosition(SurfaceDessin);
         }
 
-        private void SurfaceDessin_PreviewMouseDown(object sender, MouseEventArgs e)
+        private void SurfaceDessinPreviewMouseDown(object sender, MouseEventArgs e)
         {
             _oldPosition = e.GetPosition(SurfaceDessin);
+            //ToDo: SetPixel to color one point
         }
 
         private void InitiateBitmap()
         {
             // http://writeablebitmapex.codeplex.com/
-            writeableBmp = BitmapFactory.New(240, 1270);
-            writeableBmp.Clear(Colors.White);
+            //Todo: set Bitmap size depending of the canvas stretched size
+            //Todo: initiate in MVVM
 
+            // Initialize the WriteableBitmap with two times the size of the window
+            //and set it as source of an Image control
+            writeableBmp = BitmapFactory.New((int)Width * 2, (int)Height * 2);
             using (writeableBmp.GetBitmapContext())
             {
                 waveform.Source = writeableBmp;
                 SurfaceDessin.Children.Add(waveform);
             }
+
+            // Clear the WriteableBitmap with white color
+            writeableBmp.Clear(Colors.Transparent);         
         }
 
-        private void myCanvas_MouseMove(object sender, MouseEventArgs e)
+        private void SurfaceDessinMouseMove(object sender, MouseEventArgs e)
         {
+            //Todo: Combine tools in switch case
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 _newPosition = e.GetPosition(SurfaceDessin);
-                DrawPixel(_oldPosition, _newPosition);
+                (DataContext as DrawingPixelWindowViewModel)?.DrawPixel(writeableBmp,_oldPosition, _newPosition);
+                (DataContext as DrawingPixelWindowViewModel)?.ErasePixel(writeableBmp, _oldPosition, _newPosition);
                 _oldPosition = _newPosition;
-            }
-            else if (e.RightButton == MouseButtonState.Pressed)
-            {
-                _newPosition = e.GetPosition(SurfaceDessin);
-                ErasePixel(_oldPosition, _newPosition);
-                _oldPosition = _newPosition;
-            }
-        }
-
-        private void DrawPixel(Point oldPosition, Point newPosition)
-        {
-            //Todo: Add color change
-            //Todo: Add Thickness change
-            //Todo: Add pencil cursor
-
-            for (int a = 0; a < _thickness; a++)
-            {
-                for (int i = 0; i < _thickness; i++)
-                {
-                    writeableBmp.DrawLine((int)oldPosition.X + i, (int)oldPosition.Y + a, (int)newPosition.X + i, (int)newPosition.Y + a, Colors.Black);
-                }
-            }
-
-            // waveform.Source = writeableBmp;
-        }
-
-        private void ErasePixel(Point oldPosition, Point newPosition)
-        {
-            //Todo: Add Thickness change
-            //Todo: Add Erasor cursor
-            for (int a = 0; a < _thickness; a++)
-            {
-                for (int i = 0; i < _thickness; i++)
-                {
-                    writeableBmp.DrawLine((int) oldPosition.X + i, (int) oldPosition.Y + a, (int) newPosition.X + i,
-                                          (int) newPosition.Y + a, Colors.White);
-                }
+           
+                
             }
         }
     }
