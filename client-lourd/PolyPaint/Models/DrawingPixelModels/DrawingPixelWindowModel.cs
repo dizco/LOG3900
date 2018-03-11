@@ -87,8 +87,7 @@ namespace PolyPaint.Models
                     for (int i = 0; i < StrokeSize; i++)
                     {
                         writeableBitmap.DrawLine((int) oldPosition.X + i, (int) oldPosition.Y + a,
-                                                 (int) newPosition.X + i,
-                                                 (int) newPosition.Y + a, Color);
+                                                 (int) newPosition.X + i, (int) newPosition.Y + a, Color);
                     }
                 }
             }
@@ -269,7 +268,7 @@ namespace PolyPaint.Models
         }
 
         //Todo: Get the function compatible
-        public void ExportImagePrompt(object inkCanvas)
+        public void ExportImagePrompt(object canvas)
         {
             //cancels an empty drawing exportation
             /*if (StrokesCollection.Count == 0 || _isLoadingDrawing)
@@ -279,7 +278,7 @@ namespace PolyPaint.Models
             }*/
 
             //cast object as a inkCanvas (object from command)
-            if (inkCanvas is InkCanvas drawingSurface)
+            if (canvas is Canvas drawingSurface)
             {
                 //then save it as an image
                 SaveFileDialog exportImageDialog = new SaveFileDialog
@@ -297,7 +296,7 @@ namespace PolyPaint.Models
         }
 
         //Todo: Get the function compatible
-        public void ExportImage(string filePathNameExt, InkCanvas drawingSurface)
+        public void ExportImage(string filePathNameExt, Canvas drawingSurface)
         {
             FileStream imageStream = null;
             try

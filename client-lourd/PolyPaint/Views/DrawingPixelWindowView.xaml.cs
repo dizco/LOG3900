@@ -15,7 +15,6 @@ namespace PolyPaint.Views
         private static WriteableBitmap writeableBmp;
         private Point _newPosition;
         private Point _oldPosition;
-        private readonly Image waveform = new Image();
         private int _thickness = 10;
 
         public DrawingPixelWindowView()
@@ -66,8 +65,7 @@ namespace PolyPaint.Views
             writeableBmp = BitmapFactory.New((int)Width * 2, (int)Height * 2);
             using (writeableBmp.GetBitmapContext())
             {
-                waveform.Source = writeableBmp;
-                SurfaceDessin.Children.Add(waveform);
+                DrawnImage.Source = writeableBmp;
             }
 
             // Clear the WriteableBitmap with white color
