@@ -73,14 +73,14 @@ class LoginViewController: UIViewController {
         firstly {
             restManager!.loginToServer()
         }.then { response -> Void in
-            if response == true {
+            if response.success {
                 self.loginErrorTextField?.isHidden = true
                 // TO-MOVE: Connect with socket only in ChatViewController
                 // TO-DO: Establish connection ONLY after the LOGIN POST
                 SocketManager.sharedInstance.establishConnection(ipAddress: ServerLookup.sharedInstance.address)
                 self.performSegue(withIdentifier: "welcome", sender: sender)
             } else {
-                self.loginErrorTextField?.text = "Votre courriel et/ou votre mot de passe est invalide."
+                self.loginErrorTextField?.text = response.error
                 self.loginErrorTextField?.isHidden = false
             }
         }.catch { error in
@@ -106,12 +106,12 @@ class LoginViewController: UIViewController {
         firstly {
             restManager!.registerToServer()
             }.then { response -> Void in
-                if response == true {
+                if response.success {
                     self.loginErrorTextField?.isHidden = true
                     // Account creation successful: auto login immediately
                     self.loginToServer(sender: sender, username: username, password: password)
                 } else {
-                    self.registerErrorTextField?.text = "Une erreur inconnue est survenue lors de l'enregistrement."
+                    self.registerErrorTextField?.text = response.error
                     self.registerErrorTextField?.isHidden = false
                 }
             }.catch { error in
