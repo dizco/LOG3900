@@ -22,16 +22,16 @@ class RecentsViewController: UIViewController {
     }
 
     @IBAction func newDrawing(_ sender: UIButton) {
-        performSegue(withIdentifier: "open", sender: self)
+        performSegue(withIdentifier: "newDrawing", sender: self)
     }
 
     @IBAction func openDrawing(_ sender: UIButton) {
         performSegue(withIdentifier: "open", sender: self)
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! ViewController
-        vc.connexionStatus = connexionStatus
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        let vc = segue.destination as! ViewController
+//        vc.connexionStatus = connexionStatus
+//    }
 
 }
