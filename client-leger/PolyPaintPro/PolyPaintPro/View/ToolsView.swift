@@ -12,7 +12,6 @@ class ToolsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -60,6 +59,13 @@ class ToolsView: UIView {
     }
     //action called for the advanced settings
     @IBAction func settingsButton(_ sender: UIButton) {
+    }
+
+    func setDefault() {
+        let origImage = UIImage(named: "pencil")
+        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
+        penButton.setImage(tintedImage, for: .normal)
+        penButton.tintColor = .white
     }
 
     func resetButtons(sender: UIButton, filename: String) {
