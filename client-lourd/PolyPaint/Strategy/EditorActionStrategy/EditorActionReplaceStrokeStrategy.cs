@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -78,24 +77,19 @@ namespace PolyPaint.Strategy.EditorActionStrategy
             {
                 foreach (KeyValuePair<string, StrokeCollection> replaceAction in ReceivedReplaceActions)
                 {
-                    try
+                    (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
                     {
-                        (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
+                        try
                         {
                             editor
                                 .ReplaceStroke(replaceAction.Key, replaceAction.Value);
-                        });
-                        ReceivedReplaceActions.TryRemove(replaceAction.Key, out _);
-                        break;
-                    }
-                    catch (ArgumentException)
-                    {
-                        // ignored
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        // ignored
-                    }
+                            ReceivedReplaceActions.TryRemove(replaceAction.Key, out _);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    });
                 }
             } while (ReceivedReplaceActions.Count > 0);
 
