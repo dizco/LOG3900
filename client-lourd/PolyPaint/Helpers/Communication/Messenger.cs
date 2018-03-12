@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Ink;
 using Newtonsoft.Json;
@@ -174,6 +175,40 @@ namespace PolyPaint.Helpers.Communication
                 };
 
                 string actionSerialized = JsonConvert.SerializeObject(outgoingRemoveStrokeAction);
+
+                bool isSent = SendDrawingAction(actionSerialized);
+
+                if (isSent)
+                {
+                    return actionSerialized;
+                }
+            }
+
+            return string.Empty;
+        }
+
+        internal string SendEditorActionLockStrokes(List<string> strokes)
+        {
+            return SendEditorActionLockUnlockStrokes(strokes, ActionIds.LockStrokes);
+        }
+
+        internal string SendEditorActionUnlockStrokes(List<string> strokes)
+        {
+            return SendEditorActionLockUnlockStrokes(strokes, ActionIds.UnlockStrokes);
+        }
+
+        private string SendEditorActionLockUnlockStrokes(List<string> strokes, ActionIds action)
+        {
+            if (strokes.Count > 0 && (action == ActionIds.LockStrokes || action == ActionIds.UnlockStrokes))
+            {
+                EditorActionModel outgoingLockStrokesAction = BuildOutgoingAction(action);
+
+                outgoingLockStrokesAction.Delta = new DeltaModel
+                {
+                    Remove = strokes.ToArray()
+                };
+
+                string actionSerialized = JsonConvert.SerializeObject(outgoingLockStrokesAction);
 
                 bool isSent = SendDrawingAction(actionSerialized);
 

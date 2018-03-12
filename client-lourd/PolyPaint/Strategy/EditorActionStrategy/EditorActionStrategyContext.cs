@@ -28,6 +28,12 @@ namespace PolyPaint.Strategy.EditorActionStrategy
                 case ActionIds.ReplaceStroke:
                     _strategy = new EditorActionReplaceStrokeStrategy(action);
                     break;
+                case ActionIds.LockStrokes:
+                    _strategy = new EditorActionLockStrokesStrategy(action);
+                    break;
+                case ActionIds.UnlockStrokes:
+                    _strategy = new EditorActionUnlockStrokesStrategy(action);
+                    break;
                 default:
                     throw new InvalidActionStrategyException();
             }

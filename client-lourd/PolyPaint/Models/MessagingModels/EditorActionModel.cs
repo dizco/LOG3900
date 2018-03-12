@@ -41,7 +41,9 @@ namespace PolyPaint.Models.MessagingModels
     public enum ActionIds
     {
         NewStroke = 1,
-        ReplaceStroke
+        ReplaceStroke,
+        LockStrokes,
+        UnlockStrokes
     }
 
     public class DrawingModel

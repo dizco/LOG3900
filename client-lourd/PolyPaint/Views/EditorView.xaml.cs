@@ -122,5 +122,10 @@ namespace PolyPaint.Views
         {
             (DataContext as EditorViewModel)?.OnStrokeErasingHandler(sender, e);
         }
+
+        private void OnSelectionChanged(object sender, EventArgs e)
+        {
+            (DataContext as EditorViewModel)?.OnSelectionChangedHandler(DrawingSurface?.GetSelectedStrokes());
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -56,6 +57,8 @@ namespace PolyPaint.Models
         private int _strokeSize = 11;
 
         public StrokeCollection StrokesCollection = new StrokeCollection();
+
+        public HashSet<string> LockedStrokes = new HashSet<string>();
 
         public Editor()
         {
