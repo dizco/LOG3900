@@ -2,11 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
-using PolyPaint.Models;
 using PolyPaint.ViewModels;
 
 namespace PolyPaint.Views
@@ -89,19 +87,6 @@ namespace PolyPaint.Views
                 StrokeCollection selectedShape = (DataContext as EditorViewModel).AddShape(_start, _end);
                 DrawingSurface.Select(selectedShape);
             }
-            //
-            if (!_start.Equals(_end) && (DataContext as EditorViewModel)?.ToolSelected == "lasso")
-            {
-                //new adorner
-                //add adorner
-                //give strokes to the adorner
-
-                //Add the rotating strokes adorner to the InkPresenter.
-                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(surfaceDessin);
-                RotatingStrokesAdorner adorner = new RotatingStrokesAdorner(surfaceDessin);
-
-                adornerLayer.Add(adorner);
-            }
         }
 
         private void SurfaceDessin_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -137,29 +122,5 @@ namespace PolyPaint.Views
         {
             (DataContext as EditorViewModel)?.OnStrokeErasingHandler(sender, e);
         }
-
-        // Button.Click event handler that rotates the strokes
-        private void RotateStrokes(object sender, RoutedEventArgs e)
-        {
-            StrokeCollection copiedStrokes = surfaceDessin.Strokes.Clone();
-            Matrix rotatingMatrix = new Matrix();
-            //double canvasLeft = Canvas.GetLeft(surfaceDessin);
-            //double canvasTop = Canvas.GetTop(surfaceDessin);
-            Point rotatePoint = new Point(surfaceDessin.ActualWidth / 2, surfaceDessin.ActualHeight / 2);
-
-            rotatingMatrix.RotateAt(90, rotatePoint.X, rotatePoint.Y);
-            copiedStrokes.Transform(rotatingMatrix, false);
-            surfaceDessin.Strokes = copiedStrokes;
-
-        }
-        /* //new. On trying
-        void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Add the rotating strokes adorner to the InkPresenter.
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(inkPresenter1);
-            RotatingStrokesAdorner adorner = new RotatingStrokesAdorner(inkPresenter1);
-
-            adornerLayer.Add(adorner);
-        }*/
     }
 }
