@@ -15,7 +15,7 @@
     <DockPanel>
         <Menu IsMainMenu="True" DockPanel.Dock="Top">
             <MenuItem Header="_Fichier">
-                <MenuItem Header="_Exporter le dessin" Command="{Binding ExportImageCommand}" CommandParameter="{Binding ElementName=SurfaceDessin}"></MenuItem>
+                <MenuItem Header="_Exporter le dessin" Command="{Binding ExportImageCommand}" CommandParameter="{Binding ElementName=DrawingSurface}"></MenuItem>
             </MenuItem>
         </Menu>
         <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0.5" BorderBrush="#77000000">
@@ -125,13 +125,13 @@
                     Width="6" Height="6" DragDelta="GlisserMouvementRecu" 
                     DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
              />
-            <Border BorderThickness="5,5,0,0" >
-                <Canvas x:Name="SurfaceDessin"
+            <Border x:Name="DisplayArea" BorderThickness="5,5,0,0" >
+                <Canvas x:Name="DrawingSurface"
                         Background="White" ClipToBounds="True"  
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                        MouseMove="SurfaceDessinMouseMove" MouseEnter="SurfaceDessinMouseEnter"
-                        PreviewMouseDown="SurfaceDessinPreviewMouseDown">
-                    <Image x:Name="DrawnImage"></Image>
+                        MouseMove="DrawingSurfaceMouseMove" MouseEnter="DrawingSurfaceMouseEnter"
+                        PreviewMouseDown="DrawingSurfacePreviewMouseDown">
+                    <Image x:Name="DrawnImage" VerticalAlignment="Top" Source="{Binding WriteableBitmap}" />
                 </Canvas>
                 <Border.Effect>
                     <DropShadowEffect Opacity="0.3" BlurRadius="10"/>
