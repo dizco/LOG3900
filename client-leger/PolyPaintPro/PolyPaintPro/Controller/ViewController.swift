@@ -5,6 +5,7 @@ class ViewController: UIViewController {
     var chatShowing = false
     var toolsShowing = false
     var drawingSettingsShowing = false
+    var connexionStatus = true
 
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
@@ -126,7 +127,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-    var connexionStatus = true
+
     override func viewDidLoad() {
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
