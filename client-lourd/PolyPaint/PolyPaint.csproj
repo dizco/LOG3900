@@ -122,6 +122,8 @@
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
+    <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
+    <Compile Include="Strategy\EditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
     <Compile Include="Views\HomeMenu.xaml.cs">
       <DependentUpon>HomeMenu.xaml</DependentUpon>

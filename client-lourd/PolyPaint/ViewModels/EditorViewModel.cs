@@ -141,6 +141,8 @@ namespace PolyPaint.ViewModels
         }
 
         public StrokeCollection StrokesCollection { get; set; }
+        public HashSet<string> LockedStrokes { get; set; }
+        private List<string> LockedStrokesHeld { get; set; }
 
         // Commandes sur lesquels la vue pourra se connecter.
         public RelayCommand<object> Stack { get; set; }
@@ -226,7 +228,6 @@ namespace PolyPaint.ViewModels
         {
             if (actions == null)
             {
-                return;
             }
 
             // TODO: Modify this function once server saving protocol is established
@@ -308,7 +309,8 @@ namespace PolyPaint.ViewModels
 
         internal void ResetDrawing(object o)
         {
-            string[] removeAll = _editor.StrokesCollection.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString()).ToArray();
+            string[] removeAll = _editor.StrokesCollection.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString())
+                                        .ToArray();
             _editor.Reset(o);
             SendRemoveStroke(removeAll);
         }
@@ -333,6 +335,33 @@ namespace PolyPaint.ViewModels
         {
             IsErasingByPoint = (sender as CustomRenderingInkCanvas)?.EditingMode == InkCanvasEditingMode.EraseByPoint;
             IsErasingByStroke = (sender as CustomRenderingInkCanvas)?.EditingMode == InkCanvasEditingMode.EraseByStroke;
+        }
+
+        internal void OnSelectionChangedHandler(StrokeCollection strokes)
+        {
+            if (strokes.Count > 0)
+            {
+                LockedStrokesHeld = strokes.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString())
+                                           .Where(stroke => stroke != null).ToList();
+                SendLockStrokes(LockedStrokesHeld);
+            }
+            else
+            {
+                SendUnlockStrokes(LockedStrokesHeld);
+            }
+        }
+
+        private void SendLockStrokes(List<string> lockedStrokesHeld)
+        {
+            Messenger?.SendEditorActionLockStrokes(lockedStrokesHeld);
+        }
+
+        private void SendUnlockStrokes(List<string> lockedStrokesHeld)
+        {
+            if (!string.IsNullOrEmpty(Messenger?.SendEditorActionUnlockStrokes(lockedStrokesHeld)))
+            {
+                LockedStrokesHeld.Clear();
+            }
         }
 
         private void StrokesCollectionOnStrokesChanged(object sender, StrokeCollectionChangedEventArgs e)
