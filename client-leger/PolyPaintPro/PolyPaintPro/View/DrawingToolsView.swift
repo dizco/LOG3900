@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class DrawingToolsview: UIView {
+class DrawingToolsView: UIView {
     var redValue: Int = 0
     var greenValue: Int = 0
     var  blueValue: Int = 0

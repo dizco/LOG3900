@@ -47,9 +47,11 @@ class ViewController: UIViewController {
 
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
-
+        red = CGFloat(drawingSettingsView.redValue)
+        green = CGFloat(drawingSettingsView.greenValue)
+        blue = CGFloat(drawingSettingsView.blueValue)
+        opacity = CGFloat(drawingSettingsView.alphaValue)
         imageView.image?.draw(in: view.bounds)
-
         let context = UIGraphicsGetCurrentContext()
 
         context?.move(to: fromPoint)
@@ -57,7 +59,7 @@ class ViewController: UIViewController {
 
         context?.setLineCap(CGLineCap.round)
         context?.setLineWidth(brushWidth)
-        context?.setStrokeColor(red: red, green: green, blue: blue, alpha: 1.0)
+        context?.setStrokeColor(red: red/255, green: green/255, blue: blue/255, alpha: opacity/100)
         context?.setBlendMode(CGBlendMode.normal)
         context?.strokePath()
 
