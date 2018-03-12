@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Views;
@@ -35,15 +28,10 @@ namespace PolyPaint.ViewModels
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, DrawingPixelModelPropertyModified est appelée.
             _drawingPixelModel.DrawingName = DrawingName;
 
+            InitializeBitmap();
             // Pour les commandes suivantes, il est toujours possible des les activer.
             // Donc, aucune vérification de type Peut"Action" à faire.
             ChooseTool = new RelayCommand<string>(_drawingPixelModel.SelectTool);
-
-            //Todo: Check if necessary and compatible
-            OpenFileCommand = new RelayCommand<object>(_drawingPixelModel.OpenDrawingPrompt);
-            SaveFileCommand = new RelayCommand<object>(_drawingPixelModel.SaveDrawingPrompt);
-            AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
-            LoadAutosaved = new RelayCommand<string>(_drawingPixelModel.OpenAutosave);
 
             ExportImageCommand = new RelayCommand<object>(_drawingPixelModel.ExportImagePrompt);
 
@@ -53,6 +41,11 @@ namespace PolyPaint.ViewModels
             LoginStatusChanged += ProcessLoginStatusChange;
         }
 
+        public WriteableBitmap WriteableBitmap
+        {
+            get => _drawingPixelModel.WriteableBitmap;
+            set => _drawingPixelModel.WriteableBitmap = value;
+        }
 
         public string ToolSelected
         {
@@ -68,27 +61,8 @@ namespace PolyPaint.ViewModels
 
         public int StrokeSizeSelected
         {
-            get => _drawingPixelModel.StrokeSize;
-            set => _drawingPixelModel.StrokeSize = value;
-        }
-
-        public void DrawPixel(WriteableBitmap writeableBitmap, Point oldPoint, Point newPoint)
-        {
-            _drawingPixelModel.DrawPixel(writeableBitmap, oldPoint, newPoint);
-        }
-
-        public void ErasePixel(WriteableBitmap writeableBitmap, Point oldPoint, Point newPoint)
-        {
-            _drawingPixelModel.ErasePixel(writeableBitmap, oldPoint, newPoint);
-        }
-
-        public ObservableCollection<string> RecentAutosaves
-        {
-            get
-            {
-                _drawingPixelModel.UpdateRecentAutosaves();
-                return _drawingPixelModel.RecentAutosaves;
-            }
+            get => _drawingPixelModel.PixelSize;
+            set => _drawingPixelModel.PixelSize = value;
         }
 
         public Visibility ChatVisibility
@@ -107,7 +81,6 @@ namespace PolyPaint.ViewModels
         //Commands for choosing the tools
         public RelayCommand<string> ChooseTool { get; set; }
 
-        //Todo: Check if necessary
         public RelayCommand<object> OpenFileCommand { get; set; }
         public RelayCommand<object> SaveFileCommand { get; set; }
         public RelayCommand<object> AutosaveFileCommand { get; set; }
@@ -121,14 +94,29 @@ namespace PolyPaint.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public void InitiateBitmap()
+        {
+            _drawingPixelModel.InitializeBitmap();
+        }
+
+        public void InitializeBitmap()
+        {
+            _drawingPixelModel.InitializeBitmap();
+        }
+
+        public void PixelDraw(Point oldPoint, Point newPoint)
+        {
+            _drawingPixelModel.PixelDraw(oldPoint, newPoint);
+        }
+
+        public void PixelCursors(Border displayArea)
+        {
+            _drawingPixelModel.PixelCursor(displayArea);
+        }
+
         private void ProcessLoginStatusChange(object sender, string username)
         {
             _drawingPixelModel.CurrentUsername = username;
-        }
-
-        private void AutosaveFile(object obj)
-        {
-            _drawingPixelModel.SaveDrawing(string.Empty, true);
         }
 
         /// <summary>
@@ -152,8 +140,6 @@ namespace PolyPaint.ViewModels
         ///     Les paramètres de l'évènement. PropertyName est celui qui nous intéresse.
         ///     Il indique quelle propriété a été modifiée dans le modèle.
         /// </param>
-        
-
         private bool CanOpenChat(object obj)
         {
             return Messenger?.IsConnected ?? false;
@@ -172,11 +158,6 @@ namespace PolyPaint.ViewModels
             {
                 ChatWindow.Activate();
             }
-        }
-
-        private void LoginViewClosed(object sender, EventArgs e)
-        {
-            LoginWindow = null;
         }
     }
 }
