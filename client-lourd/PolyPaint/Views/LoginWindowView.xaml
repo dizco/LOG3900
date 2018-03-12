@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="PolyPaintPro" Height="754" Width="616.336"
         MinHeight="700" MinWidth="350">
@@ -25,13 +26,13 @@
                 <!-- user info log in section -->
                 <StackPanel MinWidth="200" MinHeight="300">
                     <Label Content="Courriel" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
+                    <xctk:WatermarkTextBox Watermark="utilisateur@exemple.com" Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
 
                     <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
                     <PasswordBox Name="LoginPasswordBox" FontSize="18"/>
-                    
+
                     <Label Content="Adresse IP du serveur" Margin="0,60,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox Text="{Binding ServerUri, Mode=TwoWay}" FontSize="18"/>
+                    <xctk:WatermarkTextBox Watermark="255.255.255.255:5025" Text="{Binding ServerUri, Mode=TwoWay}" FontSize="18"/>
                 </StackPanel>
                 <Button x:Name="LogInButton" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=LoginPasswordBox}" Content="Connexion" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
                 <Button x:Name="OfflineButtonLogin" Command="{Binding OfflineCommand}" Content="Mode hors ligne" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="0,10,0,0"/>
@@ -49,7 +50,8 @@
                 <!-- sign up info section -->
                 <StackPanel MinWidth="200" MinHeight="300">
                     <Label Content="Courriel" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
+                    <xctk:WatermarkTextBox Watermark="utilisateur@exemple.com" Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
+                    
                     <StackPanel Name="PasswordBoxes">
                         <Label Content="Mot de passe" FontWeight="Bold" FontSize="18"/>
                         <PasswordBox Name="RegisterPasswordBox" FontSize="18"/>
@@ -58,7 +60,7 @@
                         <PasswordBox Name="RegisterPasswordBoxConfirm" FontSize="18"/>
                     </StackPanel>
                     <Label Content="Adresse IP du serveur" Margin="0,10,0,0" FontWeight="Bold" FontSize="18"/>
-                    <TextBox Text="{Binding ServerUri, Mode=TwoWay}" Margin="0,0,0,10" FontSize="18"/>
+                    <xctk:WatermarkTextBox Watermark="255.255.255.255:5025" Text="{Binding ServerUri, Mode=TwoWay}" FontSize="18"/>
 
                 </StackPanel>
                 <Button x:Name="SignUpButton" Command="{Binding SignupCommand}" CommandParameter="{Binding ElementName=PasswordBoxes}" Content="Créer un compte" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18"/>
