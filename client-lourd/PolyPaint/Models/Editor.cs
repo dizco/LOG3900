@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -226,21 +225,7 @@ namespace PolyPaint.Models
         public void SelectTool(string outil)
         {
             SelectedTool = outil;
-            if (outil == "lasso")
-            {
-                //AddThumb();
-            }
         }
-
-        //Add a visual control that allows the rotation of selected strokes
-//        public void AddThumb()
-//        {
-//            // Add the rotating strokes adorner to the InkPresenter.
-//            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(drawingSurf);
-//            RotatingStrokesAdorner adorner = new RotatingStrokesAdorner(inkPresenter1);
-//
-//            adornerLayer.Add(adorner);
-//        }
 
         //The active tool become the one passed in parameter
         public void SelectShape(DrawableShapes shape)
@@ -645,10 +630,79 @@ namespace PolyPaint.Models
             return drawingName;
         }
 
+<<<<<<< HEAD
         internal static string ExtractDrawingNameString(string fileName)
         {
             string name = Regex.Match(fileName, "[\\w]*.tide").Value;
             return Regex.Replace(name, ".tide", "");
+=======
+        public void QuarterTurnClockwise(object inkCanvas)
+        {
+            if (inkCanvas is InkCanvas drawingSurface)
+            {
+                StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
+                double rotateAngle = 90;//degrees
+                RotateStrokes(rotateAngle, selectedStrokes);
+            }
+        }
+
+        public void QuarterTurnCounterClockwise(object inkCanvas)
+        {
+            if (inkCanvas is InkCanvas drawingSurface)
+            {
+                StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
+                double rotateAngle = -90;//degrees
+                RotateStrokes(rotateAngle, selectedStrokes);
+            }
+        }
+
+        //does a rotation of the strokes according a specified angle
+        private void RotateStrokes(double angle, StrokeCollection selectedStrokes)
+        {
+            StrokeCollection selection = selectedStrokes;
+            Rect selectionBounds = selection.GetBounds();
+            Point center = new Point(selectionBounds.X + selectionBounds.Width / 2,
+                                     selectionBounds.Y + selectionBounds.Height / 2);
+            RotateTransform rotation = new RotateTransform(angle, center.X, center.Y);
+
+            // Rotate the strokes to match the new angle.
+            Matrix mat = new Matrix();
+            mat.RotateAt(rotation.Angle, center.X, center.Y);
+
+            selection.Transform(mat, false);
+        }
+
+        public void VerticalFlip(object inkCanvas)
+        {
+            if (inkCanvas is InkCanvas drawingSurface)
+            {
+                StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
+                ScaleTransform mirror = new ScaleTransform(1, -1);
+                FlipStrokes(mirror, selectedStrokes);
+            }
+        }
+
+        public void HorizontalFlip(object inkCanvas)
+        {
+            if (inkCanvas is InkCanvas drawingSurface)
+            {
+                StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
+                ScaleTransform mirror = new ScaleTransform(-1, 1);
+                FlipStrokes(mirror, selectedStrokes);
+            }
+        }
+
+        //does a mirror flip of the strokes according a specified angle
+        private void FlipStrokes(ScaleTransform mirror, StrokeCollection selectedStrokes)
+        {
+            StrokeCollection selection = selectedStrokes;
+            Rect selectionBounds = selection.GetBounds();
+            Point mirrorCenter = new Point(selectionBounds.X + selectionBounds.Width / 2,
+                                     selectionBounds.Y + selectionBounds.Height / 2);
+            Matrix mirrorMatrix = new Matrix();
+            mirrorMatrix.ScaleAt(mirror.ScaleX, mirror.ScaleY, mirrorCenter.X, mirrorCenter.Y);
+            selection.Transform(mirrorMatrix, false);
+>>>>>>> 2abdda6... refs #16109 [lourd] 90 degrees rotations and mirror flips works
         }
 
         private void ShowUserInfoMessage(string message)

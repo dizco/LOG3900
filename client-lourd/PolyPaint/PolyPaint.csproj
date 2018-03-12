@@ -123,7 +123,6 @@
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
-    <Compile Include="ViewModels\RotateAdornerModel.cs" />
     <Compile Include="Views\HomeMenu.xaml.cs">
       <DependentUpon>HomeMenu.xaml</DependentUpon>
     </Compile>
@@ -254,6 +253,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\lightningBolt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\if_Rotate_right_131866.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\if_Rotate_left_131852.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\if_Flip_horizontally_131749.png" />
+    <Resource Include="Resources\if_Flip_vertically_131714.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

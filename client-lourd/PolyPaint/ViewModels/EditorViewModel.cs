@@ -74,6 +74,14 @@ namespace PolyPaint.ViewModels
             //Managing different View
             OpenChatWindowCommand = new RelayCommand<object>(OpenChatWindow, CanOpenChat);
 
+            //Strokes Rotate tool
+            QuartTrnClkwiseCommand = new RelayCommand<object>(_editor.QuarterTurnClockwise);
+            QuartTrnCntrClkwiseCommand = new RelayCommand<object>(_editor.QuarterTurnCounterClockwise);
+            VerticalFlipCommand = new RelayCommand<object>(_editor.VerticalFlip);
+            HorizontalFlipCommand = new RelayCommand<object>(_editor.HorizontalFlip);
+
+            EditorActionReceived += ProcessReceivedEditorAction;
+
             LoginStatusChanged += ProcessLoginStatusChange;
 
             EditorActionReceived += ProcessReceivedEditorAction;
@@ -163,6 +171,12 @@ namespace PolyPaint.ViewModels
 
         internal bool IsErasingByPoint { get; set; }
         internal bool IsErasingByStroke { get; set; }
+
+        //Strokes Rotate tool
+        public RelayCommand<object> QuartTrnClkwiseCommand { get; set; }
+        public RelayCommand<object> QuartTrnCntrClkwiseCommand { get; set; }
+        public RelayCommand<object> VerticalFlipCommand { get; set; }
+        public RelayCommand<object> HorizontalFlipCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
