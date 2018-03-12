@@ -28,6 +28,7 @@ class ToolsView: UIView {
     @IBOutlet weak var unstackButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
 
+    //action called for the pen
     @IBAction func penButton(_ sender: UIButton) {
         resetButtons()
         let origImage = UIImage(named: "pencil")
@@ -35,6 +36,7 @@ class ToolsView: UIView {
         sender.setImage(tintedImage, for: .normal)
         sender.tintColor = .white
     }
+    //action called for the eraser
     @IBAction func eraseButton(_ sender: UIButton) {
         resetButtons()
         let origImage = UIImage(named: "eraser")
@@ -42,6 +44,7 @@ class ToolsView: UIView {
         sender.setImage(tintedImage, for: .normal)
         sender.tintColor = .white
     }
+    //action called for the cut action
     @IBAction func cutButton(_ sender: UIButton) {
         resetButtons()
         let origImage = UIImage(named: "cut")
@@ -49,6 +52,7 @@ class ToolsView: UIView {
         sender.setImage(tintedImage, for: .normal)
         sender.tintColor = .white
     }
+    //action called for the paste action
     @IBAction func pasteButton(_ sender: UIButton) {
         resetButtons()
         let origImage = UIImage(named: "duplicate")
@@ -56,6 +60,7 @@ class ToolsView: UIView {
         sender.setImage(tintedImage, for: .normal)
         sender.tintColor = .white
     }
+    //action called for the reset action
     @IBAction func resetButton(_ sender: UIButton) {
         resetButtons()
         let origImage = UIImage(named: "reset")
@@ -63,15 +68,17 @@ class ToolsView: UIView {
         sender.setImage(tintedImage, for: .normal)
         sender.tintColor = .white
     }
+    //action called for the stack action
     @IBAction func stackButton(_ sender: UIButton) {
         resetButtons()
         sender.setTitleColor(.white, for: .normal)
     }
+    //action called for the unstack action
     @IBAction func unstackButton(_ sender: UIButton) {
         resetButtons()
         sender.setTitleColor(.white, for: .normal)
-
     }
+    //action called for the advanced settings
     @IBAction func settingsButton(_ sender: UIButton) {
     }
 
