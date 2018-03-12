@@ -30,59 +30,40 @@ class ToolsView: UIView {
 
     //action called for the pen
     @IBAction func penButton(_ sender: UIButton) {
-        resetButtons()
-        let origImage = UIImage(named: "pencil")
-        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
-        sender.setImage(tintedImage, for: .normal)
-        sender.tintColor = .white
+        resetButtons(sender: sender, filename: "pencil")
     }
     //action called for the eraser
     @IBAction func eraseButton(_ sender: UIButton) {
-        resetButtons()
-        let origImage = UIImage(named: "eraser")
-        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
-        sender.setImage(tintedImage, for: .normal)
-        sender.tintColor = .white
+        resetButtons(sender: sender, filename: "eraser")
     }
     //action called for the cut action
     @IBAction func cutButton(_ sender: UIButton) {
-        resetButtons()
-        let origImage = UIImage(named: "cut")
-        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
-        sender.setImage(tintedImage, for: .normal)
-        sender.tintColor = .white
+       resetButtons(sender: sender, filename: "cut")
     }
     //action called for the paste action
     @IBAction func pasteButton(_ sender: UIButton) {
-        resetButtons()
-        let origImage = UIImage(named: "duplicate")
-        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
-        sender.setImage(tintedImage, for: .normal)
-        sender.tintColor = .white
+        resetButtons(sender: sender, filename: "duplicate")
     }
     //action called for the reset action
     @IBAction func resetButton(_ sender: UIButton) {
-        resetButtons()
-        let origImage = UIImage(named: "reset")
-        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
-        sender.setImage(tintedImage, for: .normal)
-        sender.tintColor = .white
+        resetButtons(sender: sender, filename: "reset")
     }
     //action called for the stack action
     @IBAction func stackButton(_ sender: UIButton) {
-        resetButtons()
+        resetButtons(sender: sender, filename: "")
         sender.setTitleColor(.white, for: .normal)
     }
     //action called for the unstack action
     @IBAction func unstackButton(_ sender: UIButton) {
-        resetButtons()
-        sender.setTitleColor(.white, for: .normal)
+        resetButtons(sender: sender, filename: "")
+       sender.setTitleColor(.white, for: .normal)
     }
     //action called for the advanced settings
     @IBAction func settingsButton(_ sender: UIButton) {
     }
 
-    func resetButtons() {
+    func resetButtons(sender: UIButton, filename: String) {
+        resetUnicode()
         let penOrigImage = UIImage(named: "pencil")
         let penTintedImage = penOrigImage?.withRenderingMode(.alwaysTemplate)
         penButton.setImage(penTintedImage, for: .normal)
@@ -108,8 +89,15 @@ class ToolsView: UIView {
         resetButton.setImage(resetTintedImage, for: .normal)
         resetButton.tintColor = .black
 
+        let origImage = UIImage(named: filename)
+        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
+        sender.setImage(tintedImage, for: .normal)
+        sender.tintColor = .white
+
+    }
+
+    func resetUnicode() {
         stackButton.setTitleColor(.black, for: .normal)
         unstackButton.setTitleColor(.black, for: .normal)
-
     }
 }
