@@ -9,7 +9,7 @@ class ViewController: UIViewController {
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
     @IBOutlet weak var toolsView: UIView!
-    @IBOutlet weak var drawingSettingsView: UIView!
+    @IBOutlet weak var drawingSettingsView: DrawingToolsView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var messageField: UITextField!
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the
