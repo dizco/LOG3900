@@ -72,6 +72,22 @@ export class WebSocketDecorator {
     }
 
     /**
+     * Join a WebSocket room
+     * @param {string} roomId
+     */
+    public join(roomId: string): void {
+        this.wss.joinRoom(roomId, this);
+    }
+
+    /**
+     * Leave a WebSocket room
+     * @param {string} roomId
+     */
+    public leave(roomId: string): void {
+        this.wss.leaveRoom(roomId, this);
+    }
+
+    /**
      * Sends a ping on the socket with an interval and checks if the pong was received
      */
     public detectDisconnect(): void {

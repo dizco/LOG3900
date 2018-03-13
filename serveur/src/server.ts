@@ -37,8 +37,8 @@ PassportVerifyLocal.setWss(wss);
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);
     wsDecorator.user = (<any>req).identifiedUser;
-    wss.join(DefaultRooms.General, wsDecorator);
-    wss.join(DefaultRooms.Chat, wsDecorator);
+    wsDecorator.join(DefaultRooms.General);
+    wsDecorator.join(DefaultRooms.Chat);
 
     console.log("\nConnection by socket on server with ip", req.connection.remoteAddress, "\n");
 
@@ -69,7 +69,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
 
     ws.on("close", (code, reason) => {
         console.log(`Disconnected from socket ip ${req.connection.remoteAddress} with code ${code}. Reason : ${reason}.`);
-        wss.remove(wsDecorator);
+        wss.removeClient(wsDecorator);
     });
 
     wsDecorator.detectDisconnect();

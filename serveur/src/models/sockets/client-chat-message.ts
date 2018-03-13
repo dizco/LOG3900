@@ -22,6 +22,9 @@ export function IsClientChatMessage(message: any): message is ClientChatMessage 
     else if (!("id" in message.room)) {
         return false;
     }
+    else if (message.room.id === null || message.room.id === undefined) {
+        return false;
+    }
 
     return true;
 }

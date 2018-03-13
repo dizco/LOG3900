@@ -44,35 +44,35 @@ describe("websocket server", function() {
         it("should create a new room if doesn't exist", function() {
             const ws1 = new FakeWebSocket("ws://localhost");
             const user1 = new WebSocketDecorator(sandbox.spy() as any, ws1);
-            server.join(roomId, user1);
+            server.joinRoom(roomId, user1);
 
             expect(server.findRoom(roomId)).to.exist;
             expect(server.findRoom(roomId)).to.be.instanceOf(Room);
             //expect(server.findRoom(roomId).getClients()).to.contain(user1);
         });
 
-        it("should remove a client from a room and destroy the room", function() {
+        it("should removeClient a client from a room and destroy the room", function() {
             const ws1 = new FakeWebSocket("ws://localhost");
             const user1 = new WebSocketDecorator(sandbox.spy() as any, ws1);
 
-            server.join(roomId, user1);
+            server.joinRoom(roomId, user1);
             expect(server.findRoom(roomId)).to.exist;
-            server.remove(user1);
+            server.removeClient(user1);
             expect(server.findRoom(roomId)).to.not.exist;
         });
 
-        it("should remove a client from a room and keep the room", function() {
+        it("should removeClient a client from a room and keep the room", function() {
             const ws1 = new FakeWebSocket("ws://localhost");
             const ws2 = new FakeWebSocket("ws://localhost");
 
             const user1 = new WebSocketDecorator(sandbox.spy() as any, ws1);
             const user2 = new WebSocketDecorator(sandbox.spy() as any, ws2);
 
-            server.join(roomId, user1);
-            server.join(roomId, user2);
+            server.joinRoom(roomId, user1);
+            server.joinRoom(roomId, user2);
             expect(server.findRoom(roomId)).to.exist;
 
-            server.remove(user1);
+            server.removeClient(user1);
             expect(server.findRoom(roomId)).to.exist;
         });
 
@@ -86,7 +86,7 @@ describe("websocket server", function() {
             const userModel = sandbox.spy() as any;
             user1.user = userModel;
 
-            server.join(DefaultRooms.General, user1);
+            server.joinRoom(DefaultRooms.General, user1);
 
             expect(server.userExists(userModel)).to.be.true;
         });
@@ -97,7 +97,7 @@ describe("websocket server", function() {
             const userModel = sandbox.spy() as any;
             user1.user = userModel;
 
-            server.join(DefaultRooms.Chat, user1);
+            server.joinRoom(DefaultRooms.Chat, user1);
 
             expect(server.userExists(userModel)).to.be.false;
         });
