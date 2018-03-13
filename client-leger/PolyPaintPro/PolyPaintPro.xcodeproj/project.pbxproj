@@ -22,6 +22,9 @@
 		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
 		27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */; };
 		27C07AA62050D319006BB8EB /* RecentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27C07AA52050D319006BB8EB /* RecentsViewController.swift */; };
+		27F2FE272057656C006090B5 /* OpenLocalDrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F2FE262057656C006090B5 /* OpenLocalDrawingViewController.swift */; };
+		27F2FE2920576591006090B5 /* JoinDrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F2FE2820576591006090B5 /* JoinDrawingViewController.swift */; };
+		27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F2FE2A205765BE006090B5 /* JoinGalleryViewController.swift */; };
 		5E0C204D04A5E5DF4256E5F0 /* Pods_PolyPaintProUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */; };
 		6472425BEFE90D447BE1EFCB /* Pods_PolyPaintPro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03FBB77A965C181A69459178 /* Pods_PolyPaintPro.framework */; };
 		AD71483325AD99B253B242F5 /* Pods_PolyPaintProTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */; };
@@ -78,6 +81,9 @@
 		278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		27C07AA52050D319006BB8EB /* RecentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsViewController.swift; sourceTree = "<group>"; };
+		27F2FE262057656C006090B5 /* OpenLocalDrawingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLocalDrawingViewController.swift; sourceTree = "<group>"; };
+		27F2FE2820576591006090B5 /* JoinDrawingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinDrawingViewController.swift; sourceTree = "<group>"; };
+		27F2FE2A205765BE006090B5 /* JoinGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGalleryViewController.swift; sourceTree = "<group>"; };
 		286FF219782A8FA2CE1A8F1A /* Pods_PolyPaintProUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3200A611B497DF6670D12C3E /* Pods-PolyPaintProUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProUITests/Pods-PolyPaintProUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4D43B83FC6843C82E02F9864 /* Pods-PolyPaintProTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintProTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintProTests/Pods-PolyPaintProTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -154,8 +160,11 @@
 			children = (
 				27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */,
 				27C07AA52050D319006BB8EB /* RecentsViewController.swift */,
-				BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */,
 				271E38F620572CFB0067BD16 /* NewDrawingViewController.swift */,
+				27F2FE262057656C006090B5 /* OpenLocalDrawingViewController.swift */,
+				27F2FE2820576591006090B5 /* JoinDrawingViewController.swift */,
+				27F2FE2A205765BE006090B5 /* JoinGalleryViewController.swift */,
+				BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */,
 				274C034A200EF37900DDAD8D /* ViewController.swift */,
 			);
 			path = Controller;
@@ -582,6 +591,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */,
+				27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */,
 				274C034B200EF37900DDAD8D /* ViewController.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */,
@@ -589,12 +599,14 @@
 				BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */,
 				2778DAB6205600D400690A65 /* ToolsView.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
+				27F2FE2920576591006090B5 /* JoinDrawingViewController.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
 				27C07AA62050D319006BB8EB /* RecentsViewController.swift in Sources */,
 				C08BE4012056D1E200525038 /* Rest.swift in Sources */,
 				BE23A18B202D2DC800342007 /* RestManager.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
 				271E38F720572CFC0067BD16 /* NewDrawingViewController.swift in Sources */,
+				27F2FE272057656C006090B5 /* OpenLocalDrawingViewController.swift in Sources */,
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
 				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
