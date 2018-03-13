@@ -5,11 +5,11 @@ class ViewController: UIViewController {
     var chatShowing = false
     var toolsShowing = false
     var drawingSettingsShowing = false
-    var connexionStatus = true
+    var connectionStatus = true
 
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
-    @IBOutlet weak var toolsView: UIView!
+    @IBOutlet weak var toolsView: ToolsView!
     @IBOutlet weak var drawingSettingsView: DrawingToolsView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var messageField: UITextField!
@@ -95,6 +95,7 @@ class ViewController: UIViewController {
         } else {
             toolsViewConstraint.constant = 0
             UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
+            toolsView.setDefault()
         }
         toolsShowing = !toolsShowing
     }
@@ -128,7 +129,6 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-
     override func viewDidLoad() {
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
@@ -137,7 +137,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboard()
         observeKeyboardNotification()
-        if(!connexionStatus){
+        if(!connectionStatus){
             chatToggleBtn.isEnabled = false
         }
     }

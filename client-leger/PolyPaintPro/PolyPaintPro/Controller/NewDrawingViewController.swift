@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-    var connexionStatus = true
+    var connectionStatus = true
     var selectedDrawingType: String = "" //this variable represents the type of drawing the user selected
-    let drawingTypesList = ["Mode par trait", "Mode par pixel"]
+
 
     @IBOutlet weak var drawingNameTextField: UITextField!
     @IBOutlet weak var drawingTypePickerview: UIPickerView!
@@ -26,31 +26,29 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return drawingTypesList.count
+        return Drawing.Types.count
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return drawingTypesList[row]
+        return Drawing.Types[row]
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         //enter here the code for the selected type
-        selectedDrawingType = drawingTypesList[row]
+        selectedDrawingType = Drawing.Types[row]
     }
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         drawingTypePickerview.delegate = self
         drawingTypePickerview.dataSource = self
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! ViewController
-        vc.connexionStatus = connexionStatus
+        vc.connectionStatus = connectionStatus
     }
 }
