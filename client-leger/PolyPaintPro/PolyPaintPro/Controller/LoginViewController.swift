@@ -13,7 +13,7 @@ class LoginViewController: UIViewController {
 
     // MARK: - RestManager
     var restManager: RestManager?
-    var connexionStatus = true //variable for connexion status
+    var connectionStatus = true //variable for connexion status
     // MARK: - Labels
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var connectionErrorLabel: UILabel!
@@ -57,14 +57,14 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func offlineMode(_ sender: UIButton) {
-        connexionStatus = false
+        connectionStatus = false
         performSegue(withIdentifier: "offline", sender: self)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let nav = segue.destination as! UINavigationController
         var secondController = nav.topViewController as! RecentsViewController
-        secondController.connexionStatus = connexionStatus
+        secondController.connectionStatus = connectionStatus
     }
 
     private func loginToServer(sender: UIButton, username: String, password: String) {

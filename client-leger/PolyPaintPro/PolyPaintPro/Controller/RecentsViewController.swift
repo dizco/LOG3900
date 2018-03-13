@@ -9,7 +9,7 @@
 import UIKit
 
 class RecentsViewController: UIViewController {
-  var connexionStatus = true
+    var connectionStatus = true
 
     @IBOutlet weak var newDrawingbutton: UIButton!
     @IBOutlet weak var openLocalDrawingButton: UIButton!
@@ -19,12 +19,9 @@ class RecentsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-             // Do any additional setup after loading the view.
-        print(connexionStatus)
-
-        if (!connexionStatus) {
+          if !connectionStatus {
             joinDrawingButton.isEnabled = false
-        } else if (connexionStatus) {
+        } else {
             backToLoginButton.isEnabled = false
             backToLoginButton.isHidden = true
         }
