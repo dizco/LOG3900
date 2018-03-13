@@ -559,7 +559,6 @@
                                             <constraint firstAttribute="width" constant="163" id="dhD-nw-qiL"/>
                                         </constraints>
                                         <connections>
-                                            <action selector="alphaSliderChanged:" destination="3Nf-Dt-IWU" eventType="valueChanged" id="WU8-8K-gbK"/>
                                             <action selector="sizeSliderChanged:" destination="3Nf-Dt-IWU" eventType="valueChanged" id="9Bj-bL-oyk"/>
                                         </connections>
                                     </slider>

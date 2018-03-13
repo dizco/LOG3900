@@ -52,6 +52,7 @@ class ViewController: UIViewController {
         green = CGFloat(drawingSettingsView.greenValue)
         blue = CGFloat(drawingSettingsView.blueValue)
         opacity = CGFloat(drawingSettingsView.alphaValue)
+        brushWidth = CGFloat (drawingSettingsView.widthValue)
         imageView.image?.draw(in: view.bounds)
         let context = UIGraphicsGetCurrentContext()
 
