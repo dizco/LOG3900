@@ -33,7 +33,7 @@ namespace PolyPaint.ViewModels
             set => Messenger.DrawingRoomId = value;
         }
 
-        protected static string DrawingName { get; set; }
+        public static string DrawingName { get; set; }
 
         protected Messenger Messenger => _messenger;
 
