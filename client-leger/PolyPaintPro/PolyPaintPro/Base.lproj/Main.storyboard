@@ -364,7 +364,7 @@
         <!--Rejoindre la Galerie-->
         <scene sceneID="6Iy-LX-HvH">
             <objects>
-                <viewController id="2qr-LN-3sO" sceneMemberID="viewController">
+                <viewController id="2qr-LN-3sO" customClass="JoinGalleryViewController" customModule="PolyPaintPro" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dzF-JR-ACx"/>
                         <viewControllerLayoutGuide type="bottom" id="hHu-lU-Iee"/>
@@ -887,7 +887,7 @@
             </objects>
             <point key="canvasLocation" x="2799" y="183"/>
         </scene>
-        <!--Nouveau Dessin-->
+        <!--Nouveau dessin-->
         <scene sceneID="let-eC-uVg">
             <objects>
                 <viewController id="6fs-n7-ZOE" customClass="NewDrawingViewController" customModule="PolyPaintPro" customModuleProvider="target" sceneMemberID="viewController">
@@ -978,7 +978,7 @@
                             <constraint firstItem="CHY-nZ-bAF" firstAttribute="top" secondItem="gHO-fn-syO" secondAttribute="top" id="qZd-Y0-gFN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Nouveau Dessin" id="TGL-hb-QA3"/>
+                    <navigationItem key="navigationItem" title="Nouveau dessin" id="TGL-hb-QA3"/>
                     <connections>
                         <outlet property="drawingNameTextField" destination="0xN-F3-kO3" id="CvR-ag-V2Y"/>
                         <outlet property="drawingTypePickerview" destination="awZ-vt-zKk" id="crc-yj-y6r"/>
@@ -988,10 +988,10 @@
             </objects>
             <point key="canvasLocation" x="1756.640625" y="-402.34375"/>
         </scene>
-        <!--Ouvrir un Dessin-->
+        <!--Ouvrir un dessin local-->
         <scene sceneID="CKE-e1-lDT">
             <objects>
-                <viewController id="ZCk-mf-U2u" sceneMemberID="viewController">
+                <viewController id="ZCk-mf-U2u" customClass="OpenLocalDrawingViewController" customModule="PolyPaintPro" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mpG-hk-FVS"/>
                         <viewControllerLayoutGuide type="bottom" id="tmT-FQ-Tqh"/>
@@ -1003,25 +1003,80 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_corrected" translatesAutoresizingMaskIntoConstraints="NO" id="8Ua-g0-1Fq">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="duF-a6-xAG">
+                                <rect key="frame" x="128" y="128" width="769" height="84"/>
+                                <color key="backgroundColor" red="0.50196078430000002" green="0.75686274509999996" blue="0.83137254900000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="84" id="Z56-Gd-ZqQ"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="EtI-Yz-rQc">
+                                <rect key="frame" x="452" y="72" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Bvi-1l-lSy"/>
+                                    <constraint firstAttribute="width" constant="120" id="Mbn-Jp-pPm"/>
+                                </constraints>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2Af-s4-vtV">
+                                <rect key="frame" x="128" y="212" width="769" height="489"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="ZoJ-ZP-CQf" detailTextLabel="9a9-Du-qXh" style="IBUITableViewCellStyleValue1" id="Fh7-Hm-pkr">
+                                        <rect key="frame" x="0.0" y="28" width="769" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fh7-Hm-pkr" id="yR3-c6-MAW">
+                                            <rect key="frame" x="0.0" y="0.0" width="769" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZoJ-ZP-CQf">
+                                                    <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9a9-Du-qXh">
+                                                    <rect key="frame" x="710" y="12" width="44" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="duF-a6-xAG" firstAttribute="centerX" secondItem="EtI-Yz-rQc" secondAttribute="centerX" id="2yj-K3-Yd5"/>
+                            <constraint firstItem="duF-a6-xAG" firstAttribute="leading" secondItem="8s2-HO-qXt" secondAttribute="leadingMargin" constant="108" id="Dpd-PM-4aw"/>
+                            <constraint firstItem="2Af-s4-vtV" firstAttribute="top" secondItem="duF-a6-xAG" secondAttribute="bottom" id="GVY-EZ-bHB"/>
                             <constraint firstItem="tmT-FQ-Tqh" firstAttribute="top" secondItem="8Ua-g0-1Fq" secondAttribute="bottom" id="Ilw-Oe-Kso"/>
+                            <constraint firstItem="2Af-s4-vtV" firstAttribute="leading" secondItem="8s2-HO-qXt" secondAttribute="leadingMargin" constant="108" id="J1Y-nd-M1O"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="EtI-Yz-rQc" secondAttribute="trailing" constant="432" id="K5N-L7-Rfn"/>
                             <constraint firstItem="8Ua-g0-1Fq" firstAttribute="leading" secondItem="8s2-HO-qXt" secondAttribute="leading" id="SJ2-V4-saS"/>
+                            <constraint firstItem="EtI-Yz-rQc" firstAttribute="leading" secondItem="8s2-HO-qXt" secondAttribute="leadingMargin" constant="432" id="UHN-GI-Yw8"/>
                             <constraint firstAttribute="trailing" secondItem="8Ua-g0-1Fq" secondAttribute="trailing" id="VZ3-VT-Zgp"/>
                             <constraint firstItem="8Ua-g0-1Fq" firstAttribute="top" secondItem="8s2-HO-qXt" secondAttribute="top" id="WUa-de-phB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2Af-s4-vtV" secondAttribute="trailing" constant="107" id="Y6Y-t9-Xoh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="duF-a6-xAG" secondAttribute="trailing" constant="107" id="c3d-mP-HRQ"/>
+                            <constraint firstItem="EtI-Yz-rQc" firstAttribute="top" secondItem="mpG-hk-FVS" secondAttribute="bottom" constant="8" id="kLJ-NI-S3t"/>
+                            <constraint firstItem="tmT-FQ-Tqh" firstAttribute="top" secondItem="2Af-s4-vtV" secondAttribute="bottom" constant="67" id="tux-nw-kAa"/>
+                            <constraint firstItem="duF-a6-xAG" firstAttribute="top" secondItem="mpG-hk-FVS" secondAttribute="bottom" constant="64" id="vOt-nH-NhV"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Ouvrir un Dessin" id="56B-Lh-2W3"/>
+                    <navigationItem key="navigationItem" title="Ouvrir un dessin local" id="56B-Lh-2W3"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2pz-sh-cYD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1756.640625" y="278.90625"/>
         </scene>
-        <!--Rejoindre un Dessin-->
+        <!--Rejoindre un dessin-->
         <scene sceneID="8xz-7H-GXD">
             <objects>
-                <viewController id="adH-E4-mIa" sceneMemberID="viewController">
+                <viewController id="adH-E4-mIa" customClass="JoinDrawingViewController" customModule="PolyPaintPro" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pHq-Pq-1qe"/>
                         <viewControllerLayoutGuide type="bottom" id="Dqp-he-lAc"/>
@@ -1033,16 +1088,71 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_corrected" translatesAutoresizingMaskIntoConstraints="NO" id="udc-RX-5fn">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ea3-Xx-lCW">
+                                <rect key="frame" x="128" y="128" width="769" height="84"/>
+                                <color key="backgroundColor" red="0.50196078430000002" green="0.75686274509999996" blue="0.83137254900000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="84" id="Zdd-8N-fzG"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="Mp9-Pk-KTk">
+                                <rect key="frame" x="452" y="72" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="61M-gE-aBX"/>
+                                    <constraint firstAttribute="width" constant="120" id="GiJ-3H-hdY"/>
+                                </constraints>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qOa-C7-khn">
+                                <rect key="frame" x="128" y="210" width="769" height="491"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="Tja-dE-MHa" detailTextLabel="Q5q-ar-ce0" style="IBUITableViewCellStyleValue1" id="aRT-7O-25H">
+                                        <rect key="frame" x="0.0" y="28" width="769" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aRT-7O-25H" id="igl-nc-0Df">
+                                            <rect key="frame" x="0.0" y="0.0" width="769" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tja-dE-MHa">
+                                                    <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q5q-ar-ce0">
+                                                    <rect key="frame" x="710" y="12" width="44" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="udc-RX-5fn" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leading" id="0Ck-pm-lf6"/>
                             <constraint firstItem="udc-RX-5fn" firstAttribute="top" secondItem="XnO-IR-9A9" secondAttribute="top" id="3Fs-Iu-wME"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qOa-C7-khn" secondAttribute="trailing" constant="107" id="Cgs-6m-Yzb"/>
+                            <constraint firstItem="Mp9-Pk-KTk" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leadingMargin" constant="432" id="IwT-UO-Jaz"/>
+                            <constraint firstItem="qOa-C7-khn" firstAttribute="top" secondItem="Mp9-Pk-KTk" secondAttribute="bottom" constant="18" id="Scc-KO-UGS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Mp9-Pk-KTk" secondAttribute="trailing" constant="432" id="T3w-rE-zjb"/>
                             <constraint firstAttribute="trailing" secondItem="udc-RX-5fn" secondAttribute="trailing" id="UUy-S9-nWg"/>
+                            <constraint firstItem="ea3-Xx-lCW" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leadingMargin" constant="108" id="Wok-K8-IAh"/>
                             <constraint firstItem="Dqp-he-lAc" firstAttribute="top" secondItem="udc-RX-5fn" secondAttribute="bottom" id="YSA-VS-gOx"/>
+                            <constraint firstItem="qOa-C7-khn" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leadingMargin" constant="108" id="Yel-4z-x1o"/>
+                            <constraint firstItem="Mp9-Pk-KTk" firstAttribute="top" secondItem="pHq-Pq-1qe" secondAttribute="bottom" constant="8" id="eKk-mN-tJn"/>
+                            <constraint firstItem="Dqp-he-lAc" firstAttribute="top" secondItem="qOa-C7-khn" secondAttribute="bottom" constant="67" id="lWb-1I-eno"/>
+                            <constraint firstItem="ea3-Xx-lCW" firstAttribute="top" secondItem="pHq-Pq-1qe" secondAttribute="bottom" constant="64" id="rh2-Qj-mMV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ea3-Xx-lCW" secondAttribute="trailing" constant="107" id="yjH-7H-wpN"/>
+                            <constraint firstItem="ea3-Xx-lCW" firstAttribute="centerX" secondItem="Mp9-Pk-KTk" secondAttribute="centerX" id="zcf-ee-cv4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Rejoindre un Dessin" id="Ypc-v2-PHy"/>
+                    <navigationItem key="navigationItem" title="Rejoindre un dessin" id="Ypc-v2-PHy"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eoL-fo-OkT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1063,22 +1173,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_corrected" translatesAutoresizingMaskIntoConstraints="NO" id="HBE-q1-fRW">
                                 <rect key="frame" x="0.0" y="15" width="1024" height="753"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOy-18-Mf9">
-                                <rect key="frame" x="20" y="72" width="109" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Nouveau dessin"/>
-                                <connections>
-                                    <segue destination="6fs-n7-ZOE" kind="show" id="HNF-yE-bXs"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEK-6N-qKy">
-                                <rect key="frame" x="20" y="110" width="112" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Ouvrir un dessin"/>
-                                <connections>
-                                    <segue destination="ZCk-mf-U2u" kind="show" id="0wU-4R-pDj"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dessins récents" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4S-H4-Dan">
                                 <rect key="frame" x="451" y="72" width="122" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1090,7 +1184,38 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" red="0.89411764709999997" green="0.94117647059999998" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Fwb-dz-pSJ">
+                                        <rect key="frame" x="0.0" y="28" width="551" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fwb-dz-pSJ" id="QpW-Eg-wS4">
+                                            <rect key="frame" x="0.0" y="0.0" width="551" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TS9-Sa-AVh">
+                                <rect key="frame" x="173" y="718" width="92" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Se connecter"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOy-18-Mf9">
+                                <rect key="frame" x="20" y="72" width="109" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Nouveau dessin"/>
+                                <connections>
+                                    <segue destination="6fs-n7-ZOE" kind="show" id="HNF-yE-bXs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEK-6N-qKy">
+                                <rect key="frame" x="20" y="110" width="148" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Ouvrir un dessin local"/>
+                                <connections>
+                                    <segue destination="ZCk-mf-U2u" kind="show" id="0wU-4R-pDj"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A12-2F-hee">
                                 <rect key="frame" x="20" y="148" width="134" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1098,11 +1223,6 @@
                                 <connections>
                                     <segue destination="adH-E4-mIa" kind="show" id="Y9U-mG-ulK"/>
                                 </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TS9-Sa-AVh">
-                                <rect key="frame" x="173" y="718" width="92" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Se connecter"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5c6-3w-VhG">
                                 <rect key="frame" x="20" y="186" width="134" height="30"/>
@@ -1124,6 +1244,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Accueil" id="3Ad-Ks-7Q2"/>
+                    <connections>
+                        <outlet property="backToLoginButton" destination="TS9-Sa-AVh" id="KcT-rz-4n4"/>
+                        <outlet property="joinDrawingButton" destination="A12-2F-hee" id="PmM-ZF-zLZ"/>
+                        <outlet property="joinGalleryButton" destination="5c6-3w-VhG" id="4Z2-LQ-21e"/>
+                        <outlet property="newDrawingbutton" destination="dOy-18-Mf9" id="LaP-dQ-Bxu"/>
+                        <outlet property="openLocalDrawingButton" destination="uEK-6N-qKy" id="qEQ-JC-3Yo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jsD-ko-Lvy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

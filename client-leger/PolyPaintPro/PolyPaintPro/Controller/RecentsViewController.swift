@@ -11,27 +11,28 @@ import UIKit
 class RecentsViewController: UIViewController {
   var connexionStatus = true
 
+    @IBOutlet weak var newDrawingbutton: UIButton!
+    @IBOutlet weak var openLocalDrawingButton: UIButton!
+    @IBOutlet weak var joinDrawingButton: UIButton!
+    @IBOutlet weak var joinGalleryButton: UIButton!
+    @IBOutlet weak var backToLoginButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
              // Do any additional setup after loading the view.
+        print(connexionStatus)
+
+        if (!connexionStatus) {
+            joinDrawingButton.isEnabled = false
+        } else if (connexionStatus) {
+            backToLoginButton.isEnabled = false
+            backToLoginButton.isHidden = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    @IBAction func newDrawing(_ sender: UIButton) {
-        performSegue(withIdentifier: "newDrawing", sender: self)
-    }
-
-    @IBAction func openDrawing(_ sender: UIButton) {
-        performSegue(withIdentifier: "open", sender: self)
-    }
-
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let vc = segue.destination as! ViewController
-//        vc.connexionStatus = connexionStatus
-//    }
 
 }
