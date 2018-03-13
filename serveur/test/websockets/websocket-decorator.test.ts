@@ -72,7 +72,7 @@ describe("websocket decorator", function() {
 
             user1.broadcast.to(roomId1).send(data);
 
-            expect(roomSpy.withArgs(data, user1).calledOnce).to.be.true
+            expect(roomSpy.withArgs(data, user1).calledOnce).to.be.true;
         });
 
         it("should broadcast to all clients, across all rooms", function() {
@@ -97,6 +97,45 @@ describe("websocket decorator", function() {
 
             expect(wsSpy1.withArgs(data).calledOnce).to.be.true;
             expect(wsSpy2.withArgs(data).calledOnce).to.be.true;
+        });
+    });
+
+    describe("subscriptions", function() {
+        let sandbox: SinonSandbox;
+        const roomId = "test";
+        let server: FakeWebSocketServer;
+        beforeEach(function() {
+            sandbox = sinon.sandbox.create();
+            server = new FakeWebSocketServer(http.createServer((req, res) => {
+            }));
+        });
+
+        afterEach(function() {
+            sandbox.restore();
+        });
+
+        it("should ask the server to add a user to a room", function() {
+            const ws1 = new FakeWebSocket("ws://localhost");
+
+            const serverSpy = sinon.spy(server, "joinRoom");
+
+            const user1 = new WebSocketDecorator(server, ws1);
+
+            user1.join(roomId);
+
+            expect(serverSpy.withArgs(roomId, user1).calledOnce).to.be.true;
+        });
+
+        it("should ask the server to remove a user of a room", function() {
+            const ws1 = new FakeWebSocket("ws://localhost");
+
+            const serverSpy = sinon.spy(server, "leaveRoom");
+
+            const user1 = new WebSocketDecorator(server, ws1);
+
+            user1.leave(roomId); //Should not crash even if the user was never in that room, or the room doesn't exist
+
+            expect(serverSpy.withArgs(roomId, user1).calledOnce).to.be.true;
         });
     });
 });
