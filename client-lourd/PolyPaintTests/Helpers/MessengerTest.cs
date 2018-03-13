@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -252,6 +253,66 @@ namespace PolyPaintTests.Helpers
 
             Assert.AreEqual(expectedOutputString, realOutputString,
                             "Should return an empty string because SocketHandler failed to send message");
+        }
+
+        [TestMethod]
+        public void TestSendEditorActionLockStrokes()
+        {
+            Messenger.DrawingRoomId = "Room";
+
+            Guid strokeUuid1 = Guid.NewGuid();
+            Guid strokeUuid2 = Guid.NewGuid();
+
+            string expectedOutputString =
+                "{\"action\":{\"id\":3,\"name\":\"LockStrokes\"},\"author\":null,\"drawing\":{\"id\":\"Room\"},\"delta\":{\"add\":null,\"remove\":[\"" +  strokeUuid1 +"\",\""+ strokeUuid2+"\"]},\"layer\":0,\"type\":\"client.editor.action\"}";
+
+
+            string realOutputString =
+                _messenger.SendEditorActionLockStrokes(new List<string>(new[]
+                {
+                    strokeUuid1.ToString(), strokeUuid2.ToString()
+                }));
+
+            Assert.AreEqual(expectedOutputString, realOutputString, "Should return stringified JSON of an EditorActionModel");
+        }
+
+        [TestMethod]
+        public void TestSendEditorActionLockStrokesNoDrawingId()
+        {
+            Messenger.DrawingRoomId = null;
+
+            Guid strokeUuid1 = Guid.NewGuid();
+            Guid strokeUuid2 = Guid.NewGuid();
+
+            string expectedOutputString = string.Empty;
+               
+            string realOutputString =
+                _messenger.SendEditorActionLockStrokes(new List<string>(new[]
+                {
+                    strokeUuid1.ToString(), strokeUuid2.ToString()
+                }));
+
+            Assert.AreEqual(expectedOutputString, realOutputString, "Should return an empty string");
+        }
+
+        [TestMethod]
+        public void TestSendEditorActionUnLockStrokes()
+        {
+            Messenger.DrawingRoomId = "Room";
+
+            Guid strokeUuid1 = Guid.NewGuid();
+            Guid strokeUuid2 = Guid.NewGuid();
+
+            string expectedOutputString =
+                "{\"action\":{\"id\":4,\"name\":\"UnlockStrokes\"},\"author\":null,\"drawing\":{\"id\":\"Room\"},\"delta\":{\"add\":null,\"remove\":[\"" + strokeUuid1 + "\",\"" + strokeUuid2 + "\"]},\"layer\":0,\"type\":\"client.editor.action\"}";
+
+            string realOutputString =
+                _messenger.SendEditorActionUnlockStrokes(new List<string>(new[]
+                {
+                    strokeUuid1.ToString(), strokeUuid2.ToString()
+                }));
+
+            Assert.AreEqual(expectedOutputString, realOutputString, "Should return an empty string");
         }
 
         internal class SocketHandlerMock : ISocketHandler
