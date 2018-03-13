@@ -64,7 +64,7 @@ namespace PolyPaint.ViewModels
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
             LoadAutosaved = new RelayCommand<string>(_editor.OpenAutosave);
 
-            ExportImageCommand = new RelayCommand<object>(_editor.ExportImagePrompt);
+            ExportImageCommand = new RelayCommand<InkCanvas>(_editor.ExportImagePrompt);
 
             StrokesCollection.StrokesChanged += (sender, obj) => { AutosaveFileCommand.Execute(string.Empty); };
 
@@ -75,12 +75,10 @@ namespace PolyPaint.ViewModels
             OpenChatWindowCommand = new RelayCommand<object>(OpenChatWindow, CanOpenChat);
 
             //Strokes Rotate tool
-            QuartTrnClkwiseCommand = new RelayCommand<object>(_editor.QuarterTurnClockwise);
-            QuartTrnCntrClkwiseCommand = new RelayCommand<object>(_editor.QuarterTurnCounterClockwise);
-            VerticalFlipCommand = new RelayCommand<object>(_editor.VerticalFlip);
-            HorizontalFlipCommand = new RelayCommand<object>(_editor.HorizontalFlip);
-
-            EditorActionReceived += ProcessReceivedEditorAction;
+            QuarterTurnClockwiseCommand = new RelayCommand<InkCanvas>(_editor.QuarterTurnClockwise);
+            QuarterTurnCounterClockwiseCommand = new RelayCommand<InkCanvas>(_editor.QuarterTurnCounterClockwise);
+            VerticalFlipCommand = new RelayCommand<InkCanvas>(_editor.VerticalFlip);
+            HorizontalFlipCommand = new RelayCommand<InkCanvas>(_editor.HorizontalFlip);
 
             LoginStatusChanged += ProcessLoginStatusChange;
 
@@ -159,7 +157,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> AutosaveFileCommand { get; set; }
         public RelayCommand<string> LoadAutosaved { get; set; }
 
-        public RelayCommand<object> ExportImageCommand { get; set; }
+        public RelayCommand<InkCanvas> ExportImageCommand { get; set; }
 
         //Command for managing the views
         public RelayCommand<object> OpenChatWindowCommand { get; set; }
@@ -169,14 +167,14 @@ namespace PolyPaint.ViewModels
         //Command for sending editor actions to server
         public RelayCommand<Stroke> SendNewStrokeCommand { get; set; }
 
+        //Strokes Rotate tool
+        public RelayCommand<InkCanvas> QuarterTurnClockwiseCommand { get; set; }
+        public RelayCommand<InkCanvas> QuarterTurnCounterClockwiseCommand { get; set; }
+        public RelayCommand<InkCanvas> VerticalFlipCommand { get; set; }
+        public RelayCommand<InkCanvas> HorizontalFlipCommand { get; set; }
+
         internal bool IsErasingByPoint { get; set; }
         internal bool IsErasingByStroke { get; set; }
-
-        //Strokes Rotate tool
-        public RelayCommand<object> QuartTrnClkwiseCommand { get; set; }
-        public RelayCommand<object> QuartTrnCntrClkwiseCommand { get; set; }
-        public RelayCommand<object> VerticalFlipCommand { get; set; }
-        public RelayCommand<object> HorizontalFlipCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

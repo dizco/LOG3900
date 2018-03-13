@@ -255,14 +255,16 @@
     <Resource Include="Resources\Icons\lightningBolt.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\if_Rotate_right_131866.png" />
+    <Resource Include="Resources\flip_horizontally.png" /> <!-- from https://www.iconfinder.com/icons/131749/flip_horizontally_icon -->
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\if_Rotate_left_131852.png" />
+    <Resource Include="Resources\flip_vertically.png" /> <!-- from https://www.iconfinder.com/icons/131714/flip_vertically_icon -->
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\if_Flip_horizontally_131749.png" />
-    <Resource Include="Resources\if_Flip_vertically_131714.png" />
+    <Resource Include="Resources\rotate_left.png" /> <!-- from https://www.iconfinder.com/icons/131852/arrow_image_left_rotate_icon -->
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rotate_right.png" /> <!-- from https://www.iconfinder.com/icons/131866/arrow_image_right_rotate_icon -->
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -33,6 +33,9 @@ namespace PolyPaint.Models
 
         private const int ErrorLockViolation = 33;
 
+        private const double ClockwiseAngle = 90.0;// degrees
+        private const double CounterClockwiseAngle = -90.0;// degrees
+
         private readonly StrokeCollection _removedStrokesCollection = new StrokeCollection();
 
         private bool _isLoadingDrawing;
@@ -501,7 +504,7 @@ namespace PolyPaint.Models
             }
         }
 
-        public void ExportImagePrompt(object inkCanvas)
+        public void ExportImagePrompt(InkCanvas drawingSurface)
         {
             //cancels an empty drawing exportation
             if (StrokesCollection.Count == 0 || _isLoadingDrawing)
@@ -509,22 +512,18 @@ namespace PolyPaint.Models
                 UserAlerts.ShowErrorMessage("Veuillez utiliser un dessin non vide");
                 return;
             }
-
-            //cast object as a inkCanvas (object from command)
-            if (inkCanvas is InkCanvas drawingSurface)
+            
+            SaveFileDialog exportImageDialog = new SaveFileDialog
             {
-                //then save it as an image
-                SaveFileDialog exportImageDialog = new SaveFileDialog
-                {
-                    Title = "Exporter le dessin",
-                    Filter = FileExtensionConstants.ExportImageFilter,
-                    AddExtension = true
-                };
-                if (exportImageDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string filePathNameExt = Path.GetFullPath(exportImageDialog.FileName);
-                    ExportImage(filePathNameExt, drawingSurface);
-                }
+                Title = "Exporter le dessin",
+                Filter = FileExtensionConstants.ExportImageFilter,
+                AddExtension = true
+            };
+
+            if (exportImageDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePathNameExt = Path.GetFullPath(exportImageDialog.FileName);
+                ExportImage(filePathNameExt, drawingSurface);
             }
         }
 
@@ -630,79 +629,58 @@ namespace PolyPaint.Models
             return drawingName;
         }
 
-<<<<<<< HEAD
         internal static string ExtractDrawingNameString(string fileName)
         {
             string name = Regex.Match(fileName, "[\\w]*.tide").Value;
             return Regex.Replace(name, ".tide", "");
-=======
-        public void QuarterTurnClockwise(object inkCanvas)
-        {
-            if (inkCanvas is InkCanvas drawingSurface)
-            {
-                StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
-                double rotateAngle = 90;//degrees
-                RotateStrokes(rotateAngle, selectedStrokes);
-            }
         }
 
-        public void QuarterTurnCounterClockwise(object inkCanvas)
+        public void QuarterTurnClockwise(InkCanvas drawingSurface)
         {
-            if (inkCanvas is InkCanvas drawingSurface)
-            {
-                StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
-                double rotateAngle = -90;//degrees
-                RotateStrokes(rotateAngle, selectedStrokes);
-            }
+            StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
+            RotateStrokes(ClockwiseAngle, selectedStrokes);
         }
 
-        //does a rotation of the strokes according a specified angle
-        private void RotateStrokes(double angle, StrokeCollection selectedStrokes)
+        public void QuarterTurnCounterClockwise(InkCanvas drawingSurface)
         {
-            StrokeCollection selection = selectedStrokes;
-            Rect selectionBounds = selection.GetBounds();
-            Point center = new Point(selectionBounds.X + selectionBounds.Width / 2,
-                                     selectionBounds.Y + selectionBounds.Height / 2);
+            StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
+            RotateStrokes(CounterClockwiseAngle, selectedStrokes);
+        }
+        
+        private static void RotateStrokes(double angle, StrokeCollection selectedStrokes)
+        {
+            Rect selectionBounds = selectedStrokes.GetBounds();
+            Point center = new Point(selectionBounds.X + selectionBounds.Width / 2.0,
+                                     selectionBounds.Y + selectionBounds.Height / 2.0);
             RotateTransform rotation = new RotateTransform(angle, center.X, center.Y);
-
-            // Rotate the strokes to match the new angle.
-            Matrix mat = new Matrix();
-            mat.RotateAt(rotation.Angle, center.X, center.Y);
-
-            selection.Transform(mat, false);
+            
+            Matrix rotationMatrix = new Matrix();
+            rotationMatrix.RotateAt(rotation.Angle, center.X, center.Y);
+            selectedStrokes.Transform(rotationMatrix, false);
         }
 
-        public void VerticalFlip(object inkCanvas)
+        public void VerticalFlip(InkCanvas drawingSurface)
         {
-            if (inkCanvas is InkCanvas drawingSurface)
-            {
-                StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
-                ScaleTransform mirror = new ScaleTransform(1, -1);
-                FlipStrokes(mirror, selectedStrokes);
-            }
+            StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
+            ScaleTransform verticalMirrorScale = new ScaleTransform(1.0, -1.0);
+            FlipStrokes(verticalMirrorScale, selectedStrokes);
         }
 
-        public void HorizontalFlip(object inkCanvas)
+        public void HorizontalFlip(InkCanvas drawingSurface)
         {
-            if (inkCanvas is InkCanvas drawingSurface)
-            {
-                StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
-                ScaleTransform mirror = new ScaleTransform(-1, 1);
-                FlipStrokes(mirror, selectedStrokes);
-            }
+            StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
+            ScaleTransform horizontalMirrorScale = new ScaleTransform(-1.0, 1.0);
+            FlipStrokes(horizontalMirrorScale, selectedStrokes);
         }
-
-        //does a mirror flip of the strokes according a specified angle
-        private void FlipStrokes(ScaleTransform mirror, StrokeCollection selectedStrokes)
+        
+        private static void FlipStrokes(ScaleTransform mirror, StrokeCollection selectedStrokes)
         {
-            StrokeCollection selection = selectedStrokes;
-            Rect selectionBounds = selection.GetBounds();
-            Point mirrorCenter = new Point(selectionBounds.X + selectionBounds.Width / 2,
-                                     selectionBounds.Y + selectionBounds.Height / 2);
+            Rect selectionBounds = selectedStrokes.GetBounds();
+            Point mirrorCenter = new Point(selectionBounds.X + selectionBounds.Width / 2.0,
+                                     selectionBounds.Y + selectionBounds.Height / 2.0);
             Matrix mirrorMatrix = new Matrix();
             mirrorMatrix.ScaleAt(mirror.ScaleX, mirror.ScaleY, mirrorCenter.X, mirrorCenter.Y);
-            selection.Transform(mirrorMatrix, false);
->>>>>>> 2abdda6... refs #16109 [lourd] 90 degrees rotations and mirror flips works
+            selectedStrokes.Transform(mirrorMatrix, false);
         }
 
         private void ShowUserInfoMessage(string message)
