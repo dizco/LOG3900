@@ -30,7 +30,7 @@ export class WebSocketServer extends WebSocket.Server {
         });
     }
 
-    public join(id: string, client: WebSocketDecorator): void {
+    public joinRoom(id: string, client: WebSocketDecorator): void {
         let room = this.findRoom(id);
         if (!room) {
             room = new Room(id);
@@ -40,13 +40,19 @@ export class WebSocketServer extends WebSocket.Server {
         room.addClient(client);
     }
 
-    public remove(client: WebSocketDecorator): void {
+    public leaveRoom(id: string, client: WebSocketDecorator): void {
+        const room = this.findRoom(id);
+        if (room) {
+            room.removeClient(client);
+        }
+        this.cleanupEmptyRooms();
+    }
+
+    public removeClient(client: WebSocketDecorator): void {
         this.rooms.forEach((room: Room) => {
             room.removeClient(client);
         });
-        this.rooms = this.rooms.filter((room: Room) => {
-            return !room.isEmpty();
-        });
+        this.cleanupEmptyRooms();
     }
 
     public userExists(user: UserModel): boolean {
@@ -60,4 +66,9 @@ export class WebSocketServer extends WebSocket.Server {
         return client !== undefined;
     }
 
+    private cleanupEmptyRooms(): void {
+        this.rooms = this.rooms.filter((room: Room) => {
+            return !room.isEmpty();
+        });
+    }
 }

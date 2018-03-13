@@ -65,7 +65,7 @@ describe("websocket decorator", function() {
             }));
             const ws = new FakeWebSocket("ws://localhost");
             const user1 = new WebSocketDecorator(server, ws);
-            server.join(roomId1, user1);
+            server.joinRoom(roomId1, user1);
 
             const room = server.findRoom(roomId1);
             const roomSpy = sinon.spy(room, "broadcast");
@@ -90,8 +90,8 @@ describe("websocket decorator", function() {
             const user1 = new WebSocketDecorator(server, ws1);
             const user2 = new WebSocketDecorator(server, ws2);
 
-            server.join(roomId1, user1);
-            server.join(roomId2, user2);
+            server.joinRoom(roomId1, user1);
+            server.joinRoom(roomId2, user2);
 
             user1.broadcast.send(data);
 

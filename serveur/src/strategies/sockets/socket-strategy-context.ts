@@ -5,6 +5,8 @@ import { ClientChatMessage, IsClientChatMessage } from "../../models/sockets/cli
 import { WebSocketDecorator } from "../../decorators/websocket-decorator";
 import { SocketStrategyEditorAction } from "./socket-strategy-editor-action";
 import { SocketStrategyChatMessage } from "./socket-strategy-chat-message";
+import { IsClientEditorSubscription } from "../../models/sockets/client-editor-subscription";
+import { SocketStrategyEditorSubscription } from "./socket-strategy-editor-subscription";
 
 /**
  * Interpret the message and determine the best strategy to use
@@ -40,6 +42,9 @@ export class SocketStrategyContext implements SocketStrategy {
         else if (socketMessage.type === "client.editor.action") {
             return IsClientEditorAction(socketMessage);
         }
+        else if (socketMessage.type === "client.editor.subscription") {
+            return IsClientEditorSubscription(socketMessage);
+        }
         return false;
     }
 
@@ -53,6 +58,9 @@ export class SocketStrategyContext implements SocketStrategy {
         }
         else if (socketMessage.type === "client.editor.action") {
             this.strategy = new SocketStrategyEditorAction(<ClientEditorAction>socketMessage);
+        }
+        else if (socketMessage.type === "client.editor.subscription") {
+            this.strategy = new SocketStrategyEditorSubscription(<ClientEditorAction>socketMessage);
         }
     }
 }

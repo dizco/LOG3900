@@ -29,6 +29,9 @@ export function IsClientEditorAction(action: any): action is ClientEditorAction 
     else if (!("id" in action.drawing)) {
         return false;
     }
+    else if (action.drawing.id === null || action.drawing.id === undefined) {
+        return false;
+    }
     else if (!("delta" in action)) {
         return false;
     }
