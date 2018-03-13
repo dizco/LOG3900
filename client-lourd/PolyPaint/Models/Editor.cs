@@ -384,11 +384,10 @@ namespace PolyPaint.Models
         public void OpenAutosave(string drawingName)
         {
             string path = string.Format(FileExtensionConstants.AutosaveFilePath, drawingName);
-
-            OpenDrawing(path);
+            OpenDrawing(path, drawingName);
         }
 
-        private void OpenDrawing(string filePath)
+        private void OpenDrawing(string filePath, string drawingName = "")
         {
             FileStream file = null;
             try
@@ -397,6 +396,10 @@ namespace PolyPaint.Models
                 _isLoadingDrawing = true;
                 StrokesCollection.Clear();
                 new StrokeCollection(file).ToList().ForEach(stroke => StrokesCollection.Add(stroke));
+                // Set ViewModelBase drawing name and set Editor drawing name to the ViewModelBase value
+                ViewModelBase.DrawingName =
+                    drawingName != string.Empty ? drawingName : ExtractDrawingNameString(filePath);
+                DrawingName = ViewModelBase.DrawingName;
                 _isLoadingDrawing = false;
             }
             catch (Exception e)
@@ -565,7 +568,8 @@ namespace PolyPaint.Models
             }
             catch (Exception e)
             {
-                UserAlerts.ShowErrorMessage($"Une erreur est survenue.\n{e.Message}\nCode:{e.HResult & ((1 << 16) - 1)}");
+                UserAlerts
+                    .ShowErrorMessage($"Une erreur est survenue.\n{e.Message}\nCode:{e.HResult & ((1 << 16) - 1)}");
             }
             finally
             {
@@ -579,7 +583,10 @@ namespace PolyPaint.Models
 
             RecentAutosaves.Clear();
 
-            if (autosavedDrawings == null) return;
+            if (autosavedDrawings == null)
+            {
+                return;
+            }
 
             foreach (string filePath in autosavedDrawings)
             {
@@ -618,9 +625,15 @@ namespace PolyPaint.Models
         internal static string AutosaveFileNameToString(string fileName)
         {
             string name = Regex.Match(fileName, "[\\w]*.tide").Value;
-            string drawingName = Regex.Replace(name, "_[a-z]*.tide", "");
+            string drawingName = Regex.Replace(name, "_autosave.tide", "");
 
             return drawingName;
+        }
+
+        internal static string ExtractDrawingNameString(string fileName)
+        {
+            string name = Regex.Match(fileName, "[\\w]*.tide").Value;
+            return Regex.Replace(name, ".tide", "");
         }
 
         private void ShowUserInfoMessage(string message)
