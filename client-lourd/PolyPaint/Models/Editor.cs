@@ -142,6 +142,7 @@ namespace PolyPaint.Models
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<CustomStroke> EditorAddedStroke;
         public event EventHandler<CustomStroke> StrokeStackedEvent;
+        public event EventHandler<StrokeCollection> SelectedStrokesTransformedEvent;
 
         /// <summary>
         ///     Appelee lorsqu'une propriété d'Editeur est modifiée.
@@ -153,6 +154,15 @@ namespace PolyPaint.Models
         protected void PropertyModified([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        ///     Raises the event after the selection is rotated or flipped
+        /// </summary>
+        /// <param name="strokes">Collection of strokes to which the transformation has been applied</param>
+        protected void OnSelectedStrokesTransformed(StrokeCollection strokes)
+        {
+            SelectedStrokesTransformedEvent?.Invoke(this, strokes);
         }
 
         // S'il y a au moins 1 trait sur la surface, il est possible d'exécuter Stack.
@@ -649,7 +659,7 @@ namespace PolyPaint.Models
             RotateStrokes(CounterClockwiseAngle, selectedStrokes);
         }
 
-        private static void RotateStrokes(double angle, StrokeCollection selectedStrokes)
+        private void RotateStrokes(double angle, StrokeCollection selectedStrokes)
         {
             Rect selectionBounds = selectedStrokes.GetBounds();
             Point center = new Point(selectionBounds.X + selectionBounds.Width / 2.0,
@@ -659,6 +669,8 @@ namespace PolyPaint.Models
             Matrix rotationMatrix = new Matrix();
             rotationMatrix.RotateAt(rotation.Angle, center.X, center.Y);
             selectedStrokes.Transform(rotationMatrix, false);
+
+            OnSelectedStrokesTransformed(selectedStrokes);
         }
 
         public void VerticalFlip(InkCanvas drawingSurface)
@@ -675,7 +687,7 @@ namespace PolyPaint.Models
             FlipStrokes(horizontalMirrorScale, selectedStrokes);
         }
 
-        private static void FlipStrokes(ScaleTransform mirror, StrokeCollection selectedStrokes)
+        private void FlipStrokes(ScaleTransform mirror, StrokeCollection selectedStrokes)
         {
             Rect selectionBounds = selectedStrokes.GetBounds();
             Point mirrorCenter = new Point(selectionBounds.X + selectionBounds.Width / 2.0,
@@ -683,6 +695,8 @@ namespace PolyPaint.Models
             Matrix mirrorMatrix = new Matrix();
             mirrorMatrix.ScaleAt(mirror.ScaleX, mirror.ScaleY, mirrorCenter.X, mirrorCenter.Y);
             selectedStrokes.Transform(mirrorMatrix, false);
+
+            OnSelectedStrokesTransformed(selectedStrokes);
         }
 
         // Drawable Shapes

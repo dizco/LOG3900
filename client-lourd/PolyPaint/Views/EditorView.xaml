@@ -405,6 +405,8 @@
                            StrokeCollected="OnStrokeCollected"
                            StrokeErasing="OnStrokeErasing"
                            SelectionChanged="OnSelectionChanged"
+                           SelectionMoved="OnSelectionMoved"
+                           SelectionResized="OnSelectionResized"
                            Strokes="{Binding Path=StrokesCollection, Mode=OneTime}" EditingMode="{Binding Path=ToolSelected, Converter={StaticResource EditingToolConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                            DefaultDrawingAttributes="{Binding Path=DrawingAttributes, Mode=OneTime}"/>
                 <Border.Effect>
