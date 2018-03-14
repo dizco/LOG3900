@@ -11,7 +11,7 @@ import UIKit
 
 class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     var connectionStatus = true
-    var selectedDrawingType: String = "" //this variable represents the type of drawing the user selected
+    var selectedDrawingType: String = Drawing.Types[0] //this variable represents the type of drawing the user selected
 
 
     @IBOutlet weak var drawingNameTextField: UITextField!
@@ -50,5 +50,6 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! ViewController
         vc.connectionStatus = connectionStatus
+        vc.drawingType = selectedDrawingType
     }
 }

@@ -82,13 +82,13 @@ class DrawingToolsView: UIView {
 
     func updateColor() {
         colorPreview.backgroundColor = UIColor(red: CGFloat(redValue)/255, green: CGFloat(greenValue)/255, blue: CGFloat(blueValue)/255, alpha:CGFloat(alphaValue)/100)
-        ViewController().red = CGFloat(redValue)
-        ViewController().green = CGFloat(greenValue)
-        ViewController().blue = CGFloat(blueValue)
+        PixelEditorViewController().red = CGFloat(redValue)
+        PixelEditorViewController().green = CGFloat(greenValue)
+        PixelEditorViewController().blue = CGFloat(blueValue)
     }
 
     func updateSize() {
-        ViewController().brushWidth = CGFloat(widthValue)
+        PixelEditorViewController().brushWidth = CGFloat(widthValue)
     }
 
     override init(frame: CGRect) {

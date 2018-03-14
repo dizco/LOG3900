@@ -18,6 +18,7 @@
 		274C0350200EF37900DDAD8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 274C034F200EF37900DDAD8D /* Assets.xcassets */; };
 		274C035E200EF37A00DDAD8D /* PolyPaintProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */; };
 		274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */; };
+		275E59B92059632900F9DB8B /* PixelEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275E59B82059632900F9DB8B /* PixelEditorViewController.swift */; };
 		2778DAB6205600D400690A65 /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2778DAB5205600D400690A65 /* ToolsView.swift */; };
 		277EE1A0201280D900545404 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 277EE19F201280D900545404 /* assets */; };
 		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
@@ -78,6 +79,7 @@
 		274C0364200EF37A00DDAD8D /* PolyPaintProUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PolyPaintProUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyPaintProUITests.swift; sourceTree = "<group>"; };
 		274C036A200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		275E59B82059632900F9DB8B /* PixelEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelEditorViewController.swift; sourceTree = "<group>"; };
 		2778DAB5205600D400690A65 /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
 		277EE19F201280D900545404 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				27F2FE2820576591006090B5 /* JoinDrawingViewController.swift */,
 				27F2FE2A205765BE006090B5 /* JoinGalleryViewController.swift */,
 				BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */,
+				275E59B82059632900F9DB8B /* PixelEditorViewController.swift */,
 				274C034A200EF37900DDAD8D /* ViewController.swift */,
 			);
 			path = Controller;
@@ -604,6 +607,7 @@
 				2778DAB6205600D400690A65 /* ToolsView.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
 				27F2FE2920576591006090B5 /* JoinDrawingViewController.swift in Sources */,
+				275E59B92059632900F9DB8B /* PixelEditorViewController.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
 				27C07AA62050D319006BB8EB /* RecentsViewController.swift in Sources */,
 				C08BE4012056D1E200525038 /* Rest.swift in Sources */,
