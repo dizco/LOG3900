@@ -1,12 +1,14 @@
 import UIKit
 import Starscream
+import SpriteKit
 
 class ViewController: UIViewController {
     var chatShowing = false
     var toolsShowing = false
     var drawingSettingsShowing = false
     var connectionStatus = true
-
+    var drawingType = ""
+    
     @IBOutlet var drawView: UIView!
     @IBOutlet weak var chatView: UIView!
     @IBOutlet weak var toolsView: ToolsView!
@@ -28,62 +30,6 @@ class ViewController: UIViewController {
         toolsToggleFn()
         if drawingSettingsShowing {
             drawingSettingsFn()
-        }
-    }
-
-    var lastPoint = CGPoint.zero //last drawn point on the canvas
-    var red: CGFloat = 0.0 //RGB, stores the currend rgb value from the selector
-    var green: CGFloat = 0.0
-    var blue: CGFloat = 0.0
-    var brushWidth: CGFloat = 10.0 //brush stroke and opacity
-    var opacity: CGFloat = 1.0
-    var swiped = false //if the brush stroke is continuous
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        swiped = false
-        if let touch = touches.first as? UITouch {
-            lastPoint = touch.location(in: self.view)
-        }
-    }
-
-    func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
-        red = CGFloat(drawingSettingsView.redValue)
-        green = CGFloat(drawingSettingsView.greenValue)
-        blue = CGFloat(drawingSettingsView.blueValue)
-        opacity = CGFloat(drawingSettingsView.alphaValue)
-        brushWidth = CGFloat (drawingSettingsView.widthValue)
-        imageView.image?.draw(in: view.bounds)
-        let context = UIGraphicsGetCurrentContext()
-
-        context?.move(to: fromPoint)
-        context?.addLine(to: toPoint)
-
-        context?.setLineCap(CGLineCap.round)
-        context?.setLineWidth(brushWidth)
-        context?.setStrokeColor(red: red/255, green: green/255, blue: blue/255, alpha: opacity/100)
-        context?.setBlendMode(CGBlendMode.normal)
-        context?.strokePath()
-
-        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
-        imageView.alpha = opacity
-        UIGraphicsEndImageContext()
-    }
-
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        swiped = true
-        if let touch = touches.first {
-            let currentPoint = touch.location(in: view)
-            drawLine(fromPoint: lastPoint, toPoint: currentPoint)
-
-            lastPoint = currentPoint
-        }
-    }
-
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !swiped {
-            // draw a single point
-            self.drawLine(fromPoint: lastPoint, toPoint: lastPoint)
         }
     }
 
@@ -130,6 +76,18 @@ class ViewController: UIViewController {
     }
 
     override func viewDidLoad() {
+        if (drawingType == "Mode par trait"){
+            //commands to load the spritekit elements
+            let scene = StrokeEditorScene(size: view.frame.size)
+            let skView = view as! SKView
+            scene.scaleMode = .fill
+            skView.presentScene(scene)
+        } else if (drawingType == "Mode par pixel"){
+            //commands to load core graphics elements           
+        } else {
+            print("Y A DE QUOI DE CASSÉ TABARNAK")
+        }
+
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
         toolsView.layer.cornerRadius = 10
@@ -137,6 +95,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboard()
         observeKeyboardNotification()
+        PixelEditorViewController() 
         if(!connectionStatus){
             chatToggleBtn.isEnabled = false
         }
