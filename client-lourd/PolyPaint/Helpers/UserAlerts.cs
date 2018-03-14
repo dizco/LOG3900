@@ -8,5 +8,9 @@ namespace PolyPaint.Helpers
         {
             MessageBox.Show(message, @"Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+        public static void ShowInfoMessage(string message)
+        {
+            MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }
