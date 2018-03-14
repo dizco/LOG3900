@@ -4,8 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
-using PolyPaint.Models;
+using PolyPaint.Models.PixelModels;
 using PolyPaint.Views;
+using EditorPixel = PolyPaint.Models.PixelModels.EditorPixel;
 
 namespace PolyPaint.ViewModels
 {
@@ -14,26 +15,26 @@ namespace PolyPaint.ViewModels
     ///     Expose des commandes et propriétés connectées au modèle aux des éléments de la vue peuvent se lier.
     ///     Reçoit des avis de changement du modèle et envoie des avis de changements à la vue.
     /// </summary>
-    internal class DrawingPixelWindowViewModel : ViewModelBase, INotifyPropertyChanged
+    internal class EditorPixelViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private readonly DrawingPixelWindowModel _drawingPixelModel = new DrawingPixelWindowModel();
+        private readonly EditorPixel _editorPixelModel = new EditorPixel();
 
         /// <summary>
         ///     Constructeur de VueModele
         ///     On récupère certaines données initiales du modèle et on construit les commandes
         ///     sur lesquelles la vue se connectera.
         /// </summary>
-        public DrawingPixelWindowViewModel()
+        public EditorPixelViewModel()
         {
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, DrawingPixelModelPropertyModified est appelée.
-            _drawingPixelModel.DrawingName = DrawingName;
+            _editorPixelModel.DrawingName = DrawingName;
 
             InitializeBitmap();
             // Pour les commandes suivantes, il est toujours possible des les activer.
             // Donc, aucune vérification de type Peut"Action" à faire.
-            ChooseTool = new RelayCommand<string>(_drawingPixelModel.SelectTool);
+            ChooseTool = new RelayCommand<string>(_editorPixelModel.SelectTool);
 
-            ExportImageCommand = new RelayCommand<object>(_drawingPixelModel.ExportImagePrompt);
+            ExportImageCommand = new RelayCommand<object>(_editorPixelModel.ExportImagePrompt);
 
             //Managing different View
             OpenChatWindowCommand = new RelayCommand<object>(OpenChatWindow, CanOpenChat);
@@ -43,26 +44,26 @@ namespace PolyPaint.ViewModels
 
         public WriteableBitmap WriteableBitmap
         {
-            get => _drawingPixelModel.WriteableBitmap;
-            set => _drawingPixelModel.WriteableBitmap = value;
+            get => _editorPixelModel.WriteableBitmap;
+            set => _editorPixelModel.WriteableBitmap = value;
         }
 
         public string ToolSelected
         {
-            get => _drawingPixelModel.SelectedTool;
+            get => _editorPixelModel.SelectedTool;
             set => PropertyModified();
         }
 
         public string ColorSelected
         {
-            get => _drawingPixelModel.SelectedColor;
-            set => _drawingPixelModel.SelectedColor = value;
+            get => _editorPixelModel.SelectedColor;
+            set => _editorPixelModel.SelectedColor = value;
         }
 
         public int StrokeSizeSelected
         {
-            get => _drawingPixelModel.PixelSize;
-            set => _drawingPixelModel.PixelSize = value;
+            get => _editorPixelModel.PixelSize;
+            set => _editorPixelModel.PixelSize = value;
         }
 
         public Visibility ChatVisibility
@@ -96,27 +97,27 @@ namespace PolyPaint.ViewModels
 
         public void InitiateBitmap()
         {
-            _drawingPixelModel.InitializeBitmap();
+            _editorPixelModel.InitializeBitmap();
         }
 
         public void InitializeBitmap()
         {
-            _drawingPixelModel.InitializeBitmap();
+            _editorPixelModel.InitializeBitmap();
         }
 
         public void PixelDraw(Point oldPoint, Point newPoint)
         {
-            _drawingPixelModel.PixelDraw(oldPoint, newPoint);
+            _editorPixelModel.PixelDraw(oldPoint, newPoint);
         }
 
         public void PixelCursors(Border displayArea)
         {
-            _drawingPixelModel.PixelCursor(displayArea);
+            _editorPixelModel.PixelCursor(displayArea);
         }
 
         private void ProcessLoginStatusChange(object sender, string username)
         {
-            _drawingPixelModel.CurrentUsername = username;
+            _editorPixelModel.CurrentUsername = username;
         }
 
         /// <summary>

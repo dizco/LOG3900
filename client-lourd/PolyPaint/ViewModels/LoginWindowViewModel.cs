@@ -186,13 +186,6 @@ namespace PolyPaint.ViewModels
                 HomeMenu.Closed += (s, a) => HomeMenu = null;
                 OnClosingRequest();
             }
-            if (DrawingPixelWindow == null)
-            {
-                DrawingPixelWindow = new DrawingPixelWindowView();
-                DrawingPixelWindow.Show();
-                DrawingPixelWindow.Closed += (s, a) => DrawingPixelWindow = null;
-                OnClosingRequest();
-            }
         }
 
         /// <summary>

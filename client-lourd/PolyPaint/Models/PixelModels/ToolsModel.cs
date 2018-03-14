@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace PolyPaint.Models.DrawingPixelModels
+namespace PolyPaint.Models.PixelModels
 {
     public class Tools
     {
