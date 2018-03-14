@@ -444,5 +444,10 @@ namespace PolyPaint.ViewModels
         {
             Messenger?.SendEditorActionReplaceStroke(removed, added);
         }
+
+        public void OnSelectionTransformedHandler(StrokeCollection getSelectedStrokes)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

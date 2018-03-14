@@ -136,5 +136,15 @@ namespace PolyPaint.Views
         {
             (DataContext as EditorViewModel)?.OnSelectionChangedHandler(DrawingSurface?.GetSelectedStrokes());
         }
+
+        private void OnSelectionResized(object sender, EventArgs e)
+        {
+            (DataContext as EditorViewModel)?.OnSelectionTransformedHandler(DrawingSurface?.GetSelectedStrokes());
+        }
+
+        private void OnSelectionMoved(object sender, EventArgs e)
+        {
+            (DataContext as EditorViewModel)?.OnSelectionTransformedHandler(DrawingSurface?.GetSelectedStrokes());
+        }
     }
 }
