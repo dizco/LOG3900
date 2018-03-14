@@ -19,7 +19,6 @@ using PolyPaint.CustomComponents;
 using PolyPaint.Helpers;
 using PolyPaint.ViewModels;
 using Application = System.Windows.Application;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace PolyPaint.Models
 {
@@ -34,8 +33,8 @@ namespace PolyPaint.Models
 
         private const int ErrorLockViolation = 33;
 
-        private const double ClockwiseAngle = 90.0;// degrees
-        private const double CounterClockwiseAngle = -90.0;// degrees
+        private const double ClockwiseAngle = 90.0; // degrees
+        private const double CounterClockwiseAngle = -90.0; // degrees
 
         private readonly StrokeCollection _removedStrokesCollection = new StrokeCollection();
 
@@ -515,7 +514,7 @@ namespace PolyPaint.Models
                 UserAlerts.ShowErrorMessage("Veuillez utiliser un dessin non vide");
                 return;
             }
-            
+
             SaveFileDialog exportImageDialog = new SaveFileDialog
             {
                 Title = "Exporter le dessin",
@@ -562,7 +561,7 @@ namespace PolyPaint.Models
                 encoder?.Frames.Add(BitmapFrame.Create(imageRender));
                 encoder?.Save(imageStream);
                 //result message
-                ShowUserInfoMessage("Image exportée avec succès");
+                UserAlerts.ShowInfoMessage("Image exportée avec succès");
             }
             catch (UnauthorizedAccessException)
             {
@@ -649,14 +648,14 @@ namespace PolyPaint.Models
             StrokeCollection selectedStrokes = drawingSurface.GetSelectedStrokes();
             RotateStrokes(CounterClockwiseAngle, selectedStrokes);
         }
-        
+
         private static void RotateStrokes(double angle, StrokeCollection selectedStrokes)
         {
             Rect selectionBounds = selectedStrokes.GetBounds();
             Point center = new Point(selectionBounds.X + selectionBounds.Width / 2.0,
                                      selectionBounds.Y + selectionBounds.Height / 2.0);
             RotateTransform rotation = new RotateTransform(angle, center.X, center.Y);
-            
+
             Matrix rotationMatrix = new Matrix();
             rotationMatrix.RotateAt(rotation.Angle, center.X, center.Y);
             selectedStrokes.Transform(rotationMatrix, false);
@@ -675,20 +674,15 @@ namespace PolyPaint.Models
             ScaleTransform horizontalMirrorScale = new ScaleTransform(-1.0, 1.0);
             FlipStrokes(horizontalMirrorScale, selectedStrokes);
         }
-        
+
         private static void FlipStrokes(ScaleTransform mirror, StrokeCollection selectedStrokes)
         {
             Rect selectionBounds = selectedStrokes.GetBounds();
             Point mirrorCenter = new Point(selectionBounds.X + selectionBounds.Width / 2.0,
-                                     selectionBounds.Y + selectionBounds.Height / 2.0);
+                                           selectionBounds.Y + selectionBounds.Height / 2.0);
             Matrix mirrorMatrix = new Matrix();
             mirrorMatrix.ScaleAt(mirror.ScaleX, mirror.ScaleY, mirrorCenter.X, mirrorCenter.Y);
             selectedStrokes.Transform(mirrorMatrix, false);
-        }
-
-        private void ShowUserInfoMessage(string message)
-        {
-            MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // Drawable Shapes
