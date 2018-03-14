@@ -89,8 +89,8 @@ namespace PolyPaint.Models
         internal void LoadAutosavedDrawingsList()
         {
             AutosavedDrawings.Clear();
-            Editor.FetchAutosavedDrawings()?.ToList()
-                  .ForEach(drawing => AutosavedDrawings.Add(Editor.AutosaveFileNameToString(drawing)));
+            EditorStroke.FetchAutosavedDrawings()?.ToList()
+                  .ForEach(drawing => AutosavedDrawings.Add(EditorStroke.AutosaveFileNameToString(drawing)));
         }
 
         internal void SearchTextChangedHandlers(string keyword)

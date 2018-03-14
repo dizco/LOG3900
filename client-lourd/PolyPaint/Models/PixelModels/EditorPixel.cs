@@ -10,13 +10,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PolyPaint.Constants;
 using PolyPaint.Helpers;
-using PolyPaint.Models.DrawingPixelModels;
 using Cursors = System.Windows.Input.Cursors;
 using MessageBox = System.Windows.Forms.MessageBox;
 
-namespace PolyPaint.Models
+namespace PolyPaint.Models.PixelModels
 {
-    internal class DrawingPixelWindowModel : INotifyPropertyChanged
+    internal class EditorPixel : INotifyPropertyChanged
     {
         private bool _isLoadingDrawing;
 
@@ -114,7 +113,8 @@ namespace PolyPaint.Models
                     displayArea.Cursor = Cursors.Pen;
                     break;
                 case "eraser":
-                    displayArea.Cursor = Cursors.No;
+                    System.Windows.Input.Cursor eraser = new System.Windows.Input.Cursor(System.Windows.Application.GetResourceStream(new Uri("/Resources/Cursors/Eraser.cur", UriKind.Relative)).Stream);
+                    displayArea.Cursor = eraser;
                     break;
                 default:
                     displayArea.Cursor = Cursors.Pen;

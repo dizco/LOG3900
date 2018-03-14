@@ -10,28 +10,19 @@ using PolyPaint.ViewModels;
 namespace PolyPaint.Views
 {
     /// <summary>
-    ///     Logique d'interaction pour EditorView.xaml
+    ///     Logique d'interaction pour EditorStroke.xaml
     /// </summary>
-    public partial class EditorView : Window
+    public partial class EditorStroke : Window
     {
         private Point _end;
 
         //Starting and ending point of the mouse during an action
         private Point _start;
 
-        public EditorView()
+        public EditorStroke()
         {
             InitializeComponent();
-            DataContext = new EditorViewModel();
-            ((EditorViewModel)DataContext).LockedStrokesSelectedEvent += OnLockedStrokesSelectedEventHandler;
-        }
-
-        private void OnLockedStrokesSelectedEventHandler(object sender, StrokeCollection lockedStrokes)
-        {
-            StrokeCollection allSelectedStrokes = DrawingSurface.GetSelectedStrokes();
-            allSelectedStrokes.Remove(lockedStrokes);
-
-            DrawingSurface.Select(allSelectedStrokes);
+            DataContext = new EditorStrokeViewModel();
         }
 
         // Pour gérer les points de contrôles.
@@ -77,7 +68,7 @@ namespace PolyPaint.Views
             }
 
             //Transform the cursor in a cross when the tool is shapes
-            if ((DataContext as EditorViewModel)?.ToolSelected == "shapes")
+            if ((DataContext as EditorStrokeViewModel)?.ToolSelected == "shapes")
             {
                 DrawingSurface.UseCustomCursor = true;
                 DrawingSurface.Cursor = Cursors.Cross;
@@ -91,9 +82,9 @@ namespace PolyPaint.Views
         private void SurfaceDessin_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
             //The shape is added and selected in our StrokeCollection in the release of the left mouse
-            if (!_start.Equals(_end) && (DataContext as EditorViewModel)?.ToolSelected == "shapes")
+            if (!_start.Equals(_end) && (DataContext as EditorStrokeViewModel)?.ToolSelected == "shapes")
             {
-                StrokeCollection selectedShape = (DataContext as EditorViewModel).AddShape(_start, _end);
+                StrokeCollection selectedShape = (DataContext as EditorStrokeViewModel).AddShape(_start, _end);
                 DrawingSurface.Select(selectedShape);
             }
         }
@@ -101,7 +92,7 @@ namespace PolyPaint.Views
         private void SurfaceDessin_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             //The Dynamic Renderer is updated on each click
-            DrawingSurface.CustomRenderer.SetViewModel(DataContext as EditorViewModel);
+            DrawingSurface.CustomRenderer.SetViewModel(DataContext as EditorStrokeViewModel);
 
             //The position of the mouse is saved
             _start = e.GetPosition(DrawingSurface);
@@ -124,27 +115,27 @@ namespace PolyPaint.Views
 
         private void OnStrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
         {
-            (DataContext as EditorViewModel)?.OnStrokeCollectedHandler(sender, e);
+            (DataContext as EditorStrokeViewModel)?.OnStrokeCollectedHandler(sender, e);
         }
 
         private void OnStrokeErasing(object sender, InkCanvasStrokeErasingEventArgs e)
         {
-            (DataContext as EditorViewModel)?.OnStrokeErasingHandler(sender, e);
+            (DataContext as EditorStrokeViewModel)?.OnStrokeErasingHandler(sender, e);
         }
 
         private void OnSelectionChanged(object sender, EventArgs e)
         {
-            (DataContext as EditorViewModel)?.OnSelectionChangedHandler(DrawingSurface?.GetSelectedStrokes());
+            (DataContext as EditorStrokeViewModel)?.OnSelectionChangedHandler(DrawingSurface?.GetSelectedStrokes());
         }
 
         private void OnSelectionResized(object sender, EventArgs e)
         {
-            (DataContext as EditorViewModel)?.OnSelectionTransformedHandler(DrawingSurface?.GetSelectedStrokes());
+            (DataContext as EditorStrokeViewModel)?.OnSelectionTransformedHandler(DrawingSurface?.GetSelectedStrokes());
         }
 
         private void OnSelectionMoved(object sender, EventArgs e)
         {
-            (DataContext as EditorViewModel)?.OnSelectionTransformedHandler(DrawingSurface?.GetSelectedStrokes());
+            (DataContext as EditorStrokeViewModel)?.OnSelectionTransformedHandler(DrawingSurface?.GetSelectedStrokes());
         }
     }
 }

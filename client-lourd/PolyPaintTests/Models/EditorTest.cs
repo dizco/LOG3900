@@ -10,12 +10,12 @@ namespace PolyPaintTests.Models
     [TestClass]
     public class EditorTest
     {
-        private static Editor _editor;
+        private static EditorStroke _editor;
 
         [ClassInitialize]
         public static void InitializeMessenger(TestContext context)
         {
-            _editor = new Editor();
+            _editor = new EditorStroke();
         }
 
         [TestMethod]

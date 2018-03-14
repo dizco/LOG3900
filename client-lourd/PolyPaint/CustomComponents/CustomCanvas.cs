@@ -18,12 +18,12 @@ namespace PolyPaint.CustomComponents
 
         internal class CustomDynamicRenderer : DynamicRenderer
         {
-            private static EditorViewModel _viewModel;
+            private static EditorStrokeViewModel _viewModel;
             private Point _start;
 
             private bool IsManipulating { get; set; }
 
-            public void SetViewModel(EditorViewModel viewModel)
+            public void SetViewModel(EditorStrokeViewModel viewModel)
             {
                 _viewModel = viewModel;
             }

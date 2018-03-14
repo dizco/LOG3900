@@ -16,7 +16,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
             _transformStrokeAction = action;
         }
 
-        public void ExecuteStrategy(Editor editor)
+        public void ExecuteStrategy(EditorStroke editor)
         {
             if (_transformStrokeAction.Author.Username == editor.CurrentUsername)
             {

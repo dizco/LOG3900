@@ -7,15 +7,15 @@ using PolyPaint.ViewModels;
 
 namespace PolyPaint.Views
 {
-    public partial class DrawingPixelWindowView : Window
+    public partial class EditorPixel : Window
     {
         private Point _newPosition;
         private Point _oldPosition;
 
-        public DrawingPixelWindowView()
+        public EditorPixel()
         {
             InitializeComponent();
-            DataContext = new DrawingPixelWindowViewModel();
+            DataContext = new EditorPixelViewModel();
         }
 
         private void GlisserCommence(object sender, DragStartedEventArgs e)
@@ -45,7 +45,7 @@ namespace PolyPaint.Views
         private void DrawingSurfaceMouseEnter(object sender, MouseEventArgs e)
         {
             _oldPosition = e.GetPosition(DrawingSurface);
-            (DataContext as DrawingPixelWindowViewModel)?.PixelCursors(DisplayArea);
+            (DataContext as EditorPixelViewModel)?.PixelCursors(DisplayArea);
         }
 
         private void DrawingSurfacePreviewMouseDown(object sender, MouseEventArgs e)
@@ -55,7 +55,7 @@ namespace PolyPaint.Views
             //The tool is selected on click with a distance of one pixel to
             //enable it
             Point onePixelPoint = new Point(_oldPosition.X + 1, _oldPosition.Y);
-            (DataContext as DrawingPixelWindowViewModel)?.PixelDraw(_oldPosition, onePixelPoint);
+            (DataContext as EditorPixelViewModel)?.PixelDraw(_oldPosition, onePixelPoint);
         }
 
         private void DrawingSurfaceMouseMove(object sender, MouseEventArgs e)
@@ -64,7 +64,7 @@ namespace PolyPaint.Views
             {
                 //Action tool on mouse move
                 _newPosition = e.GetPosition(DrawingSurface);
-                (DataContext as DrawingPixelWindowViewModel)?.PixelDraw(_oldPosition, _newPosition);
+                (DataContext as EditorPixelViewModel)?.PixelDraw(_oldPosition, _newPosition);
                 _oldPosition = _newPosition;
             }
         }
