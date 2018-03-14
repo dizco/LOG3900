@@ -27,7 +27,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
  * Start Express server.
  */
 const server = app.listen(app.get("port"), () => {
-    console.log(("  App is running at http://localhost:%d in %s mode"), app.get("port"), app.get("env"));
+    console.log(`  App is running at http://localhost:${app.get("port")} in ${app.get("env")} mode`);
     console.log("  Press CTRL-C to stop\n");
 });
 
@@ -40,7 +40,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     wsDecorator.join(DefaultRooms.General);
     wsDecorator.join(DefaultRooms.Chat);
 
-    console.log("\nConnection by socket on server with ip", req.connection.remoteAddress, "\n");
+    console.log(`\nConnection by socket on server with ip ${req.connection.remoteAddress}.\n`);
 
     //TODO: Add an event to allow users to subscribe to specific drawings
 
@@ -68,7 +68,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     });
 
     ws.on("close", (code, reason) => {
-        console.log(`Disconnected from socket ip ${req.connection.remoteAddress} with code ${code}. Reason : ${reason}.`);
+        console.log(`\nDisconnected from socket ip ${req.connection.remoteAddress} with code ${code}. Reason : ${reason}.\n`);
         wss.removeClient(wsDecorator);
     });
 
