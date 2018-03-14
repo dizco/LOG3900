@@ -16,7 +16,9 @@ using PolyPaint.Models;
 using PolyPaint.Models.ApiModels;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Views;
+using PolyPaint.ViewModels;
 using Application = System.Windows.Application;
+using EditorStroke = PolyPaint.Views.EditorStroke;
 
 namespace PolyPaint.ViewModels
 {
@@ -201,9 +203,7 @@ namespace PolyPaint.ViewModels
             switch (selectedMode)
             {
                 case EditingModeOption.Trait: break;
-                case EditingModeOption.Pixel:
-                    UserAlerts.ShowErrorMessage("Ce mode n'est pas encore supporté.");
-                    return;
+                case EditingModeOption.Pixel: break;
                 default: return;
             }
 
@@ -275,28 +275,48 @@ namespace PolyPaint.ViewModels
             OpenEditorWindow(drawingParams.Item3, drawingParams.Item4);
         }
 
-        private void OpenEditorWindow(EditingModeOption option = EditingModeOption.Trait,
+        public void OpenEditorWindow(EditingModeOption option = EditingModeOption.Trait,
             List<EditorActionModel> actions = null)
         {
-            // TODO: Use EditingModeOption to open the proper editor
-            if (EditorView == null)
+            if (option == EditingModeOption.Trait)
             {
-                EditorView = new EditorView();
-                EditorView.Show();
-                // TODO: Modify this function once server saving protocol is established
-                (EditorView.DataContext as EditorViewModel)?.ReplayActions(actions);
-                EditorView.Closed += OnEditorClosedHandler;
-                OnClosingRequest();
+                if (EditorStroke == null)
+                {
+                    EditorPixel = null;
+                    EditorStroke = new EditorStroke();
+                    EditorStroke.Show();
+                    // TODO: Modify this function once server saving protocol is established
+                    (EditorStroke.DataContext as EditorStrokeViewModel)?.ReplayActions(actions);
+                    EditorStroke.Closed += OnEditorClosedHandler;
+                    OnClosingRequest();
+                }
+            }
+            else if (option == EditingModeOption.Pixel)
+            {
+                if (EditorPixel == null)
+                {
+                    EditorStroke = null;
+                    EditorPixel = new EditorPixel();
+                    EditorPixel.Show();
+                    // TODO: Modify this function once server saving protocol is established
+                    (EditorPixel.DataContext as EditorStrokeViewModel)?.ReplayActions(actions);
+                    EditorPixel.Closed += OnEditorClosedHandler;
+                    OnClosingRequest();
+                }
+            }
+            else
+            {
+                EditorStroke.Show();
             }
         }
 
         private void OpenEditorWindow(StrokeCollection strokes)
         {
-            if (EditorView == null)
+            if (EditorStroke == null)
             {
-                EditorView = new EditorView();
-                EditorView.Show();
-                if (EditorView.DataContext is EditorViewModel editorViewModel)
+                EditorStroke = new EditorStroke();
+                EditorStroke.Show();
+                if (EditorStroke.DataContext is EditorStrokeViewModel editorViewModel)
                 {
                     foreach (Stroke stroke in strokes)
                     {
@@ -304,33 +324,33 @@ namespace PolyPaint.ViewModels
                     }
                 }
 
-                EditorView.Closed += OnEditorClosedHandler;
+                EditorStroke.Closed += OnEditorClosedHandler;
                 OnClosingRequest();
             }
         }
 
         private void OpenEditorWindow(string autosaveDrawingName)
         {
-            if (EditorView == null)
+            if (EditorStroke == null)
             {
-                EditorView = new EditorView();
-                EditorView.Show();
-                if (EditorView.DataContext is EditorViewModel editorViewModel)
+                EditorStroke = new EditorStroke();
+                EditorStroke.Show();
+                if (EditorStroke.DataContext is EditorStrokeViewModel editorViewModel)
                 {
                     editorViewModel.LoadAutosaved.Execute(autosaveDrawingName);
                 }
 
-                EditorView.Closed += OnEditorClosedHandler;
+                EditorStroke.Closed += OnEditorClosedHandler;
                 OnClosingRequest();
             }
         }
 
         private void OnEditorClosedHandler(object sender, EventArgs e)
         {
-            if (sender is EditorView editorView)
+            if (sender is EditorStroke editorView)
             {
-                (editorView.DataContext as EditorViewModel)?.UnsubscribeDrawingRoom();
-                (editorView.DataContext as EditorViewModel)?.Dispose();
+                (editorView.DataContext as EditorStrokeViewModel)?.UnsubscribeDrawingRoom();
+                (editorView.DataContext as EditorStrokeViewModel)?.Dispose();
             }
 
             if (HomeMenu == null)
@@ -341,7 +361,7 @@ namespace PolyPaint.ViewModels
                 OnClosingRequest();
             }
 
-            EditorView = null;
+            EditorStroke = null;
         }
     }
 }

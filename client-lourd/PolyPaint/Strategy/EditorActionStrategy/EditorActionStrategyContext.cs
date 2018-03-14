@@ -12,7 +12,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
             PickStrategy(action);
         }
 
-        public void ExecuteStrategy(Editor editor)
+        public void ExecuteStrategy(EditorStroke editor)
         {
             _strategy.ExecuteStrategy(editor);
         }
