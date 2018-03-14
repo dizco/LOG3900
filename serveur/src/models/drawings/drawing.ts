@@ -4,6 +4,14 @@ import * as mongoose from "mongoose";
 import * as mongoosePaginate from "mongoose-paginate";
 import * as bcrypt from "bcrypt-nodejs";
 import { NextFunction } from "express";
+import { WebSocketServer } from "../../websockets/websocket-server";
+
+const USERS_LIMIT_PER_DRAWING = 4;
+let wss: WebSocketServer;
+
+export function setWss(wssInstance: WebSocketServer): void {
+    wss = wssInstance;
+}
 
 interface DrawingInterface extends DrawingAttributes {
     actions?: ServerEditorAction[];
@@ -65,7 +73,7 @@ drawingSchema.methods.comparePassword = function(candidatePassword: string, cb: 
     });
 };
 
-//Remove the protection password field
+//Remove the protection password field, add users
 if (!(<any>drawingSchema).options.toObject) (<any>drawingSchema).options.toObject = {};
 (<any>drawingSchema).options.toObject.transform = function (doc: any, ret: any, options: any) {
     delete ret.protection.password;
@@ -77,8 +85,28 @@ if (!(<any>drawingSchema).options.toObject) (<any>drawingSchema).options.toObjec
             return action;
         });
     }
+
+    addUsersAttribute(ret);
+
     return ret;
 };
+
+function addUsersAttribute(ret: any): void {
+    ret.users = {
+        active: 0,
+        limit: USERS_LIMIT_PER_DRAWING
+    };
+
+    if (wss) {
+        //Add users editing
+        const room = wss.findRoom(String(ret._id)); //Cast ret._id to string, because it is an object
+        ret.users.active = room ? room.getClients().length : 0; //If room does not exist, return 0
+    }
+    else if (process.env.NODE_ENV === "development") {
+        //If the wss instance is not set, it means the server has not created a WebSocketServer, therefore we have no rooms
+        console.log("Adding users to drawing model, wss instance not set.");
+    }
+}
 
 const Drawing = mongoose.model<DrawingModel>("Drawing", drawingSchema);
 export default Drawing;
