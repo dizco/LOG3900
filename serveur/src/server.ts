@@ -10,6 +10,7 @@ import { app } from "./app";
 import { verifyClient } from "./websockets/verify-client";
 import { DefaultRooms } from "./websockets/default-rooms";
 import { PassportVerifyLocal } from "./config/passport-verify-local";
+import { setWss as drawingModelSetWss } from "./models/drawings/drawing";
 
 /**
  * Error Handler. Provides full stack in dev and test
@@ -33,6 +34,7 @@ const server = app.listen(app.get("port"), () => {
 
 const wss = new WebSocketServer(server, verifyClient);
 PassportVerifyLocal.setWss(wss);
+drawingModelSetWss(wss);
 
 wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
     const wsDecorator = new WebSocketDecorator(wss, ws);

@@ -6,7 +6,7 @@ import { UserModel } from "../models/User";
 export class WebSocketDecorator {
     //Here we unfortunately can't extend WebSocket directly, because the WebSocket instance is created inside the WebSocket.Server
 
-    protected readonly PING_INTERVAL = 60000; //60 seconds
+    protected static readonly PING_INTERVAL = 60000; //60 seconds
 
     private wss: WebSocketServer;
     private ws: WebSocket;
@@ -97,7 +97,7 @@ export class WebSocketDecorator {
         this.detectingDisconnects = true;
         this.ws.on("pong", () => this.isAlive = true); //The spec guarantees that any client will send a pong if it receives a ping
 
-        this.disconnectsInterval = setInterval(this.ping, this.PING_INTERVAL);
+        this.disconnectsInterval = setInterval(this.ping, WebSocketDecorator.PING_INTERVAL);
     }
 
     private ping = () => { //Maintain 'this' on the object, and not on the interval
