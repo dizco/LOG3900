@@ -23,6 +23,15 @@ namespace PolyPaint.Views
         {
             InitializeComponent();
             DataContext = new EditorViewModel();
+            ((EditorViewModel)DataContext).LockedStrokesSelectedEvent += OnLockedStrokesSelectedEventHandler;
+        }
+
+        private void OnLockedStrokesSelectedEventHandler(object sender, StrokeCollection lockedStrokes)
+        {
+            StrokeCollection allSelectedStrokes = DrawingSurface.GetSelectedStrokes();
+            allSelectedStrokes.Remove(lockedStrokes);
+
+            DrawingSurface.Select(allSelectedStrokes);
         }
 
         // Pour gérer les points de contrôles.
