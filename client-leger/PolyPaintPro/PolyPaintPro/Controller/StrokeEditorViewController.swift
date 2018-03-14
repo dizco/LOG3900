@@ -46,12 +46,11 @@ class StrokeEditorViewController: UIViewController, UIGestureRecognizerDelegate 
         let sidebarWidth = self.toolsView.frame.width
         if toolsShowing {
             toolsViewConstraint.constant = -sidebarWidth
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         } else {
             toolsViewConstraint.constant = 0
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
             toolsView.setDefault()
         }
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         toolsShowing = !toolsShowing
     }
 
@@ -60,11 +59,10 @@ class StrokeEditorViewController: UIViewController, UIGestureRecognizerDelegate 
         let chatViewWidth = self.chatView.frame.width
         if chatShowing {
             chatViewConstraint.constant = windowWidth
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         } else {
             chatViewConstraint.constant = windowWidth - chatViewWidth
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         }
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         chatShowing = !chatShowing
     }
 
@@ -72,11 +70,10 @@ class StrokeEditorViewController: UIViewController, UIGestureRecognizerDelegate 
         let settingsView = self.drawingSettingsView.frame.width
         if drawingSettingsShowing {
             drawingSettingsContraint.constant = -settingsView
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         } else {
             drawingSettingsContraint.constant = 0
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         }
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         drawingSettingsShowing = !drawingSettingsShowing
     }
 
@@ -96,7 +93,7 @@ class StrokeEditorViewController: UIViewController, UIGestureRecognizerDelegate 
         super.viewDidLoad()
         self.hideKeyboard()
         observeKeyboardNotification()
-        if(!connectionStatus){
+        if (!connectionStatus) {
             chatToggleBtn.isEnabled = false
         }
     }

@@ -37,12 +37,11 @@ class PixelEditorViewController: UIViewController {
         let sidebarWidth = self.toolsView.frame.width
         if toolsShowing {
             toolsViewConstraint.constant = -sidebarWidth
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         } else {
             toolsViewConstraint.constant = 0
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
             toolsView.setDefault()
         }
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         toolsShowing = !toolsShowing
     }
 
@@ -51,11 +50,11 @@ class PixelEditorViewController: UIViewController {
         let chatViewWidth = self.chatView.frame.width
         if chatShowing {
             chatViewConstraint.constant = windowWidth
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         } else {
             chatViewConstraint.constant = windowWidth - chatViewWidth
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         }
+
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         chatShowing = !chatShowing
     }
 
@@ -63,11 +62,10 @@ class PixelEditorViewController: UIViewController {
         let settingsView = self.drawingSettingsView.frame.width
         if drawingSettingsShowing {
             drawingSettingsContraint.constant = -settingsView
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         } else {
             drawingSettingsContraint.constant = 0
-            UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         }
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         drawingSettingsShowing = !drawingSettingsShowing
     }
 
@@ -87,7 +85,6 @@ class PixelEditorViewController: UIViewController {
             chatToggleBtn.isEnabled = false
         }
     }
-
 
     var lastPoint = CGPoint.zero //last drawn point on the canvas
     var red: CGFloat = 0.0 //RGB, stores the currend rgb value from the selector
