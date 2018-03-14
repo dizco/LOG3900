@@ -399,7 +399,7 @@
                         <viewControllerLayoutGuide type="top" id="lvZ-jz-KiZ"/>
                         <viewControllerLayoutGuide type="bottom" id="Z3f-vf-mS3"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Cys-yA-DLW">
+                    <view key="view" contentMode="scaleToFill" id="Cys-yA-DLW" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

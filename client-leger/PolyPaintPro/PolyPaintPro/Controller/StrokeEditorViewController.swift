@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SpriteKit
 
-class StrokeEditorViewController: UIViewController, UIGestureRecognizerDelegate {
+class StrokeEditorViewController: ViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         let scene = StrokeEditorScene(size: view.frame.size)
         let skView = view as! SKView
