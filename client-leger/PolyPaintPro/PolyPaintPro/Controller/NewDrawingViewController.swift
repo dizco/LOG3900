@@ -18,6 +18,12 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     @IBOutlet weak var drawingTypePickerview: UIPickerView!
 
     @IBAction func createDrawingButton(_ sender: UIButton) {
+        if (selectedDrawingType == Drawing.Types[0]){
+            performSegue(withIdentifier: "StrokeEditorSegue", sender: self)
+        }
+        else if (selectedDrawingType == Drawing.Types[1]){
+            performSegue(withIdentifier: "PixelEditorSegue", sender: self)
+        }
     }
 
     //these 4 functions are required for the uipicker to work properly
@@ -48,8 +54,8 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! ViewController
-        vc.connectionStatus = connectionStatus
-        vc.drawingType = selectedDrawingType
+//        let vc = segue.destination as! ViewController
+//        vc.connectionStatus = connectionStatus
+//        vc.drawingType = selectedDrawingType
     }
 }
