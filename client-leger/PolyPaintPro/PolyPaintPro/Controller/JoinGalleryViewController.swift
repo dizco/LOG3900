@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 
-class JoinGalleryViewController: UIViewController{
-
+class JoinGalleryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

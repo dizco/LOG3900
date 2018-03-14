@@ -30,6 +30,22 @@ class PixelEditorViewController: EditorViewController {
         }
     }
 
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        swiped = true
+        if let touch = touches.first {
+            let currentPoint = touch.location(in: view)
+            drawLine(fromPoint: lastPoint, toPoint: currentPoint)
+            lastPoint = currentPoint
+        }
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !swiped {
+            // draw a single point
+            self.drawLine(fromPoint: lastPoint, toPoint: lastPoint)
+        }
+    }
+
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
         red = CGFloat(drawingSettingsView.redValue)
@@ -53,21 +69,4 @@ class PixelEditorViewController: EditorViewController {
         imageView.alpha = opacity
         UIGraphicsEndImageContext()
     }
-
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        swiped = true
-        if let touch = touches.first {
-            let currentPoint = touch.location(in: view)
-            drawLine(fromPoint: lastPoint, toPoint: currentPoint)
-            lastPoint = currentPoint
-        }
-    }
-
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !swiped {
-            // draw a single point
-            self.drawLine(fromPoint: lastPoint, toPoint: lastPoint)
-        }
-    }
-
 }

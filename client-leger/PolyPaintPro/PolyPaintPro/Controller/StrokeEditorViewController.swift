@@ -11,7 +11,6 @@ import UIKit
 import SpriteKit
 
 class StrokeEditorViewController: EditorViewController, UIGestureRecognizerDelegate {
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -27,5 +26,4 @@ class StrokeEditorViewController: EditorViewController, UIGestureRecognizerDeleg
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-
 }

@@ -10,18 +10,32 @@ import Foundation
 import UIKit
 
 class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
-    var connectionStatus = true
-    var selectedDrawingType: String = Drawing.Types[0] //this variable represents the type of drawing the user selected
-
+    internal var connectionStatus = true
+    internal var selectedDrawingType: String = Drawing.Types[0] //type of drawing the user selected
 
     @IBOutlet weak var drawingNameTextField: UITextField!
     @IBOutlet weak var drawingTypePickerview: UIPickerView!
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        drawingTypePickerview.delegate = self
+        drawingTypePickerview.dataSource = self
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //        let vc = segue.destination as! ViewController
+        //        vc.connectionStatus = connectionStatus
+        //        vc.drawingType = selectedDrawingType
+    }
+
     @IBAction func createDrawingButton(_ sender: UIButton) {
-        if (selectedDrawingType == Drawing.Types[0]){
+        if selectedDrawingType == Drawing.Types[0] {
             performSegue(withIdentifier: "StrokeEditorSegue", sender: self)
-        }
-        else if (selectedDrawingType == Drawing.Types[1]){
+        } else if selectedDrawingType == Drawing.Types[1] {
             performSegue(withIdentifier: "PixelEditorSegue", sender: self)
         }
     }
@@ -38,24 +52,9 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return Drawing.Types[row]
     }
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         //enter here the code for the selected type
         selectedDrawingType = Drawing.Types[row]
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        drawingTypePickerview.delegate = self
-        drawingTypePickerview.dataSource = self
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let vc = segue.destination as! ViewController
-//        vc.connectionStatus = connectionStatus
-//        vc.drawingType = selectedDrawingType
     }
 }

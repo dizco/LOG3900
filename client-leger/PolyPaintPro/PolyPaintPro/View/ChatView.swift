@@ -9,14 +9,15 @@ import Starscream
 import UIKit
 
 class ChatView: UIView, SocketManagerDelegate {
-    var rowNumber: Int = 0
-    var titleHeading: [String] = [""]
-    var subtitleHeading: [String] = [""]
-    var authorNameMutableString = NSMutableAttributedString()
+    internal var rowNumber: Int = 0
+    internal var titleHeading: [String] = [""]
+    internal var subtitleHeading: [String] = [""]
+    internal var authorNameMutableString = NSMutableAttributedString()
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var messageField: UITextField!
+
     @IBAction func sendButton(_ sender: UIButton) {
-      sendMessage()
+        sendMessage()
     }
 
     func sendMessage() {
@@ -36,6 +37,15 @@ class ChatView: UIView, SocketManagerDelegate {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        chatTableView.estimatedRowHeight = 55
+        chatTableView.rowHeight = UITableViewAutomaticDimension
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        if SocketManager.sharedInstance.delegate == nil {
+            SocketManager.sharedInstance.delegate = self
+        }
     }
 
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
@@ -52,9 +62,7 @@ class ChatView: UIView, SocketManagerDelegate {
         )
         titleHeading.insert(messageInfo, at: rowNumber)
         subtitleHeading.insert(message, at: rowNumber)
-        chatTableView.estimatedRowHeight = 55
         updateContentInsetForTableView(tableView: chatTableView, animated: true)
-        chatTableView.rowHeight = UITableViewAutomaticDimension
         chatTableView.insertRows(at: [indexPath], with: .right)
         rowNumber += 1
         messageField.text = ""
@@ -73,13 +81,6 @@ class ChatView: UIView, SocketManagerDelegate {
             tableView.contentInset = contentInset
         }
         )
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        if SocketManager.sharedInstance.delegate == nil {
-            SocketManager.sharedInstance.delegate = self
-        }
     }
 
     func connect() {
