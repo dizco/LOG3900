@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -49,6 +50,7 @@ namespace PolyPaint.ViewModels
             AdjustTip();
 
             StrokesCollection = _editor.StrokesCollection;
+            LockedStrokes = _editor.LockedStrokes;
 
             // Pour chaque commande, on effectue la liaison avec des méthodes du modèle.
             Stack = new RelayCommand<object>(_editor.Stack, _editor.CanStack);
@@ -141,7 +143,7 @@ namespace PolyPaint.ViewModels
         }
 
         public StrokeCollection StrokesCollection { get; set; }
-        public HashSet<string> LockedStrokes { get; set; }
+        public ISet<string> LockedStrokes { get; set; }
         private List<string> LockedStrokesHeld { get; set; }
 
         // Commandes sur lesquels la vue pourra se connecter.
@@ -179,6 +181,7 @@ namespace PolyPaint.ViewModels
         internal bool IsErasingByStroke { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<StrokeCollection> LockedStrokesSelectedEvent;
 
         private void OnStrokeStackedHandler(object sender, CustomStroke stroke)
         {
@@ -243,6 +246,15 @@ namespace PolyPaint.ViewModels
         protected virtual void PropertyModified([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        ///     Raises an event with the StrokeCocllection containing all the strokes the user does not have access to modify
+        /// </summary>
+        /// <param name="strokes"></param>
+        protected void LockedStrokesSelected(List<Stroke> strokes)
+        {
+            LockedStrokesSelectedEvent?.Invoke(this, new StrokeCollection(strokes));
         }
 
         /// <summary>
@@ -333,6 +345,12 @@ namespace PolyPaint.ViewModels
 
         public void OnStrokeErasingHandler(object sender, InkCanvasStrokeErasingEventArgs e)
         {
+            if (LockedStrokes.Contains((e.Stroke as CustomStroke)?.Uuid.ToString()))
+            {
+                e.Cancel = true;
+                return;
+            }
+
             IsErasingByPoint = (sender as CustomRenderingInkCanvas)?.EditingMode == InkCanvasEditingMode.EraseByPoint;
             IsErasingByStroke = (sender as CustomRenderingInkCanvas)?.EditingMode == InkCanvasEditingMode.EraseByStroke;
         }
@@ -341,6 +359,16 @@ namespace PolyPaint.ViewModels
         {
             if (strokes.Count > 0)
             {
+                List<Stroke> strokesToRemove =
+                    strokes.Where(stroke => LockedStrokes.Contains((stroke as CustomStroke)?.Uuid.ToString())).ToList();
+
+                LockedStrokesSelected(strokesToRemove);
+
+                if (strokesToRemove?.Count > 0)
+                {
+                    return;
+                }
+
                 LockedStrokesHeld = strokes.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString())
                                            .Where(stroke => stroke != null).ToList();
                 SendLockStrokes(LockedStrokesHeld);

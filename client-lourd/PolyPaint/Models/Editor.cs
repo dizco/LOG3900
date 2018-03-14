@@ -56,9 +56,9 @@ namespace PolyPaint.Models
         // Grosseur des traits tracés par le crayon.
         private int _strokeSize = 11;
 
-        public StrokeCollection StrokesCollection = new StrokeCollection();
+        public ISet<string> LockedStrokes = new HashSet<string>();
 
-        public HashSet<string> LockedStrokes = new HashSet<string>();
+        public StrokeCollection StrokesCollection = new StrokeCollection();
 
         public Editor()
         {
