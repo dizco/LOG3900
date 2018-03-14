@@ -12,14 +12,14 @@ import PromiseKit
 class LoginViewController: UIViewController {
 
     // MARK: - RestManager
-    var restManager: RestManager?
-    var connectionStatus = true //variable for connexion status
+    private var restManager: RestManager?
+    internal var connectionStatus = true //variable for connexion status
     // MARK: - Labels
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var connectionErrorLabel: UILabel!
 
     // MARK: - Views
-    @IBOutlet var placeHolderView: UIView!
+    @IBOutlet weak var placeHolderView: UIView!
     @IBOutlet weak var connectionView: UIView?
     @IBOutlet weak var registerView: UIView?
     @IBOutlet weak var selectorView: UIView!
@@ -43,6 +43,29 @@ class LoginViewController: UIViewController {
     // MARK: - Error messages labels
     @IBOutlet weak var loginErrorTextField: UILabel!
     @IBOutlet weak var registerErrorTextField: UILabel!
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //registerView?.isHidden = true //default view is login
+        //default values
+        connectionView?.isHidden = true
+        registerView?.isHidden = true
+        selectorView?.isHidden = true
+        connectionErrorLabel?.isHidden = true
+        self.hideKeyboard()
+        self.observeKeyboardNotification()
+        loginErrorTextField?.isHidden = true
+        registerErrorTextField?.isHidden = true
+    }
+
     // MARK: - Buttons
     @IBAction func connexionButton(_ sender: UIButton) {
         let username = loginUsernameField!.text!
@@ -62,9 +85,9 @@ class LoginViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nav = segue.destination as! UINavigationController
-        var secondController = nav.topViewController as! RecentsViewController
-        secondController.connectionStatus = connectionStatus
+        let nav = segue.destination as? UINavigationController
+        let secondController = nav!.topViewController as? RecentsViewController
+        secondController!.connectionStatus = connectionStatus
     }
 
     private func loginToServer(sender: UIButton, username: String, password: String) {
@@ -130,11 +153,13 @@ class LoginViewController: UIViewController {
             registerView?.isHidden = false
         }
     }
+
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
         //attempt function to attempt to connect to the server modify the connectionState and errorMessage
         let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
         serverAddressEntered(connectionState: isTrueIP)
     }
+
     func serverAddressEntered(connectionState: Bool) {
         if connectionState { //connection with the server established
             connectionView?.isHidden = false
@@ -144,51 +169,5 @@ class LoginViewController: UIViewController {
             connectionErrorLabel?.isHidden = false
             connectionErrorLabel?.text = ServerLookup.sharedInstance.error
         }
-    }
-    // MARK: - Memory Warning
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    // MARK: - View Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        //registerView?.isHidden = true //default view is login
-        //default values
-        connectionView?.isHidden = true
-        registerView?.isHidden = true
-        selectorView?.isHidden = true
-        connectionErrorLabel?.isHidden = true
-        self.hideKeyboard()
-        observeKeyboardNotification()
-        loginErrorTextField?.isHidden = true
-        registerErrorTextField?.isHidden = true
-    }
-    fileprivate func  observeKeyboardNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: NSNotification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: NSNotification.Name.UIKeyboardWillHide,
-                                               object: nil)
-    }
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y += keyboardSize.height
-            }
-        }
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 }

@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 
-class JoinDrawingViewController: UIViewController{
-
+class JoinDrawingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

@@ -9,15 +9,6 @@
 import UIKit
 
 class ToolsView: UIView {
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var eraseButton: UIButton!
     @IBOutlet weak var cutButton: UIButton!
@@ -27,6 +18,14 @@ class ToolsView: UIView {
     @IBOutlet weak var unstackButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     //action called for the pen
     @IBAction func penButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "pencil")
@@ -102,7 +101,7 @@ class ToolsView: UIView {
 
     }
 
-    func resetUnicode() {
+    private func resetUnicode() {
         stackButton.setTitleColor(.black, for: .normal)
         unstackButton.setTitleColor(.black, for: .normal)
     }

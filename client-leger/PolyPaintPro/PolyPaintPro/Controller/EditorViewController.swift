@@ -26,6 +26,27 @@ class EditorViewController: UIViewController {
     @IBOutlet weak var toolsViewConstraint: NSLayoutConstraint! //constraint to show/hide the tools view
     @IBOutlet weak var drawingSettingsContraint: NSLayoutConstraint! //constraint to show/hide drawing tools
 
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        toolsViewConstraint.constant = -self.toolsView.frame.width
+        drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
+        toolsView.layer.cornerRadius = 10
+        drawingSettingsView.layer.cornerRadius = 10
+        self.hideKeyboard()
+        self.observeKeyboardNotification()
+        if !connectionStatus {
+            chatToggleBtn.isEnabled = false
+        }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+
     @IBAction func editDrawingSettings(_ sender: Any) {
         drawingSettingsFn()
     }
@@ -73,53 +94,5 @@ class EditorViewController: UIViewController {
         }
         UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         drawingSettingsShowing = !drawingSettingsShowing
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        toolsViewConstraint.constant = -self.toolsView.frame.width
-        drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
-        toolsView.layer.cornerRadius = 10
-        drawingSettingsView.layer.cornerRadius = 10
-        self.hideKeyboard()
-        observeKeyboardNotification()
-        if !connectionStatus {
-            chatToggleBtn.isEnabled = false
-        }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    private func observeKeyboardNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: NSNotification.Name.UIKeyboardWillShow,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: NSNotification.Name.UIKeyboardWillHide,
-                                               object: nil)
-    }
-
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            }
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y += keyboardSize.height
-            }
-        }
     }
 }
