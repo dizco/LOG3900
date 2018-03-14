@@ -36,6 +36,10 @@ namespace PolyPaint.Models
         private const double ClockwiseAngle = 90.0; // degrees
         private const double CounterClockwiseAngle = -90.0; // degrees
 
+        private const double TextToInsertMinWidth = 50.0;
+        private const double TextToInsertMinHeight = 25.0;
+        private const double TextToInsertDefaultPosition = 10.0;
+
         private readonly StrokeCollection _removedStrokesCollection = new StrokeCollection();
 
         private bool _isLoadingDrawing;
@@ -65,6 +69,10 @@ namespace PolyPaint.Models
         }
 
         public string CurrentUsername { get; set; }
+
+        // Text to insert
+        public string TextToInsertContent { get; set; }
+        private const string TextToInsertFontSize = "12pt";
 
         public string SelectedTool
         {
@@ -703,6 +711,27 @@ namespace PolyPaint.Models
             selectedStrokes.Transform(mirrorMatrix, false);
 
             OnSelectedStrokesTransformed(selectedStrokes);
+        }
+
+        public void InsertText(InkCanvas drawingSurface)
+        {
+            System.Windows.Controls.TextBox textToInsert = new System.Windows.Controls.TextBox();
+            textToInsert.Text = TextToInsertContent;
+            Color textToInsertColor = (Color)ColorConverter.ConvertFromString(SelectedColor);
+            textToInsert.Foreground = new SolidColorBrush(textToInsertColor);
+            textToInsert.FontSize = (double) new FontSizeConverter().ConvertFrom(TextToInsertFontSize);
+            textToInsert.TextWrapping = TextWrapping.WrapWithOverflow;
+            textToInsert.AcceptsReturn = true;
+            textToInsert.MinWidth = TextToInsertMinWidth;
+            textToInsert.MinHeight = TextToInsertMinHeight;
+            InkCanvas.SetLeft(textToInsert, TextToInsertDefaultPosition);
+            InkCanvas.SetTop(textToInsert, TextToInsertDefaultPosition);
+            drawingSurface.Children.Add(textToInsert);
+        }
+
+        private void ShowUserInfoMessage(string message)
+        {
+            System.Windows.Forms.MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // Drawable Shapes
