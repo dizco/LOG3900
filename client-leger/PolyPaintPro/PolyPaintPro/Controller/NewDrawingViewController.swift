@@ -27,9 +27,8 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //        let vc = segue.destination as! ViewController
-        //        vc.connectionStatus = connectionStatus
-        //        vc.drawingType = selectedDrawingType
+        let vc = segue.destination as! EditorViewController
+        vc.connectionStatus = connectionStatus
     }
 
     @IBAction func createDrawingButton(_ sender: UIButton) {
