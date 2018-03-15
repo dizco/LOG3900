@@ -19,14 +19,14 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
     [TestClass]
     public class EditorActionStrategiesTest
     {
-        private static Editor _editor;
+        private static EditorStroke _editor;
         private static Messenger _messenger;
         private static CustomStroke _stroke;
 
         [ClassInitialize]
         public static void InitializeMessenger(TestContext context)
         {
-            _editor = new Editor();
+            _editor = new EditorStroke();
             _messenger = new Messenger(new MessengerTest.SocketHandlerMock("ws://something"));
 
             Messenger.DrawingRoomId = "507f1f77bcf86cd799439011";

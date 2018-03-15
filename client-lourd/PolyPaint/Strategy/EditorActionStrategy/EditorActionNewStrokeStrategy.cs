@@ -13,7 +13,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
             _newStrokeAction = action;
         }
 
-        public void ExecuteStrategy(Editor editor)
+        public void ExecuteStrategy(EditorStroke editor)
         {
             if (_newStrokeAction.Author.Username == editor.CurrentUsername)
             {

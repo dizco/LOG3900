@@ -16,6 +16,7 @@ using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Strategy.EditorActionStrategy;
 using PolyPaint.Views;
+using EditorStroke = PolyPaint.Models.EditorStroke;
 
 namespace PolyPaint.ViewModels
 {
@@ -24,16 +25,16 @@ namespace PolyPaint.ViewModels
     ///     Expose des commandes et propriétés connectées au modèle aux des éléments de la vue peuvent se lier.
     ///     Reçoit des avis de changement du modèle et envoie des avis de changements à la vue.
     /// </summary>
-    internal class EditorViewModel : ViewModelBase, INotifyPropertyChanged
+    internal class EditorStrokeViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private readonly Editor _editor = new Editor();
+        private readonly EditorStroke _editor = new EditorStroke();
 
         /// <summary>
         ///     Constructeur de VueModele
         ///     On récupère certaines données initiales du modèle et on construit les commandes
         ///     sur lesquelles la vue se connectera.
         /// </summary>
-        public EditorViewModel()
+        public EditorStrokeViewModel()
         {
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, EditorPropertyModified est appelée.
             _editor.PropertyChanged += EditorPropertyModified;
@@ -59,7 +60,7 @@ namespace PolyPaint.ViewModels
             // Donc, aucune vérification de type Peut"Action" à faire.
             ChooseTip = new RelayCommand<string>(_editor.SelectTip);
             ChooseTool = new RelayCommand<string>(_editor.SelectTool);
-            ChooseShape = new RelayCommand<Editor.DrawableShapes>(_editor.SelectShape);
+            ChooseShape = new RelayCommand<EditorStroke.DrawableShapes>(_editor.SelectShape);
             ResetDrawingCommand = new RelayCommand<object>(ResetDrawing);
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawingPrompt);
             SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawingPrompt);
@@ -108,7 +109,7 @@ namespace PolyPaint.ViewModels
             set => PropertyModified();
         }
 
-        public Editor.DrawableShapes ShapeSelected
+        public EditorStroke.DrawableShapes ShapeSelected
         {
             get => _editor.SelectedShape;
             set => PropertyModified();
@@ -153,7 +154,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> Unstack { get; set; }
         public RelayCommand<string> ChooseTip { get; set; }
         public RelayCommand<string> ChooseTool { get; set; }
-        public RelayCommand<Editor.DrawableShapes> ChooseShape { get; set; }
+        public RelayCommand<EditorStroke.DrawableShapes> ChooseShape { get; set; }
         public RelayCommand<object> ResetDrawingCommand { get; set; }
 
         public RelayCommand<object> OpenFileCommand { get; set; }

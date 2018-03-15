@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -89,6 +90,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WriteableBitmapEx.Wpf, Version=1.5.0.0, Culture=neutral, PublicKeyToken=50375ca6144f1c69, processorArchitecture=MSIL">
+      <HintPath>..\packages\WriteableBitmapEx.1.5.1.0\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock, Version=3.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.3.2.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
@@ -121,16 +125,22 @@
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
+    <Compile Include="Models\PixelModels\EditorPixel.cs" />
+    <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
+    <Compile Include="ViewModels\EditorPixelViewModel.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
+    <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
+    <Compile Include="Views\EditorPixel.xaml.cs">
+      <DependentUpon>EditorPixel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HomeMenu.xaml.cs">
       <DependentUpon>HomeMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\ChatWindowModel.cs" />
     <Compile Include="Models\ShapeMakerModel.cs" />
-    <Compile Include="Models\Editor.cs" />
+    <Compile Include="Models\EditorStroke.cs" />
     <Compile Include="Constants\JsonConstantStrings.cs" />
     <Compile Include="Models\MessagingModels\AuthorModel.cs" />
     <Compile Include="Models\MessagingModels\ChatMessageModel.cs" />
@@ -150,13 +160,17 @@
     <Compile Include="ViewModels\ChatWindowViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ViewModels\EditorViewModel.cs" />
+    <Compile Include="ViewModels\EditorStrokeViewModel.cs" />
     <Compile Include="Views\ChatWindowView.xaml.cs">
       <DependentUpon>ChatWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginWindowView.xaml.cs">
       <DependentUpon>LoginWindowView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\EditorPixel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\HomeMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -165,7 +179,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EditorView.xaml">
+    <Page Include="Views\EditorStroke.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,8 +187,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\EditorView.xaml.cs">
-      <DependentUpon>EditorView.xaml</DependentUpon>
+    <Compile Include="Views\EditorStroke.xaml.cs">
+      <DependentUpon>EditorStroke.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\LoginWindowView.xaml">
       <SubType>Designer</SubType>
@@ -255,6 +269,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\lightningBolt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Cursors\Eraser.cur" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\flip_horizontally.png" /> <!-- from https://www.iconfinder.com/icons/131749/flip_horizontally_icon -->
