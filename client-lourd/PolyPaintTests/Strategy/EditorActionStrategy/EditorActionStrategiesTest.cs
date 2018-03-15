@@ -118,7 +118,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
         [TestMethod]
         public void TestRemoveStrokeSuccess()
         {
-            AutoResetEvent are = new AutoResetEvent(false);
+            AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 
             _editor.StrokesCollection.Add(_stroke);
 
@@ -130,13 +130,13 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
                 Username = "me@me.ca"
             };
 
-            _editor.StrokesCollection.StrokesChanged += (s, e) => are.Set();
+            _editor.StrokesCollection.StrokesChanged += (s, e) => autoResetEvent.Set();
 
             EditorActionStrategyContext context = new EditorActionStrategyContext(action);
 
             context.ExecuteStrategy(_editor);
 
-            bool strokesChanged = are.WaitOne(TimeSpan.FromSeconds(1));
+            bool strokesChanged = autoResetEvent.WaitOne(TimeSpan.FromSeconds(1));
 
             Assert.IsTrue(strokesChanged, "StrokeCollection should have changed");
             Assert.AreEqual(0, _editor.StrokesCollection.Count, "StrokeCollection should be empty");
@@ -145,7 +145,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
         [TestMethod]
         public void TestRemoveStrokeCurrentUser()
         {
-            AutoResetEvent are = new AutoResetEvent(false);
+            AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 
             _editor.StrokesCollection.Add(_stroke);
 
@@ -157,13 +157,13 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
                 Username = _editor.CurrentUsername
             };
 
-            _editor.StrokesCollection.StrokesChanged += (s, e) => are.Set();
+            _editor.StrokesCollection.StrokesChanged += (s, e) => autoResetEvent.Set();
 
             EditorActionStrategyContext context = new EditorActionStrategyContext(action);
 
             context.ExecuteStrategy(_editor);
 
-            bool strokesChanged = are.WaitOne(TimeSpan.FromSeconds(1));
+            bool strokesChanged = autoResetEvent.WaitOne(TimeSpan.FromSeconds(1));
 
             Assert.IsFalse(strokesChanged, "StrokeCollection should not have changed");
             Assert.AreEqual(1, _editor.StrokesCollection.Count, "StrokeCollection should not be empty");
@@ -174,7 +174,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
         [TestMethod]
         public void TestReplaceStroke()
         {
-            AutoResetEvent are = new AutoResetEvent(false);
+            AutoResetEvent autoResetEvent = new AutoResetEvent(false);
 
             _editor.StrokesCollection.Add(_stroke);
 
@@ -192,17 +192,57 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
                 Username = "me@me.ca"
             };
 
-            _editor.StrokesCollection.StrokesChanged += (s, e) => are.Set();
+            _editor.StrokesCollection.StrokesChanged += (s, e) => autoResetEvent.Set();
 
             EditorActionStrategyContext context = new EditorActionStrategyContext(action);
 
             context.ExecuteStrategy(_editor);
 
-            bool strokesChanged = are.WaitOne(TimeSpan.FromSeconds(1));
+            bool strokesChanged = autoResetEvent.WaitOne(TimeSpan.FromSeconds(1));
 
             Assert.IsTrue(strokesChanged, "StrokeCollection should have changed");
 
             Assert.AreEqual(2, _editor.StrokesCollection.Count, "StrokeCollection should contain 2 strokes");
+        }
+
+        [TestMethod]
+        public void TestTransformStrokeSuccess()
+        {
+            _editor.StrokesCollection.Add(_stroke);
+
+            Matrix transformation = new Matrix();
+            transformation.Rotate(90);
+
+            StylusPointCollection points = new StylusPointCollection();
+            for (int i = 0; i < 10; i++)
+            {
+                points.Add(new StylusPoint(i + 1, i + 1));
+            }
+
+            DrawingAttributes attributes = new DrawingAttributes {Color = Colors.Black};
+
+            Stroke transformedStroke = new CustomStroke(points, attributes)
+            {
+                Uuid = Guid.Empty
+            };
+
+            transformedStroke.Transform(transformation, false);
+
+            string actionStr =
+                _messenger.SendEditorActionTransformedStrokes(new StrokeCollection(new[] {transformedStroke}));
+            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+
+            action.Author = new AuthorModel
+            {
+                Username = "me@me.ca"
+            };
+
+            EditorActionStrategyContext context = new EditorActionStrategyContext(action);
+            context.ExecuteStrategy(_editor);
+
+            Assert.AreEqual(1, _editor.StrokesCollection.Count, "StrokeCollection should still contains 1 stroke");
+            Assert.IsTrue(_editor.StrokesCollection.First().StylusPoints.SequenceEqual(transformedStroke.StylusPoints),
+                          "Stroke in StrokeCollection should have the same points as the transformed stroke");
         }
     }
 }

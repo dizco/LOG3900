@@ -16,6 +16,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
         {
             if (_unlockStrokesAction.Author.Username == editor.CurrentUsername)
             {
+                // Handled locally
                 return;
             }
 
