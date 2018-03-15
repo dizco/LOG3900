@@ -220,5 +220,41 @@ namespace PolyPaint.Helpers.Communication
 
             return string.Empty;
         }
+
+        internal string SendEditorActionTransformedStrokes(StrokeCollection strokes)
+        {
+            if (strokes.Count > 0)
+            {
+                EditorActionModel outgoingTransformStrokesAction = BuildOutgoingAction(ActionIds.Transform);
+
+                outgoingTransformStrokesAction.Delta = new DeltaModel
+                {
+                    Add = strokes.Select(stroke => new StrokeModel
+                    {
+                        Uuid = (stroke as CustomStroke)?.Uuid.ToString(),
+                        DrawingAttributes = new DrawingAttributesModel
+                        {
+                            Color = stroke.DrawingAttributes.Color.ToString(),
+                            Height = stroke.DrawingAttributes.Height,
+                            Width = stroke.DrawingAttributes.Width,
+                            StylusTip = stroke.DrawingAttributes.StylusTip.ToString()
+                        },
+                        Dots = stroke.StylusPoints
+                                     .Select(point => new StylusPointModel {X = point.X, Y = point.Y}).ToArray()
+                    }).ToArray()
+                };
+
+                string actionSerialized = JsonConvert.SerializeObject(outgoingTransformStrokesAction);
+
+                bool isSent = SendDrawingAction(actionSerialized);
+
+                if (isSent)
+                {
+                    return actionSerialized;
+                }
+            }
+
+            return string.Empty;
+        }
     }
 }

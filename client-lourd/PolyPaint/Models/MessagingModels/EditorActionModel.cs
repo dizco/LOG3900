@@ -43,7 +43,8 @@ namespace PolyPaint.Models.MessagingModels
         NewStroke = 1,
         ReplaceStroke,
         LockStrokes,
-        UnlockStrokes
+        UnlockStrokes,
+        Transform
     }
 
     public class DrawingModel
@@ -83,6 +84,7 @@ namespace PolyPaint.Models.MessagingModels
     {
         [JsonProperty(PropertyName = "x")]
         public double X { get; set; }
+
         [JsonProperty(PropertyName = "y")]
         public double Y { get; set; }
     }
