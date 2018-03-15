@@ -9,14 +9,14 @@
 import Foundation
 import SpriteKit
 
-class EditorViewController: UIViewController {
+class EditorViewController: UIViewController, SocketManagerDelegate {
     internal var chatShowing = false
     internal var toolsShowing = false
     internal var drawingSettingsShowing = false
     internal var connectionStatus = true
 
     @IBOutlet weak var drawView: UIView!
-    @IBOutlet weak var chatView: UIView!
+    @IBOutlet weak var chatView: ChatView!
     @IBOutlet weak var toolsView: ToolsView!
     @IBOutlet weak var drawingSettingsView: DrawingToolsView!
     @IBOutlet weak var imageView: UIImageView!
@@ -40,6 +40,9 @@ class EditorViewController: UIViewController {
         self.observeKeyboardNotification()
         if !connectionStatus {
             chatToggleBtn.isEnabled = false
+        }
+        if SocketManager.sharedInstance.delegate == nil {
+            SocketManager.sharedInstance.delegate = self
         }
     }
 
@@ -94,5 +97,28 @@ class EditorViewController: UIViewController {
         }
         UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
         drawingSettingsShowing = !drawingSettingsShowing
+    }
+
+    internal func connect() {
+        print("Connecting to server.")
+    }
+
+    internal func disconnect(error: Error?) {
+        print ("Disconnected with error: \(String(describing: error?.localizedDescription))")
+    }
+
+    internal func managerDidReceive(data: Data) {
+        do {
+            print("Data received.")
+            let decoder = JSONDecoder()
+            let incomingMessage = try decoder.decode(IncomingChatMessage.self, from: data)
+            print(incomingMessage.message)
+            let convertTime = Timestamp()
+            let timestamp = convertTime.getTimeFromServer(timestamp: incomingMessage.timestamp)
+            let messageInfos = (incomingMessage.author.username, timestamp)
+            chatView.displayMessage(message: incomingMessage.message, messageInfos: messageInfos)
+        } catch let error {
+            print(error)
+        }
     }
 }
