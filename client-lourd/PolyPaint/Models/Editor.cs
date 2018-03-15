@@ -380,6 +380,12 @@ namespace PolyPaint.Models
             }
         }
 
+        internal void ReplaceStroke(string uuid, Stroke stroke)
+        {
+            StrokeCollection transformedStroke = new StrokeCollection(new []{stroke});
+            ReplaceStroke(uuid, transformedStroke);
+        }
+
         public void OpenDrawingPrompt(object o)
         {
             UpdateRecentAutosaves();

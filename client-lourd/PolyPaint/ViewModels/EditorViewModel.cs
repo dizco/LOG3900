@@ -41,6 +41,7 @@ namespace PolyPaint.ViewModels
             _editor.StrokeStackedEvent += OnStrokeStackedHandler;
             _editor.DrawingName = DrawingName;
             _editor.StrokesCollection.StrokesChanged += StrokesCollectionOnStrokesChanged;
+            _editor.SelectedStrokesTransformedEvent += (sender, strokes) => OnSelectionTransformedHandler(strokes);
 
             // On initialise les attributs de dessin avec les valeurs de départ du modèle.
             DrawingAttributes = new DrawingAttributes
@@ -436,7 +437,7 @@ namespace PolyPaint.ViewModels
         }
 
         /// <summary>
-        ///     Replaces the Stroke(s) by CustomStroke(s) (with UUIDs) and proceeds to send the action to the server
+        ///     Sends the strokes to be removed/replaced to the server
         /// </summary>
         /// <param name="removed">Collection of strokes to be removed</param>
         /// <param name="added">Collection of strokes to replace the removed strokes</param>
@@ -445,9 +446,13 @@ namespace PolyPaint.ViewModels
             Messenger?.SendEditorActionReplaceStroke(removed, added);
         }
 
-        public void OnSelectionTransformedHandler(StrokeCollection getSelectedStrokes)
+        /// <summary>
+        ///     Sends the replacement action for any transformation (move, resize, rotate, flip) to the server
+        /// </summary>
+        /// <param name="strokes"></param>
+        public void OnSelectionTransformedHandler(StrokeCollection strokes)
         {
-            throw new NotImplementedException();
+            Messenger?.SendEditorActionTransformedStrokes(strokes);
         }
     }
 }
