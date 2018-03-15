@@ -8,31 +8,17 @@
 import Starscream
 import UIKit
 
-class ChatView: UIView, SocketManagerDelegate {
+class ChatView: UIView {
     internal var rowNumber: Int = 0
     internal var titleHeading: [String] = [""]
     internal var subtitleHeading: [String] = [""]
     internal var authorNameMutableString = NSMutableAttributedString()
+
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var messageField: UITextField!
 
     @IBAction func sendButton(_ sender: UIButton) {
         sendMessage()
-    }
-
-    func sendMessage() {
-        let receivedMessage = messageField!.text
-        let whitespaceSet = CharacterSet.whitespaces
-
-        if !receivedMessage!.trimmingCharacters(in: whitespaceSet).isEmpty {
-            do {
-                let outgoingMessage = OutgoingChatMessage(message: receivedMessage!)
-                let encodedData = try JSONEncoder().encode(outgoingMessage)
-                SocketManager.sharedInstance.send(data: encodedData)
-            } catch let error {
-                print(error)
-            }
-        }
     }
 
     override init(frame: CGRect) {
@@ -43,9 +29,6 @@ class ChatView: UIView, SocketManagerDelegate {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        if SocketManager.sharedInstance.delegate == nil {
-            SocketManager.sharedInstance.delegate = self
-        }
     }
 
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
@@ -83,26 +66,18 @@ class ChatView: UIView, SocketManagerDelegate {
         )
     }
 
-    func connect() {
-        print("Connecting to server.")
-    }
+    func sendMessage() {
+        let receivedMessage = messageField!.text
+        let whitespaceSet = CharacterSet.whitespaces
 
-    func disconnect(error: Error?) {
-        print ("Disconnected with error: \(String(describing: error?.localizedDescription))")
-    }
-
-    func managerDidReceive(data: Data) {
-        do {
-            print("Data received.")
-            let decoder = JSONDecoder()
-            let incomingMessage = try decoder.decode(IncomingChatMessage.self, from: data)
-            print(incomingMessage.message)
-            let convertTime = Timestamp()
-            let timestamp = convertTime.getTimeFromServer(timestamp: incomingMessage.timestamp)
-            let messageInfos = (incomingMessage.author.username, timestamp)
-            self.displayMessage(message: incomingMessage.message, messageInfos: messageInfos)
-        } catch let error {
-            print(error)
+        if !receivedMessage!.trimmingCharacters(in: whitespaceSet).isEmpty {
+            do {
+                let outgoingMessage = OutgoingChatMessage(message: receivedMessage!)
+                let encodedData = try JSONEncoder().encode(outgoingMessage)
+                SocketManager.sharedInstance.send(data: encodedData)
+            } catch let error {
+                print(error)
+            }
         }
     }
 }
