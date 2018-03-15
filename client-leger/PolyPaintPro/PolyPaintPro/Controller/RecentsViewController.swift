@@ -19,12 +19,20 @@ class RecentsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-          if !connectionStatus {
+        if !connectionStatus {
             joinDrawingButton.isEnabled = false
         } else {
             backToLoginButton.isEnabled = false
             backToLoginButton.isHidden = true
         }
+    }
+    @IBAction func newDrawingButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "NewDrawingSegue", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! NewDrawingViewController
+        vc.connectionStatus = connectionStatus
     }
 
     override func didReceiveMemoryWarning() {

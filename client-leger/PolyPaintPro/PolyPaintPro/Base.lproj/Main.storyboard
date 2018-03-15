@@ -1205,7 +1205,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Nouveau dessin"/>
                                 <connections>
-                                    <segue destination="6fs-n7-ZOE" kind="show" id="HNF-yE-bXs"/>
+                                    <action selector="newDrawingButton:" destination="NfL-mq-pCc" eventType="touchUpInside" id="S2H-gA-kOC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEK-6N-qKy">
@@ -1213,7 +1213,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Ouvrir un dessin local"/>
                                 <connections>
-                                    <segue destination="ZCk-mf-U2u" kind="show" id="0wU-4R-pDj"/>
+                                    <segue destination="ZCk-mf-U2u" kind="show" identifier="OpenDrawingSegue" id="0wU-4R-pDj"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A12-2F-hee">
@@ -1221,7 +1221,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Rejoindre un dessin"/>
                                 <connections>
-                                    <segue destination="adH-E4-mIa" kind="show" id="Y9U-mG-ulK"/>
+                                    <segue destination="adH-E4-mIa" kind="show" identifier="JoinDrawingSegue" id="Y9U-mG-ulK"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5c6-3w-VhG">
@@ -1250,6 +1250,7 @@
                         <outlet property="joinGalleryButton" destination="5c6-3w-VhG" id="4Z2-LQ-21e"/>
                         <outlet property="newDrawingbutton" destination="dOy-18-Mf9" id="LaP-dQ-Bxu"/>
                         <outlet property="openLocalDrawingButton" destination="uEK-6N-qKy" id="qEQ-JC-3Yo"/>
+                        <segue destination="6fs-n7-ZOE" kind="show" identifier="NewDrawingSegue" id="gnA-5P-Sr6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jsD-ko-Lvy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1793,6 +1794,6 @@
         <image name="verticalLine" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="HCx-mM-CNV"/>
+        <segue reference="HvG-ge-kdz"/>
     </inferredMetricsTieBreakers>
 </document>
