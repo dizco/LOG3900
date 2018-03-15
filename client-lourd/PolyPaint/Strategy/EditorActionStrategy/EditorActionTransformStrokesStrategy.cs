@@ -20,6 +20,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
         {
             if (_transformStrokeAction.Author.Username == editor.CurrentUsername)
             {
+                // Handled locally
                 return;
             }
 
