@@ -35,6 +35,7 @@ namespace PolyPaint.ViewModels
         /// </summary>
         public EditorViewModel()
         {
+            SubscribeDrawingRoom();
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, EditorPropertyModified est appelée.
             _editor.PropertyChanged += EditorPropertyModified;
             _editor.EditorAddedStroke += OnStrokeCollectedHandler;
@@ -444,6 +445,16 @@ namespace PolyPaint.ViewModels
         private void SendRemoveStroke(string[] removed, StrokeCollection added = null)
         {
             Messenger?.SendEditorActionReplaceStroke(removed, added);
+        }
+
+        private void SubscribeDrawingRoom()
+        {
+            Messenger?.SubscribeToDrawing();
+        }
+
+        public void UnsubscribeDrawingRoom()
+        {
+            Messenger?.UnsubscribeToDrawing();
         }
 
         /// <summary>

@@ -322,6 +322,11 @@ namespace PolyPaint.ViewModels
 
         private void OnEditorClosedHandler(object sender, EventArgs e)
         {
+            if (sender is EditorView editorView)
+            {
+                (editorView.DataContext as EditorViewModel)?.UnsubscribeDrawingRoom();
+            }
+
             if (HomeMenu == null)
             {
                 HomeMenu = new HomeMenu();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Ink;
 using Newtonsoft.Json;
 using PolyPaint.Constants;
+using PolyPaint.Converters;
 using PolyPaint.CustomComponents;
 using PolyPaint.Models.MessagingModels;
 
@@ -39,6 +40,50 @@ namespace PolyPaint.Helpers.Communication
             {
                 _socketHandler.ConnectSocket();
             }
+        }
+
+        public string SubscribeToDrawing()
+        {
+            SubscriptionMessageModel subscribe = new SubscriptionMessageModel
+            {
+                Type = JsonConstantStrings.TypeEditorSubscriptionOutgoingValue,
+                Drawing = new DrawingModel
+                {
+                    Id = DrawingRoomId
+                },
+                Action = new SubscriptionMessageModel.SubscribeAction
+                {
+                    Id = SubscriptionAction.Join.GetDescription()
+                }
+            };
+
+            string actionSerialized = JsonConvert.SerializeObject(subscribe);
+
+            bool isSent = SendDrawingAction(actionSerialized);
+
+            return isSent ? actionSerialized : string.Empty;
+        }
+
+        public string UnsubscribeToDrawing()
+        {
+            SubscriptionMessageModel subscribe = new SubscriptionMessageModel
+            {
+                Type = JsonConstantStrings.TypeEditorSubscriptionOutgoingValue,
+                Drawing = new DrawingModel
+                {
+                    Id = DrawingRoomId
+                },
+                Action = new SubscriptionMessageModel.SubscribeAction
+                {
+                    Id = SubscriptionAction.Leave.GetDescription()
+                }
+            };
+
+            string actionSerialized = JsonConvert.SerializeObject(subscribe);
+
+            bool isSent = SendDrawingAction(actionSerialized);
+
+            return isSent ? actionSerialized : string.Empty;
         }
 
         /// <summary>
