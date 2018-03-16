@@ -390,6 +390,34 @@ namespace PolyPaintTests.Helpers
             Assert.AreEqual(expectedOutputString, realOutputString, "Should return empty string");
         }
 
+        [TestMethod]
+        public void TestSendEditorSubscribeDrawing()
+        {
+            Messenger.DrawingRoomId = "room";
+
+            string expectedOutputString =
+                "{\"drawing\":{\"id\":\"room\"},\"action\":{\"id\":\"join\",\"name\":\"\"},\"type\":\"client.editor.subscription\"}";
+
+            string realOutputString = _messenger.SubscribeToDrawing();
+
+            Assert.AreEqual(expectedOutputString, realOutputString,
+                            "Should return stringified JSON of Subscription action");
+        }
+
+        [TestMethod]
+        public void TestSendEditorUnsubscribeDrawing()
+        {
+            Messenger.DrawingRoomId = "room";
+
+            string expectedOutputString =
+                "{\"drawing\":{\"id\":\"room\"},\"action\":{\"id\":\"leave\",\"name\":\"\"},\"type\":\"client.editor.subscription\"}";
+
+            string realOutputString = _messenger.UnsubscribeToDrawing();
+
+            Assert.AreEqual(expectedOutputString, realOutputString,
+                            "Should return stringified JSON of Subscription action");
+        }
+
         internal class SocketHandlerMock : ISocketHandler
         {
             public SocketHandlerMock(string uri)

@@ -115,6 +115,7 @@
     </ApplicationDefinition>
     <Compile Include="Constants\FileExtensionConstants.cs" />
     <Compile Include="Constants\ImageManipulationConstants.cs" />
+    <Compile Include="Converters\EnumConverter.cs" />
     <Compile Include="CustomComponents\CustomCanvas.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="CustomComponents\CustomStroke.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
+    <Compile Include="Models\MessagingModels\SubscriptionMessageModel.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionTransformStrokesStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />

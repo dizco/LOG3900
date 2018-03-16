@@ -10,5 +10,6 @@
         public const string TypeChatMessageIncomingValue = "server.chat.message";
         public const string TypeEditorActionOutgoingValue = "client.editor.action";
         public const string TypeEditorActionIncomingValue = "server.editor.action";
+        public const string TypeEditorSubscriptionOutgoingValue = "client.editor.subscription";
     }
 }
