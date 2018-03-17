@@ -275,9 +275,5 @@
     <Resource Include="Resources\rotate_right.png" />
     <!-- from https://www.iconfinder.com/icons/131866/arrow_image_right_rotate_icon -->
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\insert_text.png" />
-    <!-- from https://www.iconfinder.com/icons/9341/editor_insert_text_icon#size=22 -->
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
