@@ -10,20 +10,50 @@ import Foundation
 import UIKit
 import SpriteKit
 
-class StrokeEditorViewController: EditorViewController, UIGestureRecognizerDelegate {
+class StrokeEditorViewController: EditorViewController, DrawingToolsViewDelegate, ToolsViewDelegate {
+    // MARK: - Scene
+    var scene = StrokeEditorScene()
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let scene = StrokeEditorScene(size: view.frame.size)
+        drawingSettingsView.delegate = self
+        toolsView.delegate = self
+
+        self.scene = StrokeEditorScene(size: view.frame.size)
         let skView = view as? SKView
-        scene.scaleMode = .fill
-        skView!.presentScene(scene)
+        self.scene.scaleMode = .fill
+        skView!.presentScene(self.scene)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
+
+    // MARK: - DrawingToolsViewDelegate
+    func updateColorValues(red: Int, green: Int, blue: Int, opacity: Int) {
+        self.scene.updateColorValues(red: red, green: green, blue: blue, opacity: opacity)
+    }
+
+    // MARK: - ToolsViewDelegate
+    func updateEditingMode(mode: EditingMode) {
+        self.scene.setEditingMode(mode: mode)
+    }
+
+    func resetCanvas() {
+        self.scene.resetCanvas()
+    }
+
+    func stack() {
+        print("stack")
+        self.scene.stack()
+    }
+
+    func unstack() {
+        self.scene.unstack()
+    }
+
 }
