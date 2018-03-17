@@ -244,7 +244,7 @@ namespace PolyPaint.Helpers.Communication
 
         private string SendEditorActionLockUnlockStrokes(List<string> strokes, ActionIds action)
         {
-            if (strokes.Count > 0 && (action == ActionIds.LockStrokes || action == ActionIds.UnlockStrokes))
+            if (strokes?.Count > 0 && (action == ActionIds.LockStrokes || action == ActionIds.UnlockStrokes))
             {
                 EditorActionModel outgoingLockStrokesAction = BuildOutgoingAction(action);
 
