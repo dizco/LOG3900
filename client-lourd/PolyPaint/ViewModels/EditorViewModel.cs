@@ -84,6 +84,8 @@ namespace PolyPaint.ViewModels
             VerticalFlipCommand = new RelayCommand<InkCanvas>(_editor.VerticalFlip);
             HorizontalFlipCommand = new RelayCommand<InkCanvas>(_editor.HorizontalFlip);
 
+            //Insert Text
+            //SetTextToInsertCommand = new RelayCommand<TextBox>(_editor.SetToInsertText);
             InsertTextCommand = new RelayCommand<InkCanvas>(_editor.InsertText);
 
             LoginStatusChanged += ProcessLoginStatusChange;
@@ -110,16 +112,6 @@ namespace PolyPaint.ViewModels
         {
             get => _editor.SelectedTip;
             set => PropertyModified();
-        }
-
-        public string TextToInsert
-        {
-            get => _editor.TextToInsertContent;
-            set
-            {
-                _editor.TextToInsertContent = value;
-                PropertyModified();
-            }
         }
 
         public Editor.DrawableShapes ShapeSelected
@@ -191,6 +183,8 @@ namespace PolyPaint.ViewModels
         public RelayCommand<InkCanvas> VerticalFlipCommand { get; set; }
         public RelayCommand<InkCanvas> HorizontalFlipCommand { get; set; }
 
+        //Insert Text
+        public RelayCommand<TextBox> SetTextToInsertCommand { get; set; }
         public RelayCommand<InkCanvas> InsertTextCommand { get; set; }
 
         internal bool IsErasingByPoint { get; set; }
@@ -406,6 +400,11 @@ namespace PolyPaint.ViewModels
             {
                 LockedStrokesHeld.Clear();
             }
+        }
+
+        public void OnTextToInsertLostFocusHandler(TextBox sender, RoutedEventArgs e)
+        {
+            _editor.TextToInsertContent = sender.Text;
         }
 
         private void StrokesCollectionOnStrokesChanged(object sender, StrokeCollectionChangedEventArgs e)

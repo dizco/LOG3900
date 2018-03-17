@@ -137,6 +137,11 @@ namespace PolyPaint.Views
             (DataContext as EditorViewModel)?.OnSelectionChangedHandler(DrawingSurface?.GetSelectedStrokes());
         }
 
+        private void OnTextToInsertLostFocus(object sender, RoutedEventArgs e)
+        {
+            (DataContext as EditorViewModel)?.OnTextToInsertLostFocusHandler(TextToInsert, e);
+        }
+
         private void OnSelectionResized(object sender, EventArgs e)
         {
             (DataContext as EditorViewModel)?.OnSelectionTransformedHandler(DrawingSurface?.GetSelectedStrokes());

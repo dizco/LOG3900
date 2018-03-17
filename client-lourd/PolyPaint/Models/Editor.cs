@@ -70,6 +70,7 @@ namespace PolyPaint.Models
 
         public string CurrentUsername { get; set; }
 
+        // Text to insert
         public string TextToInsertContent { get; set; }
         private const string TextToInsertFontSize = "12pt";
 
@@ -714,26 +715,23 @@ namespace PolyPaint.Models
 
         public void InsertText(InkCanvas drawingSurface)
         {
-            if (string.IsNullOrWhiteSpace(TextToInsertContent))
-            {
-                return;
-            }
-
             System.Windows.Controls.TextBox textToInsert = new System.Windows.Controls.TextBox();
             textToInsert.Text = TextToInsertContent;
             Color textToInsertColor = (Color)ColorConverter.ConvertFromString(SelectedColor);
             textToInsert.Foreground = new SolidColorBrush(textToInsertColor);
             textToInsert.FontSize = (double) new FontSizeConverter().ConvertFrom(TextToInsertFontSize);
             textToInsert.TextWrapping = TextWrapping.WrapWithOverflow;
-            textToInsert.BorderThickness = new Thickness(0.0);
             textToInsert.AcceptsReturn = true;
             textToInsert.MinWidth = TextToInsertMinWidth;
             textToInsert.MinHeight = TextToInsertMinHeight;
             InkCanvas.SetLeft(textToInsert, TextToInsertDefaultPosition);
             InkCanvas.SetTop(textToInsert, TextToInsertDefaultPosition);
             drawingSurface.Children.Add(textToInsert);
-            drawingSurface.Select(null, new UIElement[] {textToInsert});
-            TextToInsertContent = string.Empty;
+        }
+
+        private void ShowUserInfoMessage(string message)
+        {
+            System.Windows.Forms.MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // Drawable Shapes
