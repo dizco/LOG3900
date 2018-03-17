@@ -9,7 +9,13 @@
 import Foundation
 import UIKit
 
+protocol DrawingToolsViewDelegate: class {
+    func updateColorValues(red: Int, green: Int, blue: Int, opacity: Int)
+}
+
 class DrawingToolsView: UIView {
+    weak var delegate: DrawingToolsViewDelegate?
+
     internal var redValue: Int = 0
     internal var greenValue: Int = 0
     internal var blueValue: Int = 0
@@ -103,6 +109,8 @@ class DrawingToolsView: UIView {
         PixelEditorViewController().red = CGFloat(redValue)
         PixelEditorViewController().green = CGFloat(greenValue)
         PixelEditorViewController().blue = CGFloat(blueValue)
+
+        self.delegate?.updateColorValues(red: self.redValue, green: self.greenValue, blue: self.blueValue, opacity: self.alphaValue)
     }
 
     private func updateSize() {

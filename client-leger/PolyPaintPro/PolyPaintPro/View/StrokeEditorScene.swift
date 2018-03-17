@@ -32,9 +32,17 @@ enum EditingMode {
 }
 
 class StrokeEditorScene: SKScene {
+    // MARK: - Constants
     let INCOMPLETESTROKE = "line"
     let COMPLETESTROKE = "stroke"
 
+    // MARK: - Strokes color parameters
+    internal var red: CGFloat = 0.0
+    internal var green: CGFloat = 0.0
+    internal var blue: CGFloat = 0.0
+    internal var opacity: CGFloat = 1.0
+
+    // MARK: - Strokes parameters
     var strokesStack: Stack = Stack()
     var wayPoints: [CGPoint] = []
     var continuousStroke = false
@@ -42,65 +50,122 @@ class StrokeEditorScene: SKScene {
     var start = CGPoint.zero
     var end = CGPoint.zero
     var lastLocation = CGPoint.zero
+
+    // MARK: - Editing mode
     var currentEditingMode = EditingMode.ink // will be used to switch editing modes
 
     override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.white
     }
 
+    func setEditingMode(mode: EditingMode) {
+        switch mode {
+        case .ink:
+            self.currentEditingMode = EditingMode.ink
+        case .select:
+            self.currentEditingMode = EditingMode.select
+        case .eraseByPoint:
+            self.currentEditingMode = EditingMode.eraseByPoint
+        case .eraseByStroke:
+            self.currentEditingMode = EditingMode.eraseByStroke
+        }
+    }
+
+    // MARK: - Called by DrawingToolsViewDelegate
+    func updateColorValues(red: Int, green: Int, blue: Int, opacity: Int) {
+        self.red = CGFloat(red) / 255
+        self.green = CGFloat(green) / 255
+        self.blue = CGFloat(blue) / 255
+        self.opacity = CGFloat(opacity) / 100
+    }
+
+    // MARK: - Touches function
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.continuousStroke = false
-
-        if let touch = touches.first as? UITouch {
-            self.start = touch.location(in: self)
-            self.lastLocation = start
-            self.addPoint(point: self.lastLocation)
+        switch self.currentEditingMode {
+        case .ink:
+            if let touch = touches.first as? UITouch {
+                self.start = touch.location(in: self)
+                self.lastLocation = start
+                self.addPoint(point: self.lastLocation)
+            }
+        case .select:
+            print("Not implemented.")
+        case .eraseByPoint:
+            print("Not implemented.")
+        case .eraseByStroke:
+            if let touch = touches.first as? UITouch {
+                let currentPosition = touch.location(in: self)
+                self.eraseByStroke(position: currentPosition)
+            }
         }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         continuousStroke = true
-        if let touch = touches.first as? UITouch {
-            let currentLocation = touch.location(in: self)
-            print("this is SpriteKit")
-            print(currentLocation.x)
-            print(currentLocation.y)
-            self.addPoint(point: currentLocation)
-            self.drawLines(start: self.lastLocation, end: currentLocation)
-            self.lastLocation = currentLocation
+
+        switch self.currentEditingMode {
+        case .ink:
+            if let touch = touches.first as? UITouch {
+                let currentLocation = touch.location(in: self)
+                print(currentLocation.x)
+                print(currentLocation.y)
+                self.addPoint(point: currentLocation)
+                self.drawLines(start: self.lastLocation, end: currentLocation)
+                self.lastLocation = currentLocation
+            }
+        case .select:
+            print("Not implemented.")
+        case .eraseByPoint:
+            print("Not implemented.")
+        case .eraseByStroke:
+            if let touch = touches.first as? UITouch {
+                let currentPosition = touch.location(in: self)
+                self.eraseByStroke(position: currentPosition)
+            }
         }
+
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.nStrokes += 1 // this is used to test currently, will be removed later
-        if !continuousStroke {
-            self.drawStroke(start: self.start, end: self.start)
-        } else {
+
+        switch self.currentEditingMode {
+        case .ink:
+            if !continuousStroke {
+                self.drawStroke(start: self.start, end: self.start)
+            } else {
+                if let touch = touches.first as? UITouch {
+                    self.end = touch.location(in: self)
+                    // we want to remove all the intermediate lines used to draw the stroke
+                    enumerateChildNodes(withName: self.INCOMPLETESTROKE, using: {node, stop in
+                        node.removeFromParent()
+                    })
+                    // we redraw the stroke using all the collected waypoints
+                    self.drawStroke(start: self.start, end: self.end)
+                }
+            }
+        case .select:
+            print("Not implemented.")
+        case .eraseByPoint:
+            print("Not implemented.")
+        case .eraseByStroke:
             if let touch = touches.first as? UITouch {
-                self.end = touch.location(in: self)
-                // we want to remove all the intermediate lines used to draw the stroke
-                enumerateChildNodes(withName: self.INCOMPLETESTROKE, using: {node, stop in
-                    node.removeFromParent()
-                })
-                // we redraw the stroke using all the collected waypoints
-                self.drawStroke(start: self.start, end: self.end)
+                let currentPosition = touch.location(in: self)
+                self.eraseByStroke(position: currentPosition)
             }
         }
 
-        // this is used to test the eraser
-        /*
-        if nStrokes == 3 {
-            self.eraseByStroke(position: self.start)
-        }*/
         // resets all values for the next stroke
         self.resetStrokeValues()
     }
 
-    func clearWaypoints() {
+    // MARK: - Class functions
+    private func clearWaypoints() {
         wayPoints.removeAll(keepingCapacity: false)
     }
 
-    func resetStrokeValues() {
+    private func resetStrokeValues() {
         self.clearWaypoints()
         self.start = CGPoint.zero
         self.end = CGPoint.zero
@@ -115,12 +180,12 @@ class StrokeEditorScene: SKScene {
         self.resetStrokeValues()
     }
 
-    func addPoint(point: CGPoint) {
+    private func addPoint(point: CGPoint) {
         wayPoints.append(point)
     }
 
     //this serves as a preview for the stroke that's currently drawn
-    func drawLines(start: CGPoint, end: CGPoint) {
+    private func drawLines(start: CGPoint, end: CGPoint) {
         let path = CGMutablePath()
 
         path.move(to: start)
@@ -129,7 +194,7 @@ class StrokeEditorScene: SKScene {
         let shapeNode = SKShapeNode()
         shapeNode.path = path
         shapeNode.name = self.INCOMPLETESTROKE
-        shapeNode.strokeColor = UIColor.gray
+        shapeNode.strokeColor = UIColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
         shapeNode.lineWidth = 10
         shapeNode.lineJoin = CGLineJoin.round
         shapeNode.lineCap = CGLineCap.round
@@ -138,7 +203,7 @@ class StrokeEditorScene: SKScene {
     }
 
     // this creates a stroke that is stored
-    func drawStroke(start: CGPoint, end: CGPoint) {
+    private func drawStroke(start: CGPoint, end: CGPoint) {
         let path = CGMutablePath()
 
         path.move(to: start)
@@ -150,33 +215,28 @@ class StrokeEditorScene: SKScene {
         let shapeNode = SKShapeNode()
         shapeNode.path = path
         shapeNode.name = self.COMPLETESTROKE
-        shapeNode.strokeColor = UIColor.gray
-        // used to test the eraser
-        /*
-        if nStrokes == 2 {
-            shapeNode.strokeColor = UIColor.cyan
-            print("this is blue", UIColor.cyan)
-        }
-        if nStrokes == 3 {
-            shapeNode.strokeColor = UIColor.red
-            print("this is red", UIColor.red)
-        }*/
+        shapeNode.strokeColor = UIColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
         shapeNode.lineWidth = 10
-        //shapeNode.lineJoin = CGLineJoin.round
         shapeNode.lineCap = CGLineCap.round
 
         self.addChild(shapeNode)
     }
 
-    func eraseByStroke(position: CGPoint) {
+    private func eraseByStroke(position: CGPoint) {
         // most recent stroke is returned as the first one
-        let strokeToBeErased = self.nodes(at: position).first as! SKShapeNode
-        strokeToBeErased.removeFromParent()
+        let strokeToBeErased = self.nodes(at: position).first as? SKShapeNode
+
+        guard let willBeErased = strokeToBeErased?.contains(position)
+            else { return }
+
+        if willBeErased {
+            strokeToBeErased?.removeFromParent()
+        }
     }
 
     func eraseByPoint(position: CGPoint) {
-        let strokeToBeErased = self.nodes(at: position).first as! SKShapeNode
-        let pointsList = strokeToBeErased.path!.getPathElementsPoints()
+        let strokeToBeErased = self.nodes(at: position).first as? SKShapeNode
+        let pointsList = strokeToBeErased?.path?.getPathElementsPoints()
 
         // TO-DO : Add a function to preview the eraser's path.....
         // TO-DO : Create a stroke with its initial starting point to the position where the eraser went
@@ -196,6 +256,7 @@ class StrokeEditorScene: SKScene {
             // TO-DO : Disable the button
         }
     }
+
     // adds the child to the view and removes it from the stack
     func unstack() {
         if !self.strokesStack.isEmpty() {
@@ -221,7 +282,6 @@ extension CGPath {
         self.apply(info: unsafeBody, function: unsafeBitCast(callback, to: CGPathApplierFunction.self))
     }
 
-
     func getPathElementsPoints() -> [CGPoint] {
         var arrayPoints : [CGPoint]! = [CGPoint]()
         self.forEach { element in
@@ -244,8 +304,8 @@ extension CGPath {
     }
 
     func getPathElementsPointsAndTypes() -> ([CGPoint],[CGPathElementType]) {
-        var arrayPoints : [CGPoint]! = [CGPoint]()
-        var arrayTypes : [CGPathElementType]! = [CGPathElementType]()
+        var arrayPoints: [CGPoint]! = [CGPoint]()
+        var arrayTypes: [CGPathElementType]! = [CGPathElementType]()
         self.forEach { element in
             switch (element.type) {
             case CGPathElementType.moveToPoint:

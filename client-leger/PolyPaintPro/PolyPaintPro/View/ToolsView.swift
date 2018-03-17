@@ -8,7 +8,16 @@
 
 import UIKit
 
+protocol ToolsViewDelegate: class {
+    func updateEditingMode(mode: EditingMode)
+    func resetCanvas()
+    func stack()
+    func unstack()
+}
+
 class ToolsView: UIView {
+    weak var delegate: ToolsViewDelegate?
+
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var eraseButton: UIButton!
     @IBOutlet weak var cutButton: UIButton!
@@ -25,38 +34,43 @@ class ToolsView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    //action called for the pen
+
     @IBAction func penButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "pencil")
+        self.delegate?.updateEditingMode(mode: EditingMode.ink)
     }
-    //action called for the eraser
+
     @IBAction func eraseButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "eraser")
+        self.delegate?.updateEditingMode(mode: EditingMode.eraseByStroke)
+        // TO-DO : We need an eraser for eraseByPoint...
     }
-    //action called for the cut action
+
     @IBAction func cutButton(_ sender: UIButton) {
        resetButtons(sender: sender, filename: "cut")
     }
-    //action called for the paste action
+
     @IBAction func pasteButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "duplicate")
     }
-    //action called for the reset action
+
     @IBAction func resetButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "reset")
+        self.delegate?.resetCanvas()
     }
-    //action called for the stack action
+
     @IBAction func stackButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "")
         sender.setTitleColor(.white, for: .normal)
+        self.delegate?.stack()
     }
-    //action called for the unstack action
+
     @IBAction func unstackButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "")
-       sender.setTitleColor(.white, for: .normal)
+        sender.setTitleColor(.white, for: .normal)
+        self.delegate?.unstack()
     }
-    //action called for the advanced settings
+
     @IBAction func settingsButton(_ sender: UIButton) {
     }
 

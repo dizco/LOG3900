@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class OpenLocalDrawingViewController: UIViewController{
+class OpenLocalDrawingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
