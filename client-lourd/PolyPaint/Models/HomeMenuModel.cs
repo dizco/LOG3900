@@ -4,8 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
-using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
@@ -117,11 +116,19 @@ namespace PolyPaint.Models
             }
         }
 
-        internal async void CreateNewDrawing(string drawingName, EditingModeOption option)
+        internal async void CreateNewDrawing(string drawingName, EditingModeOption option, [Optional] string password)
         {
             if (await RestHandler.ValidateServerUri())
             {
-                HttpResponseMessage response = await RestHandler.CreateDrawing(drawingName, option);
+                HttpResponseMessage response = null;
+                if (password != null)
+                {
+                    response = await RestHandler.CreateDrawing(drawingName, option, password);
+                }
+                else
+                {
+                    response = await RestHandler.CreateDrawing(drawingName, option);
+                }
 
                 if (response.IsSuccessStatusCode)
                 {

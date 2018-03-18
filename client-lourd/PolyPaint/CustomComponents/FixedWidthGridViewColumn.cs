@@ -4,7 +4,8 @@ using System.Windows.Controls;
 namespace PolyPaint.CustomComponents
 {
     /// <summary>
-    ///     Based on https://blogs.msdn.microsoft.com/atc_avalon_team/2006/04/10/fixed-width-column-in-listview-a-column-that-cannot-be-resized/
+    ///     Based on
+    ///     https://blogs.msdn.microsoft.com/atc_avalon_team/2006/04/10/fixed-width-column-in-listview-a-column-that-cannot-be-resized/
     /// </summary>
     internal class FixedWidthGridViewColumn : GridViewColumn
     {

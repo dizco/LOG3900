@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using PolyPaint.Models.ApiModels;
@@ -66,6 +65,19 @@ namespace PolyPaint.Helpers.Communication
             Dictionary<string, string> drawingInfo = new Dictionary<string, string>
             {
                 {"name", drawingName}
+            };
+
+            return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
+        }
+
+        public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option,
+            string password)
+        {
+            Dictionary<string, string> drawingInfo = new Dictionary<string, string>
+            {
+                {"name", drawingName},
+                {"protection-active", "true"},
+                {"protection-password", password}
             };
 
             return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
