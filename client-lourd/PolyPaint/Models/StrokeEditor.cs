@@ -36,6 +36,12 @@ namespace PolyPaint.Models
         private const double ClockwiseAngle = 90.0; // degrees
         private const double CounterClockwiseAngle = -90.0; // degrees
 
+        private const double TextToInsertMinWidth = 50.0;
+        private const double TextToInsertMinHeight = 25.0;
+        private const double TextToInsertDefaultPosition = 10.0;
+
+        private const string TextToInsertFontSize = "12pt";
+
         private readonly StrokeCollection _removedStrokesCollection = new StrokeCollection();
 
         private bool _isLoadingDrawing;
@@ -52,6 +58,8 @@ namespace PolyPaint.Models
         // Outil actif dans l'éditeur
         private string _selectedTool = "crayon";
 
+        private string _textToInsertSize = TextToInsertFontSize;
+
         // Grosseur des traits tracés par le crayon.
         private int _strokeSize = 11;
 
@@ -65,6 +73,18 @@ namespace PolyPaint.Models
         }
 
         public string CurrentUsername { get; set; }
+        public string TextToInsertContent { get; set; }
+
+        public string TextToInsertSize
+        {
+            get => _textToInsertSize;
+            set
+            {
+                SelectedTool = "text";
+                _textToInsertSize = value;
+                PropertyModified();
+            }
+        }
 
         public string SelectedTool
         {
@@ -84,7 +104,7 @@ namespace PolyPaint.Models
             set
             {
                 _selectedTip = value;
-                if (!_selectedTool.Equals("shapes"))
+                if (!_selectedTool.Equals("shapes") && !_selectedTool.Equals("text"))
                 {
                     SelectedTool = "crayon";
                 }
@@ -104,6 +124,19 @@ namespace PolyPaint.Models
             }
         }
 
+        private System.Windows.Controls.TextBox _selectedTextBox;
+
+        public System.Windows.Controls.TextBox SelectedtextBox 
+        {
+            get => _selectedTextBox;
+            set
+            {
+                SelectedTool = "text";
+                _selectedTextBox = value;
+                PropertyModified();
+            }
+        }
+
         public string SelectedColor
         {
             get => _selectedColor;
@@ -113,7 +146,7 @@ namespace PolyPaint.Models
             set
             {
                 _selectedColor = value;
-                if (!_selectedTool.Equals("shapes"))
+                if (!_selectedTool.Equals("shapes") && !_selectedTool.Equals("text"))
                 {
                     SelectedTool = "crayon";
                 }
@@ -710,6 +743,43 @@ namespace PolyPaint.Models
             selectedStrokes.Transform(mirrorMatrix, false);
 
             OnSelectedStrokesTransformed(selectedStrokes);
+        }
+
+        public System.Windows.Controls.TextBox InsertText(InkCanvas drawingSurface)
+        {
+            if (string.IsNullOrWhiteSpace(TextToInsertContent))
+            {
+                return null;
+            }
+
+            System.Windows.Controls.TextBox textToInsert = new System.Windows.Controls.TextBox
+            {
+                Text = TextToInsertContent
+            };
+
+            try
+            {
+                Color textToInsertColor = (Color)ColorConverter.ConvertFromString(SelectedColor);
+                textToInsert.Foreground = new SolidColorBrush(textToInsertColor);
+                textToInsert.FontSize = (double)new FontSizeConverter().ConvertFrom(TextToInsertSize);
+            }
+            catch (NullReferenceException)
+            {
+                return null;
+            }
+
+            textToInsert.TextWrapping = TextWrapping.WrapWithOverflow;
+            textToInsert.BorderThickness = new Thickness(0.0);
+            textToInsert.AcceptsReturn = true;
+            textToInsert.MinWidth = TextToInsertMinWidth;
+            textToInsert.MinHeight = TextToInsertMinHeight;
+            InkCanvas.SetLeft(textToInsert, TextToInsertDefaultPosition);
+            InkCanvas.SetTop(textToInsert, TextToInsertDefaultPosition);
+            drawingSurface.Children.Add(textToInsert);
+
+            TextToInsertContent = string.Empty;
+            SelectedTool = "lasso";//Select(TextBox) is done in the view
+            return textToInsert;
         }
 
         // Drawable Shapes

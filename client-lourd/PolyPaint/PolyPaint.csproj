@@ -307,10 +307,16 @@
     <!-- from https://www.iconfinder.com/icons/131866/arrow_image_right_rotate_icon -->
   </ItemGroup>
   <ItemGroup>
-	<!-- from https://www.iconfinder.com/icons/1654369 -->
     <Resource Include="Resources\Icons\docked.png" />
-	<!-- from https://www.iconfinder.com/icons/118630 -->
+    <!-- from https://www.iconfinder.com/icons/1654369 -->
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Resources\Icons\windowed.png" />
+    <!-- from https://www.iconfinder.com/icons/118630 -->
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\insert_text.png" />
+    <!-- from https://www.iconfinder.com/icons/42369/c_letter_text_icon#size=32 -->
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
