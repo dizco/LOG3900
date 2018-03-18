@@ -122,6 +122,7 @@
     <Compile Include="CustomComponents\CustomCanvas.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="CustomComponents\CustomStroke.cs" />
+    <Compile Include="CustomComponents\FixedWidthGridViewColumn.cs" />
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
@@ -169,6 +170,9 @@
     <Compile Include="Views\LoginWindowView.xaml.cs">
       <DependentUpon>LoginWindowView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PasswordPrompt.xaml.cs">
+      <DependentUpon>PasswordPrompt.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\PixelEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -193,6 +197,10 @@
       <DependentUpon>StrokeEditorView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\LoginWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PasswordPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

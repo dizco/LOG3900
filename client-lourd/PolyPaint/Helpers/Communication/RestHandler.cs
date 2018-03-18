@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using PolyPaint.Models.ApiModels;
@@ -73,6 +74,17 @@ namespace PolyPaint.Helpers.Communication
         public static async Task<HttpResponseMessage> GetOnlineDrawing(string drawingId)
         {
             return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}");
+        }
+
+        public static async Task<HttpResponseMessage> GetOnlineDrawing(string drawingId, string password)
+        {
+            Client.DefaultRequestHeaders.Add("protection-password", password);
+
+            Task<HttpResponseMessage> response = Client.GetAsync($"{ServerUri}/drawings/{drawingId}");
+
+            Client.DefaultRequestHeaders.Remove("protection-password");
+
+            return await response;
         }
     }
 }
