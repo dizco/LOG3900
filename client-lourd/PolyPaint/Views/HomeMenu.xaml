@@ -3,9 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:PolyPaint.Converters"
+        xmlns:customComponent="clr-namespace:PolyPaint.CustomComponents"
         mc:Ignorable="d"
         Title="PolyPaintPro" Height="754" Width="616.336"
         MinHeight="700" MinWidth="350">
+    <Window.Resources>
+        <converters:DrawingProtectionConverter x:Key="DrawingProtectionConverter" />
+    </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg"/>
     </Window.Background>
@@ -37,7 +42,8 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Header="Nom" Width="295" DisplayMemberBinding="{Binding Name}"/>
+                            <customComponent:FixedWidthGridViewColumn FixedWidth="32"  DisplayMemberBinding="{Binding Protection, Converter={StaticResource DrawingProtectionConverter}}"/>
+                            <GridViewColumn Header="Nom" Width="250" DisplayMemberBinding="{Binding Name}"/>
                             <GridViewColumn Header="Id" Width="69" DisplayMemberBinding="{Binding Id}"/>
                         </GridView.Columns>
                     </GridView>

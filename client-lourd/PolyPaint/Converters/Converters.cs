@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using PolyPaint.Models.ApiModels;
 
 namespace PolyPaint.Converters
 {
@@ -68,6 +69,31 @@ namespace PolyPaint.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return DependencyProperty.UnsetValue;
+        }
+    }
+
+    internal class DrawingProtectionConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is ProtectionModel protection)
+            {
+                return protection.Active ? "🔒" : "🔓";
+            }
+
+            return "🔓";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            bool active = false;
+
+            if (value is string protectionBool)
+            {
+                active = protectionBool.Equals("🔒");
+            }
+
+            return new ProtectionModel() {Active = active};
         }
     }
 }

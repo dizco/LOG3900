@@ -4,11 +4,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.ApiModels;
 using PolyPaint.Models.MessagingModels;
+using PolyPaint.Views;
 
 namespace PolyPaint.Models
 {
@@ -146,9 +149,38 @@ namespace PolyPaint.Models
             }
         }
 
-        internal async void JoinOnlineDrawing(string id)
+        internal async void JoinOnlineDrawing(string id, bool isPasswordProtected)
         {
-            HttpResponseMessage response = await RestHandler.GetOnlineDrawing(id);
+            HttpResponseMessage response;
+
+            if (isPasswordProtected)
+            {
+                string drawingPassword = null;
+
+                PasswordPrompt passwordPrompt = new PasswordPrompt();
+
+                passwordPrompt.PasswordEntered += (s, password) =>
+                {
+                    drawingPassword = password;
+                    passwordPrompt.Close();
+                };
+
+                passwordPrompt.ShowDialog();
+
+                if (drawingPassword != null)
+                {
+                    response = await RestHandler.GetOnlineDrawing(id, drawingPassword);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                response = await RestHandler.GetOnlineDrawing(id);
+            }
+
             if (response.IsSuccessStatusCode)
             {
                 try
@@ -179,6 +211,10 @@ namespace PolyPaint.Models
                     UserAlerts.ShowErrorMessage("Une erreure est survenue");
                 }
             }
+            else
+            {
+                OnResponseError(await response?.Content.ReadAsStringAsync());
+            }
         }
 
         private void OnNewDrawingCreated(Tuple<string, string, EditingModeOption> drawingParams)
@@ -204,6 +240,26 @@ namespace PolyPaint.Models
         private void OnOnlineDrawingJoinFailed(string error)
         {
             OnlineDrawingJoinFailed?.Invoke(this, error);
+        }
+
+        /// <summary>
+        ///     Parses server response and display appropriate error message
+        /// </summary>
+        /// <param name="response">Serialized JSON response</param>
+        private void OnResponseError(string response)
+        {
+            JObject responseJson;
+            try
+            {
+                responseJson = JObject.Parse(response);
+            }
+            catch (Exception e)
+            {
+                UserAlerts.ShowErrorMessage(e.Message);
+                return;
+            }
+
+            UserAlerts.ShowErrorMessage(responseJson?.GetValue("error")?.ToString() ?? "Une erreure est survenue");
         }
     }
 }

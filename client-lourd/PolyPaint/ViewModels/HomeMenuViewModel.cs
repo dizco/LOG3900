@@ -246,7 +246,7 @@ namespace PolyPaint.ViewModels
                 return;
             }
 
-            _homeMenu.JoinOnlineDrawing(SelectedOnlineDrawing.Id);
+            _homeMenu.JoinOnlineDrawing(SelectedOnlineDrawing.Id, SelectedOnlineDrawing.Protection.Active);
         }
 
         private void UpdateVisibilityProperties()
