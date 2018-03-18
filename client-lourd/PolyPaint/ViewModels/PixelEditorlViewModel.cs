@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,35 +7,23 @@ using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
 using PolyPaint.Models.PixelModels;
 using PolyPaint.Views;
-using EditorPixel = PolyPaint.Models.PixelModels.EditorPixel;
 
 namespace PolyPaint.ViewModels
 {
-    /// <summary>
-    ///     Sert d'intermédiaire entre la vue et le modèle.
-    ///     Expose des commandes et propriétés connectées au modèle aux des éléments de la vue peuvent se lier.
-    ///     Reçoit des avis de changement du modèle et envoie des avis de changements à la vue.
-    /// </summary>
-    internal class EditorPixelViewModel : ViewModelBase, INotifyPropertyChanged
+    internal class PixelEditorlViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
-        private readonly EditorPixel _editorPixelModel = new EditorPixel();
+        private readonly PixelEditor _pixelEditor = new PixelEditor();
 
-        /// <summary>
-        ///     Constructeur de VueModele
-        ///     On récupère certaines données initiales du modèle et on construit les commandes
-        ///     sur lesquelles la vue se connectera.
-        /// </summary>
-        public EditorPixelViewModel()
+        public PixelEditorlViewModel()
         {
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, DrawingPixelModelPropertyModified est appelée.
-            _editorPixelModel.DrawingName = DrawingName;
+            _pixelEditor.DrawingName = DrawingName;
 
-            InitializeBitmap();
             // Pour les commandes suivantes, il est toujours possible des les activer.
             // Donc, aucune vérification de type Peut"Action" à faire.
-            ChooseTool = new RelayCommand<string>(_editorPixelModel.SelectTool);
+            ChooseTool = new RelayCommand<string>(_pixelEditor.SelectTool);
 
-            ExportImageCommand = new RelayCommand<object>(_editorPixelModel.ExportImagePrompt);
+            ExportImageCommand = new RelayCommand<object>(_pixelEditor.ExportImagePrompt);
 
             //Managing different View
             OpenChatWindowCommand = new RelayCommand<object>(OpenChatWindow, CanOpenChat);
@@ -44,26 +33,26 @@ namespace PolyPaint.ViewModels
 
         public WriteableBitmap WriteableBitmap
         {
-            get => _editorPixelModel.WriteableBitmap;
-            set => _editorPixelModel.WriteableBitmap = value;
+            get => _pixelEditor.WriteableBitmap;
+            set => _pixelEditor.WriteableBitmap = value;
         }
 
         public string ToolSelected
         {
-            get => _editorPixelModel.SelectedTool;
+            get => _pixelEditor.SelectedTool;
             set => PropertyModified();
         }
 
         public string ColorSelected
         {
-            get => _editorPixelModel.SelectedColor;
-            set => _editorPixelModel.SelectedColor = value;
+            get => _pixelEditor.SelectedColor;
+            set => _pixelEditor.SelectedColor = value;
         }
 
-        public int StrokeSizeSelected
+        public int PixelSizeSelected
         {
-            get => _editorPixelModel.PixelSize;
-            set => _editorPixelModel.PixelSize = value;
+            get => _pixelEditor.PixelSize;
+            set => _pixelEditor.PixelSize = value;
         }
 
         public Visibility ChatVisibility
@@ -82,42 +71,32 @@ namespace PolyPaint.ViewModels
         //Commands for choosing the tools
         public RelayCommand<string> ChooseTool { get; set; }
 
-        public RelayCommand<object> OpenFileCommand { get; set; }
-        public RelayCommand<object> SaveFileCommand { get; set; }
-        public RelayCommand<object> AutosaveFileCommand { get; set; }
-        public RelayCommand<string> LoadAutosaved { get; set; }
-
         public RelayCommand<object> ExportImageCommand { get; set; }
 
         //Command for managing the views
         public RelayCommand<object> OpenChatWindowCommand { get; set; }
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
+        public void Dispose()
+        {
+            LoginStatusChanged -= ProcessLoginStatusChange;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public void InitiateBitmap()
-        {
-            _editorPixelModel.InitializeBitmap();
-        }
-
-        public void InitializeBitmap()
-        {
-            _editorPixelModel.InitializeBitmap();
-        }
 
         public void PixelDraw(Point oldPoint, Point newPoint)
         {
-            _editorPixelModel.PixelDraw(oldPoint, newPoint);
+            _pixelEditor.PixelDraw(oldPoint, newPoint);
         }
 
         public void PixelCursors(Border displayArea)
         {
-            _editorPixelModel.PixelCursor(displayArea);
+            _pixelEditor.PixelCursor(displayArea);
         }
 
         private void ProcessLoginStatusChange(object sender, string username)
         {
-            _editorPixelModel.CurrentUsername = username;
+            _pixelEditor.CurrentUsername = username;
         }
 
         /// <summary>
@@ -132,21 +111,11 @@ namespace PolyPaint.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /// <summary>
-        ///     Traite les évènements de modifications de propriétés qui ont été lancés à partir
-        ///     du modèle.
-        /// </summary>
-        /// <param name="sender">L'émetteur de l'évènement (le modèle)</param>
-        /// <param name="e">
-        ///     Les paramètres de l'évènement. PropertyName est celui qui nous intéresse.
-        ///     Il indique quelle propriété a été modifiée dans le modèle.
-        /// </param>
         private bool CanOpenChat(object obj)
         {
             return Messenger?.IsConnected ?? false;
         }
 
-        //Show login window
         public void OpenChatWindow(object o)
         {
             if (ChatWindow == null)
