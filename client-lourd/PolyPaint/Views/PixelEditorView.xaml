@@ -57,7 +57,15 @@
                         <Image Source="/Resources/efface_crayon.png" />
                     </StackPanel>
                 </Button>
-
+                <Button Name="select_pixelt" Width="40" Height="40" Margin="5" 
+                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=select_pixel, UpdateSourceTrigger=PropertyChanged}" 
+                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=select_pixel, UpdateSourceTrigger=PropertyChanged}" 
+                        Command="{Binding Path=ChooseTool}"
+                        CommandParameter="selector">
+                    <StackPanel>
+                        <Image Source="/Resources/Icons/Selector.png" />
+                    </StackPanel>
+                </Button>
 
                 <xctk:ColorPicker x:Name="selecteurCouleur"
                                   VerticalContentAlignment="Stretch"
@@ -91,39 +99,59 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Name="colonne" Width="550" />
                     <ColumnDefinition Width="6" />
-                    <ColumnDefinition Width="145*" />
-                    <ColumnDefinition Width="23*" />
+                    <ColumnDefinition Width="145*"/>
+                    <ColumnDefinition Width="23*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Name="ligne" Height="310" />
                     <RowDefinition Height="6" />
                 </Grid.RowDefinitions>
-                <Thumb Name="horizontal" Grid.Row="0" Grid.Column="1" Background="White"
-                       Width="6" Height="6" DragDelta="GlisserMouvementRecu"
-                       DragStarted="GlisserCommence" DragCompleted="GlisserTermine" />
-                <Thumb Name="diagonal" Grid.Row="1" Grid.Column="1" Background="White"
-                       Width="6" Height="6" DragDelta="GlisserMouvementRecu"
-                       DragStarted="GlisserCommence" DragCompleted="GlisserTermine" />
-                <Thumb Name="vertical" Grid.Row="1" Grid.Column="0" Background="White"
-                       Width="6" Height="6" DragDelta="GlisserMouvementRecu"
-                       DragStarted="GlisserCommence" DragCompleted="GlisserTermine" />
-                <Border x:Name="DisplayArea" BorderThickness="5,5,0,0">
-                    <Canvas x:Name="DrawingSurface"
-                            Background="White" ClipToBounds="True"
-                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                            MouseMove="DrawingSurfaceMouseMove" MouseEnter="DrawingSurfaceMouseEnter"
-                            MouseLeave="DrawingSurfaceOnMouseLeave"
-                            PreviewMouseDown="DrawingSurfacePreviewMouseDown">
-                        <Image x:Name="DrawnImage" VerticalAlignment="Top" Source="{Binding WriteableBitmap}" />
+                <Thumb Name="horizontal" Grid.Row="0" Grid.Column="1" Background="White" 
+                       Width="6" Height="6" DragDelta="GlisserMouvementRecu" 
+                       DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
+                 />
+                <Thumb Name="diagonal" Grid.Row="1" Grid.Column="1" Background="White" 
+                        Width="6" Height="6" DragDelta="GlisserMouvementRecu" 
+                        DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
+                 />
+                <Thumb Name="vertical" Grid.Row="1" Grid.Column="0" Background="White" 
+                        Width="6" Height="6" DragDelta="GlisserMouvementRecu" 
+                        DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
+                 />
+                <Grid Name="GridSurface"
+                      MouseMove="GridSurfaceMouseMove" MouseUp="GridSurfaceMouseUp" MouseDown="GridSurfaceMouseDown"
+                >
+                    <Border x:Name="DisplayArea" BorderThickness="5,5,0,0" >
+                        <Canvas x:Name="DrawingSurface"
+                                Background="White" ClipToBounds="True"  
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                MouseMove="DrawingSurfaceMouseMove" MouseEnter="DrawingSurfaceMouseEnter" PreviewMouseDown=" DrawingSurfacePreviewMouseDown">
+                            <Image x:Name="DrawnImage" VerticalAlignment="Top" Source="{Binding WriteableBitmap}" />
+                            <Image x:Name="SelectedZone" VerticalAlignment="Top" Source="{Binding CropWriteableBitmap}" />
+                        </Canvas>
+                        <Border.Effect>
+
+                            <DropShadowEffect Opacity="0.3" BlurRadius="10" />
+                        </Border.Effect>
+                    </Border>
+
+                    <Canvas Margin="5,5,0,0">
+                        <!-- This canvas is overlaid over the previous canvas and is used to 
+                    place the rectangle that implements the drag selection box. -->
+                        <Rectangle
+                            x:Name="selectionBox"
+                            Visibility="Collapsed"
+                            Stroke="Black"
+                            StrokeThickness="1"
+                            StrokeDashArray="4 4"
+                        />
                     </Canvas>
-                    <Border.Effect>
-                        <DropShadowEffect Opacity="0.3" BlurRadius="10" />
-                    </Border.Effect>
-                </Border>
+                </Grid>
             </Grid>
             <Grid Width="300" Visibility="{Binding ChatDocked}" HorizontalAlignment="Right" Background="WhiteSmoke">
                 <uc:ChatView />
             </Grid>
         </Grid>
+        
     </DockPanel>
 </Window>

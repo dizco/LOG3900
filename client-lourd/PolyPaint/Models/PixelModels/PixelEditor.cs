@@ -12,12 +12,14 @@ using System.Windows.Media.Imaging;
 using PolyPaint.Constants;
 using PolyPaint.Helpers;
 using Application = System.Windows.Application;
+using Cursor = System.Windows.Input.Cursor;
+using Cursors = System.Windows.Input.Cursors;
 
 namespace PolyPaint.Models.PixelModels
 {
     internal class PixelEditor : INotifyPropertyChanged
     {
-        private bool _isLoadingDrawing;
+        private readonly WriteableBitmap _cropWriteableBitmap = BitmapFactory.New(100, 100);
 
         // Size of the pixel trace in our draw
         private int _pixelSize = 5;
@@ -28,22 +30,44 @@ namespace PolyPaint.Models.PixelModels
         // Actif tool of the editor
         private string _selectedTool = "pencil";
 
-        public WriteableBitmap WriteableBitmap { get; set; }
+        private WriteableBitmap _writeableBitmap;
+
+        public PixelEditor()
+        {
+            //Todo: Resize dynamically with the size of the Canvas
+
+            WriteableBitmap = BitmapFactory.New(1000, 1000);
+
+            // Clear the WriteableBitmap with white color
+            //WriteableBitmap.Clear(Colors.Red);
+            //CropWriteableBitmap.Clear(Colors.Blue);
+        }
+
+        public WriteableBitmap WriteableBitmap
+        {
+            get => _writeableBitmap;
+            set
+            {
+                _writeableBitmap = value;
+                PropertyModified();
+            }
+        }
+
+        public WriteableBitmap CropWriteableBitmap
+        {
+            get => _cropWriteableBitmap;
+            set
+            {
+                _writeableBitmap = value;
+                PropertyModified();
+            }
+        }
 
         public string CurrentUsername { get; set; }
 
         public string DrawingName { get; set; }
 
         public ObservableCollection<string> RecentAutosaves { get; } = new ObservableCollection<string>();
-
-        public PixelEditor()
-        {
-            //Todo: Resize dynamically with the size of the Canvas
-            WriteableBitmap = BitmapFactory.New(1000, 1000);
-
-            // Clear the WriteableBitmap with white color
-            WriteableBitmap.Clear(Colors.Transparent);
-        }
 
         public string SelectedTool
         {
@@ -108,6 +132,21 @@ namespace PolyPaint.Models.PixelModels
             WriteableBitmap.SetPixel(x, y, (Color) ColorConverter.ConvertFromString(pixelColor));
         }
 
+        public void ZoneSelector(Point oldPosition, Point newPosition)
+        {
+            if (SelectedTool == "selector")
+            {
+                WriteableBitmap =
+                    WriteableBitmap.Resize(100, 300,
+                                           WriteableBitmapExtensions.Interpolation.Bilinear);
+
+                //_writeableBitmap = _writeableBitmap.Resize(23, 43, WriteableBitmapExtensions.Interpolation.Bilinear);
+
+                Tools tools = new Tools(WriteableBitmap, oldPosition, newPosition);
+                tools.SelectZone();
+            }
+        }
+
         /// <summary>
         ///     Display a cursor in the drawingSurface
         ///     depending of the tool selected by the user
@@ -118,16 +157,19 @@ namespace PolyPaint.Models.PixelModels
             switch (SelectedTool)
             {
                 case "pencil":
-                    displayArea.Cursor = System.Windows.Input.Cursors.Pen;
+                    displayArea.Cursor = Cursors.Pen;
                     break;
                 case "eraser":
-                    System.Windows.Input.Cursor eraser =
-                        new System.Windows.Input.Cursor(Application.GetResourceStream(new Uri("/Resources/Cursors/Eraser.cur",
+                    Cursor eraser =
+                        new Cursor(Application.GetResourceStream(new Uri("/Resources/Cursors/Eraser.cur",
                                                                          UriKind.Relative)).Stream);
                     displayArea.Cursor = eraser;
                     break;
+                case "selector":
+                    displayArea.Cursor = Cursors.Cross;
+                    break;
                 default:
-                    displayArea.Cursor = System.Windows.Input.Cursors.Pen;
+                    displayArea.Cursor = Cursors.Pen;
                     break;
             }
         }

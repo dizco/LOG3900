@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -49,6 +50,31 @@ namespace PolyPaint.Models.PixelModels
             }
 
             OnDrewLine();
+        }
+
+        public void SelectZone()
+        {
+            int x1 = (int) _oldPosition.X;
+            int x2 = (int) _newPosition.X;
+            int y1 = (int) _oldPosition.Y;
+            int y2 = (int) _newPosition.Y;
+
+            if (x1 > x2)
+            {
+                int temp = x1;
+                x1 = x2;
+                x2 = temp;
+            }
+
+            if (y1 > y2)
+            {
+                int temp = y1;
+                y1 = y2;
+                y2 = temp;
+            }
+
+            _writeableBitmap.FillRectangle(x1, y1, x2, y2, Colors.Transparent);
+
         }
 
         private readonly List<Tuple<Point, string>> _drawnPixels = new List<Tuple<Point, string>>();

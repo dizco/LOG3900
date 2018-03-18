@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -9,8 +10,14 @@ namespace PolyPaint.Views
 {
     public partial class PixelEditorView : Window
     {
-        private Point _newPosition;
-        private Point _oldPosition;
+        // Selector Attributes
+        private bool _isMouseDownSelector; // Set to 'true' when mouse is held down.
+
+        private Point _mouseDownPositionSelector; // The point where the mouse button was clicked down.
+
+        // Drawing Attributes
+        private Point _newPositionDrawing;
+        private Point _oldPositionDrawing;
 
         public PixelEditorView()
         {
@@ -45,17 +52,17 @@ namespace PolyPaint.Views
         private void DrawingSurfaceMouseEnter(object sender, MouseEventArgs e)
         {
             (DataContext as PixelEditorViewModel)?.PixelCursors(DisplayArea);
-            _oldPosition = e.GetPosition(DrawingSurface);
+            _oldPositionDrawing = e.GetPosition(DrawingSurface);
         }
 
         private void DrawingSurfacePreviewMouseDown(object sender, MouseEventArgs e)
         {
-            _oldPosition = e.GetPosition(DrawingSurface);
+            _oldPositionDrawing = e.GetPosition(DrawingSurface);
 
             //The tool is selected on click with a distance of one pixel to
             //enable it
-            Point onePixelPoint = new Point(_oldPosition.X + 1, _oldPosition.Y);
-            (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPosition, onePixelPoint);
+            Point onePixelPoint = new Point(_oldPositionDrawing.X + 1, _oldPositionDrawing.Y);
+            (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPositionDrawing, onePixelPoint);
         }
 
         private void DrawingSurfaceMouseMove(object sender, MouseEventArgs e)
@@ -63,18 +70,85 @@ namespace PolyPaint.Views
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 //Action tool on mouse move
-                _newPosition = e.GetPosition(DrawingSurface);
-                (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPosition, _newPosition);
-                _oldPosition = _newPosition;
+                _newPositionDrawing = e.GetPosition(DrawingSurface);
+                (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPositionDrawing, _newPositionDrawing);
+                _oldPositionDrawing = _newPositionDrawing;
             }
         }
 
-        private void DrawingSurfaceOnMouseLeave(object sender, MouseEventArgs e)
+        private void GridSurfaceMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            // Capture and track the mouse.
+            _isMouseDownSelector = true;
+            _mouseDownPositionSelector = e.GetPosition(DrawingSurface);
+            DrawingSurface.CaptureMouse();
+
+            // Initial placement of the drag selection box.         
+            Canvas.SetLeft(selectionBox, _mouseDownPositionSelector.X);
+            Canvas.SetTop(selectionBox, _mouseDownPositionSelector.Y);
+            selectionBox.Width = 0;
+            selectionBox.Height = 0;
+
+            if ((DataContext as PixelEditorViewModel)?.ToolSelected == "selector")
             {
-                _newPosition = e.GetPosition(DrawingSurface);
-                (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPosition, _newPosition);
+                // Make the drag selection box visible.
+                //TODO: Activate cross crusor
+                selectionBox.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void GridSurfaceMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            // Release the mouse capture and stop tracking it.
+            _isMouseDownSelector = false;
+            DrawingSurface.ReleaseMouseCapture();
+
+            // Hide the drag selection box.
+            selectionBox.Visibility = Visibility.Collapsed;
+           
+            Point mouseUpPosition = e.GetPosition(DisplayArea);
+
+            // TODO: 
+            //
+            // The mouse has been released, select the pixel in this rectangle
+            (DataContext as PixelEditorViewModel)?.ZoneSelector(_mouseDownPositionSelector, mouseUpPosition);
+            //
+        }
+
+        private void GridSurfaceMouseMove(object sender, MouseEventArgs e)
+        {
+            //TODO: MVVM this
+            Point mousePos = e.GetPosition(DrawingSurface);
+            mousePos.X = mousePos.X < 0 ? 0 : mousePos.X;
+            mousePos.X = mousePos.X > DrawingSurface.ActualWidth ? mousePos.X = DrawingSurface.ActualWidth : mousePos.X;
+            mousePos.Y = mousePos.Y < 0 ? 0 : mousePos.Y;
+            mousePos.Y = mousePos.Y > DrawingSurface.ActualHeight ? mousePos.Y = DrawingSurface.ActualHeight : mousePos.Y;
+
+            if (_isMouseDownSelector)
+            {
+                // When the mouse is held down, reposition the drag selection box.
+
+                if (_mouseDownPositionSelector.X < mousePos.X)
+                {
+                    Canvas.SetLeft(selectionBox, _mouseDownPositionSelector.X);
+                    selectionBox.Width = mousePos.X - _mouseDownPositionSelector.X;
+                }
+                else
+                {
+                    Canvas.SetLeft(selectionBox, mousePos.X);
+                    selectionBox.Width = _mouseDownPositionSelector.X - mousePos.X;
+                }
+
+                if (_mouseDownPositionSelector.Y < mousePos.Y)
+                {
+                    Canvas.SetTop(selectionBox, _mouseDownPositionSelector.Y);
+                    selectionBox.Height = mousePos.Y - _mouseDownPositionSelector.Y;
+                }
+                else
+                {
+                    Canvas.SetTop(selectionBox, mousePos.Y);
+                    selectionBox.Height = _mouseDownPositionSelector.Y - mousePos.Y;
+                }
             }
         }
     }

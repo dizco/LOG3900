@@ -26,6 +26,7 @@ namespace PolyPaint.ViewModels
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, DrawingPixelModelPropertyModified est appelée.
             _pixelEditor.DrawingName = DrawingName;
             _pixelEditor.DrewLineEvent += PixelEditorDrewLineEventHandler;
+            _pixelEditor.PropertyChanged += (s, a) => PropertyModified(a.PropertyName);
 
             // Pour les commandes suivantes, il est toujours possible des les activer.
             // Donc, aucune vérification de type Peut"Action" à faire.
@@ -65,7 +66,13 @@ namespace PolyPaint.ViewModels
         public WriteableBitmap WriteableBitmap
         {
             get => _pixelEditor.WriteableBitmap;
-            set => _pixelEditor.WriteableBitmap = value;
+            set => PropertyModified();
+        }
+
+        public WriteableBitmap CropWriteableBitmap
+        {
+            get => _pixelEditor.CropWriteableBitmap;
+            set => PropertyModified();
         }
 
         public string ToolSelected
@@ -185,6 +192,11 @@ namespace PolyPaint.ViewModels
         public void PixelCursors(Border displayArea)
         {
             _pixelEditor.PixelCursor(displayArea);
+        }
+
+        public void ZoneSelector(Point oldPoint, Point newPoint)
+        {
+            _pixelEditor.ZoneSelector(oldPoint, newPoint);
         }
 
         private void ProcessLoginStatusChange(object sender, string username)
