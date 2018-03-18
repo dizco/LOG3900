@@ -20,7 +20,7 @@ using Application = System.Windows.Application;
 
 namespace PolyPaint.ViewModels
 {
-    internal class HomeMenuViewModel : ViewModelBase, INotifyPropertyChanged
+    internal class HomeMenuViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
         private readonly HomeMenuModel _homeMenu;
 
@@ -42,12 +42,17 @@ namespace PolyPaint.ViewModels
             GalleryCommand = new RelayCommand<object>(OpenGallery);
             GoToMenuCommand = new RelayCommand<object>(OpenMenu);
             BackToLogin = new RelayCommand<object>(OpenLogin);
-            WebSocketConnectedEvent += (s, a) => RefreshHomeMenuBindings();
+            WebSocketConnectedEvent += RefreshHomeMenuBindings;
 
             if (string.IsNullOrEmpty(Username))
             {
                 LoginButtonVisibility = Visibility.Visible;
             }
+        }
+
+        public void Dispose()
+        {
+            WebSocketConnectedEvent -= RefreshHomeMenuBindings;
         }
 
         public Visibility MainMenuVisibility { get; set; } = Visibility.Visible;
@@ -99,7 +104,7 @@ namespace PolyPaint.ViewModels
             ClosingRequest?.Invoke(this, EventArgs.Empty);
         }
 
-        private static void RefreshHomeMenuBindings()
+        private static void RefreshHomeMenuBindings(object sender, EventArgs a)
         {
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
@@ -325,6 +330,7 @@ namespace PolyPaint.ViewModels
             if (sender is EditorView editorView)
             {
                 (editorView.DataContext as EditorViewModel)?.UnsubscribeDrawingRoom();
+                (editorView.DataContext as EditorViewModel)?.Dispose();
             }
 
             if (HomeMenu == null)

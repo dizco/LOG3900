@@ -186,6 +186,11 @@ namespace PolyPaint.ViewModels
                 HomeMenu.Closed += (s, a) => HomeMenu = null;
                 OnClosingRequest();
             }
+            else
+            {
+                HomeMenu.Show();
+                OnClosingRequest();
+            }
         }
 
         /// <summary>

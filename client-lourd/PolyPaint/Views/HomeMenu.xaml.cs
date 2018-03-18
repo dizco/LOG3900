@@ -12,7 +12,11 @@ namespace PolyPaint.Views
         {
             InitializeComponent();
             DataContext = new HomeMenuViewModel();
-            ((HomeMenuViewModel) DataContext).ClosingRequest += (sender, e) => Close();
+            ((HomeMenuViewModel) DataContext).ClosingRequest += (sender, e) =>
+            {
+                ((HomeMenuViewModel)DataContext).Dispose();
+                Close();
+            };
         }
     }
 }
