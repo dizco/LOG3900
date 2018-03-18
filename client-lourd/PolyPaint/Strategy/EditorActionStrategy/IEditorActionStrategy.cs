@@ -4,6 +4,6 @@ namespace PolyPaint.Strategy.EditorActionStrategy
 {
     internal interface IEditorActionStrategy
     {
-        void ExecuteStrategy(EditorStroke editor);
+        void ExecuteStrategy(StrokeEditor editor);
     }
 }

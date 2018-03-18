@@ -28,7 +28,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
         ///     Places received replacement actions into the dictionary so that the modification can be applied.
         /// </summary>
         /// <param name="editor">Editor on which the stroke replacement is applied</param>
-        public void ExecuteStrategy(EditorStroke editor)
+        public void ExecuteStrategy(StrokeEditor editor)
         {
             if (_replaceStrokeAction.Author.Username == editor.CurrentUsername)
             {
@@ -70,7 +70,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
         ///     A single instance of this loop is executed at a time.
         /// </summary>
         /// <param name="editor">Editor on which the stroke replacement is applied</param>
-        private static void ReplaceStrokesFromDictionary(EditorStroke editor)
+        private static void ReplaceStrokesFromDictionary(StrokeEditor editor)
         {
             IsReplacing = true;
 

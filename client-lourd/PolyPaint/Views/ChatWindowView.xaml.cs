@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using PolyPaint.ViewModels;
 
@@ -14,6 +15,10 @@ namespace PolyPaint.Views
         {
             InitializeComponent();
             DataContext = new ChatWindowViewModel();
+        }
+
+        private void GridSplitter_DragDelta(object sender, DragDeltaEventArgs e)
+        {
         }
 
         private void MessageInput_TextChanged(object sender, TextChangedEventArgs e)

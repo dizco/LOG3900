@@ -10,12 +10,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PolyPaint.Constants;
 using PolyPaint.Helpers;
-using Cursors = System.Windows.Input.Cursors;
-using MessageBox = System.Windows.Forms.MessageBox;
+using Application = System.Windows.Application;
 
 namespace PolyPaint.Models.PixelModels
 {
-    internal class EditorPixel : INotifyPropertyChanged
+    internal class PixelEditor : INotifyPropertyChanged
     {
         private bool _isLoadingDrawing;
 
@@ -35,6 +34,15 @@ namespace PolyPaint.Models.PixelModels
         public string DrawingName { get; set; }
 
         public ObservableCollection<string> RecentAutosaves { get; } = new ObservableCollection<string>();
+
+        public PixelEditor()
+        {
+            //Todo: Resize dynamically with the size of the Canvas
+            WriteableBitmap = BitmapFactory.New(1000, 1000);
+
+            // Clear the WriteableBitmap with white color
+            WriteableBitmap.Clear(Colors.Transparent);
+        }
 
         public string SelectedTool
         {
@@ -72,52 +80,45 @@ namespace PolyPaint.Models.PixelModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void InitializeBitmap()
-        {
-            //Todo: Resize dynamically with the size of the Canvas
-            WriteableBitmap = BitmapFactory.New(1000, 1000);
-
-            // Clear the WriteableBitmap with white color
-            WriteableBitmap.Clear(Colors.Transparent);
-        }
-
         /// <summary>
         ///     Draw on the writeableBitmap
         ///     Transparant color is put on the bitmap when the eraser is selected
         /// </summary>
-        /// <param name="oldPosition"></param>
-        /// <param name="newPosition"></param>
+        /// <param name="oldPosition"> Position of the mouse before an action </param>
+        /// <param name="newPosition"> Position of the mouse after the actions </param>
         public void PixelDraw(Point oldPosition, Point newPosition)
         {
             Tools tools = new Tools(WriteableBitmap, oldPosition, newPosition);
             if (SelectedTool == "pencil")
             {
-                tools.DrawPixel(PixelSize, SelectedColor, true);
+                tools.DrawPixel(PixelSize, SelectedColor);
             }
             else if (SelectedTool == "eraser")
             {
-                tools.DrawPixel(PixelSize, SelectedColor, false);
+                tools.DrawPixel(PixelSize, "Transparent");
             }
         }
 
         /// <summary>
-        ///     Display a cursor in the Border of a draw depending
-        ///     the tool selected by the user
+        ///     Display a cursor in the drawingSurface
+        ///     depending of the tool selected by the user
         /// </summary>
-        /// <param name="displayArea"></param>
+        /// <param name="displayArea"> Border containing the Canvas </param>
         public void PixelCursor(Border displayArea)
         {
             switch (SelectedTool)
             {
                 case "pencil":
-                    displayArea.Cursor = Cursors.Pen;
+                    displayArea.Cursor = System.Windows.Input.Cursors.Pen;
                     break;
                 case "eraser":
-                    System.Windows.Input.Cursor eraser = new System.Windows.Input.Cursor(System.Windows.Application.GetResourceStream(new Uri("/Resources/Cursors/Eraser.cur", UriKind.Relative)).Stream);
+                    System.Windows.Input.Cursor eraser =
+                        new System.Windows.Input.Cursor(Application.GetResourceStream(new Uri("/Resources/Cursors/Eraser.cur",
+                                                                         UriKind.Relative)).Stream);
                     displayArea.Cursor = eraser;
                     break;
                 default:
-                    displayArea.Cursor = Cursors.Pen;
+                    displayArea.Cursor = System.Windows.Input.Cursors.Pen;
                     break;
             }
         }
@@ -130,23 +131,15 @@ namespace PolyPaint.Models.PixelModels
         /// <summary>
         ///     The active tool becomes the one passed in parameter
         /// </summary>
-        /// <param name="outil"></param>
-        public void SelectTool(string outil)
+        /// <param name="tool"> Tool selected in the canvas </param>
+        public void SelectTool(string tool)
         {
-            SelectedTool = outil;
+            SelectedTool = tool;
         }
 
         public void ExportImagePrompt(object canvas)
         {
-            //Todo: empty case
-            //cancels an empty drawing exportation
-
-            /* if (StrokesCollection.Count == 0 || _isLoadingDrawing)
-            {
-                UserAlerts.ShowErrorMessage("Veuillez utiliser un dessin non vide");
-                return;
-            }
-            */
+            //Todo: add empty draw case
 
             //cast object as a Canvas (object from command)
             if (canvas is Canvas drawingSurface)
@@ -198,7 +191,7 @@ namespace PolyPaint.Models.PixelModels
                 encoder?.Frames.Add(BitmapFrame.Create(imageRender));
                 encoder?.Save(imageStream);
                 //result message
-                ShowUserInfoMessage("Image exportée avec succès");
+                UserAlerts.ShowInfoMessage("Image exportée avec succès");
             }
             catch (UnauthorizedAccessException e)
             {
@@ -212,11 +205,6 @@ namespace PolyPaint.Models.PixelModels
             {
                 imageStream?.Close();
             }
-        }
-
-        private void ShowUserInfoMessage(string message)
-        {
-            MessageBox.Show(message, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

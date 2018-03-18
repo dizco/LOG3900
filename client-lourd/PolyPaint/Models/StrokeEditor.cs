@@ -27,7 +27,7 @@ namespace PolyPaint.Models
     ///     Contient ses différents états et propriétés ainsi que la logique
     ///     qui régis son fonctionnement.
     /// </summary>
-    internal class EditorStroke : INotifyPropertyChanged
+    internal class StrokeEditor : INotifyPropertyChanged
     {
         private const int ErrorSharingViolation = 32;
 
@@ -59,7 +59,7 @@ namespace PolyPaint.Models
 
         public StrokeCollection StrokesCollection = new StrokeCollection();
 
-        public EditorStroke()
+        public StrokeEditor()
         {
             CurrentUsername = ViewModelBase.Username;
         }

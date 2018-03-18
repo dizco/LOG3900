@@ -8,14 +8,14 @@ using PolyPaint.Models;
 namespace PolyPaintTests.Models
 {
     [TestClass]
-    public class EditorTest
+    public class StrokeEditorTest
     {
-        private static EditorStroke _editor;
+        private static StrokeEditor _editor;
 
         [ClassInitialize]
         public static void InitializeMessenger(TestContext context)
         {
-            _editor = new EditorStroke();
+            _editor = new StrokeEditor();
         }
 
         [TestMethod]
