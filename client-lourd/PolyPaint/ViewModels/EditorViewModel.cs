@@ -24,7 +24,7 @@ namespace PolyPaint.ViewModels
     ///     Expose des commandes et propriétés connectées au modèle aux des éléments de la vue peuvent se lier.
     ///     Reçoit des avis de changement du modèle et envoie des avis de changements à la vue.
     /// </summary>
-    internal class EditorViewModel : ViewModelBase, INotifyPropertyChanged
+    internal class EditorViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
         private readonly Editor _editor = new Editor();
 
@@ -87,6 +87,12 @@ namespace PolyPaint.ViewModels
             LoginStatusChanged += ProcessLoginStatusChange;
 
             EditorActionReceived += ProcessReceivedEditorAction;
+        }
+
+        public void Dispose()
+        {
+            EditorActionReceived -= ProcessReceivedEditorAction;
+            LoginStatusChanged -= ProcessLoginStatusChange;
         }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
