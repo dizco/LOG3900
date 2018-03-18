@@ -9,12 +9,13 @@
     xmlns:local="clr-namespace:PolyPaint.Models"
     xmlns:uc="clr-namespace:PolyPaint.Views"
     x:Class="PolyPaint.Views.StrokeEditorView"
+
     mc:Ignorable="d"
-    Title="Poly Paint" Height="700" Width="900" Background="#CBD4E4" MinWidth="885" MinHeight="300"
+    Title="Poly Paint" Height="700" Width="970" Background="#CBD4E4" MinWidth="885" MinHeight="300"
     xmlns:vm="clr-namespace:PolyPaint.ViewModels"
     d:DataContext="{d:DesignInstance vm:StrokeEditorViewModel}">
-    <Window.Resources>
 
+    <Window.Resources>
         <converters:BorderConverter x:Key="BorderConverter" />
         <converters:BackgroundColorConverter x:Key="BackgroundColorConverter" />
         <converters:EditingToolConverter x:Key="EditingToolConverter" />
@@ -344,6 +345,57 @@
                         Margin="12"
                         Foreground="Gray"
                         TickFrequency="10" TickPlacement="BottomRight" IsSnapToTickEnabled="False" />
+                <StackPanel Orientation="Horizontal">
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5" VerticalAlignment="Center">
+                        <Grid MaxWidth="100" MinWidth="100" MaxHeight="20" MinHeight="20">
+                            <TextBox Name="BoxTextToInsert" Text="{Binding TextToInsert, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            </TextBox>
+                        </Grid>
+                        <Button Name="InsertText" Width="20" Height="20" Margin="5,5,0,5"
+                                        HorizontalContentAlignment="Right"
+                                        BorderBrush="Transparent"
+                                        Background="Transparent"
+                                        Click="InsertTextBox">
+                            <StackPanel>
+                                <Image Source="/Resources/insert_text.png"/>
+                            </StackPanel>
+                        </Button>
+                        <xctk:IntegerUpDown FormatString="N0" Value="12"
+                                                Text="{Binding TextSize, UpdateSourceTrigger=PropertyChanged,
+                                                Mode=TwoWay}" Increment="1" Minimum="6" Maximum="400"
+                                                Margin="5,5,0,5"/>
+                    </StackPanel>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                </StackPanel>
+                <StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="5,8" VerticalAlignment="Center" Width="50">
+                        <Button x:Name="LoginWindow"  Command="{Binding OpenChatWindowCommand}" Visibility="{Binding ChatVisibility}"
+                                RenderTransformOrigin="0.5,0.5" Height="43" FontSize="9" FontWeight="Bold"
+                                BorderBrush="#FF816B6B" AutomationProperties.HelpText="Clavardage" AutomationProperties.IsColumnHeader="True"
+                                HorizontalAlignment="Right" Width="50">
+                            <Button.Background>
+                                <ImageBrush ImageSource="/PolyPaint;component/Resources/tidepod.png"/>
+                            </Button.Background>
+                            <Button.OpacityMask>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="Black" Offset="0"/>
+                                    <GradientStop Color="White" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Button.OpacityMask>
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="-0.809"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                            <StackPanel Width="36"/>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+>>>>>>> d98d4f4... refs #17471 [lourd] new insert text and fix for selection after insertion
             </StackPanel>
         </Border>
         <Border DockPanel.Dock="Bottom" Height="25" BorderThickness="0,0.75,0,0.75" BorderBrush="#77000000">

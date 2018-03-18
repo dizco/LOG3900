@@ -143,6 +143,26 @@ namespace PolyPaint.ViewModels
             set => PropertyModified();
         }
 
+        public string TextToInsert
+        {
+            get => _editor.TextToInsertContent;
+            set
+                {
+                    _editor.TextToInsertContent = value;
+                    PropertyModified();
+                }
+        }
+        
+        public string TextSize
+        {
+            get => _editor.TextToInsertSize;
+            set
+            {
+                _editor.TextToInsertSize = value;
+                PropertyModified();
+            }
+        }
+
         public StrokeEditor.DrawableShapes ShapeSelected
         {
             get => _editor.SelectedShape;
@@ -258,6 +278,11 @@ namespace PolyPaint.ViewModels
         public StrokeCollection AddShape(Point start, Point end)
         {
             return _editor.AddShape(start, end);
+        }
+
+        public TextBox InsertText(InkCanvas drawingSurface)
+        {
+            return _editor.InsertText(drawingSurface);
         }
 
         public Stroke DrawShape(Point start, Point end)
