@@ -29,6 +29,7 @@ namespace PolyPaint.ViewModels
             _homeMenu = new HomeMenuModel();
             _homeMenu.NewDrawingCreated += DrawingLoadedHandler;
             _homeMenu.OnlineDrawingJoined += OnlineDrawingLoadedHandler;
+            _homeMenu.OnlineDrawingJoinFailed += OnlineDrawingLoadingFailedHandler;
             FilteredDrawings = _homeMenu.FilteredDrawings;
             AutosavedDrawings = _homeMenu.AutosavedDrawings;
 
@@ -271,6 +272,11 @@ namespace PolyPaint.ViewModels
             DrawingRoomId = drawingParams.Item1;
             DrawingName = drawingParams.Item2;
             OpenEditorWindow(drawingParams.Item3, drawingParams.Item4);
+        }
+
+        private static void OnlineDrawingLoadingFailedHandler(object sender, string e)
+        {
+            UserAlerts.ShowErrorMessage(e);
         }
 
         private void OpenEditorWindow(EditingModeOption option = EditingModeOption.Trait,

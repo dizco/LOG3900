@@ -36,6 +36,8 @@ namespace PolyPaint.Models
         public event EventHandler<Tuple<string, string, EditingModeOption, List<EditorActionModel>>>
             OnlineDrawingJoined;
 
+        public event EventHandler<string> OnlineDrawingJoinFailed;
+
         internal async void LoadOnlineDrawingsList()
         {
             OnlineDrawingList.Clear();
@@ -153,6 +155,16 @@ namespace PolyPaint.Models
                 {
                     JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
 
+                    Dictionary<string, int> users = content.GetValue("users").ToObject<Dictionary<string, int>>();
+
+                    users.TryGetValue("active", out int activeUsers);
+                    users.TryGetValue("limit", out int limitUsers);
+                    if (activeUsers >= limitUsers)
+                    {
+                        OnOnlineDrawingJoinFailed($"Impossible d\'ouvrir le dessin. Le nombre maximal d\'éditeurs a été atteint.");
+                        return;
+                    }
+
                     // TODO: Modify this function once server saving protocol is established
                     List<EditorActionModel> editorActionHistory = null;
                     string drawingName = content.GetValue("name").ToString();
@@ -187,6 +199,11 @@ namespace PolyPaint.Models
                                                                                       actions);
 
             OnlineDrawingJoined?.Invoke(this, drawingParams);
+        }
+
+        private void OnOnlineDrawingJoinFailed(string error)
+        {
+            OnlineDrawingJoinFailed?.Invoke(this, error);
         }
     }
 }
