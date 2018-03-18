@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Input;
@@ -23,6 +24,8 @@ namespace PolyPaint.ViewModels
     internal class HomeMenuViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
         private readonly HomeMenuModel _homeMenu;
+
+        private bool _createPasswordProtectedDrawing;
 
         public HomeMenuViewModel()
         {
@@ -43,17 +46,16 @@ namespace PolyPaint.ViewModels
             GalleryCommand = new RelayCommand<object>(OpenGallery);
             GoToMenuCommand = new RelayCommand<object>(OpenMenu);
             BackToLogin = new RelayCommand<object>(OpenLogin);
+
+            ToggleNewDrawingProtection = new RelayCommand<object>(ToggleProtection);
+
             WebSocketConnectedEvent += RefreshHomeMenuBindings;
+            WebSocketDisconnectedEvent += RefreshHomeMenuBindings;
 
             if (string.IsNullOrEmpty(Username))
             {
                 LoginButtonVisibility = Visibility.Visible;
             }
-        }
-
-        public void Dispose()
-        {
-            WebSocketConnectedEvent -= RefreshHomeMenuBindings;
         }
 
         public Visibility MainMenuVisibility { get; set; } = Visibility.Visible;
@@ -76,7 +78,15 @@ namespace PolyPaint.ViewModels
         public string NewDrawingName { get; set; }
 
         public OnlineDrawingModel SelectedOnlineDrawing { get; set; }
+
         public string SelectedAutosaved { get; set; }
+        public string ProtectionStatusString => CreatePasswordProtectedDrawing ? "🔒" : "🔓";
+
+        public bool CreatePasswordProtectedDrawing
+        {
+            get => _createPasswordProtectedDrawing && IsOnline(this);
+            private set => _createPasswordProtectedDrawing = value;
+        }
 
         public RelayCommand<object> GalleryCommand { get; set; }
         public RelayCommand<object> GoToOnlineDrawingSubMenuCommand { get; set; }
@@ -88,6 +98,13 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> OpenAutosaveDrawingCommand { get; set; }
         public RelayCommand<object> GoToMenuCommand { get; set; }
         public RelayCommand<object> BackToLogin { get; set; }
+
+        public RelayCommand<object> ToggleNewDrawingProtection { get; set; }
+
+        public void Dispose()
+        {
+            WebSocketConnectedEvent -= RefreshHomeMenuBindings;
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler ClosingRequest;
@@ -109,6 +126,19 @@ namespace PolyPaint.ViewModels
         {
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
+        }
+
+        private static void RefreshHomeMenuBindings(object sender, int a)
+        {
+            (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
+                                                                                         .InvalidateRequerySuggested);
+        }
+
+        private void ToggleProtection(object o)
+        {
+            CreatePasswordProtectedDrawing = !CreatePasswordProtectedDrawing;
+            OnPropertyChanged("ProtectionStatusString");
+            OnPropertyChanged("CreatePasswordProtectedDrawing");
         }
 
         private bool IsOnline(object obj)
@@ -206,7 +236,21 @@ namespace PolyPaint.ViewModels
                 default: return;
             }
 
-            _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode);
+            if (CreatePasswordProtectedDrawing)
+            {
+                if (obj is PasswordBox password && !string.IsNullOrWhiteSpace(password.Password))
+                {
+                    _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, password.Password);
+                }
+                else
+                {
+                    UserAlerts.ShowErrorMessage("Le mot de passe est invalide");
+                }
+            }
+            else
+            {
+                _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode);
+            }
         }
 
         private void OpenMenu(object obj)

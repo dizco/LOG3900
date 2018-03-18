@@ -93,7 +93,7 @@ namespace PolyPaint.Converters
                 active = protectionBool.Equals("🔒");
             }
 
-            return new ProtectionModel() {Active = active};
+            return new ProtectionModel {Active = active};
         }
     }
 }
