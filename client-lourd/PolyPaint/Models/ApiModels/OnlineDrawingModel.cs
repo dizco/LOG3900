@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PolyPaint.Models.MessagingModels;
 
 namespace PolyPaint.Models.ApiModels
 {
@@ -12,6 +13,9 @@ namespace PolyPaint.Models.ApiModels
 
         [JsonProperty(PropertyName = "protection")]
         public ProtectionModel Protection { get; set; }
+
+        [JsonProperty(PropertyName = "owner")]
+        public AuthorModel Owner { get; set; }
     }
 
     internal class ProtectionModel

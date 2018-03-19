@@ -316,7 +316,10 @@ namespace PolyPaint.ViewModels
                 return;
             }
 
-            _homeMenu.JoinOnlineDrawing(SelectedOnlineDrawing.Id, SelectedOnlineDrawing.Protection.Active);
+            bool drawingProtected = SelectedOnlineDrawing.Protection.Active &&
+                                    Username != SelectedOnlineDrawing.Owner.Username;
+
+            _homeMenu.JoinOnlineDrawing(SelectedOnlineDrawing.Id, drawingProtected);
         }
 
         private void UpdateVisibilityProperties()
