@@ -45,7 +45,6 @@ class StrokeEditorScene: SKScene {
     // MARK: - Strokes parameters
     var strokesStack: Stack = Stack()
     var wayPoints: [CGPoint] = []
-    var continuousStroke = false
     var nStrokes = 0
     var start = CGPoint.zero
     var end = CGPoint.zero
@@ -81,7 +80,7 @@ class StrokeEditorScene: SKScene {
 
     // MARK: - Touches function
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.continuousStroke = false
+        print("touches began")
         switch self.currentEditingMode {
         case .ink:
             if let touch = touches.first as? UITouch {
@@ -95,15 +94,13 @@ class StrokeEditorScene: SKScene {
             print("Not implemented.")
         case .eraseByStroke:
             if let touch = touches.first as? UITouch {
-                let currentPosition = touch.location(in: self)
-                self.eraseByStroke(position: currentPosition)
+                self.start = touch.location(in: self)
+                self.eraseByStroke(position: self.start)
             }
         }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        continuousStroke = true
-
         switch self.currentEditingMode {
         case .ink:
             if let touch = touches.first as? UITouch {
@@ -130,20 +127,17 @@ class StrokeEditorScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.nStrokes += 1 // this is used to test currently, will be removed later
 
+        print("touches ended")
         switch self.currentEditingMode {
         case .ink:
-            if !continuousStroke {
-                self.drawStroke(start: self.start, end: self.start)
-            } else {
-                if let touch = touches.first as? UITouch {
-                    self.end = touch.location(in: self)
-                    // we want to remove all the intermediate lines used to draw the stroke
-                    enumerateChildNodes(withName: self.INCOMPLETESTROKE, using: {node, stop in
-                        node.removeFromParent()
-                    })
-                    // we redraw the stroke using all the collected waypoints
-                    self.drawStroke(start: self.start, end: self.end)
-                }
+            if let touch = touches.first as? UITouch {
+                self.end = touch.location(in: self)
+                // we want to remove all the intermediate lines used to draw the stroke
+                enumerateChildNodes(withName: self.INCOMPLETESTROKE, using: {node, stop in
+                    node.removeFromParent()
+                })
+                // we redraw the stroke using all the collected waypoints
+                self.drawStroke(start: self.start, end: self.end)
             }
         case .select:
             print("Not implemented.")
@@ -154,6 +148,24 @@ class StrokeEditorScene: SKScene {
                 let currentPosition = touch.location(in: self)
                 self.eraseByStroke(position: currentPosition)
             }
+        }
+
+        // resets all values for the next stroke
+        self.resetStrokeValues()
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // this function detects "taps" where the user briefly touches somewhere and releases his finger
+        print("touches cancel")
+        switch self.currentEditingMode {
+        case .ink:
+            self.drawStroke(start: self.start, end: self.start)
+        case .select:
+            print("Not implemented.")
+        case .eraseByPoint:
+            print("Not implemented.")
+        case .eraseByStroke:
+            self.eraseByStroke(position: self.start)
         }
 
         // resets all values for the next stroke
@@ -225,13 +237,20 @@ class StrokeEditorScene: SKScene {
     private func eraseByStroke(position: CGPoint) {
         // most recent stroke is returned as the first one
         let strokeToBeErased = self.nodes(at: position).first as? SKShapeNode
+        let strokesToBeErased = self.nodes(at: position) as? [SKShapeNode]
 
-        guard let willBeErased = strokeToBeErased?.contains(position)
-            else { return }
-
-        if willBeErased {
-            strokeToBeErased?.removeFromParent()
+        if strokesToBeErased == nil {
+            return
+        } else {
+            print(strokesToBeErased!)
         }
+
+        for stroke in strokesToBeErased! {
+            if stroke.contains(position) {
+                stroke.removeFromParent()
+            }
+        }
+
     }
 
     func eraseByPoint(position: CGPoint) {
