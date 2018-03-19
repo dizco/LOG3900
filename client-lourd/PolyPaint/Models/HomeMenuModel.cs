@@ -117,18 +117,19 @@ namespace PolyPaint.Models
             }
         }
 
-        internal async void CreateNewDrawing(string drawingName, EditingModeOption option, [Optional] string password)
+        internal async void CreateNewDrawing(string drawingName, EditingModeOption option, [Optional] string password,
+            bool visibilityPublic = true)
         {
             if (await RestHandler.ValidateServerUri())
             {
                 HttpResponseMessage response = null;
                 if (password != null)
                 {
-                    response = await RestHandler.CreateDrawing(drawingName, option, password);
+                    response = await RestHandler.CreateDrawing(drawingName, option, password, visibilityPublic);
                 }
                 else
                 {
-                    response = await RestHandler.CreateDrawing(drawingName, option);
+                    response = await RestHandler.CreateDrawing(drawingName, option, visibilityPublic);
                 }
 
                 if (response.IsSuccessStatusCode)

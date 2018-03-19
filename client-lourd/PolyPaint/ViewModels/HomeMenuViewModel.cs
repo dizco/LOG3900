@@ -26,6 +26,7 @@ namespace PolyPaint.ViewModels
         private readonly HomeMenuModel _homeMenu;
 
         private bool _createPasswordProtectedDrawing;
+        private bool _createPubliclyVisibleDrawing = true;
 
         public HomeMenuViewModel()
         {
@@ -48,6 +49,7 @@ namespace PolyPaint.ViewModels
             BackToLogin = new RelayCommand<object>(OpenLogin);
 
             ToggleNewDrawingProtection = new RelayCommand<object>(ToggleProtection);
+            ToggleNewDrawingVisibility = new RelayCommand<object>(ToggleDrawingVisibility);
 
             WebSocketConnectedEvent += RefreshHomeMenuBindings;
             WebSocketDisconnectedEvent += RefreshHomeMenuBindings;
@@ -80,7 +82,10 @@ namespace PolyPaint.ViewModels
         public OnlineDrawingModel SelectedOnlineDrawing { get; set; }
 
         public string SelectedAutosaved { get; set; }
+
         public string ProtectionStatusString => CreatePasswordProtectedDrawing ? "🔒" : "🔓";
+
+        public string VisibilityStatusString => CreatePubliclyVisibleDrawing ? "Publique" : "Privée";
 
         public bool CreatePasswordProtectedDrawing
         {
@@ -88,7 +93,15 @@ namespace PolyPaint.ViewModels
             private set => _createPasswordProtectedDrawing = value;
         }
 
+        public bool CreatePubliclyVisibleDrawing
+        {
+            get => _createPubliclyVisibleDrawing && IsOnline(this);
+            set => _createPubliclyVisibleDrawing = value;
+        }
+
         public string LockColor => CreatePasswordProtectedDrawing ? "#FF2B3ACF" : "#FFB3B3B3";
+
+        public string VisibilityColor => CreatePubliclyVisibleDrawing ? "#FF2B3ACF" : "#FFB3B3B3";
 
         public RelayCommand<object> GalleryCommand { get; set; }
         public RelayCommand<object> GoToOnlineDrawingSubMenuCommand { get; set; }
@@ -100,8 +113,8 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> OpenAutosaveDrawingCommand { get; set; }
         public RelayCommand<object> GoToMenuCommand { get; set; }
         public RelayCommand<object> BackToLogin { get; set; }
-
         public RelayCommand<object> ToggleNewDrawingProtection { get; set; }
+        public RelayCommand<object> ToggleNewDrawingVisibility { get; set; }
 
         public void Dispose()
         {
@@ -142,6 +155,14 @@ namespace PolyPaint.ViewModels
             OnPropertyChanged("ProtectionStatusString");
             OnPropertyChanged("CreatePasswordProtectedDrawing");
             OnPropertyChanged("LockColor");
+        }
+
+        private void ToggleDrawingVisibility(object obj)
+        {
+            CreatePubliclyVisibleDrawing = !CreatePubliclyVisibleDrawing;
+            OnPropertyChanged("VisibilityStatusString");
+            OnPropertyChanged("CreatePubliclyVisibleDrawing");
+            OnPropertyChanged("VisibilityColor");
         }
 
         private bool IsOnline(object obj)
@@ -243,7 +264,8 @@ namespace PolyPaint.ViewModels
             {
                 if (obj is PasswordBox password && !string.IsNullOrWhiteSpace(password.Password))
                 {
-                    _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, password.Password);
+                    _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, password.Password,
+                                               CreatePubliclyVisibleDrawing);
                 }
                 else
                 {
@@ -252,7 +274,8 @@ namespace PolyPaint.ViewModels
             }
             else
             {
-                _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode);
+                _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode,
+                                           visibilityPublic: CreatePubliclyVisibleDrawing);
             }
         }
 
