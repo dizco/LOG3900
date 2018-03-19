@@ -56,11 +56,14 @@
             <Label Content="Nom du dessin" Margin="66,49,66,451" FontWeight="Bold" FontSize="18"/>
             <TextBox Text="{Binding NewDrawingName, Mode=OneWayToSource}" Margin="66,0,66,408" FontSize="18" Height="38" VerticalAlignment="Bottom"/>
             <Button Command="{Binding StartNewDrawing}" CommandParameter="{Binding ElementName=DrawingPasswordBox}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,360,66,105" Width="284"/>
-            <Label Content="Mode d'édition" Margin="66,0,66,370" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
-            <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="66,0,66,326" FontSize="18" Height="39" VerticalAlignment="Bottom"/>
-            <Label Content="Protection" Margin="66,0,66,288" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
-            <Button Command="{Binding ToggleNewDrawingProtection}" Content="{Binding ProtectionStatusString}" HorizontalAlignment="Center" Background="{Binding LockColor}" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,245,310,250" Width="40"/>
-            <PasswordBox x:Name="DrawingPasswordBox" FontSize="18" Margin="111,244,66,250" IsEnabled="{Binding CreatePasswordProtectedDrawing}"/>
+            <Label Content="Mode d'édition" Margin="66,0,66,375" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
+            <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="66,0,66,336" FontSize="18" Height="39" VerticalAlignment="Bottom"/>
+            <Label Content="Protection" Margin="66,0,66,303" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
+            <Button Command="{Binding ToggleNewDrawingProtection}" Content="{Binding ProtectionStatusString}" HorizontalAlignment="Center" Background="{Binding LockColor}" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,230,310,265" Width="40"/>
+            <PasswordBox x:Name="DrawingPasswordBox" FontSize="18" Margin="111,230,66,265" IsEnabled="{Binding CreatePasswordProtectedDrawing}"/>
+            <Label Content="Visibilité" Margin="66,0,66,232" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
+            <Button Command="{Binding ToggleNewDrawingVisibility}" Content="👁" HorizontalAlignment="Center" Background="{Binding VisibilityColor}" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,301,310,194" Width="40"/>
+            <TextBox Text="{Binding VisibilityStatusString, Mode=OneWay}" IsEnabled="False" Margin="111,0,66,194" FontSize="18" Height="38" VerticalAlignment="Bottom"/>
         </Grid>
         <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding MainMenuVisibility}">
             <Button Command="{Binding GoToNewDrawingSubMenuCommand}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,60,66,405" Width="284"/>

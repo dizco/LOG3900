@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using PolyPaint.Models.ApiModels;
 
@@ -60,24 +61,26 @@ namespace PolyPaint.Helpers.Communication
             return await Client.GetAsync($"{ServerUri}/drawings?page={page}");
         }
 
-        public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option)
+        public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option, bool visibilityPublic = true)
         {
             Dictionary<string, string> drawingInfo = new Dictionary<string, string>
             {
-                {"name", drawingName}
+                {"name", drawingName},
+                {"visibility", visibilityPublic? "public":"private"}
             };
 
             return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
         }
 
         public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option,
-            string password)
+            string password, bool visibilityPublic = true)
         {
             Dictionary<string, string> drawingInfo = new Dictionary<string, string>
             {
                 {"name", drawingName},
                 {"protection-active", "true"},
-                {"protection-password", password}
+                {"protection-password", password},
+                {"visibility", visibilityPublic? "public":"private"}
             };
 
             return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
