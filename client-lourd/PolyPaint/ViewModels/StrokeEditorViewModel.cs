@@ -480,6 +480,10 @@ namespace PolyPaint.ViewModels
 
         public void UnsubscribeDrawingRoom()
         {
+            if (LockedStrokesHeld?.Count > 0)
+            {
+                SendUnlockStrokes(LockedStrokesHeld);
+            }
             Messenger?.UnsubscribeToDrawing();
         }
 
