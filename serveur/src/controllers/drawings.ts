@@ -198,6 +198,6 @@ function buildUpdateFields(req: Request): any {
 function validateProtectionParameters(req: Request): void {
     req.checkBody(DrawingFields.ProtectionActive, "Protection active must be a boolean").optional().isBoolean();
     if (req.body[DrawingFields.ProtectionActive]) {
-        req.checkBody(DrawingFields.ProtectionPassword, "Protection password must be at least 4 characters long").len({ min: 4 });
+        req.checkBody(DrawingFields.ProtectionPassword, "Protection password must be at least 5 characters long").len({ min: 5 });
     }
 }
