@@ -433,7 +433,7 @@ namespace PolyPaint.ViewModels
         /// <param name="stroke">Newly added stroke</param>
         private void SendNewStroke(Stroke stroke)
         {
-            CustomStroke customStroke = _editor.AssignUuidToStroke(stroke);
+            CustomStroke customStroke = stroke is CustomStroke newStroke ? newStroke : _editor.AssignUuidToStroke(stroke);
 
             SendNewStroke(customStroke);
         }
