@@ -48,7 +48,6 @@ class StrokeEditorViewController: EditorViewController, DrawingToolsViewDelegate
     }
 
     func stack() {
-        print("stack")
         self.scene.stack()
     }
 
