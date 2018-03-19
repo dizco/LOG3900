@@ -44,7 +44,8 @@ namespace PolyPaint.Models.MessagingModels
         ReplaceStroke,
         LockStrokes,
         UnlockStrokes,
-        Transform
+        Transform,
+        Reset
     }
 
     public class DrawingModel
