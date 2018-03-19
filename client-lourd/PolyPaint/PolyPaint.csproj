@@ -130,6 +130,7 @@
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Models\MessagingModels\SubscriptionMessageModel.cs" />
+    <Compile Include="Strategy\EditorActionStrategy\EditorActionResetStrategy.cs" />
     <Compile Include="ViewModels\PixelEditorlViewModel.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionTransformStrokesStrategy.cs" />

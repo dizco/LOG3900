@@ -305,6 +305,7 @@ namespace PolyPaint.Helpers.Communication
         internal string SendEditorActionResetDrawing()
         {
             EditorActionModel outgoingResetAction = BuildOutgoingAction(ActionIds.Reset);
+            outgoingResetAction.Delta = new DeltaModel();
 
             string actionSerialized = JsonConvert.SerializeObject(outgoingResetAction);
 
