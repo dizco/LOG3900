@@ -37,6 +37,9 @@ namespace PolyPaint.Strategy.EditorActionStrategy
                 case ActionIds.Transform:
                     _strategy = new EditorActionTransformStrokesStrategy(action);
                     break;
+                case ActionIds.Reset:
+                    _strategy = new EditorActionResetStrategy();
+                    break;
                 default:
                     throw new InvalidActionStrategyException();
             }

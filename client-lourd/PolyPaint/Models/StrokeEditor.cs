@@ -143,6 +143,7 @@ namespace PolyPaint.Models
         public event EventHandler<CustomStroke> EditorAddedStroke;
         public event EventHandler<CustomStroke> StrokeStackedEvent;
         public event EventHandler<StrokeCollection> SelectedStrokesTransformedEvent;
+        public event EventHandler ResetStrokeActionReceived;
 
         /// <summary>
         ///     Appelee lorsqu'une propriété d'Editeur est modifiée.
@@ -163,6 +164,11 @@ namespace PolyPaint.Models
         protected void OnSelectedStrokesTransformed(StrokeCollection strokes)
         {
             SelectedStrokesTransformedEvent?.Invoke(this, strokes);
+        }
+
+        internal void OnResetStrokeActionReceived()
+        {
+            ResetStrokeActionReceived?.Invoke(this, null);
         }
 
         // S'il y a au moins 1 trait sur la surface, il est possible d'exécuter Stack.
@@ -343,6 +349,7 @@ namespace PolyPaint.Models
         {
             StrokesCollection.Clear();
             _removedStrokesCollection.Clear();
+            LockedStrokes?.Clear();
         }
 
         private void StrokeAdded(CustomStroke stroke)

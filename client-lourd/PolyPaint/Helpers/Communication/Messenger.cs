@@ -301,5 +301,14 @@ namespace PolyPaint.Helpers.Communication
 
             return string.Empty;
         }
+
+        internal string SendEditorActionResetDrawing()
+        {
+            EditorActionModel outgoingResetAction = BuildOutgoingAction(ActionIds.Reset);
+
+            string actionSerialized = JsonConvert.SerializeObject(outgoingResetAction);
+
+            return SendDrawingAction(actionSerialized) ? actionSerialized : string.Empty;
+        }
     }
 }

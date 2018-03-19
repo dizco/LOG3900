@@ -42,7 +42,8 @@ namespace PolyPaint.ViewModels
             _editor.StrokeStackedEvent += OnStrokeStackedHandler;
             _editor.DrawingName = DrawingName;
             _editor.StrokesCollection.StrokesChanged += StrokesCollectionOnStrokesChanged;
-            _editor.SelectedStrokesTransformedEvent += (sender, strokes) => OnSelectionTransformedHandler(strokes);
+            _editor.SelectedStrokesTransformedEvent += SelectedStrokesTransformed;
+            _editor.ResetStrokeActionReceived += ResetStrokeActionReceived;
 
             // On initialise les attributs de dessin avec les valeurs de départ du modèle.
             DrawingAttributes = new DrawingAttributes
@@ -70,7 +71,7 @@ namespace PolyPaint.ViewModels
 
             ExportImageCommand = new RelayCommand<InkCanvas>(_editor.ExportImagePrompt);
 
-            StrokesCollection.StrokesChanged += (sender, obj) => { AutosaveFileCommand.Execute(string.Empty); };
+            StrokesCollection.StrokesChanged += AutosaveOnStrokeCollectionChanged;
 
             //Outgoing editor actions
             SendNewStrokeCommand = new RelayCommand<Stroke>(SendNewStroke);
@@ -215,6 +216,21 @@ namespace PolyPaint.ViewModels
             });
         }
 
+        private void ResetStrokeActionReceived(object sender, EventArgs args)
+        {
+            LockedStrokesHeld?.Clear();
+        }
+
+        private void SelectedStrokesTransformed(object sender, StrokeCollection strokes)
+        {
+            OnSelectionTransformedHandler(strokes);
+        }
+
+        private void AutosaveOnStrokeCollectionChanged(object sender, StrokeCollectionChangedEventArgs obj)
+        {
+            AutosaveFileCommand.Execute(string.Empty);
+        }
+
         private void AutosaveFile(object obj)
         {
             _editor.SaveDrawing(string.Empty, true);
@@ -329,10 +345,9 @@ namespace PolyPaint.ViewModels
 
         internal void ResetDrawing(object o)
         {
-            string[] removeAll = _editor.StrokesCollection.Select(stroke => (stroke as CustomStroke)?.Uuid.ToString())
-                                        .ToArray();
             _editor.Reset(o);
-            SendRemoveStroke(removeAll);
+            LockedStrokesHeld?.Clear();
+            SendResetDrawing();
         }
 
         /// <summary>
@@ -451,6 +466,11 @@ namespace PolyPaint.ViewModels
         private void SendRemoveStroke(string[] removed, StrokeCollection added = null)
         {
             Messenger?.SendEditorActionReplaceStroke(removed, added);
+        }
+
+        private void SendResetDrawing()
+        {
+            Messenger?.SendEditorActionResetDrawing();
         }
 
         private void SubscribeDrawingRoom()
