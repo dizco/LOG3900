@@ -88,6 +88,8 @@ namespace PolyPaint.ViewModels
             private set => _createPasswordProtectedDrawing = value;
         }
 
+        public string LockColor => CreatePasswordProtectedDrawing ? "#FF2B3ACF" : "#FFB3B3B3";
+
         public RelayCommand<object> GalleryCommand { get; set; }
         public RelayCommand<object> GoToOnlineDrawingSubMenuCommand { get; set; }
         public RelayCommand<object> JoinDrawingCommand { get; set; }
@@ -139,6 +141,7 @@ namespace PolyPaint.ViewModels
             CreatePasswordProtectedDrawing = !CreatePasswordProtectedDrawing;
             OnPropertyChanged("ProtectionStatusString");
             OnPropertyChanged("CreatePasswordProtectedDrawing");
+            OnPropertyChanged("LockColor");
         }
 
         private bool IsOnline(object obj)

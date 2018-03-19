@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json.Linq;
@@ -94,7 +95,7 @@ namespace PolyPaint.Models
         {
             AutosavedDrawings.Clear();
             StrokeEditor.FetchAutosavedDrawings()?.ToList()
-                  .ForEach(drawing => AutosavedDrawings.Add(StrokeEditor.AutosaveFileNameToString(drawing)));
+                        .ForEach(drawing => AutosavedDrawings.Add(StrokeEditor.AutosaveFileNameToString(drawing)));
         }
 
         internal void SearchTextChangedHandlers(string keyword)
@@ -141,17 +142,44 @@ namespace PolyPaint.Models
                     }
                     catch
                     {
-                        UserAlerts.ShowErrorMessage("Le dessin sera créer en mode hors ligne");
+                        UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne");
+                        CreateNewOfflineDrawing(drawingName, option);
+                    }
+                }
+                else if (response.StatusCode == (HttpStatusCode) 422)
+                {
+                    try
+                    {
+                        JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+                        List<Dictionary<string, object>> hints =
+                            content.GetValue("hints").ToObject<List<Dictionary<string, object>>>();
+                        string hintMessages = null;
+                        foreach (Dictionary<string, object> hint in hints)
+                        {
+                            hintMessages += hint["msg"];
+                            if (hint != hints.Last())
+                            {
+                                hintMessages += "\n";
+                            }
+                        }
+
+                        UserAlerts.ShowErrorMessage(hintMessages);
+                    }
+                    catch
+                    {
+                        UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne");
                         CreateNewOfflineDrawing(drawingName, option);
                     }
                 }
                 else
                 {
+                    UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne");
                     CreateNewOfflineDrawing(drawingName, option);
                 }
             }
             else
             {
+                UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne");
                 CreateNewOfflineDrawing(drawingName, option);
             }
         }

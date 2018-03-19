@@ -59,7 +59,7 @@
             <Label Content="Mode d'édition" Margin="66,0,66,370" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
             <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="66,0,66,326" FontSize="18" Height="39" VerticalAlignment="Bottom"/>
             <Label Content="Protection" Margin="66,0,66,288" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
-            <Button Command="{Binding ToggleNewDrawingProtection}" Content="{Binding ProtectionStatusString}" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,245,310,250" Width="40"/>
+            <Button Command="{Binding ToggleNewDrawingProtection}" Content="{Binding ProtectionStatusString}" HorizontalAlignment="Center" Background="{Binding LockColor}" FontWeight="Bold" Foreground="White" FontSize="18" Margin="66,245,310,250" Width="40"/>
             <PasswordBox x:Name="DrawingPasswordBox" FontSize="18" Margin="111,244,66,250" IsEnabled="{Binding CreatePasswordProtectedDrawing}"/>
         </Grid>
         <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding MainMenuVisibility}">
