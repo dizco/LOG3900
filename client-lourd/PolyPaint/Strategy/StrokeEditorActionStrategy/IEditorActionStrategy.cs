@@ -1,6 +1,6 @@
 ﻿using PolyPaint.Models;
 
-namespace PolyPaint.Strategy.EditorActionStrategy
+namespace PolyPaint.Strategy.StrokeEditorActionStrategy
 {
     internal interface IEditorActionStrategy
     {

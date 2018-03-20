@@ -82,10 +82,10 @@ namespace PolyPaint.ViewModels
         }
 
         /// <summary>
-        ///     EditorActionReceived event is available for the editor to declare it's own EventHandler in order to process
+        ///     StrokeEditorActionReceived event is available for the editor to declare it's own EventHandler in order to process
         ///     incoming EditorActions from the server. The event is raised by the SocketHandler class
         /// </summary>
-        protected static event EventHandler<EditorActionModel> EditorActionReceived;
+        protected static event EventHandler<StrokeEditorActionModel> StrokeEditorActionReceived;
 
         /// <summary>
         ///     Raises event once the WebSocket is connected to refresh bindings that depend on it (HomeMenu)
@@ -116,7 +116,7 @@ namespace PolyPaint.ViewModels
             {
                 SocketHandler socketHandler = new SocketHandler(uri, cookies);
                 socketHandler.ChatMessageReceived += OnChatMessageReceived;
-                socketHandler.EditorActionReceived += OnEditorActionReceived;
+                socketHandler.StrokeEditorActionReceived += OnStrokeEditorActionReceived;
                 socketHandler.WebSocketConnectedEvent += OnWebSocketConnected;
                 socketHandler.WebSocketDisconnectedEvent += OnWebSocketDisconnected;
                 _messenger = new Messenger(socketHandler);
@@ -161,9 +161,9 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        public static void OnEditorActionReceived(object sender, EditorActionModel editorActionModel)
+        public static void OnStrokeEditorActionReceived(object sender, StrokeEditorActionModel strokeEditorActionModel)
         {
-            EditorActionReceived?.Invoke(sender, editorActionModel);
+            StrokeEditorActionReceived?.Invoke(sender, strokeEditorActionModel);
         }
 
         public static void OnWebSocketConnected(object sender, EventArgs e)

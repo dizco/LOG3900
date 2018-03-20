@@ -3,13 +3,13 @@ using System.Windows.Threading;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 
-namespace PolyPaint.Strategy.EditorActionStrategy
+namespace PolyPaint.Strategy.StrokeEditorActionStrategy
 {
     internal class EditorActionResetStrategy : IEditorActionStrategy
     {
-        private readonly EditorActionModel _resetAction;
+        private readonly StrokeEditorActionModel _resetAction;
 
-        public EditorActionResetStrategy(EditorActionModel action)
+        public EditorActionResetStrategy(StrokeEditorActionModel action)
         {
             _resetAction = action;
         }

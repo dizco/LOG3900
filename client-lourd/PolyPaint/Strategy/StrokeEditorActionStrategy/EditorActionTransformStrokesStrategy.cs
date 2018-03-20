@@ -5,13 +5,13 @@ using PolyPaint.Helpers.Communication;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 
-namespace PolyPaint.Strategy.EditorActionStrategy
+namespace PolyPaint.Strategy.StrokeEditorActionStrategy
 {
     internal class EditorActionTransformStrokesStrategy : IEditorActionStrategy
     {
-        private readonly EditorActionModel _transformStrokeAction;
+        private readonly StrokeEditorActionModel _transformStrokeAction;
 
-        public EditorActionTransformStrokesStrategy(EditorActionModel action)
+        public EditorActionTransformStrokesStrategy(StrokeEditorActionModel action)
         {
             _transformStrokeAction = action;
         }

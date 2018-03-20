@@ -119,31 +119,45 @@ namespace PolyPaint.Helpers.Communication
         }
 
         /// <summary>
-        ///     Sends the action to the server if the drawing is an online drawing (has a DrawingId)
+        ///     Sends the strokeAction to the server if the drawing is an online drawing (has a DrawingId)
         /// </summary>
-        /// <param name="actionSerialized">Serialized action to send to the server</param>
+        /// <param name="actionSerialized">Serialized strokeAction to send to the server</param>
         /// <returns>Boolean representing sent status.</returns>
         private bool SendDrawingAction(string actionSerialized)
         {
             return DrawingRoomId != null && _socketHandler.SendMessage(actionSerialized);
         }
 
-        private EditorActionModel BuildOutgoingAction(ActionIds action)
+        private StrokeEditorActionModel BuildOutgoingStrokeAction(StrokeActionIds strokeAction)
         {
-            return new EditorActionModel
+            return new StrokeEditorActionModel
             {
-                Type = JsonConstantStrings.TypeEditorActionOutgoingValue,
+                Type = JsonConstantStrings.TypeStrokeEditorActionOutgoingValue,
                 Drawing = new DrawingModel {Id = DrawingRoomId},
                 Action = new StrokeActionModel
                 {
-                    Id = (int) action,
-                    Name = Enum.GetName(typeof(ActionIds), action)
+                    Id = (int) strokeAction,
+                    Name = Enum.GetName(typeof(StrokeActionIds), strokeAction)
+                }
+            };
+        }
+
+        private PixelEditorActionModel BuildOutgoingPixelAction(PixelActionIds action)
+        {
+            return new PixelEditorActionModel
+            {
+                Type = JsonConstantStrings.TypePixelEditorActionOutgoingValue,
+                Drawing = new DrawingModel { Id = DrawingRoomId},
+                Action = new PixelActionModel
+                {
+                    Id = (int)action,
+                    Name = Enum.GetName(typeof(PixelActionIds), action)
                 }
             };
         }
 
         /// <summary>
-        ///     Builds an EditorActionModel for a new stroke and sends it to the server
+        ///     Builds an StrokeEditorActionModel for a new stroke and sends it to the server
         /// </summary>
         /// <param name="stroke">Newly added stroke</param>
         /// <returns>Stringified JSON object if sending was successful, else returns an empty string</returns>
@@ -151,7 +165,7 @@ namespace PolyPaint.Helpers.Communication
         {
             if (stroke != null)
             {
-                EditorActionModel outgoingNewStrokeAction = BuildOutgoingAction(ActionIds.NewStroke);
+                StrokeEditorActionModel outgoingNewStrokeAction = BuildOutgoingStrokeAction(StrokeActionIds.NewStroke);
                 outgoingNewStrokeAction.Delta = new DeltaModel
                 {
                     Add = new[]
@@ -186,7 +200,7 @@ namespace PolyPaint.Helpers.Communication
         }
 
         /// <summary>
-        ///     Builds an EditorActionModel for a stroke that was stacked by the current user and sends the action to the server
+        ///     Builds an StrokeEditorActionModel for a stroke that was stacked by the current user and sends the strokeAction to the server
         /// </summary>
         /// <param name="stroke">Stroke that has just been put on the stack</param>
         /// <returns>Stringified JSON object if sending was successful, else returns an empty string</returns>
@@ -199,7 +213,7 @@ namespace PolyPaint.Helpers.Communication
         {
             if (remove.Length > 0)
             {
-                EditorActionModel outgoingRemoveStrokeAction = BuildOutgoingAction(ActionIds.ReplaceStroke);
+                StrokeEditorActionModel outgoingRemoveStrokeAction = BuildOutgoingStrokeAction(StrokeActionIds.ReplaceStroke);
 
                 outgoingRemoveStrokeAction.Delta = new DeltaModel
                 {
@@ -234,19 +248,19 @@ namespace PolyPaint.Helpers.Communication
 
         internal string SendEditorActionLockStrokes(List<string> strokes)
         {
-            return SendEditorActionLockUnlockStrokes(strokes, ActionIds.LockStrokes);
+            return SendEditorActionLockUnlockStrokes(strokes, StrokeActionIds.LockStrokes);
         }
 
         internal string SendEditorActionUnlockStrokes(List<string> strokes)
         {
-            return SendEditorActionLockUnlockStrokes(strokes, ActionIds.UnlockStrokes);
+            return SendEditorActionLockUnlockStrokes(strokes, StrokeActionIds.UnlockStrokes);
         }
 
-        private string SendEditorActionLockUnlockStrokes(List<string> strokes, ActionIds action)
+        private string SendEditorActionLockUnlockStrokes(List<string> strokes, StrokeActionIds strokeAction)
         {
-            if (strokes?.Count > 0 && (action == ActionIds.LockStrokes || action == ActionIds.UnlockStrokes))
+            if (strokes?.Count > 0 && (strokeAction == StrokeActionIds.LockStrokes || strokeAction == StrokeActionIds.UnlockStrokes))
             {
-                EditorActionModel outgoingLockStrokesAction = BuildOutgoingAction(action);
+                StrokeEditorActionModel outgoingLockStrokesAction = BuildOutgoingStrokeAction(strokeAction);
 
                 outgoingLockStrokesAction.Delta = new DeltaModel
                 {
@@ -270,7 +284,7 @@ namespace PolyPaint.Helpers.Communication
         {
             if (strokes.Count > 0)
             {
-                EditorActionModel outgoingTransformStrokesAction = BuildOutgoingAction(ActionIds.Transform);
+                StrokeEditorActionModel outgoingTransformStrokesAction = BuildOutgoingStrokeAction(StrokeActionIds.Transform);
 
                 outgoingTransformStrokesAction.Delta = new DeltaModel
                 {
@@ -304,7 +318,7 @@ namespace PolyPaint.Helpers.Communication
 
         internal string SendEditorActionResetDrawing()
         {
-            EditorActionModel outgoingResetAction = BuildOutgoingAction(ActionIds.Reset);
+            StrokeEditorActionModel outgoingResetAction = BuildOutgoingStrokeAction(StrokeActionIds.Reset);
             outgoingResetAction.Delta = new DeltaModel();
 
             string actionSerialized = JsonConvert.SerializeObject(outgoingResetAction);

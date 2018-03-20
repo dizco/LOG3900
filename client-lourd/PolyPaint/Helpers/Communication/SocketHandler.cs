@@ -54,7 +54,7 @@ namespace PolyPaint.Helpers.Communication
         }
 
         public event EventHandler<ChatMessageModel> ChatMessageReceived;
-        public event EventHandler<EditorActionModel> EditorActionReceived;
+        public event EventHandler<StrokeEditorActionModel> StrokeEditorActionReceived;
         public event EventHandler<int> WebSocketDisconnectedEvent;
         public event EventHandler WebSocketConnectedEvent;
 
@@ -76,9 +76,9 @@ namespace PolyPaint.Helpers.Communication
             {
                 OnChatMessageReceived(e.Message);
             }
-            else if (type == JsonConstantStrings.TypeEditorActionIncomingValue)
+            else if (type == JsonConstantStrings.TypeStrokeEditorActionIncomingValue)
             {
-                OnEditorActionReceived(e.Message);
+                OnStrokeEditorActionReceived(e.Message);
             }
         }
 
@@ -103,10 +103,10 @@ namespace PolyPaint.Helpers.Communication
             ChatMessageReceived?.Invoke(this, messageDeserialized);
         }
 
-        public void OnEditorActionReceived(string e)
+        public void OnStrokeEditorActionReceived(string e)
         {
-            EditorActionModel actionDeserialized = JsonConvert.DeserializeObject<EditorActionModel>(e);
-            EditorActionReceived?.Invoke(this, actionDeserialized);
+            StrokeEditorActionModel actionDeserialized = JsonConvert.DeserializeObject<StrokeEditorActionModel>(e);
+            StrokeEditorActionReceived?.Invoke(this, actionDeserialized);
         }
 
         public void WebSocketDisconnected(int e)

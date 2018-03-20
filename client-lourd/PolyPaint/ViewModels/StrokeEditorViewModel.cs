@@ -15,7 +15,7 @@ using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
-using PolyPaint.Strategy.EditorActionStrategy;
+using PolyPaint.Strategy.StrokeEditorActionStrategy;
 using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels
@@ -92,7 +92,7 @@ namespace PolyPaint.ViewModels
 
             LoginStatusChanged += ProcessLoginStatusChange;
 
-            EditorActionReceived += ProcessReceivedEditorAction;
+            StrokeEditorActionReceived += ProcessReceivedStrokeEditorAction;
 
             ChangeEditorChatDisplayState += ChatDisplayStateChanged;
         }
@@ -227,7 +227,7 @@ namespace PolyPaint.ViewModels
 
         public void Dispose()
         {
-            EditorActionReceived -= ProcessReceivedEditorAction;
+            StrokeEditorActionReceived -= ProcessReceivedStrokeEditorAction;
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
         }
@@ -245,7 +245,7 @@ namespace PolyPaint.ViewModels
             _editor.CurrentUsername = username;
         }
 
-        private void ProcessReceivedEditorAction(object sender, EditorActionModel e)
+        private void ProcessReceivedStrokeEditorAction(object sender, StrokeEditorActionModel e)
         {
             EditorActionStrategyContext context = new EditorActionStrategyContext(e);
             context.ExecuteStrategy(_editor);
