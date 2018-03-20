@@ -36,7 +36,7 @@ namespace PolyPaint.Models.MessagingModels
     public class PixelsModel
     {
         [JsonProperty(PropertyName = "pixels")]
-        public PixelModel[] Dots { get; set; }
+        public PixelModel[] Pixels { get; set; }
     }
 
     public class PixelModel

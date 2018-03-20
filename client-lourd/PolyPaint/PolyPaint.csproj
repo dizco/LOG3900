@@ -131,6 +131,8 @@
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Models\MessagingModels\SubscriptionMessageModel.cs" />
+    <Compile Include="Strategy\PixelEditorActionStrategy\EditorActionStrategyContext.cs" />
+    <Compile Include="Strategy\PixelEditorActionStrategy\IEditorActionStrategy.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionResetStrategy.cs" />
     <Compile Include="ViewModels\PixelEditorViewModel.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
@@ -164,7 +166,7 @@
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionReplaceStrokeStrategy.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionStrategyContext.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\IEditorActionStrategy.cs" />
-    <Compile Include="Strategy\StrokeEditorActionStrategy\InvalidActionStrategyException.cs" />
+    <Compile Include="Strategy\InvalidActionStrategyException.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\StrokeEditorViewModel.cs" />
