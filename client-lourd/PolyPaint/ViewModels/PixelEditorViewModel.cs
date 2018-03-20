@@ -153,5 +153,10 @@ namespace PolyPaint.ViewModels
                 ChatWindow.Activate();
             }
         }
+
+        internal void SendNewPixels(List<Tuple<Point, string>> pixels)
+        {
+            Messenger?.SendEditorActionNewPixels(pixels);
+        }
     }
 }
