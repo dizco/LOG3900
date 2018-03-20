@@ -432,7 +432,7 @@ namespace PolyPaint.Models
             }
             catch (Exception e)
             {
-                UserAlerts.ShowErrorMessage("Une erreure est survenue lors de l'ouverture du fichier. Exception #" +
+                UserAlerts.ShowErrorMessage("Une erreur est survenue lors de l'ouverture du fichier. Exception #" +
                                             e.HResult);
             }
             finally

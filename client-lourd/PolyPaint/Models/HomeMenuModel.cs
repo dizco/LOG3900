@@ -242,7 +242,7 @@ namespace PolyPaint.Models
                 }
                 catch
                 {
-                    UserAlerts.ShowErrorMessage("Une erreure est survenue");
+                    UserAlerts.ShowErrorMessage("Une erreur est survenue");
                 }
             }
             else
@@ -293,7 +293,7 @@ namespace PolyPaint.Models
                 return;
             }
 
-            UserAlerts.ShowErrorMessage(responseJson?.GetValue("error")?.ToString() ?? "Une erreure est survenue");
+            UserAlerts.ShowErrorMessage(responseJson?.GetValue("error")?.ToString() ?? "Une erreur est survenue");
         }
     }
 }
