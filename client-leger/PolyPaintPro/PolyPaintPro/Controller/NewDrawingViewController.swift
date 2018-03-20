@@ -39,7 +39,7 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
         }
     }
 
-    //these 4 functions are required for the uipicker to work properly
+    //Mark: - UIPickerView
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
