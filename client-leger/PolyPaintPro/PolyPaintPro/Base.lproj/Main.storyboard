@@ -733,7 +733,7 @@
                                             <action selector="penButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="rRv-DS-LeG"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ER-3K-E37" userLabel="eraser">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ER-3K-E37" userLabel="strokeEraser">
                                         <rect key="frame" x="10" y="46" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8ER-3K-E37" secondAttribute="height" multiplier="283:256" id="orC-JS-vOa"/>
@@ -744,12 +744,12 @@
                                             <action selector="eraseButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="uEt-FJ-VDV"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-tt-sia" userLabel="cut">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-tt-sia" userLabel="segmentEraser">
                                         <rect key="frame" x="10" y="81" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="OYV-tt-sia" secondAttribute="height" multiplier="283:256" id="b4Z-ek-F2J"/>
                                         </constraints>
-                                        <state key="normal" title="Button" image="cut"/>
+                                        <state key="normal" title="Button" image="horizontalLine"/>
                                         <connections>
                                             <action selector="cutButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="6Z9-F4-Cee"/>
                                             <action selector="cutButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="8aB-xC-f9b"/>
@@ -851,13 +851,13 @@
                                     <constraint firstAttribute="trailing" secondItem="2dV-YF-BCM" secondAttribute="trailing" constant="10" id="zJd-my-nXq"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="cutButton" destination="OYV-tt-sia" id="2uO-wC-nbx"/>
-                                    <outlet property="eraseButton" destination="8ER-3K-E37" id="TlJ-ji-fg3"/>
                                     <outlet property="pasteButton" destination="1qG-cl-27P" id="eyf-Qe-Rk2"/>
                                     <outlet property="penButton" destination="Ih2-5F-A0e" id="4iH-Zg-vMk"/>
                                     <outlet property="resetButton" destination="hwV-9L-yEa" id="8e6-DZ-8gH"/>
+                                    <outlet property="segmentEraseButton" destination="OYV-tt-sia" id="2uO-wC-nbx"/>
                                     <outlet property="settingsButton" destination="EGC-wv-nF6" id="Bdg-GD-2yj"/>
                                     <outlet property="stackButton" destination="2dV-YF-BCM" id="KDf-N9-Wfe"/>
+                                    <outlet property="strokeEraseButton" destination="8ER-3K-E37" id="TlJ-ji-fg3"/>
                                     <outlet property="unstackButton" destination="rgU-f3-qdr" id="051-5z-4t5"/>
                                 </connections>
                             </view>
@@ -1635,7 +1635,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="77Q-0h-Sdk" secondAttribute="height" multiplier="283:256" id="Xqr-gW-LVy"/>
                                         </constraints>
-                                        <state key="normal" title="Button" image="cut"/>
+                                        <state key="normal" title="Button" image="horizontalLine"/>
                                         <connections>
                                             <action selector="cutButton:" destination="brS-fH-NQP" eventType="touchUpInside" id="jre-fX-PTs"/>
                                             <action selector="cutButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="mdQ-2f-NjH"/>
@@ -1743,13 +1743,13 @@
                                     <constraint firstItem="77Q-0h-Sdk" firstAttribute="leading" secondItem="hDU-do-IRe" secondAttribute="leading" constant="10" id="yhV-2J-tJf"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="cutButton" destination="77Q-0h-Sdk" id="Nm5-dq-hQP"/>
-                                    <outlet property="eraseButton" destination="vFa-Lz-Cu7" id="uJy-nY-eDP"/>
                                     <outlet property="pasteButton" destination="z4c-5Y-Rfv" id="EHR-ah-Zc3"/>
                                     <outlet property="penButton" destination="69y-11-593" id="nD9-T8-zji"/>
                                     <outlet property="resetButton" destination="5hs-cc-hF4" id="dbE-d2-OMB"/>
+                                    <outlet property="segmentEraseButton" destination="77Q-0h-Sdk" id="Nm5-dq-hQP"/>
                                     <outlet property="settingsButton" destination="mN5-dm-UBk" id="9En-iK-AdP"/>
                                     <outlet property="stackButton" destination="h7Q-eg-YF6" id="fuX-PK-sb0"/>
+                                    <outlet property="strokeEraseButton" destination="vFa-Lz-Cu7" id="uJy-nY-eDP"/>
                                     <outlet property="unstackButton" destination="O13-zJ-Ybm" id="r8l-5G-oi7"/>
                                 </connections>
                             </view>
@@ -1810,7 +1810,6 @@
     <resources>
         <image name="background_corrected" width="1600" height="1200"/>
         <image name="circle" width="260" height="260"/>
-        <image name="cut" width="512" height="512"/>
         <image name="duplicate" width="512" height="512"/>
         <image name="eraser" width="512" height="512"/>
         <image name="horizontalLine" width="260" height="260"/>
