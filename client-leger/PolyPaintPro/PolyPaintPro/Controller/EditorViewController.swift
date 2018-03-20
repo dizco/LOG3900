@@ -47,6 +47,14 @@ class EditorViewController: UIViewController, SocketManagerDelegate, UITextField
             SocketManager.sharedInstance.delegate = self
         }
 
+        let leftSwipe = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwiped))
+        leftSwipe.edges = .left
+        view.addGestureRecognizer(leftSwipe)
+
+        let rightSwipe = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(rightEdgeSwiped))
+        rightSwipe.edges = .right
+        view.addGestureRecognizer(rightSwipe)
+
         drawingSettingsView.redField.delegate = self
         drawingSettingsView.greenField.delegate = self
         drawingSettingsView.blueField.delegate = self
@@ -170,12 +178,12 @@ class EditorViewController: UIViewController, SocketManagerDelegate, UITextField
             }
 
             var startString = ""
-            if (textField.text != nil) {
+            if textField.text != nil {
                 startString += textField.text!
             }
             startString += string
             var limitNumber: Int = Int(startString)!
-            if (limitNumber < 0) {
+            if limitNumber < 0 {
                 return false
             }
             if limitNumber > maxTextFieldValue {
@@ -195,12 +203,26 @@ class EditorViewController: UIViewController, SocketManagerDelegate, UITextField
                     drawingSettingsView.sizeField.text! = String(maxTextFieldValue)
                 }
                 return false
-            }
-            else {
+            } else {
                 return true
             }
         } else {
             return false
+        }
+    }
+
+    @objc func leftEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            toolsToggleFn()
+            drawingSettingsFn()
+        }
+    }
+
+    @objc func rightEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            if connectionStatus {
+                chatToggleFn()
+            }
         }
     }
 }
