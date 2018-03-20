@@ -1,3 +1,5 @@
+import { default as chalk } from "chalk";
+
 //Inspired by https://stackoverflow.com/a/14551263/6316091
 export class ProcessTimer {
     private static readonly PRECISION = 3;
@@ -26,8 +28,8 @@ export class ProcessTimer {
      */
     public print(operation?: string): void {
         if (process.env.NODE_ENV === "development") {
-            operation = (operation) ? "- " + operation : "";
-            console.log(`Operations took ${this.getElapsedTime()} ms ${operation}`);
+            operation = (operation) ? operation : "";
+            console.log(`${chalk.cyan("[ProcessTimer]")} ${operation} - ${this.getElapsedTime()} ms`);
         }
     }
 }
