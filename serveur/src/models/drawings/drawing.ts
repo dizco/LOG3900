@@ -5,6 +5,7 @@ import * as mongoosePaginate from "mongoose-paginate";
 import * as bcrypt from "bcrypt-nodejs";
 import { NextFunction } from "express";
 import { WebSocketServer } from "../../websockets/websocket-server";
+import { Stroke } from "./stroke";
 
 const USERS_LIMIT_PER_DRAWING = 4;
 let wss: WebSocketServer;
@@ -15,6 +16,7 @@ export function setWss(wssInstance: WebSocketServer): void {
 
 interface DrawingInterface extends DrawingAttributes {
     actions?: ServerEditorAction[];
+    strokes: Stroke[];
 }
 
 export type DrawingModel = mongoose.Document & DrawingInterface;
@@ -24,7 +26,12 @@ const drawingSchema = new mongoose.Schema({
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     visibility: { type: String, enum: ["public", "private"], default: "public" },
     protection: { active: { type: Boolean, default: false }, password: { type: String, default: "" } },
-    actions: [{ actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, timestamp: Number }],
+    actions: [{ _id: false, actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, timestamp: Number }],
+    strokes: [{ _id: false,
+                strokeUuid: String,
+                strokeAttributes: { _id: false, color: String, height: Number, width: Number, stylusTip: String },
+                dots: [{ _id: false, x: Number, y: Number }],
+    }],
 }, { timestamps: true });
 drawingSchema.plugin(mongoosePaginate);
 
