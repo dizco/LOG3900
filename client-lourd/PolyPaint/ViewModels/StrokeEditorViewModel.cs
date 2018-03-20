@@ -471,6 +471,7 @@ namespace PolyPaint.ViewModels
         private void SendResetDrawing()
         {
             Messenger?.SendEditorActionResetDrawing();
+            EditorActionReplaceStrokeStrategy.DrawingReset();
         }
 
         private void SubscribeDrawingRoom()

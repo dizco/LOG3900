@@ -63,6 +63,15 @@ namespace PolyPaint.Strategy.EditorActionStrategy
         }
 
         /// <summary>
+        ///     Empties the dictionnary so that, if the strategy is mid-execution in replacing strokes caused by the erratic
+        ///     behavior of the segment eraser, the execution is stopped without killing the thread
+        /// </summary>
+        public static void DrawingReset()
+        {
+            ReceivedReplaceActions?.Clear();
+        }
+
+        /// <summary>
         ///     To insure sync between clients, all received ReplaceStroke actions are placed in a Dictionary. This is currently
         ///     necessary since actions are not received in the order in which they are sent in
         ///     The function will iterate over the Dictionary of received actions until it is empty.

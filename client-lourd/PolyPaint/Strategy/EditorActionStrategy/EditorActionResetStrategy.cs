@@ -26,6 +26,7 @@ namespace PolyPaint.Strategy.EditorActionStrategy
             {
                 editor.Reset(null);
                 editor.OnResetStrokeActionReceived();
+                EditorActionReplaceStrokeStrategy.DrawingReset();
             });
         }
     }
