@@ -111,6 +111,10 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
 
 function handlePasswordProtectedDrawing(drawing: any, req: Request, res: Response, next: NextFunction) {
     drawing = <DrawingModel>drawing;
+    if (drawing.owner.id === req.user.id) {
+        console.log(`Bypassing drawing (id ${drawing.id}) password validation because user is owner.`);
+        return res.json(drawing.toObject({ versionKey: false }));
+    }
     if (req.headers[DrawingFields.ProtectionPassword] !== undefined) {
         drawing.comparePassword(req.headers[DrawingFields.ProtectionPassword], (err: Error, isMatch: boolean) => {
             if (err) {
