@@ -4,6 +4,7 @@ import { PaginateResult } from "mongoose";
 
 const enum DrawingFields {
     Name = "name",
+    Visibility = "visibility",
     ProtectionActive = "protection-active",
     ProtectionPassword = "protection-password",
 }
@@ -21,7 +22,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const options = {
-        select: "name protection",
+        select: "name protection visibility",
         populate: [
             { path: "owner", select: "username" },
             ],
@@ -47,6 +48,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
  */
 export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
     req.checkBody(DrawingFields.Name, "Drawing name cannot be empty").notEmpty();
+    validateVisibilityParameters(req);
     validateProtectionParameters(req);
 
     const errors = req.validationErrors();
@@ -58,6 +60,7 @@ export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
     const drawing = new Drawing({
         name: req.body[DrawingFields.Name],
         owner: req.user,
+        visibility: req.body[DrawingFields.Visibility],
         protection: {
             active: protectionParameterIsActive(req),
             password: req.body[DrawingFields.ProtectionPassword],
@@ -157,6 +160,7 @@ export let getDrawingActions = (req: Request, res: Response, next: NextFunction)
 export let patchDrawing = (req: Request, res: Response, next: NextFunction) => {
     req.checkParams("id", "Drawing id cannot be empty").notEmpty();
     req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
+    validateVisibilityParameters(req);
     validateProtectionParameters(req);
 
     const errors = req.validationErrors();
@@ -192,12 +196,19 @@ function buildUpdateFields(req: Request): any {
             password: password,
         };
     }
+    if (req.body[DrawingFields.Visibility] !== undefined) {
+        fields.visibility = req.body[DrawingFields.Visibility];
+    }
     return fields;
+}
+
+function validateVisibilityParameters(req: Request): void {
+    req.checkBody(DrawingFields.Visibility, "Visibility must be 'private' or 'public'").optional().isIn(["public", "private"]);
 }
 
 function validateProtectionParameters(req: Request): void {
     req.checkBody(DrawingFields.ProtectionActive, "Protection active must be a boolean").optional().isBoolean();
-    if (req.body[DrawingFields.ProtectionActive]) {
+    if (protectionParameterIsActive(req)) {
         req.checkBody(DrawingFields.ProtectionPassword, "Protection password must be at least 5 characters long").len({ min: 5 });
     }
 }
