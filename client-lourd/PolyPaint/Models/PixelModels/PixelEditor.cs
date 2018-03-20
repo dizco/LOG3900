@@ -103,13 +103,7 @@ namespace PolyPaint.Models.PixelModels
             }
         }
 
-        // TODO: This override may not be necessary
-        public void DrawPixel(Point pixelPosition, string pixelColor)
-        {
-            DrawPixel((int)pixelPosition.X, (int)pixelPosition.Y, pixelColor);
-        }
-
-        public void DrawPixel(int x, int y, string pixelColor)
+        public void DrawIncomingPixel(int x, int y, string pixelColor)
         {
             WriteableBitmap.SetPixel(x, y, (Color) ColorConverter.ConvertFromString(pixelColor));
         }

@@ -14,7 +14,7 @@ namespace PolyPaint.Models.MessagingModels
         public DrawingModel Drawing { get; set; }
 
         [JsonProperty(PropertyName = "pixels")]
-        public PixelsModel Pixels { get; set; }
+        public PixelModel[] Pixels { get; set; }
     }
 
     public class PixelActionModel
@@ -31,12 +31,6 @@ namespace PolyPaint.Models.MessagingModels
         NewPixels = 1,
         Lock,
         Unlock
-    }
-
-    public class PixelsModel
-    {
-        [JsonProperty(PropertyName = "pixels")]
-        public PixelModel[] Pixels { get; set; }
     }
 
     public class PixelModel
