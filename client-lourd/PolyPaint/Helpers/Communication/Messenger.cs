@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Linq;
+using System.Windows;
 using System.Windows.Ink;
 using Newtonsoft.Json;
 using PolyPaint.Constants;
@@ -335,12 +335,13 @@ namespace PolyPaint.Helpers.Communication
         {
             PixelEditorActionModel outgoingNewPixels = BuildOutgoingPixelAction(PixelActionIds.NewPixels);
 
-            outgoingNewPixels.Pixels = new PixelsModel
-            {
-                Pixels = newPixels
-                         .Select(pixel => new PixelModel {X = pixel.Item1.X, Y = pixel.Item1.Y, Color = pixel.Item2})
-                         .ToArray()
-            };
+            outgoingNewPixels.Pixels = newPixels
+                                       .Select(pixel => new PixelModel
+                                       {
+                                           X = pixel.Item1.X,
+                                           Y = pixel.Item1.Y,
+                                           Color = pixel.Item2
+                                       }).ToArray();
 
             string actionSerialized = JsonConvert.SerializeObject(outgoingNewPixels);
 

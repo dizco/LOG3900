@@ -131,6 +131,7 @@
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Models\MessagingModels\SubscriptionMessageModel.cs" />
+    <Compile Include="Strategy\PixelEditorActionStrategy\EditorActionNewPixelStrategy.cs" />
     <Compile Include="Strategy\PixelEditorActionStrategy\EditorActionStrategyContext.cs" />
     <Compile Include="Strategy\PixelEditorActionStrategy\IEditorActionStrategy.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionResetStrategy.cs" />

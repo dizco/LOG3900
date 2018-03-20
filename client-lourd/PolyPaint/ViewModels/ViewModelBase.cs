@@ -83,9 +83,15 @@ namespace PolyPaint.ViewModels
 
         /// <summary>
         ///     StrokeEditorActionReceived event is available for the editor to declare it's own EventHandler in order to process
-        ///     incoming EditorActions from the server. The event is raised by the SocketHandler class
+        ///     incoming StrokeEditorActions from the server. The event is raised by the SocketHandler class
         /// </summary>
         protected static event EventHandler<StrokeEditorActionModel> StrokeEditorActionReceived;
+
+        /// <summary>
+        ///     PixelEditorActionReceived event is available for the editor to declare it's own EventHandler in order to process
+        ///     incoming PixelEditorActions from the server. The event is raised by the SocketHandler class
+        /// </summary>
+        protected static event EventHandler<PixelEditorActionModel> PixelEditorActionReceived;
 
         /// <summary>
         ///     Raises event once the WebSocket is connected to refresh bindings that depend on it (HomeMenu)
@@ -117,6 +123,7 @@ namespace PolyPaint.ViewModels
                 SocketHandler socketHandler = new SocketHandler(uri, cookies);
                 socketHandler.ChatMessageReceived += OnChatMessageReceived;
                 socketHandler.StrokeEditorActionReceived += OnStrokeEditorActionReceived;
+                socketHandler.PixelEditorActionReceived += OnPixelEditorActionReceived;
                 socketHandler.WebSocketConnectedEvent += OnWebSocketConnected;
                 socketHandler.WebSocketDisconnectedEvent += OnWebSocketDisconnected;
                 _messenger = new Messenger(socketHandler);
@@ -164,6 +171,11 @@ namespace PolyPaint.ViewModels
         public static void OnStrokeEditorActionReceived(object sender, StrokeEditorActionModel strokeEditorActionModel)
         {
             StrokeEditorActionReceived?.Invoke(sender, strokeEditorActionModel);
+        }
+
+        private static void OnPixelEditorActionReceived(object sender, PixelEditorActionModel pixelEditorActionmodel)
+        {
+            PixelEditorActionReceived?.Invoke(sender, pixelEditorActionmodel);
         }
 
         public static void OnWebSocketConnected(object sender, EventArgs e)
