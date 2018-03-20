@@ -32,11 +32,10 @@ namespace PolyPaint.Models
         /// </summary>
         public event EventHandler<Tuple<string, string, EditingModeOption>> NewDrawingCreated;
 
-        // TODO: Modify this function once server saving protocol is established
         /// <summary>
-        ///     Tuple contains DrawingId, DrawingName, EditingModeOption (Stroke/Pixel) and actions to replay
+        ///     Tuple contains DrawingId, DrawingName, EditingModeOption (Stroke/Pixel) and strokes to replay
         /// </summary>
-        public event EventHandler<Tuple<string, string, EditingModeOption, List<EditorActionModel>>>
+        public event EventHandler<Tuple<string, string, EditingModeOption, List<StrokeModel>>>
             OnlineDrawingJoined;
 
         public event EventHandler<string> OnlineDrawingJoinFailed;
@@ -232,15 +231,14 @@ namespace PolyPaint.Models
                         OnOnlineDrawingJoinFailed($"Impossible d\'ouvrir le dessin. Le nombre maximal d\'éditeurs a été atteint.");
                         return;
                     }
-
-                    // TODO: Modify this function once server saving protocol is established
-                    List<EditorActionModel> editorActionHistory = null;
+                    
+                    List<StrokeModel> strokes = content.GetValue("strokes").ToObject<List<StrokeModel>>();
                     string drawingName = content.GetValue("name").ToString();
 
                     // TODO: Get actual editing mode from drawing info once implemented
                     EditingModeOption option = EditingModeOption.Trait;
 
-                    OnOnlineDrawingJoined(id, drawingName, option, editorActionHistory);
+                    OnOnlineDrawingJoined(id, drawingName, option, strokes);
                 }
                 catch
                 {
@@ -264,11 +262,11 @@ namespace PolyPaint.Models
         }
 
         private void OnOnlineDrawingJoined(string drawingId, string drawingName, EditingModeOption option,
-            List<EditorActionModel> actions)
+            List<StrokeModel> strokes)
         {
-            Tuple<string, string, EditingModeOption, List<EditorActionModel>> drawingParams =
-                new Tuple<string, string, EditingModeOption, List<EditorActionModel>>(drawingId, drawingName, option,
-                                                                                      actions);
+            Tuple<string, string, EditingModeOption, List<StrokeModel>> drawingParams =
+                new Tuple<string, string, EditingModeOption, List<StrokeModel>>(drawingId, drawingName, option,
+                                                                                strokes);
 
             OnlineDrawingJoined?.Invoke(this, drawingParams);
         }

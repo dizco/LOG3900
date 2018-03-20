@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using PolyPaint.CustomComponents;
 using PolyPaint.Helpers;
+using PolyPaint.Helpers.Communication;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Strategy.EditorActionStrategy;
@@ -246,18 +247,17 @@ namespace PolyPaint.ViewModels
             return _editor.DrawShape(start, end);
         }
 
-        // TODO: Modify this function once server saving protocol is established
         /// <summary>
-        ///     Replays all actions to load up the new drawing
+        ///     Loads all strokes from the server
         /// </summary>
-        /// <param name="actions">List of actions to replay</param>
-        internal void ReplayActions(List<EditorActionModel> actions)
+        /// <param name="strokes">List of strokes to rebuild</param>
+        internal void RebuildDrawing(List<StrokeModel> strokes)
         {
-            if (actions == null)
+            foreach (StrokeModel stroke in strokes)
             {
+                CustomStroke newStroke = StrokeHelper.BuildIncomingStroke(stroke, "");
+                _editor.StrokesCollection.Add(newStroke);
             }
-
-            // TODO: Modify this function once server saving protocol is established
         }
 
         /// <summary>

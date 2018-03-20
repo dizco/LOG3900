@@ -337,7 +337,7 @@ namespace PolyPaint.ViewModels
         }
 
         private void OnlineDrawingLoadedHandler(object sender,
-            Tuple<string, string, EditingModeOption, List<EditorActionModel>> drawingParams)
+            Tuple<string, string, EditingModeOption, List<StrokeModel>> drawingParams)
         {
             DrawingRoomId = drawingParams.Item1;
             DrawingName = drawingParams.Item2;
@@ -350,7 +350,7 @@ namespace PolyPaint.ViewModels
         }
 
         private void OpenEditorWindow(EditingModeOption option = EditingModeOption.Trait,
-            List<EditorActionModel> actions = null)
+            List<StrokeModel> strokes = null)
         {
             if (option == EditingModeOption.Trait)
             {
@@ -359,8 +359,11 @@ namespace PolyPaint.ViewModels
                     PixelEditor = null;
                     StrokeEditor = new StrokeEditorView();
                     StrokeEditor.Show();
-                    // TODO: Modify this function once server saving protocol is established
-                    (StrokeEditor.DataContext as StrokeEditorViewModel)?.ReplayActions(actions);
+                    if (strokes != null)
+                    {
+                        (StrokeEditor.DataContext as StrokeEditorViewModel)?.RebuildDrawing(strokes);
+                    }
+
                     StrokeEditor.Closed += OnEditorClosedHandler;
                     OnClosingRequest();
                 }
@@ -373,7 +376,7 @@ namespace PolyPaint.ViewModels
                     PixelEditor = new PixelEditorView();
                     PixelEditor.Show();
                     // TODO: Modify this function once server saving protocol is established
-                    (PixelEditor.DataContext as StrokeEditorViewModel)?.ReplayActions(actions);
+                    //(PixelEditor.DataContext as StrokeEditorViewModel)?.ReplayActions(strokes);
                     PixelEditor.Closed += OnEditorClosedHandler;
                     OnClosingRequest();
                 }
