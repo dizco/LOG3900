@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -10,6 +12,8 @@ namespace PolyPaint.Models.PixelModels
         private Point _newPosition;
 
         private readonly WriteableBitmap _writeableBitmap;
+
+        internal event EventHandler<List<Tuple<Point, string>>> DrewLineEvent;
 
         public Tools(WriteableBitmap writeableBitmap, Point oldPosition, Point newPosition)
         {
@@ -27,16 +31,55 @@ namespace PolyPaint.Models.PixelModels
         /// <param name="isColored"></param>
         public void DrawPixel(int pixelSize, string selectedColor)
         {
+            _drawnPixels.Clear();
             Color color = (Color) ColorConverter.ConvertFromString(selectedColor);
 
             for (int j = 0; j < pixelSize; j++)
             {
                 for (int i = 0; i < pixelSize; i++)
                 {
-                    _writeableBitmap.DrawLine((int) _oldPosition.X - i, (int) _oldPosition.Y - j,
-                                              (int) _newPosition.X - i, (int) _newPosition.Y - j, color);
+                    int x1 = (int)_oldPosition.X - i;
+                    int x2 = (int) _newPosition.X - i;
+                    int y1 = (int)_oldPosition.Y - j;
+                    int y2 = (int)_newPosition.Y - j;
+
+                    _writeableBitmap.DrawLine(x1, y1, x2, y2, color);
+                    GeneratePixels(x1, y1, x2, y2, color);
                 }
             }
+
+            OnDrewLine();
+        }
+
+        private readonly List<Tuple<Point, string>> _drawnPixels = new List<Tuple<Point, string>>();
+
+        private void GeneratePixels(int x1, int y1, int x2, int y2, Color color)
+        {
+            const int doublePrecision = 4;
+
+            int dx = x2 - x1;
+            int dy = y2 - y1;
+
+            int lengthX = dx >= 0 ? dx : -dx;
+            int lengthY = dy >= 0 ? dy : -dy;
+
+            int stepRatio = lengthX > lengthY ? lengthX : lengthY;
+
+            double stepX = Math.Round((double)dx / stepRatio,doublePrecision);
+            double stepY = Math.Round((double)dy / stepRatio,doublePrecision);
+
+            int stepCount = stepRatio == lengthX ? (int)(dx / stepX) : (int)(dy / stepY);
+
+            for (int i = 0; i < stepCount; i++)
+            {
+                Point pixel = new Point(x1 + i * stepX, y1 + i * stepY);
+                _drawnPixels.Add(new Tuple<Point, string>(pixel, color.ToString()));
+            }
+        }
+
+        private void OnDrewLine()
+        {
+            DrewLineEvent?.Invoke(this, _drawnPixels);
         }
     }
 }

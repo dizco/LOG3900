@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -80,15 +81,18 @@ namespace PolyPaint.Models.PixelModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event EventHandler<List<Tuple<Point, string>>> DrewLineEvent;
+
         /// <summary>
         ///     Draw on the writeableBitmap
         ///     Transparant color is put on the bitmap when the eraser is selected
         /// </summary>
         /// <param name="oldPosition"> Position of the mouse before an action </param>
         /// <param name="newPosition"> Position of the mouse after the actions </param>
-        public void PixelDraw(Point oldPosition, Point newPosition)
+        public void DrawPixels(Point oldPosition, Point newPosition)
         {
             Tools tools = new Tools(WriteableBitmap, oldPosition, newPosition);
+            tools.DrewLineEvent += OnDrewLine;
             if (SelectedTool == "pencil")
             {
                 tools.DrawPixel(PixelSize, SelectedColor);
@@ -97,6 +101,17 @@ namespace PolyPaint.Models.PixelModels
             {
                 tools.DrawPixel(PixelSize, "Transparent");
             }
+        }
+
+        // TODO: This override may not be necessary
+        public void DrawPixel(Point pixelPosition, string pixelColor)
+        {
+            DrawPixel((int)pixelPosition.X, (int)pixelPosition.Y, pixelColor);
+        }
+
+        public void DrawPixel(int x, int y, string pixelColor)
+        {
+            WriteableBitmap.SetPixel(x, y, (Color) ColorConverter.ConvertFromString(pixelColor));
         }
 
         /// <summary>
@@ -126,6 +141,11 @@ namespace PolyPaint.Models.PixelModels
         protected void PropertyModified([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void OnDrewLine(object sender, List<Tuple<Point, string>> drawnPixels)
+        {
+            DrewLineEvent?.Invoke(sender, drawnPixels);
         }
 
         /// <summary>
