@@ -52,6 +52,18 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
+    override func viewDidLayoutSubviews() {
+        scrollView.isScrollEnabled = true
+        scrollView.contentSize = CGSize (width: scrollView.contentSize.width, height: 900)
+        scrollView.contentOffset.y = 900 - 768
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nav = segue.destination as? UINavigationController
+        let secondController = nav!.topViewController as? RecentsViewController
+        secondController!.connectionStatus = connectionStatus
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //registerView?.isHidden = true //default view is login
@@ -64,19 +76,6 @@ class LoginViewController: UIViewController {
         self.observeKeyboardNotification()
         loginErrorTextField?.isHidden = true
         registerErrorTextField?.isHidden = true
-    }
-
-    override func viewDidLayoutSubviews() {
-        scrollView.isScrollEnabled = true
-        scrollView.contentSize = CGSize (width: scrollView.contentSize.width, height: 900)
-        scrollView.contentOffset.y = 900 - 768
-        scrollViewDidScroll(scrollView: scrollView)
-    }
-
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.x != 0 {
-            scrollView.contentOffset.x = 0
-        }
     }
 
     // MARK: - Buttons
@@ -97,33 +96,6 @@ class LoginViewController: UIViewController {
         performSegue(withIdentifier: "offline", sender: self)
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nav = segue.destination as? UINavigationController
-        let secondController = nav!.topViewController as? RecentsViewController
-        secondController!.connectionStatus = connectionStatus
-    }
-
-    private func loginToServer(sender: UIButton, username: String, password: String) {
-        print("try to login")
-        restManager = RestManager(username: username, password: password)
-        firstly {
-            restManager!.loginToServer()
-        }.then { response -> Void in
-            if response.success {
-                self.loginErrorTextField?.isHidden = true
-                // TO-MOVE: Connect with socket only in ChatViewController
-                // TO-DO: Establish connection ONLY after the LOGIN POST
-                SocketManager.sharedInstance.establishConnection(ipAddress: ServerLookup.sharedInstance.address)
-                self.performSegue(withIdentifier: "welcome", sender: sender)
-            } else {
-                self.loginErrorTextField?.text = response.error
-                self.loginErrorTextField?.isHidden = false
-            }
-        }.catch { error in
-                print(error)
-        }
-    }
-
     @IBAction func registerButton(_ sender: UIButton) {
         let username = registerUsernameField!.text!
         let password = registerPasswordField!.text!
@@ -133,25 +105,6 @@ class LoginViewController: UIViewController {
         } else {
             registerErrorTextField?.text = AccountManager.sharedInstance.registerError
             registerErrorTextField?.isHidden = false
-        }
-    }
-
-    private func registerAccount(sender: UIButton, username: String, password: String) {
-        print("try to register")
-        restManager = RestManager(username: username, password: password)
-        firstly {
-            restManager!.registerToServer()
-            }.then { response -> Void in
-                if response.success {
-                    self.loginErrorTextField?.isHidden = true
-                    // Account creation successful: auto login immediately
-                    self.loginToServer(sender: sender, username: username, password: password)
-                } else {
-                    self.registerErrorTextField?.text = response.error
-                    self.registerErrorTextField?.isHidden = false
-                }
-            }.catch { error in
-                print(error)
         }
     }
 
@@ -171,6 +124,47 @@ class LoginViewController: UIViewController {
         //attempt function to attempt to connect to the server modify the connectionState and errorMessage
         let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
         serverAddressEntered(connectionState: isTrueIP)
+    }
+
+    // MARK: - Functions
+    private func registerAccount(sender: UIButton, username: String, password: String) {
+        print("try to register")
+        restManager = RestManager(username: username, password: password)
+        firstly {
+            restManager!.registerToServer()
+            }.then { response -> Void in
+                if response.success {
+                    self.loginErrorTextField?.isHidden = true
+                    // Account creation successful: auto login immediately
+                    self.loginToServer(sender: sender, username: username, password: password)
+                } else {
+                    self.registerErrorTextField?.text = response.error
+                    self.registerErrorTextField?.isHidden = false
+                }
+            }.catch { error in
+                print(error)
+        }
+    }
+
+    private func loginToServer(sender: UIButton, username: String, password: String) {
+        print("try to login")
+        restManager = RestManager(username: username, password: password)
+        firstly {
+            restManager!.loginToServer()
+            }.then { response -> Void in
+                if response.success {
+                    self.loginErrorTextField?.isHidden = true
+                    // TO-MOVE: Connect with socket only in ChatViewController
+                    // TO-DO: Establish connection ONLY after the LOGIN POST
+                    SocketManager.sharedInstance.establishConnection(ipAddress: ServerLookup.sharedInstance.address)
+                    self.performSegue(withIdentifier: "welcome", sender: sender)
+                } else {
+                    self.loginErrorTextField?.text = response.error
+                    self.loginErrorTextField?.isHidden = false
+                }
+            }.catch { error in
+                print(error)
+        }
     }
 
     func serverAddressEntered(connectionState: Bool) {

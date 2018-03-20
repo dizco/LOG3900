@@ -11,12 +11,14 @@ import UIKit
 class RecentsViewController: UIViewController {
     var connectionStatus = true
 
+    //Mark: - Outlets
     @IBOutlet weak var newDrawingbutton: UIButton!
     @IBOutlet weak var openLocalDrawingButton: UIButton!
     @IBOutlet weak var joinDrawingButton: UIButton!
     @IBOutlet weak var joinGalleryButton: UIButton!
     @IBOutlet weak var backToLoginButton: UIButton!
 
+    //Mark: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         if !connectionStatus {
@@ -26,10 +28,6 @@ class RecentsViewController: UIViewController {
             backToLoginButton.isHidden = true
         }
     }
-    @IBAction func newDrawingButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "NewDrawingSegue", sender: self)
-    }
-
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! NewDrawingViewController
         vc.connectionStatus = connectionStatus
@@ -40,4 +38,7 @@ class RecentsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func newDrawingButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "NewDrawingSegue", sender: self)
+    }
 }

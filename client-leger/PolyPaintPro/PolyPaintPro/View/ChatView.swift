@@ -17,10 +17,6 @@ class ChatView: UIView {
     @IBOutlet weak var chatTableView: UITableView!
     @IBOutlet weak var messageField: UITextField!
 
-    @IBAction func sendButton(_ sender: UIButton) {
-        sendMessage()
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         chatTableView.estimatedRowHeight = 55
@@ -29,6 +25,10 @@ class ChatView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    @IBAction func sendButton(_ sender: UIButton) {
+        sendMessage()
     }
 
     func displayMessage(message: String, messageInfos: (author: String, timestamp: String)) {
