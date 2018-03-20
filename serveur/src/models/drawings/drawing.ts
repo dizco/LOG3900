@@ -22,6 +22,7 @@ export type DrawingModel = mongoose.Document & DrawingInterface;
 const drawingSchema = new mongoose.Schema({
     name: String,
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    visibility: { type: String, enum: ["public", "private"], default: "public" },
     protection: { active: { type: Boolean, default: false }, password: { type: String, default: "" } },
     actions: [{ actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, timestamp: Number }],
 }, { timestamps: true });
