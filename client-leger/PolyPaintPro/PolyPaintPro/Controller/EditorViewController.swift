@@ -154,7 +154,8 @@ class EditorViewController: UIViewController, SocketManagerDelegate, UITextField
         }
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
         let allowedCharacters = CharacterSet.decimalDigits
         let characterSet = CharacterSet(charactersIn: string)
 
@@ -213,8 +214,12 @@ class EditorViewController: UIViewController, SocketManagerDelegate, UITextField
 
     @objc func leftEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         if recognizer.state == .recognized {
-            toolsToggleFn()
-            drawingSettingsFn()
+            if (!toolsShowing && !drawingSettingsShowing) || (toolsShowing && drawingSettingsShowing) {
+                toolsToggleFn()
+                drawingSettingsFn()
+            } else if toolsShowing && !drawingSettingsShowing {
+                drawingSettingsFn()
+            }
         }
     }
 
