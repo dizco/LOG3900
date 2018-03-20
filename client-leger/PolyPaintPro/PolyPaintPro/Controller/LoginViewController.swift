@@ -18,8 +18,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var connectionErrorLabel: UILabel!
 
+  // MARK: - Views
     @IBOutlet weak var scrollView: UIScrollView!
-    // MARK: - Views
     @IBOutlet weak var connectionView: UIView?
     @IBOutlet weak var registerView: UIView?
     @IBOutlet weak var selectorView: UIView!
@@ -65,6 +65,7 @@ class LoginViewController: UIViewController {
         loginErrorTextField?.isHidden = true
         registerErrorTextField?.isHidden = true
     }
+
     override func viewDidLayoutSubviews() {
         scrollView.isScrollEnabled = true
         scrollView.contentSize = CGSize (width: scrollView.contentSize.width, height: 900)
