@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -20,6 +21,7 @@ namespace PolyPaint.ViewModels
         {
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, DrawingPixelModelPropertyModified est appelée.
             _pixelEditor.DrawingName = DrawingName;
+            _pixelEditor.DrewLineEvent += PixelEditorDrewLineEventHandler;
 
             // Pour les commandes suivantes, il est toujours possible des les activer.
             // Donc, aucune vérification de type Peut"Action" à faire.
@@ -44,6 +46,14 @@ namespace PolyPaint.ViewModels
             {
                 _chatDocked = value;
                 PropertyModified();
+            }
+        }
+
+        private void PixelEditorDrewLineEventHandler(object o, List<Tuple<Point, string>> pixels)
+        {
+            foreach (Tuple<Point, string> pixel in pixels)
+            {
+                //_pixelEditor.DrawPixel(pixel.Item1, pixel.Item2);
             }
         }
 
@@ -105,7 +115,7 @@ namespace PolyPaint.ViewModels
 
         public void PixelDraw(Point oldPoint, Point newPoint)
         {
-            _pixelEditor.PixelDraw(oldPoint, newPoint);
+            _pixelEditor.DrawPixels(oldPoint, newPoint);
         }
 
         public void PixelCursors(Border displayArea)
