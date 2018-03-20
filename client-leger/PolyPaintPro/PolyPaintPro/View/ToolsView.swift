@@ -19,8 +19,8 @@ class ToolsView: UIView {
     weak var delegate: ToolsViewDelegate?
 
     @IBOutlet weak var penButton: UIButton!
-    @IBOutlet weak var eraseButton: UIButton!
-    @IBOutlet weak var cutButton: UIButton!
+    @IBOutlet weak var strokeEraseButton: UIButton!
+    @IBOutlet weak var segmentEraseButton: UIButton!
     @IBOutlet weak var pasteButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var stackButton: UIButton!
@@ -90,13 +90,13 @@ class ToolsView: UIView {
 
         let eraserOrigImage = UIImage(named: "eraser")
         let eraserTintedImage = eraserOrigImage?.withRenderingMode(.alwaysTemplate)
-        eraseButton.setImage(eraserTintedImage, for: .normal)
-        eraseButton.tintColor = .black
+        strokeEraseButton.setImage(eraserTintedImage, for: .normal)
+        strokeEraseButton.tintColor = .black
 
         let cutOrigImage = UIImage(named: "cut")
         let cutTintedImage = cutOrigImage?.withRenderingMode(.alwaysTemplate)
-        cutButton.setImage(cutTintedImage, for: .normal)
-        cutButton.tintColor = .black
+        segmentEraseButton.setImage(cutTintedImage, for: .normal)
+        segmentEraseButton.tintColor = .black
 
         let pasteOrigImage = UIImage(named: "duplicate")
         let pasteTintedImage = pasteOrigImage?.withRenderingMode(.alwaysTemplate)
