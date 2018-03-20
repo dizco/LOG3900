@@ -115,7 +115,7 @@ namespace PolyPaintTests.Helpers
             string realOutputString = _messenger.SendEditorActionNewStroke(stroke);
 
             Assert.AreEqual(expectedOutputString, realOutputString,
-                            "Should return stringified JSON of an EditorActionModel");
+                            "Should return stringified JSON of an StrokeEditorActionModel");
         }
 
         [TestMethod]
@@ -138,7 +138,7 @@ namespace PolyPaintTests.Helpers
             string realOutputString = _messenger.SendEditorActionNewStroke(stroke);
 
             Assert.AreEqual(string.Empty, realOutputString,
-                            "Should return stringified JSON of an EditorActionModel");
+                            "Should return stringified JSON of an StrokeEditorActionModel");
         }
 
         [TestMethod]
@@ -165,7 +165,7 @@ namespace PolyPaintTests.Helpers
 
             Messenger.DrawingRoomId = null;
             Assert.AreEqual(expectedOutputString, realOutputString,
-                            "Should return stringified JSON of an EditorActionModel");
+                            "Should return stringified JSON of an StrokeEditorActionModel");
         }
 
         [TestMethod]
@@ -187,7 +187,7 @@ namespace PolyPaintTests.Helpers
 
             Messenger.DrawingRoomId = null;
             Assert.AreEqual(string.Empty, realOutputString,
-                            "Should return stringified JSON of an EditorActionModel");
+                            "Should return stringified JSON of an StrokeEditorActionModel");
         }
 
         [TestMethod]
@@ -274,7 +274,7 @@ namespace PolyPaintTests.Helpers
                 }));
 
             Assert.AreEqual(expectedOutputString, realOutputString,
-                            "Should return stringified JSON of an EditorActionModel");
+                            "Should return stringified JSON of an StrokeEditorActionModel");
         }
 
         [TestMethod]
@@ -315,7 +315,7 @@ namespace PolyPaintTests.Helpers
                 }));
 
             Assert.AreEqual(expectedOutputString, realOutputString,
-                            "Should return stringified JSON of an EditorActionModel");
+                            "Should return stringified JSON of an StrokeEditorActionModel");
         }
 
         [TestMethod]
@@ -346,7 +346,7 @@ namespace PolyPaintTests.Helpers
                 _messenger.SendEditorActionTransformedStrokes(new StrokeCollection(new[] {stroke}));
 
             Assert.AreEqual(expectedOutputString, realOutputString,
-                            "Should return stringified JSON of an EditorActionModel");
+                            "Should return stringified JSON of an StrokeEditorActionModel");
         }
 
         [TestMethod]

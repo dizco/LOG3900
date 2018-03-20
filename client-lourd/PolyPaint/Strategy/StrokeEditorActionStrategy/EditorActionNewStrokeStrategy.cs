@@ -2,13 +2,13 @@
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 
-namespace PolyPaint.Strategy.EditorActionStrategy
+namespace PolyPaint.Strategy.StrokeEditorActionStrategy
 {
     internal class EditorActionNewStrokeStrategy : IEditorActionStrategy
     {
-        private readonly EditorActionModel _newStrokeAction;
+        private readonly StrokeEditorActionModel _newStrokeAction;
 
-        public EditorActionNewStrokeStrategy(EditorActionModel action)
+        public EditorActionNewStrokeStrategy(StrokeEditorActionModel action)
         {
             _newStrokeAction = action;
         }

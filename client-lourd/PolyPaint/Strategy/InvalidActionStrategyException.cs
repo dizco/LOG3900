@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PolyPaint.Strategy.EditorActionStrategy
+namespace PolyPaint.Strategy
 {
     internal class InvalidActionStrategyException : Exception
     {

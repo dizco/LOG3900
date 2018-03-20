@@ -8,8 +8,10 @@
     {
         public const string TypeChatMessageOutgoingValue = "client.chat.message";
         public const string TypeChatMessageIncomingValue = "server.chat.message";
-        public const string TypeEditorActionOutgoingValue = "client.editor.action";
-        public const string TypeEditorActionIncomingValue = "server.editor.action";
+        public const string TypeStrokeEditorActionOutgoingValue = "client.editor.stroke.action";
+        public const string TypeStrokeEditorActionIncomingValue = "server.editor.stroke.action";
+        public const string TypePixelEditorActionOutgoingValue = "client.editor.pixel.action";
+        public const string TypePixelEditorActionIncomingValue = "server.editor.pixel.action";
         public const string TypeEditorSubscriptionOutgoingValue = "client.editor.subscription";
     }
 }

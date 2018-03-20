@@ -11,7 +11,8 @@ using PolyPaint.CustomComponents;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
-using PolyPaint.Strategy.EditorActionStrategy;
+using PolyPaint.Strategy;
+using PolyPaint.Strategy.StrokeEditorActionStrategy;
 using PolyPaintTests.Helpers;
 
 namespace PolyPaintTests.Strategy.EditorActionStrategy
@@ -56,9 +57,9 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
         [ExpectedException(typeof(InvalidActionStrategyException))]
         public void TestInvalidEditorAction()
         {
-            EditorActionModel action = new EditorActionModel
+            StrokeEditorActionModel action = new StrokeEditorActionModel
             {
-                Type = JsonConstantStrings.TypeEditorActionOutgoingValue,
+                Type = JsonConstantStrings.TypeStrokeEditorActionOutgoingValue,
                 Drawing = new DrawingModel {Id = "507f1f77bcf86cd799439011"},
                 Action = new StrokeActionModel
                 {
@@ -74,7 +75,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
         public void TestAddNewStrokeOtherUser()
         {
             string actionStr = _messenger.SendEditorActionNewStroke(_stroke);
-            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+            StrokeEditorActionModel action = JsonConvert.DeserializeObject<StrokeEditorActionModel>(actionStr);
 
             action.Author = new AuthorModel
             {
@@ -101,7 +102,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
         public void TestAddNewStrokeCurrentUser()
         {
             string actionStr = _messenger.SendEditorActionNewStroke(_stroke);
-            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+            StrokeEditorActionModel action = JsonConvert.DeserializeObject<StrokeEditorActionModel>(actionStr);
 
             action.Author = new AuthorModel
             {
@@ -123,7 +124,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
             _editor.StrokesCollection.Add(_stroke);
 
             string actionStr = _messenger.SendEditorActionRemoveStroke(_stroke);
-            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+            StrokeEditorActionModel action = JsonConvert.DeserializeObject<StrokeEditorActionModel>(actionStr);
 
             action.Author = new AuthorModel
             {
@@ -150,7 +151,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
             _editor.StrokesCollection.Add(_stroke);
 
             string actionStr = _messenger.SendEditorActionRemoveStroke(_stroke);
-            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+            StrokeEditorActionModel action = JsonConvert.DeserializeObject<StrokeEditorActionModel>(actionStr);
 
             action.Author = new AuthorModel
             {
@@ -185,7 +186,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
             StrokeCollection strokes = new StrokeCollection {stroke1, stroke2};
 
             string actionStr = _messenger.SendEditorActionReplaceStroke(new[] {Guid.Empty.ToString()}, strokes);
-            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+            StrokeEditorActionModel action = JsonConvert.DeserializeObject<StrokeEditorActionModel>(actionStr);
 
             action.Author = new AuthorModel
             {
@@ -230,7 +231,7 @@ namespace PolyPaintTests.Strategy.EditorActionStrategy
 
             string actionStr =
                 _messenger.SendEditorActionTransformedStrokes(new StrokeCollection(new[] {transformedStroke}));
-            EditorActionModel action = JsonConvert.DeserializeObject<EditorActionModel>(actionStr);
+            StrokeEditorActionModel action = JsonConvert.DeserializeObject<StrokeEditorActionModel>(actionStr);
 
             action.Author = new AuthorModel
             {

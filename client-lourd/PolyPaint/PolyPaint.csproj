@@ -126,15 +126,16 @@
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
+    <Compile Include="Models\MessagingModels\PixelEditorActionModel.cs" />
     <Compile Include="Models\PixelModels\PixelEditor.cs" />
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Models\MessagingModels\SubscriptionMessageModel.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\EditorActionResetStrategy.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionResetStrategy.cs" />
     <Compile Include="ViewModels\PixelEditorViewModel.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\EditorActionTransformStrokesStrategy.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionTransformStrokesStrategy.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
     <Compile Include="Views\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
@@ -150,7 +151,7 @@
     <Compile Include="Constants\JsonConstantStrings.cs" />
     <Compile Include="Models\MessagingModels\AuthorModel.cs" />
     <Compile Include="Models\MessagingModels\ChatMessageModel.cs" />
-    <Compile Include="Models\MessagingModels\EditorActionModel.cs" />
+    <Compile Include="Models\MessagingModels\StrokeEditorActionModel.cs" />
     <Compile Include="Models\MessagingModels\MessageModelBase.cs" />
     <Compile Include="Models\MessagingModels\RoomModel.cs" />
     <Compile Include="Helpers\Communication\ISocketHandler.cs" />
@@ -158,12 +159,12 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\Communication\RestHandler.cs" />
     <Compile Include="Helpers\Communication\SocketHandler.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\EditorActionNewStrokeStrategy.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\EditorActionReplaceStrokeStrategy.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\EditorActionStrategyContext.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\IEditorActionStrategy.cs" />
-    <Compile Include="Strategy\EditorActionStrategy\InvalidActionStrategyException.cs" />
     <Compile Include="ViewModels\ChatViewModel.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionNewStrokeStrategy.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionReplaceStrokeStrategy.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionStrategyContext.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\IEditorActionStrategy.cs" />
+    <Compile Include="Strategy\StrokeEditorActionStrategy\InvalidActionStrategyException.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\StrokeEditorViewModel.cs" />

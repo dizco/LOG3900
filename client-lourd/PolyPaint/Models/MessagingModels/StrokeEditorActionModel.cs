@@ -2,7 +2,7 @@
 
 namespace PolyPaint.Models.MessagingModels
 {
-    public class EditorActionModel : MessageModelBase
+    public class StrokeEditorActionModel : MessageModelBase
     {
         [JsonProperty(PropertyName = "action")]
         public StrokeActionModel Action { get; set; }
@@ -38,7 +38,7 @@ namespace PolyPaint.Models.MessagingModels
         public string Name { get; set; }
     }
 
-    public enum ActionIds
+    public enum StrokeActionIds
     {
         NewStroke = 1,
         ReplaceStroke,

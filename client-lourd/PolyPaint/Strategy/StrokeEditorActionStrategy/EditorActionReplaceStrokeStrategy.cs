@@ -8,16 +8,16 @@ using PolyPaint.Helpers.Communication;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 
-namespace PolyPaint.Strategy.EditorActionStrategy
+namespace PolyPaint.Strategy.StrokeEditorActionStrategy
 {
     internal class EditorActionReplaceStrokeStrategy : IEditorActionStrategy
     {
         private static readonly ConcurrentDictionary<string, StrokeCollection> ReceivedReplaceActions =
             new ConcurrentDictionary<string, StrokeCollection>();
 
-        private readonly EditorActionModel _replaceStrokeAction;
+        private readonly StrokeEditorActionModel _replaceStrokeAction;
 
-        public EditorActionReplaceStrokeStrategy(EditorActionModel action)
+        public EditorActionReplaceStrokeStrategy(StrokeEditorActionModel action)
         {
             _replaceStrokeAction = action;
         }

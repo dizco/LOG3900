@@ -1,13 +1,13 @@
 ﻿using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 
-namespace PolyPaint.Strategy.EditorActionStrategy
+namespace PolyPaint.Strategy.StrokeEditorActionStrategy
 {
     internal class EditorActionStrategyContext : IEditorActionStrategy
     {
         private IEditorActionStrategy _strategy;
 
-        public EditorActionStrategyContext(EditorActionModel action)
+        public EditorActionStrategyContext(StrokeEditorActionModel action)
         {
             PickStrategy(action);
         }
@@ -17,27 +17,27 @@ namespace PolyPaint.Strategy.EditorActionStrategy
             _strategy.ExecuteStrategy(editor);
         }
 
-        private void PickStrategy(EditorActionModel action)
+        private void PickStrategy(StrokeEditorActionModel action)
         {
-            ActionIds incomingActionId = (ActionIds) action.Action.Id;
-            switch (incomingActionId)
+            StrokeActionIds incomingStrokeActionId = (StrokeActionIds) action.Action.Id;
+            switch (incomingStrokeActionId)
             {
-                case ActionIds.NewStroke:
+                case StrokeActionIds.NewStroke:
                     _strategy = new EditorActionNewStrokeStrategy(action);
                     break;
-                case ActionIds.ReplaceStroke:
+                case StrokeActionIds.ReplaceStroke:
                     _strategy = new EditorActionReplaceStrokeStrategy(action);
                     break;
-                case ActionIds.LockStrokes:
+                case StrokeActionIds.LockStrokes:
                     _strategy = new EditorActionLockStrokesStrategy(action);
                     break;
-                case ActionIds.UnlockStrokes:
+                case StrokeActionIds.UnlockStrokes:
                     _strategy = new EditorActionUnlockStrokesStrategy(action);
                     break;
-                case ActionIds.Transform:
+                case StrokeActionIds.Transform:
                     _strategy = new EditorActionTransformStrokesStrategy(action);
                     break;
-                case ActionIds.Reset:
+                case StrokeActionIds.Reset:
                     _strategy = new EditorActionResetStrategy(action);
                     break;
                 default:
