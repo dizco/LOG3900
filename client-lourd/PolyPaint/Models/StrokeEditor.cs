@@ -179,7 +179,7 @@ namespace PolyPaint.Models
             int i = 0;
             while (!authoredOneItem && i < StrokesCollection.Count)
             {
-                if ((StrokesCollection[i] as CustomStroke)?.Author == null)
+                if ((StrokesCollection[i] as CustomStroke)?.Author == CurrentUsername)
                 {
                     authoredOneItem = true;
                 }
