@@ -52,7 +52,6 @@ export class WebSocketDecorator {
         this.wss.clients.forEach((client: any) => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(data); //TODO: Return false if send fails
-
             }
         });
         return true;
