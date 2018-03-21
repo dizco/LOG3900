@@ -912,7 +912,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Zk-AC-UDA" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="APT-NG-B5d" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2815" y="-768"/>
+            <point key="canvasLocation" x="2824" y="-575"/>
         </scene>
         <!--Nouveau dessin-->
         <scene sceneID="let-eC-uVg">
@@ -1049,7 +1049,7 @@
                                 <rect key="frame" x="128" y="212" width="769" height="489"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="ZoJ-ZP-CQf" detailTextLabel="9a9-Du-qXh" style="IBUITableViewCellStyleValue1" id="Fh7-Hm-pkr">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="ZoJ-ZP-CQf" detailTextLabel="9a9-Du-qXh" style="IBUITableViewCellStyleValue1" id="Fh7-Hm-pkr">
                                         <rect key="frame" x="0.0" y="28" width="769" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fh7-Hm-pkr" id="yR3-c6-MAW">
@@ -1074,6 +1074,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="ZCk-mf-U2u" id="9Yf-3B-mRH"/>
+                                    <outlet property="delegate" destination="ZCk-mf-U2u" id="Q89-Uc-c93"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1096,6 +1100,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Ouvrir un dessin local" id="56B-Lh-2W3"/>
+                    <connections>
+                        <outlet property="openLocalDrawingTableView" destination="2Af-s4-vtV" id="olU-83-NlW"/>
+                        <segue destination="KwV-uG-opW" kind="show" identifier="OpenLocalPixelDrawingSegue" id="Xwq-SM-kYw"/>
+                        <segue destination="nF6-Tx-Hhl" kind="show" identifier="OpenLocalStrokeDrawingSegue" id="Cy4-wg-BPg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2pz-sh-cYD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1187,6 +1196,8 @@
                     <navigationItem key="navigationItem" title="Rejoindre un dessin" id="Ypc-v2-PHy"/>
                     <connections>
                         <outlet property="joinDrawingTableView" destination="qOa-C7-khn" id="txU-OF-wC8"/>
+                        <segue destination="KwV-uG-opW" kind="show" identifier="JoinPixelDrawingSegue" id="Fwt-4B-rsB"/>
+                        <segue destination="nF6-Tx-Hhl" kind="show" identifier="JoinStrokeDrawingSegue" id="yY8-vV-TGb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eoL-fo-OkT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1818,7 +1829,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nad-fV-gPD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="brS-fH-NQP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2815" y="9"/>
+            <point key="canvasLocation" x="2824" y="127"/>
         </scene>
     </scenes>
     <resources>
@@ -1835,6 +1846,8 @@
         <image name="verticalLine" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="yY8-vV-TGb"/>
         <segue reference="HCx-mM-CNV"/>
+        <segue reference="Fwt-4B-rsB"/>
     </inferredMetricsTieBreakers>
 </document>

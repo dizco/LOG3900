@@ -21,6 +21,7 @@ class ChatView: UIView {
         super.init(frame: frame)
         chatTableView.estimatedRowHeight = 55
         chatTableView.rowHeight = UITableViewAutomaticDimension
+        chatTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
     required init?(coder aDecoder: NSCoder) {

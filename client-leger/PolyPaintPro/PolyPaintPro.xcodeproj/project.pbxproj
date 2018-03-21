@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CF9202650CD0071FDC0 /* Extensions.swift */; };
 		27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CFC2026528E0071FDC0 /* ChatView.swift */; };
+		270EC6EE206575630018A2A6 /* DrawingsDataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270EC6ED206575630018A2A6 /* DrawingsDataStruct.swift */; };
 		271C1EC7203CC5D70090D6A5 /* DrawingToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */; };
 		271E38F720572CFC0067BD16 /* NewDrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271E38F620572CFB0067BD16 /* NewDrawingViewController.swift */; };
 		274956062058236D0053DAD4 /* DrawingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274956052058236D0053DAD4 /* DrawingTypes.swift */; };
@@ -69,6 +70,7 @@
 		0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27080CF9202650CD0071FDC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		27080CFC2026528E0071FDC0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		270EC6ED206575630018A2A6 /* DrawingsDataStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingsDataStruct.swift; sourceTree = "<group>"; };
 		271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingToolsView.swift; sourceTree = "<group>"; };
 		271E38F620572CFB0067BD16 /* NewDrawingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDrawingViewController.swift; sourceTree = "<group>"; };
 		274956052058236D0053DAD4 /* DrawingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTypes.swift; sourceTree = "<group>"; };
@@ -200,6 +202,8 @@
 				BECC087820619D4D0040EB4B /* ActionMessage.swift */,
 				BE1FCAEF2061E40900C57F02 /* SKStroke.swift */,
 				BE67C52E206559CF00C2EA77 /* MessageConstants.swift */,
+                270EC6ED206575630018A2A6 /* DrawingsDataStruct.swift */,
+
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -627,6 +631,7 @@
 				274C034B200EF37900DDAD8D /* PixelEditorViewController.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				274956062058236D0053DAD4 /* DrawingTypes.swift in Sources */,
+				270EC6EE206575630018A2A6 /* DrawingsDataStruct.swift in Sources */,
 				BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */,
 				271C1EC7203CC5D70090D6A5 /* DrawingToolsView.swift in Sources */,
 				BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */,
