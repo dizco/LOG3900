@@ -430,7 +430,7 @@ namespace PolyPaint.ViewModels
             }
             else if (sender is PixelEditorView pixelEditorView)
             {
-                (pixelEditorView.DataContext as PixelEditorlViewModel)?.Dispose();
+                (pixelEditorView.DataContext as PixelEditorViewModel)?.Dispose();
             }
 
             if (HomeMenu == null)

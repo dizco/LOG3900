@@ -77,14 +77,16 @@ namespace PolyPaint.ViewModels
             //Outgoing editor actions
             SendNewStrokeCommand = new RelayCommand<Stroke>(SendNewStroke);
 
-            //Managing different View
-            OpenChatWindowCommand = new RelayCommand<object>(OpenChatWindow, CanOpenChat);
-
             //Strokes Rotate tool
             QuarterTurnClockwiseCommand = new RelayCommand<InkCanvas>(_editor.QuarterTurnClockwise);
             QuarterTurnCounterClockwiseCommand = new RelayCommand<InkCanvas>(_editor.QuarterTurnCounterClockwise);
             VerticalFlipCommand = new RelayCommand<InkCanvas>(_editor.VerticalFlip);
             HorizontalFlipCommand = new RelayCommand<InkCanvas>(_editor.HorizontalFlip);
+
+            if (Messenger?.IsConnected ?? false)
+            {
+                OpenEditorChat();
+            }
 
             LoginStatusChanged += ProcessLoginStatusChange;
 
@@ -133,19 +135,6 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        public Visibility ChatVisibility
-        {
-            get
-            {
-                if (Messenger?.IsConnected ?? false)
-                {
-                    return Visibility.Visible;
-                }
-
-                return Visibility.Hidden;
-            }
-        }
-
         public StrokeCollection StrokesCollection { get; set; }
         public ISet<string> LockedStrokes { get; set; }
         private List<string> LockedStrokesHeld { get; set; }
@@ -168,7 +157,6 @@ namespace PolyPaint.ViewModels
         public RelayCommand<InkCanvas> ExportImageCommand { get; set; }
 
         //Command for managing the views
-        public RelayCommand<object> OpenChatWindowCommand { get; set; }
 
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
@@ -323,26 +311,6 @@ namespace PolyPaint.ViewModels
             DrawingAttributes.Height = _editor.SelectedTip == "horizontale" ? 1 : _editor.StrokeSize;
         }
 
-        private bool CanOpenChat(object obj)
-        {
-            return Messenger?.IsConnected ?? false;
-        }
-
-        //Show login window
-        public void OpenChatWindow(object o)
-        {
-            if (ChatWindow == null)
-            {
-                ChatWindow = new ChatWindowView();
-                ChatWindow.Show();
-                ChatWindow.Closing += (sender, args) => ChatWindow = null;
-            }
-            else
-            {
-                ChatWindow.Activate();
-            }
-        }
-
         internal void ResetDrawing(object o)
         {
             _editor.Reset(o);
@@ -448,7 +416,8 @@ namespace PolyPaint.ViewModels
         /// <param name="stroke">Newly added stroke</param>
         private void SendNewStroke(Stroke stroke)
         {
-            CustomStroke customStroke = stroke is CustomStroke newStroke ? newStroke : _editor.AssignUuidToStroke(stroke);
+            CustomStroke customStroke =
+                stroke is CustomStroke newStroke ? newStroke : _editor.AssignUuidToStroke(stroke);
 
             SendNewStroke(customStroke);
         }
@@ -485,6 +454,7 @@ namespace PolyPaint.ViewModels
             {
                 SendUnlockStrokes(LockedStrokesHeld);
             }
+
             Messenger?.UnsubscribeToDrawing();
         }
 

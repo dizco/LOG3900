@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PolyPaint.Views"
         mc:Ignorable="d"
-        Title="Salle de Clavardage" Height="600" Width="300" ResizeMode="NoResize">
+        Title="Salle de Clavardage" Height="600" Width="315" ResizeMode="NoResize">
 
-    <local:ChatView/>
+    <local:ChatView />
 </Window>

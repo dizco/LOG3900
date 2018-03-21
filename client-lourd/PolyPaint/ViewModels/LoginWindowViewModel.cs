@@ -54,7 +54,8 @@ namespace PolyPaint.ViewModels
 
             if (!await RestHandler.ValidateServerUri())
             {
-                UserAlerts.ShowErrorMessage("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
+                UserAlerts
+                    .ShowErrorMessage("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
                 return;
             }
 
@@ -80,7 +81,8 @@ namespace PolyPaint.ViewModels
 
             if (!await RestHandler.ValidateServerUri())
             {
-                UserAlerts.ShowErrorMessage("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
+                UserAlerts
+                    .ShowErrorMessage("L'adresse spécifiée n'est pas valide. \nL'adresse du serveur doit avoir la forme suivante : \nXXX.XXX.XXX.XXX:5025");
                 return;
             }
 

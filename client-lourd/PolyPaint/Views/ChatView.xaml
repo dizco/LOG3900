@@ -1,21 +1,21 @@
 ﻿<UserControl x:Class="PolyPaint.Views.ChatView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PolyPaint.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="565" d:DesignWidth="300">
     <Grid>
         <Border>
-            <Grid>
-                <ScrollViewer Margin="0,30,0,50"
+            <Grid Background="LightGray">
+                <ScrollViewer Margin="0,35,0,60"
                               HorizontalAlignment="Right"
                               VerticalScrollBarVisibility="Auto"
                               Width="300"
-                              ScrollChanged="ScrollViewScrollToBottom">
-                    <ItemsControl ItemsSource="{Binding ChatMessages}"> <!-- ChatItems ==> ChatMessages -->
+                              ScrollChanged="ScrollViewScrollToBottom"
+                              Background="WhiteSmoke">
+                    <ItemsControl ItemsSource="{Binding ChatMessages}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Padding="5">
@@ -23,24 +23,24 @@
                                         <Grid Margin="25,0,25,0"
                                               HorizontalAlignment="Stretch">
                                             <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
-                                        
+
                                             <StackPanel>
                                                 <Border>
                                                     <TextBlock VerticalAlignment="Center"
                                                                FontFamily="{StaticResource LatoRegular}"
                                                                TextWrapping="Wrap">
                                                         <Run Text="{Binding AuthorName}"
-                                                             FontFamily="{StaticResource LatoBold}"/>
-                                                        <Run Text="-"/>
-                                                        <Run Text="{Binding Timestamp, StringFormat=HH:mm:ss}"/>
-                                                        <LineBreak/>
-                                                        <Run Text="{Binding MessageText}"/>
+                                                             FontFamily="{StaticResource LatoBold}" />
+                                                        <Run Text="-" />
+                                                        <Run Text="{Binding Timestamp, StringFormat=HH:mm:ss}" />
+                                                        <LineBreak />
+                                                        <Run Text="{Binding MessageText}" />
                                                     </TextBlock>
                                                 </Border>
-                                                <Separator/>
+                                                <Separator />
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
@@ -49,31 +49,31 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-                <Grid Margin="0,508,0,0" Background="PaleTurquoise">
+                <Grid Background="PaleTurquoise" Height="57" VerticalAlignment="Bottom">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="304*"/>
-                        <ColumnDefinition Width="34*"/>
-                        <ColumnDefinition Width="57*"/>
+                        <ColumnDefinition Width="304*" />
+                        <ColumnDefinition Width="34*" />
+                        <ColumnDefinition Width="57*" />
                     </Grid.ColumnDefinitions>
                     <xctk:WatermarkTextBox x:Name="MessageInput"
-                             Watermark="Message..."
-                             TextWrapping="Wrap"
-                             Text="{Binding OutgoingChatMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="5,5,17,5"
-                             Height="Auto"
-                             AcceptsReturn="True"
-                             AcceptsTab="False"
-                             VerticalScrollBarVisibility="Auto"
-                             SpellCheck.IsEnabled="True"
-                             Grid.ColumnSpan="2">
+                                           Watermark="Message..."
+                                           TextWrapping="Wrap"
+                                           Text="{Binding OutgoingChatMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           Margin="5,5,17,5"
+                                           Height="Auto"
+                                           AcceptsReturn="True"
+                                           AcceptsTab="False"
+                                           VerticalScrollBarVisibility="Auto"
+                                           SpellCheck.IsEnabled="True"
+                                           Grid.ColumnSpan="2">
                         <TextBox.Effect>
                             <DropShadowEffect ShadowDepth="5"
                                               Color="BurlyWood"
                                               Opacity=".4"
-                                              RenderingBias="Performance"/>
+                                              RenderingBias="Performance" />
                         </TextBox.Effect>
                         <TextBox.InputBindings>
-                            <KeyBinding Command="{Binding SendMessageCommand}" Key="Return"/>
+                            <KeyBinding Command="{Binding SendMessageCommand}" Key="Return" />
                         </TextBox.InputBindings>
                     </xctk:WatermarkTextBox>
 
@@ -87,14 +87,29 @@
                             Focusable="False"
                             Grid.Column="2">
                         <Button.BorderBrush>
-                            <SolidColorBrush Opacity="0"/>
+                            <SolidColorBrush Opacity="0" />
                         </Button.BorderBrush>
                         <Button.Background>
                             <ImageBrush ImageSource="/PolyPaint;component/Resources/icon-send.png"
-                                        Stretch="Uniform"/>
+                                        Stretch="Uniform" />
                         </Button.Background>
                     </Button>
                 </Grid>
+                <Button x:Name="ToggleChat"
+                        HorizontalAlignment="Right"
+                        Margin="0,5,5,0"
+                        VerticalAlignment="Top"
+                        Width="25"
+                        Height="25"
+                        Command="{Binding ToggleChatCommand}">
+                    <Button.BorderBrush>
+                        <SolidColorBrush Opacity="0" />
+                    </Button.BorderBrush>
+                    <Button.Background>
+                        <ImageBrush ImageSource="{Binding ChatToggleButtonIcon}"
+                                    Stretch="Uniform" />
+                    </Button.Background>
+                </Button>
             </Grid>
         </Border>
     </Grid>
