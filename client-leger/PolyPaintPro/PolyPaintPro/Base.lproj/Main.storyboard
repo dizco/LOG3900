@@ -195,7 +195,7 @@
                                                         </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="email"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" enablesReturnKeyAutomatically="YES" textContentType="email"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pja-Oy-l6u">
                                                         <rect key="frame" x="163" y="309" width="431" height="21"/>
@@ -288,7 +288,7 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FEG-Zd-kJ4">
                                                         <rect key="frame" x="236" y="363" width="296" height="30"/>
@@ -1227,6 +1227,9 @@
                                 <rect key="frame" x="173" y="718" width="92" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Se connecter"/>
+                                <connections>
+                                    <action selector="backToLoginButton:" destination="NfL-mq-pCc" eventType="touchUpInside" id="Z4A-cd-gq1"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOy-18-Mf9">
                                 <rect key="frame" x="20" y="72" width="109" height="30"/>
@@ -1241,7 +1244,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Ouvrir un dessin local"/>
                                 <connections>
-                                    <segue destination="ZCk-mf-U2u" kind="show" identifier="OpenDrawingSegue" id="0wU-4R-pDj"/>
+                                    <action selector="openLocalDrawingButton:" destination="NfL-mq-pCc" eventType="touchUpInside" id="BYx-n4-UNv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A12-2F-hee">
@@ -1249,7 +1252,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Rejoindre un dessin"/>
                                 <connections>
-                                    <segue destination="adH-E4-mIa" kind="show" identifier="JoinDrawingSegue" id="Y9U-mG-ulK"/>
+                                    <action selector="joinDrawingButton:" destination="NfL-mq-pCc" eventType="touchUpInside" id="cHg-OC-AjD"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5c6-3w-VhG">
@@ -1257,7 +1260,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Rejoindre la galerie"/>
                                 <connections>
-                                    <segue destination="2qr-LN-3sO" kind="show" id="iSu-xp-1tG"/>
+                                    <action selector="joinGallerybutton:" destination="NfL-mq-pCc" eventType="touchUpInside" id="6rd-2z-71w"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1279,6 +1282,10 @@
                         <outlet property="newDrawingbutton" destination="dOy-18-Mf9" id="LaP-dQ-Bxu"/>
                         <outlet property="openLocalDrawingButton" destination="uEK-6N-qKy" id="qEQ-JC-3Yo"/>
                         <segue destination="6fs-n7-ZOE" kind="show" identifier="NewDrawingSegue" id="gnA-5P-Sr6"/>
+                        <segue destination="ZCk-mf-U2u" kind="show" identifier="OpenDrawingSegue" id="G45-ue-weQ"/>
+                        <segue destination="adH-E4-mIa" kind="show" identifier="JoinDrawingSegue" id="fRa-i0-Yo6"/>
+                        <segue destination="2qr-LN-3sO" kind="show" identifier="OpenGallerySegue" id="Jx2-u6-b2C"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="BackToLoginSegue" id="mE4-me-Xt5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jsD-ko-Lvy" userLabel="First Responder" sceneMemberID="firstResponder"/>
