@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace PolyPaint.Models.MessagingModels
 {
@@ -15,5 +16,12 @@ namespace PolyPaint.Models.MessagingModels
 
         [JsonProperty(PropertyName = "timestamp")]
         public long Timestamp { get; set; }
+    }
+
+    internal class ChatMessageDisplayModel
+    {
+        public string MessageText { get; set; }
+        public DateTime Timestamp { get; set; }
+        public string AuthorName { get; set; }
     }
 }

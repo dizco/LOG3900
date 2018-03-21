@@ -136,13 +136,15 @@
     <Compile Include="Strategy\EditorActionStrategy\EditorActionTransformStrokesStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
+    <Compile Include="Views\ChatView.xaml.cs">
+      <DependentUpon>ChatView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PixelEditorView.xaml.cs">
       <DependentUpon>PixelEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomeMenu.xaml.cs">
       <DependentUpon>HomeMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChatWindowModel.cs" />
     <Compile Include="Models\ShapeMakerModel.cs" />
     <Compile Include="Models\StrokeEditor.cs" />
     <Compile Include="Constants\JsonConstantStrings.cs" />
@@ -161,7 +163,7 @@
     <Compile Include="Strategy\EditorActionStrategy\EditorActionStrategyContext.cs" />
     <Compile Include="Strategy\EditorActionStrategy\IEditorActionStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\InvalidActionStrategyException.cs" />
-    <Compile Include="ViewModels\ChatWindowViewModel.cs" />
+    <Compile Include="ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewModels\StrokeEditorViewModel.cs" />
@@ -174,6 +176,10 @@
     <Compile Include="Views\PasswordPrompt.xaml.cs">
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ChatView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PixelEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
