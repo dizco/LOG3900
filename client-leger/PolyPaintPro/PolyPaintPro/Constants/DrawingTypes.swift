@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct Drawing {
+struct DrawingTypes {
     static let Types = ["Mode par trait", "Mode par pixel"]
 }

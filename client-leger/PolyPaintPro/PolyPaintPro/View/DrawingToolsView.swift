@@ -11,6 +11,7 @@ import UIKit
 
 protocol DrawingToolsViewDelegate: class {
     func updateColorValues(red: Int, green: Int, blue: Int, opacity: Int)
+    func updateBrushSize(size: Int)
 }
 
 class DrawingToolsView: UIView {
@@ -115,5 +116,7 @@ class DrawingToolsView: UIView {
 
     private func updateSize() {
         PixelEditorViewController().brushWidth = CGFloat(widthValue)
+
+        self.delegate?.updateBrushSize(size: self.widthValue)
     }
 }

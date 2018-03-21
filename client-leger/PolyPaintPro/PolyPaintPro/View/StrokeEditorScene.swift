@@ -9,16 +9,16 @@
 import SpriteKit
 
 struct Stack {
-    fileprivate var array: [SKShapeNode] = []
-    mutating func push(_ element: SKShapeNode) {
+    fileprivate var array: [SKStroke] = []
+    mutating func push(_ element: SKStroke) {
         array.append(element)
     }
 
-    mutating func pop() -> SKShapeNode? {
+    mutating func pop() -> SKStroke? {
         return array.popLast()
     }
 
-    func peek() -> SKShapeNode? {
+    func peek() -> SKStroke? {
         return array.last
     }
 
@@ -33,25 +33,30 @@ enum EditingMode {
 
 class StrokeEditorScene: SKScene {
     // MARK: - Constants
-    let INCOMPLETESTROKE = "line"
-    let COMPLETESTROKE = "stroke"
+    internal let INCOMPLETESTROKE = "line"
+    internal let COMPLETESTROKE = "stroke"
+    internal let RECEIVEDSTROKE = "receivedstroke"
 
-    // MARK: - Strokes color parameters
+    // MARK: - View Size
+    var skViewSize = CGSize.zero
+
+    // MARK: - Strokes drawing parameters
     internal var red: CGFloat = 0.0
     internal var green: CGFloat = 0.0
     internal var blue: CGFloat = 0.0
     internal var opacity: CGFloat = 1.0
+    internal var width: CGFloat = 10.0
 
     // MARK: - Strokes parameters
-    var strokesStack: Stack = Stack()
-    var wayPoints: [CGPoint] = []
-    var nStrokes = 0
-    var start = CGPoint.zero
-    var end = CGPoint.zero
-    var lastLocation = CGPoint.zero
+    internal var strokesStack: Stack = Stack()
+    internal var wayPoints: [CGPoint] = []
+    internal var nStrokes = 0
+    internal var start = CGPoint.zero
+    internal var end = CGPoint.zero
+    internal var lastLocation = CGPoint.zero
 
     // MARK: - Editing mode
-    var currentEditingMode = EditingMode.ink // will be used to switch editing modes
+    internal var currentEditingMode = EditingMode.ink // will be used to switch editing modes
 
     override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.white
@@ -70,12 +75,123 @@ class StrokeEditorScene: SKScene {
         }
     }
 
+    // MARK: - Get the view size
+    func saveCurrentViewSize(size: CGSize) {
+        self.skViewSize = size
+    }
+
     // MARK: - Called by DrawingToolsViewDelegate
     func updateColorValues(red: Int, green: Int, blue: Int, opacity: Int) {
-        self.red = CGFloat(red) / 255
-        self.green = CGFloat(green) / 255
-        self.blue = CGFloat(blue) / 255
-        self.opacity = CGFloat(opacity) / 100
+        self.red = CGFloat(red) / 255.0
+        self.green = CGFloat(green) / 255.0
+        self.blue = CGFloat(blue) / 255.0
+        self.opacity = CGFloat(opacity) / 255.0
+    }
+
+    func updateBrushSize(size: Int) {
+        self.width = CGFloat(size)
+    }
+
+    // MARK: - Functions for received actions
+    func applyReceived(incomingAction: IncomingActionMessage) {
+        if incomingAction.type == "server.editor.action" {
+            for receivedStroke in incomingAction.delta.add {
+                let path = self.createReceivedPathWith(dotsArray: receivedStroke.dots)
+                self.drawReceived(stroke: receivedStroke)
+            }
+        }
+    }
+
+    // IncomingAdd is the struct that contains the info of the stroke to draw
+    private func drawReceived(stroke: IncomingAdd) {
+        let path = self.createReceivedPathWith(dotsArray: stroke.dots)
+        let color = self.convertHexToUIColor(hex: stroke.strokeAttributes.color)!
+
+        let shapeNode = SKStroke()
+        shapeNode.path = path
+        shapeNode.name = self.RECEIVEDSTROKE
+        shapeNode.setReceivedUuid(uuid: stroke.strokeUuid)
+
+        shapeNode.strokeColor = color
+        shapeNode.lineWidth = CGFloat(stroke.strokeAttributes.width)
+        // Can't do stuff with strokeAttributes.height
+        shapeNode.lineJoin = CGLineJoin.round
+        shapeNode.lineCap = CGLineCap.round
+
+        self.addChild(shapeNode)
+    }
+
+    private func convertHexToUIColor(hex: String) -> UIColor? {
+        // https://cocoacasts.com/from-hex-to-uicolor-and-back-in-swift
+        // thank you mr skeltal
+        var rgb: UInt32 = 0
+
+        var red: CGFloat = 0.0
+        var green: CGFloat = 0.0
+        var blue: CGFloat = 0.0
+        var alpha: CGFloat = 0.0
+
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+        let length = hexSanitized.characters.count
+
+        guard Scanner(string: hexSanitized).scanHexInt32(&rgb) else { return nil }
+
+        if length == 6 {
+            red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+            green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+            blue = CGFloat(rgb & 0x0000FF) / 255.0
+
+        } else if length == 8 {
+            alpha = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
+            red = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
+            green = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
+            blue = CGFloat(rgb & 0x000000FF) / 255.0
+        } else {
+            return nil
+        }
+
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+
+    private func createReceivedPathWith(dotsArray: [IncomingDots]) -> CGMutablePath {
+        let strokeStart: CGPoint
+        let strokeEnd: CGPoint
+        var dotsArrayToUse: [IncomingDots] = dotsArray
+        var isOneOrTwoDots = false
+
+        if dotsArray.count == 1 {
+            isOneOrTwoDots = true
+            strokeStart = self.convertDotToCGPoint(dot: dotsArray.first!)
+            strokeEnd = strokeStart
+        } else if dotsArray.count == 2 {
+            isOneOrTwoDots = true
+            strokeStart = self.convertDotToCGPoint(dot: dotsArray.first!)
+            strokeEnd = self.convertDotToCGPoint(dot: dotsArray.last!)
+        } else {
+            strokeStart = self.convertDotToCGPoint(dot: dotsArray.first!)
+            strokeEnd = self.convertDotToCGPoint(dot: dotsArray.last!)
+            let tmpDotsArray = dotsArray.dropFirst()
+            dotsArrayToUse = Array(tmpDotsArray.dropLast())
+        }
+
+        let path = CGMutablePath()
+        path.move(to: strokeStart)
+
+        if isOneOrTwoDots {
+            path.addLine(to: strokeEnd)
+        } else {
+            for dot in dotsArrayToUse {
+                path.addLine(to: self.convertDotToCGPoint(dot: dot))
+            }
+            path.addLine(to: strokeEnd)
+        }
+        return path
+    }
+
+    private func convertDotToCGPoint(dot: IncomingDots) -> CGPoint {
+        let dot = CGPoint(x: dot.x, y: dot.y)
+        return self.convertPoint(fromView: dot)
     }
 
     // MARK: - Touches function
@@ -105,8 +221,8 @@ class StrokeEditorScene: SKScene {
         case .ink:
             if let touch = touches.first as? UITouch {
                 let currentLocation = touch.location(in: self)
-                print(currentLocation.x)
-                print(currentLocation.y)
+                print("x", currentLocation.x)
+                print("y", currentLocation.y)
                 self.addPoint(point: currentLocation)
                 self.drawLines(start: self.lastLocation, end: currentLocation)
                 self.lastLocation = currentLocation
@@ -188,6 +304,9 @@ class StrokeEditorScene: SKScene {
         enumerateChildNodes(withName: self.COMPLETESTROKE, using: {node, stop in
             node.removeFromParent()
         })
+        enumerateChildNodes(withName: self.RECEIVEDSTROKE, using: {node, stop in
+            node.removeFromParent()
+        })
         self.nStrokes = 0
         self.resetStrokeValues()
     }
@@ -207,7 +326,7 @@ class StrokeEditorScene: SKScene {
         shapeNode.path = path
         shapeNode.name = self.INCOMPLETESTROKE
         shapeNode.strokeColor = UIColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
-        shapeNode.lineWidth = 10
+        shapeNode.lineWidth = self.width
         shapeNode.lineJoin = CGLineJoin.round
         shapeNode.lineCap = CGLineCap.round
 
@@ -224,11 +343,11 @@ class StrokeEditorScene: SKScene {
         }
         path.addLine(to: end)
 
-        let shapeNode = SKShapeNode()
+        let shapeNode = SKStroke()
         shapeNode.path = path
         shapeNode.name = self.COMPLETESTROKE
         shapeNode.strokeColor = UIColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
-        shapeNode.lineWidth = 10
+        shapeNode.lineWidth = self.width
         shapeNode.lineCap = CGLineCap.round
 
         self.addChild(shapeNode)
@@ -236,8 +355,8 @@ class StrokeEditorScene: SKScene {
 
     private func eraseByStroke(position: CGPoint) {
         // most recent stroke is returned as the first one
-        let strokeToBeErased = self.nodes(at: position).first as? SKShapeNode
-        let strokesToBeErased = self.nodes(at: position) as? [SKShapeNode]
+        let strokeToBeErased = self.nodes(at: position).first as? SKStroke
+        let strokesToBeErased = self.nodes(at: position) as? [SKStroke]
 
         if strokesToBeErased == nil {
             return
@@ -254,7 +373,7 @@ class StrokeEditorScene: SKScene {
     }
 
     func eraseByPoint(position: CGPoint) {
-        let strokeToBeErased = self.nodes(at: position).first as? SKShapeNode
+        let strokeToBeErased = self.nodes(at: position).first as? SKStroke
         let pointsList = strokeToBeErased?.path?.getPathElementsPoints()
 
         // TO-DO : Add a function to preview the eraser's path.....
@@ -268,7 +387,7 @@ class StrokeEditorScene: SKScene {
     // removes the child from view and adds it to the stack
     func stack() {
         if !self.children.isEmpty {
-            let lastStroke = self.children.last as! SKShapeNode
+            let lastStroke = self.children.last as! SKStroke
             self.strokesStack.push(lastStroke)
             lastStroke.removeFromParent()
         } else {
@@ -279,7 +398,7 @@ class StrokeEditorScene: SKScene {
     // adds the child to the view and removes it from the stack
     func unstack() {
         if !self.strokesStack.isEmpty() {
-            let stroke: SKShapeNode = self.strokesStack.pop()!
+            let stroke: SKStroke = self.strokesStack.pop()!
             self.addChild(stroke)
         } else {
             // TO-DO : Disable the button
