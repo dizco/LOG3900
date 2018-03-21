@@ -38,20 +38,18 @@ export class SocketStrategyEditorAction implements SocketStrategy {
      */
     public execute(wsDecorator: WebSocketDecorator): void {
         const decorator = new EditorActionDecorator(this.clientAction, wsDecorator.user);
-        decorator.decorate(wsDecorator.getWs())
-            .then((message: ServerEditorAction) => {
-                //TODO: Validate if user is allowed to broadcast to that room
-                const success = wsDecorator.broadcast.to(message.drawing.id.toString()).send(JSON.stringify(message));
-                if (success) {
-                    SocketStrategyEditorAction.saveStrokes(message);
-                    SocketStrategyEditorAction.saveAction(message);
-                }
-                else {
-                    console.log("EditorAction failed to broadcast");
-                    //TODO: Notify emitting user
-                }
-            })
-            .catch((reason => console.log("EditorAction failed to fetch db info", reason)));
+        const message = decorator.decorate(wsDecorator.getWs());
+
+        //TODO: Validate if user is allowed to broadcast to that room
+        const success = wsDecorator.broadcast.to(message.drawing.id.toString()).send(JSON.stringify(message));
+        if (success) {
+            SocketStrategyEditorAction.saveStrokes(message);
+            SocketStrategyEditorAction.saveAction(message);
+        }
+        else {
+            console.log("EditorAction failed to broadcast");
+            //TODO: Notify emitting user
+        }
     }
 
     private static saveAction(message: ServerEditorAction): void {
