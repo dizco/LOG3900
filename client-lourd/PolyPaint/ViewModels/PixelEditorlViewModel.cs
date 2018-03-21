@@ -122,7 +122,7 @@ namespace PolyPaint.ViewModels
             {
                 ChatWindow = new ChatWindowView();
                 ChatWindow.Show();
-                ChatWindow.Closed += (sender, args) => ChatWindow = null;
+                ChatWindow.Closing += (sender, args) => ChatWindow = null;
             }
             else
             {

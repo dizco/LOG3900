@@ -182,7 +182,7 @@ namespace PolyPaint.ViewModels
             {
                 LoginWindow = new LoginWindowView();
                 LoginWindow.Show();
-                LoginWindow.Closed += (s, a) => LoginWindow = null;
+                LoginWindow.Closing += (s, a) => LoginWindow = null;
                 OnClosingRequest();
             }
         }
@@ -367,7 +367,7 @@ namespace PolyPaint.ViewModels
                         (StrokeEditor.DataContext as StrokeEditorViewModel)?.RebuildDrawing(strokes);
                     }
 
-                    StrokeEditor.Closed += OnEditorClosedHandler;
+                    StrokeEditor.Closing += OnEditorClosedHandler;
                     OnClosingRequest();
                 }
             }
@@ -380,7 +380,7 @@ namespace PolyPaint.ViewModels
                     PixelEditor.Show();
                     // TODO: Modify this function once server saving protocol is established
                     //(PixelEditor.DataContext as StrokeEditorViewModel)?.ReplayActions(strokes);
-                    PixelEditor.Closed += OnEditorClosedHandler;
+                    PixelEditor.Closing += OnEditorClosedHandler;
                     OnClosingRequest();
                 }
             }
@@ -400,7 +400,7 @@ namespace PolyPaint.ViewModels
                     }
                 }
 
-                StrokeEditor.Closed += OnEditorClosedHandler;
+                StrokeEditor.Closing += OnEditorClosedHandler;
                 OnClosingRequest();
             }
         }
@@ -416,7 +416,7 @@ namespace PolyPaint.ViewModels
                     editorStrokeViewModel.LoadAutosaved.Execute(autosaveDrawingName);
                 }
 
-                StrokeEditor.Closed += OnEditorClosedHandler;
+                StrokeEditor.Closing += OnEditorClosedHandler;
                 OnClosingRequest();
             }
         }
@@ -437,7 +437,7 @@ namespace PolyPaint.ViewModels
             {
                 HomeMenu = new HomeMenu();
                 HomeMenu.Show();
-                HomeMenu.Closed += (s, a) => HomeMenu = null;
+                HomeMenu.Closing += (s, a) => HomeMenu = null;
                 OnClosingRequest();
             }
 
