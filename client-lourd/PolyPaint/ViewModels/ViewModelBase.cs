@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Views;
@@ -9,6 +11,8 @@ namespace PolyPaint.ViewModels
     internal class ViewModelBase
     {
         private static Messenger _messenger;
+
+        private static readonly object Lock = new object();
 
         private static string _username;
 
@@ -36,13 +40,10 @@ namespace PolyPaint.ViewModels
 
         public static string DrawingName { get; set; }
 
-        protected Messenger Messenger => _messenger;
+        public static ObservableCollection<ChatMessageDisplayModel> ChatMessageCollection { get; } =
+            new ObservableCollection<ChatMessageDisplayModel>();
 
-        /// <summary>
-        ///     ChatMessageReceived event is available for classes that inherit from ViewModelBase to declare their own
-        ///     EventHandler for incoming chat message data once an event is raised in the SocketHandler class
-        /// </summary>
-        protected static event EventHandler<ChatMessageModel> ChatMessageReceived;
+        protected Messenger Messenger => _messenger;
 
         /// <summary>
         ///     EditorActionReceived event is available for the editor to declare it's own EventHandler in order to process
@@ -83,6 +84,8 @@ namespace PolyPaint.ViewModels
                 socketHandler.WebSocketConnectedEvent += OnWebSocketConnected;
                 socketHandler.WebSocketDisconnectedEvent += OnWebSocketDisconnected;
                 _messenger = new Messenger(socketHandler);
+
+                BindingOperations.EnableCollectionSynchronization(ChatMessageCollection, Lock);
             }
 
             return _messenger;
@@ -90,7 +93,36 @@ namespace PolyPaint.ViewModels
 
         public static void OnChatMessageReceived(object sender, ChatMessageModel chatMessageModel)
         {
-            ChatMessageReceived?.Invoke(sender, chatMessageModel);
+            AppendMessageToChat(chatMessageModel);
+        }
+
+        private static void AppendMessageToChat(ChatMessageModel incomingMessage = null)
+        {
+            string message, author;
+            DateTime messageTime;
+
+            if (incomingMessage != null)
+            {
+                DateTime unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                message = incomingMessage.Message;
+                messageTime = unixEpoch.AddMilliseconds(incomingMessage.Timestamp).ToLocalTime();
+                author = incomingMessage.Author?.Username ?? "PodMuncher";
+            }
+            else
+            {
+                //Invalid call to method, exit before processing any further
+                return;
+            }
+
+            lock (Lock)
+            {
+                ChatMessageCollection.Add(new ChatMessageDisplayModel
+                {
+                    MessageText = message,
+                    Timestamp = messageTime,
+                    AuthorName = author
+                });
+            }
         }
 
         public static void OnEditorActionReceived(object sender, EditorActionModel editorActionModel)

@@ -428,9 +428,9 @@ namespace PolyPaint.ViewModels
                 (strokeEditorView.DataContext as StrokeEditorViewModel)?.UnsubscribeDrawingRoom();
                 (strokeEditorView.DataContext as StrokeEditorViewModel)?.Dispose();
             }
-            else if (sender is PixelEditorView PixelEditorView)
+            else if (sender is PixelEditorView pixelEditorView)
             {
-                (PixelEditorView.DataContext as PixelEditorlViewModel)?.Dispose();
+                (pixelEditorView.DataContext as PixelEditorlViewModel)?.Dispose();
             }
 
             if (HomeMenu == null)
