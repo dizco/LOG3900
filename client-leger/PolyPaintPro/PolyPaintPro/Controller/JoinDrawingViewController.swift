@@ -11,14 +11,15 @@ import UIKit
 
 class JoinDrawingViewController: UIViewController {
     internal var connectionStatus = true
-    var drawingListName : [String] = ["John", "Adam", "Shilpa", "Jennifer", "Sia"] //array containing the list of drawing
-    var drawingPrivacyStatus: [Bool] = [true, true, false, false, true] //array containing the privacy status of each drawing
+    var joinDrawingList: [JoinDrawingsDataStruct] = []
 
     @IBOutlet weak var joinDrawingTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //joinDrawingTableView.tableFooterView = UIView(frame: CGRect.zero)
+        joinDrawingTableView.tableFooterView = UIView(frame: CGRect.zero)
+        joinDrawingList.append(JoinDrawingsDataStruct(id: "123", name: "mona lisa", privacyStatus: true, type: "trait")) //mocked data
+        joinDrawingList.append(JoinDrawingsDataStruct(id: "456", name: "msdkjfhx", privacyStatus: false, type: "pixel")) //mocked data
     }
     
     override func didReceiveMemoryWarning() {
@@ -27,28 +28,35 @@ class JoinDrawingViewController: UIViewController {
     }
 
     func insertNewDrawing() {
-        let indexPath = IndexPath(row: drawingListName.count - 1 , section: 0)
-        //drawingListName.append(" ciboire de saint osti") this line adds an element to the table of drawings
-        //drawingPrivacyStatus.append(true) thi line adds the privacy status of the drawing to the table
+        let indexPath = IndexPath(row: joinDrawingList.count - 1, section: 0)
+        //drawingList.append(OpenLocalDrawingsDataStruct(id: "456", name: "mona lisa", type: "pixel")) //mocked data this line adds an element to the table of drawings
         joinDrawingTableView.beginUpdates()
         joinDrawingTableView.insertRows(at: [indexPath], with: .automatic)
         joinDrawingTableView.endUpdates()
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).type == "pixel" {
+            performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
+        } else if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).type == "trait" {
+            performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
+        }
     }
 }
 
 extension JoinDrawingViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return drawingListName.count
+        return joinDrawingList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "Cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
 
-        cell.textLabel?.text = drawingListName[indexPath.row]
-        if drawingPrivacyStatus[indexPath.row] {
+        cell.textLabel?.text = (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).name
+        if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).privacyStatus {
             cell.detailTextLabel?.text = "\u{1f513}"
-        } else if !drawingPrivacyStatus[indexPath.row] {
+        } else if !(joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).privacyStatus {
             cell.detailTextLabel?.text = "\u{1f512}"
         }
         return cell
