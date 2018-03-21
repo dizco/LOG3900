@@ -10,13 +10,15 @@ import Foundation
 import UIKit
 
 class JoinDrawingViewController: UIViewController {
+    internal var connectionStatus = true
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
 }

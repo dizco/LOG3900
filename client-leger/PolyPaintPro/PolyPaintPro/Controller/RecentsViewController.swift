@@ -28,9 +28,21 @@ class RecentsViewController: UIViewController {
             backToLoginButton.isHidden = true
         }
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! NewDrawingViewController
-        vc.connectionStatus = connectionStatus
+        if segue.identifier == "NewDrawingSegue" {
+            let vc = segue.destination as! NewDrawingViewController
+            vc.connectionStatus = connectionStatus
+        } else if segue.identifier == "OpenDrawingSegue" {
+            let vc = segue.destination as! OpenLocalDrawingViewController
+            vc.connectionStatus = connectionStatus
+        } else if segue.identifier == "JoinDrawingSegue" {
+            let vc = segue.destination as! JoinDrawingViewController
+        } else if segue.identifier == "OpenGallerySegue" {
+            let vc = segue.destination as! JoinGalleryViewController
+        } else if segue.identifier == "BackToLoginSegue" {
+            let vc = segue.destination as! LoginViewController
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,5 +52,20 @@ class RecentsViewController: UIViewController {
 
     @IBAction func newDrawingButton(_ sender: UIButton) {
         performSegue(withIdentifier: "NewDrawingSegue", sender: self)
+    }
+
+    @IBAction func openLocalDrawingButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "OpenDrawingSegue", sender: self)
+    }
+
+    @IBAction func joinDrawingButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "JoinDrawingSegue", sender: self)
+    }
+
+    @IBAction func joinGallerybutton(_ sender: UIButton) {
+        performSegue(withIdentifier: "OpenGallerySegue", sender: self)
+    }
+    @IBAction func backToLoginButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "BackToLoginSegue", sender: self)
     }
 }
