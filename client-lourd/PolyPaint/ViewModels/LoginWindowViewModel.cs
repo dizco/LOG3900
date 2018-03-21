@@ -88,8 +88,8 @@ namespace PolyPaint.ViewModels
 
             if (response.IsSuccessStatusCode)
             {
-                OpenConnection();
                 Username = UserEmail;
+                OpenConnection();
             }
             else
             {
