@@ -12,13 +12,20 @@ import Starscream
 protocol SocketManagerDelegate: class {
     func connect()
     func disconnect(error: Error?)
-    func managerDidReceive(data: Data)
+    func managerDidReceiveChat(data: Data)
+    func managerDidReceiveAction(data: Data)
+}
+
+private struct SocketMessageType: Codable {
+    let type: String
 }
 
 class SocketManager {
     static let sharedInstance = SocketManager()
     private var socket: WebSocket?
-    weak var delegate: SocketManagerDelegate?
+
+    weak var chatDelegate: SocketManagerDelegate?
+    weak var actionDelegate: SocketManagerDelegate?
 
     func send(data: Data) {
         if !socket!.isConnected {
@@ -26,6 +33,14 @@ class SocketManager {
             return
         }
         socket!.write(data: data)
+    }
+
+    func getConnectionStatus() -> Bool {
+        if self.socket == nil {
+            return false
+        } else {
+            return self.socket!.isConnected
+        }
     }
 
     func establishConnection(ipAddress: String = "localhost") {
@@ -44,20 +59,27 @@ class SocketManager {
         self.socket = WebSocket(request: request)
 
         self.socket!.onConnect = {
-            self.delegate?.connect()
+            self.chatDelegate?.connect()
         }
 
         self.socket!.onDisconnect = { error in
-            self.delegate?.disconnect(error: error)
-        }
-
-        self.socket!.onData = { data in
-            self.delegate?.managerDidReceive(data: data)
+            self.chatDelegate?.disconnect(error: error)
         }
 
         self.socket!.onText = { text in
             let data = text.data(using: .utf16)!
-            self.delegate?.managerDidReceive(data: data)
+            let decoder = JSONDecoder()
+            do {
+                let socketMessageType = try decoder.decode(SocketMessageType.self, from: data)
+                print(socketMessageType.type)
+                if socketMessageType.type == "server.editor.action" {
+                    self.actionDelegate?.managerDidReceiveAction(data: data)
+                } else if socketMessageType.type == "server.chat.message" {
+                    self.chatDelegate?.managerDidReceiveChat(data: data)
+                }
+            } catch let error {
+                print(error)
+            }
         }
         socket!.connect()
     }

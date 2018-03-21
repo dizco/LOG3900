@@ -11,14 +11,14 @@ import UIKit
 class RecentsViewController: UIViewController {
     var connectionStatus = true
 
-    //Mark: - Outlets
+    // MARK: - Outlets
     @IBOutlet weak var newDrawingbutton: UIButton!
     @IBOutlet weak var openLocalDrawingButton: UIButton!
     @IBOutlet weak var joinDrawingButton: UIButton!
     @IBOutlet weak var joinGalleryButton: UIButton!
     @IBOutlet weak var backToLoginButton: UIButton!
 
-    //Mark: - Override Functions
+    // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         if !connectionStatus {

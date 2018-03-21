@@ -46,8 +46,8 @@ class EditorViewController: UIViewController, SocketManagerDelegate {
         if !connectionStatus {
             chatToggleBtn.isEnabled = false
         }
-        if SocketManager.sharedInstance.delegate == nil {
-            SocketManager.sharedInstance.delegate = self
+        if SocketManager.sharedInstance.chatDelegate == nil {
+            SocketManager.sharedInstance.chatDelegate = self
         }
 
         let leftSwipe = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftEdgeSwiped))
@@ -127,6 +127,7 @@ class EditorViewController: UIViewController, SocketManagerDelegate {
         AudioServicesPlaySystemSound(SystemSoundID(1003)) //See https://github.com/TUNER88/iOSSystemSoundsLibrary
     }
 
+    // MARK: - SocketManagerDelegate
     internal func connect() {
         print("Connecting to server.")
     }
@@ -135,9 +136,9 @@ class EditorViewController: UIViewController, SocketManagerDelegate {
         print ("Disconnected with error: \(String(describing: error?.localizedDescription))")
     }
 
-    internal func managerDidReceive(data: Data) {
+    internal func managerDidReceiveChat(data: Data) {
         do {
-            print("Data received.")
+            print("Chat data received.")
             let decoder = JSONDecoder()
             let incomingMessage = try decoder.decode(IncomingChatMessage.self, from: data)
             print(incomingMessage.message)
@@ -153,6 +154,11 @@ class EditorViewController: UIViewController, SocketManagerDelegate {
         }
     }
 
+    internal func managerDidReceiveAction(data: Data) {
+        // do nothing
+    }
+
+    // MARK: - Text field validators
     private func initializeTextFieldValidators() {
         self.colorsValidator = TextFieldValidator(minValue: 0, maxValue: 255)
         self.alphaValidator = TextFieldValidator(minValue: 0, maxValue: 100)
@@ -164,6 +170,7 @@ class EditorViewController: UIViewController, SocketManagerDelegate {
         drawingSettingsView.sizeField.delegate = self.sizeValidator
     }
 
+    // MARK: - Gestures
     @objc func leftEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         if recognizer.state == .recognized {
             if (!toolsShowing && !drawingSettingsShowing) || (toolsShowing && drawingSettingsShowing) {

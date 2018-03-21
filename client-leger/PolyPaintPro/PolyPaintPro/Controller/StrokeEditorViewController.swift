@@ -20,6 +20,9 @@ class StrokeEditorViewController: EditorViewController, DrawingToolsViewDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // StrokeEditor Embassy
+        SocketManager.sharedInstance.actionDelegate = self
         drawingSettingsView.delegate = self
         toolsView.delegate = self
 
@@ -33,9 +36,25 @@ class StrokeEditorViewController: EditorViewController, DrawingToolsViewDelegate
         super.viewDidAppear(animated)
     }
 
+    // MARK: - SocketManagerDelegate
+    override func managerDidReceiveAction(data: Data) {
+        do {
+            print("Action data received.")
+            let decoder = JSONDecoder()
+            let incomingAction = try decoder.decode(IncomingActionMessage.self, from: data)
+            self.scene.applyReceived(incomingAction: incomingAction)
+        } catch let error {
+            print(error)
+        }
+    }
+
     // MARK: - DrawingToolsViewDelegate
     func updateColorValues(red: Int, green: Int, blue: Int, opacity: Int) {
         self.scene.updateColorValues(red: red, green: green, blue: blue, opacity: opacity)
+    }
+
+    func updateBrushSize(size: Int) {
+        self.scene.updateBrushSize(size: size)
     }
 
     // MARK: - ToolsViewDelegate
