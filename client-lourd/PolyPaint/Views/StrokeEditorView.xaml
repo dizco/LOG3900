@@ -7,6 +7,7 @@
     xmlns:converters="clr-namespace:PolyPaint.Converters"
     xmlns:customInkCanvas="clr-namespace:PolyPaint.CustomComponents"
     xmlns:local="clr-namespace:PolyPaint.Models"
+    xmlns:uc="clr-namespace:PolyPaint.Views"
     x:Class="PolyPaint.Views.StrokeEditorView"
         mc:Ignorable="d"
         Title="Poly Paint" Height="700" Width="900" Background="#CBD4E4" MinWidth="627" MinHeight="200">
@@ -412,6 +413,11 @@
                 <Border.Effect>
                     <DropShadowEffect Opacity="0.3" BlurRadius="10"/>
                 </Border.Effect>
+            </Border>
+        </Grid>
+        <Grid Width="300" HorizontalAlignment="Right" Background="WhiteSmoke">
+            <Border BorderBrush="Black" BorderThickness="1">
+                <uc:ChatView/>
             </Border>
         </Grid>
     </DockPanel>
