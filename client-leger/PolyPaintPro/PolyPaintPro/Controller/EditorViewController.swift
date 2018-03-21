@@ -10,7 +10,10 @@ import Foundation
 import SpriteKit
 import AVFoundation
 
-class EditorViewController: UIViewController, SocketManagerDelegate, UITextFieldDelegate {
+class EditorViewController: UIViewController, SocketManagerDelegate {
+    private var colorsValidator: TextFieldValidator!
+    private var alphaValidator: TextFieldValidator!
+    private var sizeValidator: TextFieldValidator!
     private var timer: Timer!
     internal var chatShowing = false
     internal var toolsShowing = false
@@ -55,11 +58,7 @@ class EditorViewController: UIViewController, SocketManagerDelegate, UITextField
         rightSwipe.edges = .right
         view.addGestureRecognizer(rightSwipe)
 
-        drawingSettingsView.redField.delegate = self
-        drawingSettingsView.greenField.delegate = self
-        drawingSettingsView.blueField.delegate = self
-        drawingSettingsView.alphaField.delegate = self
-        drawingSettingsView.sizeField.delegate = self
+        self.initializeTextFieldValidators()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -154,62 +153,15 @@ class EditorViewController: UIViewController, SocketManagerDelegate, UITextField
         }
     }
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
-        let allowedCharacters = CharacterSet.decimalDigits
-        let characterSet = CharacterSet(charactersIn: string)
-
-        if allowedCharacters.isSuperset(of: characterSet) {
-            var maxTextFieldValue = 255
-
-            if drawingSettingsView.redField.isEditing {
-                maxTextFieldValue = 255
-            }
-            if drawingSettingsView.greenField.isEditing {
-                maxTextFieldValue = 255
-            }
-            if drawingSettingsView.blueField.isEditing {
-                maxTextFieldValue = 255
-            }
-            if drawingSettingsView.alphaField.isEditing {
-                maxTextFieldValue = 100
-            }
-            if drawingSettingsView.sizeField.isEditing {
-                maxTextFieldValue = 50
-            }
-
-            var startString = ""
-            if textField.text != nil {
-                startString += textField.text!
-            }
-            startString += string
-            var limitNumber: Int = Int(startString)!
-            if limitNumber < 0 {
-                return false
-            }
-            if limitNumber > maxTextFieldValue {
-                if drawingSettingsView.redField.isEditing {
-                   drawingSettingsView.redField.text! = String(maxTextFieldValue)
-                }
-                if drawingSettingsView.greenField.isEditing {
-                    drawingSettingsView.greenField.text! = String(maxTextFieldValue)
-                }
-                if drawingSettingsView.blueField.isEditing {
-                    drawingSettingsView.blueField.text! = String(maxTextFieldValue)
-                }
-                if drawingSettingsView.alphaField.isEditing {
-                   drawingSettingsView.alphaField.text! = String(maxTextFieldValue)
-                }
-                if drawingSettingsView.sizeField.isEditing {
-                    drawingSettingsView.sizeField.text! = String(maxTextFieldValue)
-                }
-                return false
-            } else {
-                return true
-            }
-        } else {
-            return false
-        }
+    private func initializeTextFieldValidators() {
+        self.colorsValidator = TextFieldValidator(minValue: 0, maxValue: 255)
+        self.alphaValidator = TextFieldValidator(minValue: 0, maxValue: 100)
+        self.sizeValidator = TextFieldValidator(minValue: 0, maxValue: 50)
+        drawingSettingsView.redField.delegate = self.colorsValidator
+        drawingSettingsView.greenField.delegate = self.colorsValidator
+        drawingSettingsView.blueField.delegate = self.colorsValidator
+        drawingSettingsView.alphaField.delegate = self.alphaValidator
+        drawingSettingsView.sizeField.delegate = self.sizeValidator
     }
 
     @objc func leftEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {

@@ -40,6 +40,7 @@
 		C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF572059C9990078CF27 /* EditorViewController.swift */; };
 		C067AF5F205A1A050078CF27 /* Timers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF5E205A1A050078CF27 /* Timers.swift */; };
 		C08BE4012056D1E200525038 /* Rest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08BE4002056D1E200525038 /* Rest.swift */; };
+		C0A5ECC82061C8D4007FD989 /* TextFieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A5ECC72061C8D4007FD989 /* TextFieldValidator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		C067AF572059C9990078CF27 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		C067AF5E205A1A050078CF27 /* Timers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timers.swift; sourceTree = "<group>"; };
 		C08BE4002056D1E200525038 /* Rest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rest.swift; sourceTree = "<group>"; };
+		C0A5ECC72061C8D4007FD989 /* TextFieldValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldValidator.swift; sourceTree = "<group>"; };
 		E10C1B5411A3AD25B25EAA1B /* Pods-PolyPaintPro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PolyPaintPro.release.xcconfig"; path = "Pods/Target Support Files/Pods-PolyPaintPro/Pods-PolyPaintPro.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,6 +166,7 @@
 		27080CF72026508F0071FDC0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C0A5ECC62061C89E007FD989 /* Validators */,
 				27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */,
 				27C07AA52050D319006BB8EB /* RecentsViewController.swift */,
 				271E38F620572CFB0067BD16 /* NewDrawingViewController.swift */,
@@ -284,6 +287,14 @@
 				274956052058236D0053DAD4 /* DrawingTypes.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		C0A5ECC62061C89E007FD989 /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+				C0A5ECC72061C8D4007FD989 /* TextFieldValidator.swift */,
+			);
+			path = Validators;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -599,6 +610,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A5ECC82061C8D4007FD989 /* TextFieldValidator.swift in Sources */,
 				BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */,
 				27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */,
 				C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */,
