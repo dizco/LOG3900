@@ -99,29 +99,6 @@ namespace PolyPaint.Views
             }
         }
 
-        private void InsertTextBox(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (DataContext.GetType() == typeof(StrokeEditorViewModel))
-                {
-                    (DataContext as StrokeEditorViewModel).ToolSelected = "text";
-                    TextBox textToInsert = (DataContext as StrokeEditorViewModel).InsertText(DrawingSurface);
-
-                    if (string.IsNullOrWhiteSpace(textToInsert.Text))
-                    {
-                        return;
-                    }
-
-                    UIElement[] selectedText = { textToInsert };
-                    DrawingSurface.Select(selectedText);
-                }
-            }
-            catch (NullReferenceException)
-            {
-            }
-        }
-
         private void SurfaceDessin_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             //The Dynamic Renderer is updated on each click

@@ -88,6 +88,8 @@ namespace PolyPaint.ViewModels
                 ChatDocked = Visibility.Visible;
             }
 
+            InsertTextCommand = new RelayCommand<InkCanvas>(InsertText);
+
             LoginStatusChanged += ProcessLoginStatusChange;
 
             EditorActionReceived += ProcessReceivedEditorAction;
@@ -218,6 +220,8 @@ namespace PolyPaint.ViewModels
         public RelayCommand<InkCanvas> VerticalFlipCommand { get; set; }
         public RelayCommand<InkCanvas> HorizontalFlipCommand { get; set; }
 
+        public RelayCommand<InkCanvas> InsertTextCommand { get; set; }
+
         internal bool IsErasingByPoint { get; set; }
         internal bool IsErasingByStroke { get; set; }
 
@@ -280,9 +284,19 @@ namespace PolyPaint.ViewModels
             return _editor.AddShape(start, end);
         }
 
-        public TextBox InsertText(InkCanvas drawingSurface)
+        public void InsertText(InkCanvas drawingSurface)
         {
-            return _editor.InsertText(drawingSurface);
+            ToolSelected = "text";
+
+            if (string.IsNullOrWhiteSpace(TextToInsert))
+            {
+                return;
+            }
+
+            TextBox newTextBox = _editor.InsertText(drawingSurface);
+            UIElement[] newSelectedText = { newTextBox };
+            drawingSurface.Select(newSelectedText);
+            TextToInsert = string.Empty;
         }
 
         public Stroke DrawShape(Point start, Point end)
