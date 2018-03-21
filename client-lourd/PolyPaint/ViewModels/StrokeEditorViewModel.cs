@@ -255,7 +255,7 @@ namespace PolyPaint.ViewModels
         {
             foreach (StrokeModel stroke in strokes)
             {
-                CustomStroke newStroke = StrokeHelper.BuildIncomingStroke(stroke, "");
+                CustomStroke newStroke = StrokeHelper.BuildIncomingStroke(stroke, string.Empty);
                 _editor.StrokesCollection.Add(newStroke);
             }
         }
