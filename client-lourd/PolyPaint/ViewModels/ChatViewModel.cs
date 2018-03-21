@@ -1,6 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
 using PolyPaint.Models.MessagingModels;
 
@@ -23,9 +26,19 @@ namespace PolyPaint.ViewModels
 
             //Sending a message 
             SendMessageCommand = new RelayCommand<object>(SendMessage);
+            ToggleChatCommand = new RelayCommand<object>(ToggleChat);
         }
 
-        public RelayCommand<object> SendMessageCommand { get; }
+        public RelayCommand<object> SendMessageCommand { get; set; }
+        public RelayCommand<object> ToggleChatCommand { get; set; }
+
+        public ImageSource ChatToggleButtonIcon => ChatWindow != null
+                                                       ? new
+                                                           BitmapImage(new
+                                                                           Uri("pack://application:,,,/Resources/Icons/docked.png"))
+                                                       : new
+                                                           BitmapImage(new
+                                                                           Uri("pack://application:,,,/Resources/Icons/windowed.png"));
 
         //Contain the information of all message sent in the chatroom
         public ObservableCollection<ChatMessageDisplayModel> ChatMessages { get; set; }

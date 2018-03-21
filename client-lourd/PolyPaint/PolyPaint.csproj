@@ -131,7 +131,7 @@
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Models\MessagingModels\SubscriptionMessageModel.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionResetStrategy.cs" />
-    <Compile Include="ViewModels\PixelEditorlViewModel.cs" />
+    <Compile Include="ViewModels\PixelEditorViewModel.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionTransformStrokesStrategy.cs" />
     <Compile Include="Strategy\EditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
@@ -305,6 +305,10 @@
   <ItemGroup>
     <Resource Include="Resources\rotate_right.png" />
     <!-- from https://www.iconfinder.com/icons/131866/arrow_image_right_rotate_icon -->
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\docked.png" />
+    <Resource Include="Resources\Icons\windowed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

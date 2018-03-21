@@ -10,11 +10,11 @@ using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels
 {
-    internal class PixelEditorlViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
+    internal class PixelEditorViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
         private readonly PixelEditor _pixelEditor = new PixelEditor();
 
-        public PixelEditorlViewModel()
+        public PixelEditorViewModel()
         {
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, DrawingPixelModelPropertyModified est appelée.
             _pixelEditor.DrawingName = DrawingName;
@@ -24,9 +24,6 @@ namespace PolyPaint.ViewModels
             ChooseTool = new RelayCommand<string>(_pixelEditor.SelectTool);
 
             ExportImageCommand = new RelayCommand<object>(_pixelEditor.ExportImagePrompt);
-
-            //Managing different View
-            OpenChatWindowCommand = new RelayCommand<object>(OpenChatWindow, CanOpenChat);
 
             LoginStatusChanged += ProcessLoginStatusChange;
         }
@@ -53,19 +50,6 @@ namespace PolyPaint.ViewModels
         {
             get => _pixelEditor.PixelSize;
             set => _pixelEditor.PixelSize = value;
-        }
-
-        public Visibility ChatVisibility
-        {
-            get
-            {
-                if (Messenger?.IsConnected ?? false)
-                {
-                    return Visibility.Visible;
-                }
-
-                return Visibility.Hidden;
-            }
         }
 
         //Commands for choosing the tools
@@ -109,11 +93,6 @@ namespace PolyPaint.ViewModels
         protected virtual void PropertyModified([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private bool CanOpenChat(object obj)
-        {
-            return Messenger?.IsConnected ?? false;
         }
 
         public void OpenChatWindow(object o)

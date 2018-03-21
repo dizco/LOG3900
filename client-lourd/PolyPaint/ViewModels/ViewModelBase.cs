@@ -45,6 +45,37 @@ namespace PolyPaint.ViewModels
 
         protected Messenger Messenger => _messenger;
 
+        internal static event EventHandler<EditorChatDisplayOptions> ChangeEditorChatDisplayState;
+
+        protected static void OpenEditorChat()
+        {
+            ChatWindow = null;
+            ChangeEditorChatDisplayState?.Invoke(null, EditorChatDisplayOptions.Display);
+        }
+
+        protected static void CloseAllChat()
+        {
+            ChangeEditorChatDisplayState?.Invoke(null, EditorChatDisplayOptions.Hide);
+            ChatWindow?.Close();
+            ChatWindow = null;
+        }
+
+        protected static void ToggleChat(object o)
+        {
+            if (ChatWindow == null)
+            {
+                ChatWindow = new ChatWindowView();
+                ChatWindow.Closing += (s, a) => OpenEditorChat();
+                ChatWindow.Show();
+                ChangeEditorChatDisplayState?.Invoke(null, EditorChatDisplayOptions.Hide);
+            }
+            else
+            {
+                ChatWindow.Close();
+                OpenEditorChat();
+            }
+        }
+
         /// <summary>
         ///     EditorActionReceived event is available for the editor to declare it's own EventHandler in order to process
         ///     incoming EditorActions from the server. The event is raised by the SocketHandler class
@@ -132,12 +163,20 @@ namespace PolyPaint.ViewModels
 
         public static void OnWebSocketConnected(object sender, EventArgs e)
         {
+            OpenEditorChat();
             WebSocketConnectedEvent?.Invoke(sender, e);
         }
 
         private static void OnWebSocketDisconnected(object sender, int e)
         {
+            CloseAllChat();
             WebSocketDisconnectedEvent?.Invoke(sender, e);
+        }
+
+        internal enum EditorChatDisplayOptions
+        {
+            Display,
+            Hide
         }
     }
 }

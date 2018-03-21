@@ -7,7 +7,7 @@ using PolyPaint.ViewModels;
 
 namespace PolyPaint.Views
 {
-    public partial class PixelEditorView : Window
+    public partial class PixelEditorView : Window, IDisposable
     {
         private Point _newPosition;
         private Point _oldPosition;
@@ -15,7 +15,25 @@ namespace PolyPaint.Views
         public PixelEditorView()
         {
             InitializeComponent();
-            DataContext = new PixelEditorlViewModel();
+            DataContext = new PixelEditorViewModel();
+            ViewModelBase.ChangeEditorChatDisplayState += ToggleEditorChatHandler;
+        }
+
+        public void Dispose()
+        {
+            ViewModelBase.ChangeEditorChatDisplayState -= ToggleEditorChatHandler;
+        }
+
+        private void ToggleEditorChatHandler(object sender, ViewModelBase.EditorChatDisplayOptions e)
+        {
+            if (e == ViewModelBase.EditorChatDisplayOptions.Display)
+            {
+                DockedChat.Visibility = Visibility.Visible;
+            }
+            else if (e == ViewModelBase.EditorChatDisplayOptions.Hide)
+            {
+                DockedChat.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void GlisserCommence(object sender, DragStartedEventArgs e)
@@ -44,7 +62,7 @@ namespace PolyPaint.Views
 
         private void DrawingSurfaceMouseEnter(object sender, MouseEventArgs e)
         {
-            (DataContext as PixelEditorlViewModel)?.PixelCursors(DisplayArea);
+            (DataContext as PixelEditorViewModel)?.PixelCursors(DisplayArea);
             _oldPosition = e.GetPosition(DrawingSurface);
         }
 
@@ -55,7 +73,7 @@ namespace PolyPaint.Views
             //The tool is selected on click with a distance of one pixel to
             //enable it
             Point onePixelPoint = new Point(_oldPosition.X + 1, _oldPosition.Y);
-            (DataContext as PixelEditorlViewModel)?.PixelDraw(_oldPosition, onePixelPoint);
+            (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPosition, onePixelPoint);
         }
 
         private void DrawingSurfaceMouseMove(object sender, MouseEventArgs e)
@@ -64,7 +82,7 @@ namespace PolyPaint.Views
             {
                 //Action tool on mouse move
                 _newPosition = e.GetPosition(DrawingSurface);
-                (DataContext as PixelEditorlViewModel)?.PixelDraw(_oldPosition, _newPosition);
+                (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPosition, _newPosition);
                 _oldPosition = _newPosition;
             }
         }
@@ -74,7 +92,7 @@ namespace PolyPaint.Views
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 _newPosition = e.GetPosition(DrawingSurface);
-                (DataContext as PixelEditorlViewModel)?.PixelDraw(_oldPosition, _newPosition);
+                (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPosition, _newPosition);
             }
         }
     }
