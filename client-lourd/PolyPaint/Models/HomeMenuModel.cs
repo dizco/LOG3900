@@ -142,7 +142,7 @@ namespace PolyPaint.Models
                     }
                     catch
                     {
-                        UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne");
+                        UserAlerts.ShowInfoMessage("Le dessin sera créé en mode hors ligne");
                         CreateNewOfflineDrawing(drawingName, option);
                     }
                 }
@@ -165,21 +165,21 @@ namespace PolyPaint.Models
 
                         UserAlerts.ShowErrorMessage(hintMessages);
                     }
-                    catch
+                    catch (Exception e)
                     {
-                        UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne");
+                        UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne" + "\n" + e.Message);
                         CreateNewOfflineDrawing(drawingName, option);
                     }
                 }
                 else
                 {
-                    UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne");
+                    UserAlerts.ShowInfoMessage("Le dessin sera créé en mode hors ligne");
                     CreateNewOfflineDrawing(drawingName, option);
                 }
             }
             else
             {
-                UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne");
+                UserAlerts.ShowInfoMessage("Le dessin sera créé en mode hors ligne");
                 CreateNewOfflineDrawing(drawingName, option);
             }
         }

@@ -7,7 +7,10 @@
         xmlns:customComponent="clr-namespace:PolyPaint.CustomComponents"
         mc:Ignorable="d"
         Title="PolyPaintPro" Height="754" Width="616.336"
-        MinHeight="700" MinWidth="350">
+        MinHeight="700" MinWidth="350"
+        xmlns:vm="clr-namespace:PolyPaint.ViewModels"
+        d:DataContext="{d:DesignInstance vm:HomeMenuViewModel}">
+
     <Window.Resources>
         <converters:DrawingProtectionConverter x:Key="DrawingProtectionConverter" />
     </Window.Resources>

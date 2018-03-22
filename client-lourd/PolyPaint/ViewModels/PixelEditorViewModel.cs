@@ -14,6 +14,8 @@ namespace PolyPaint.ViewModels
     {
         private readonly PixelEditor _pixelEditor = new PixelEditor();
 
+        private Visibility _chatDocked = Visibility.Collapsed;
+
         public PixelEditorViewModel()
         {
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, DrawingPixelModelPropertyModified est appelée.
@@ -25,7 +27,24 @@ namespace PolyPaint.ViewModels
 
             ExportImageCommand = new RelayCommand<object>(_pixelEditor.ExportImagePrompt);
 
+            if (Messenger?.IsConnected ?? false)
+            {
+                ChatDocked = Visibility.Visible;
+            }
+
             LoginStatusChanged += ProcessLoginStatusChange;
+
+            ChangeEditorChatDisplayState += ChatDisplayStateChanged;
+        }
+
+        public Visibility ChatDocked
+        {
+            get => _chatDocked;
+            private set
+            {
+                _chatDocked = value;
+                PropertyModified();
+            }
         }
 
         public WriteableBitmap WriteableBitmap
@@ -64,9 +83,25 @@ namespace PolyPaint.ViewModels
         public void Dispose()
         {
             LoginStatusChanged -= ProcessLoginStatusChange;
+            ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
+        {
+            switch (e)
+            {
+                case EditorChatDisplayOptions.Display:
+                    ChatDocked = Visibility.Visible;
+                    break;
+                case EditorChatDisplayOptions.Hide:
+                    ChatDocked = Visibility.Collapsed;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(e), e, null);
+            }
+        }
 
         public void PixelDraw(Point oldPoint, Point newPoint)
         {

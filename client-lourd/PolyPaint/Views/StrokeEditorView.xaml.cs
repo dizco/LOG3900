@@ -12,7 +12,7 @@ namespace PolyPaint.Views
     /// <summary>
     ///     Logique d'interaction pour EditorView.xaml
     /// </summary>
-    public partial class StrokeEditorView : Window, IDisposable
+    public partial class StrokeEditorView : Window
     {
         private Point _end;
 
@@ -24,25 +24,8 @@ namespace PolyPaint.Views
             InitializeComponent();
             DataContext = new StrokeEditorViewModel();
             ((StrokeEditorViewModel) DataContext).LockedStrokesSelectedEvent += OnLockedStrokesSelectedEventHandler;
-            ViewModelBase.ChangeEditorChatDisplayState += ToggleEditorChatHandler;
         }
 
-        public void Dispose()
-        {
-            ViewModelBase.ChangeEditorChatDisplayState -= ToggleEditorChatHandler;
-        }
-
-        private void ToggleEditorChatHandler(object sender, ViewModelBase.EditorChatDisplayOptions e)
-        {
-            if (e == ViewModelBase.EditorChatDisplayOptions.Display)
-            {
-                DockedChat.Visibility = Visibility.Visible;
-            }
-            else if (e == ViewModelBase.EditorChatDisplayOptions.Hide)
-            {
-                DockedChat.Visibility = Visibility.Collapsed;
-            }
-        }
 
         private void OnLockedStrokesSelectedEventHandler(object sender, StrokeCollection lockedStrokes)
         {

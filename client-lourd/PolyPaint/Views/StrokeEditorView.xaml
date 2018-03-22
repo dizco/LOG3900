@@ -10,7 +10,9 @@
     xmlns:uc="clr-namespace:PolyPaint.Views"
     x:Class="PolyPaint.Views.StrokeEditorView"
     mc:Ignorable="d"
-    Title="Poly Paint" Height="700" Width="900" Background="#CBD4E4" MinWidth="885" MinHeight="300">
+    Title="Poly Paint" Height="700" Width="900" Background="#CBD4E4" MinWidth="885" MinHeight="300"
+    xmlns:vm="clr-namespace:PolyPaint.ViewModels"
+    d:DataContext="{d:DesignInstance vm:StrokeEditorViewModel}">
     <Window.Resources>
 
         <converters:BorderConverter x:Key="BorderConverter" />
@@ -392,7 +394,7 @@
                     </Border.Effect>
                 </Border>
             </Grid>
-            <Grid Width="300" Name="DockedChat" HorizontalAlignment="Right" Background="WhiteSmoke">
+            <Grid Width="300" Visibility="{Binding ChatDocked}" HorizontalAlignment="Right" Background="WhiteSmoke">
                 <uc:ChatView />
             </Grid>
         </Grid>
