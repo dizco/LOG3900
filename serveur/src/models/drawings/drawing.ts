@@ -6,6 +6,7 @@ import * as bcrypt from "bcrypt-nodejs";
 import { NextFunction } from "express";
 import { WebSocketServer } from "../../websockets/websocket-server";
 import { Stroke } from "./stroke";
+import { ColorPixel } from "./pixel";
 
 const USERS_LIMIT_PER_DRAWING = 4;
 let wss: WebSocketServer;
@@ -17,21 +18,24 @@ export function setWss(wssInstance: WebSocketServer): void {
 interface DrawingInterface extends DrawingAttributes {
     actions?: ServerEditorAction[];
     strokes?: Stroke[];
+    pixels?: ColorPixel[];
 }
 
 export type DrawingModel = mongoose.Document & DrawingInterface;
 
 const drawingSchema = new mongoose.Schema({
-    name: String,
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    visibility: { type: String, enum: ["public", "private"], default: "public" },
-    protection: { active: { type: Boolean, default: false }, password: { type: String, default: "" } },
+    name: { type: String, required: true },
+    mode: { type: String, enum: ["stroke", "pixel"], required: true },
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    visibility: { type: String, enum: ["public", "private"], default: "public", required: true },
+    protection: { type: { active: { type: Boolean, default: false }, password: { type: String, default: "" }}, required: true },
     actions: [{ _id: false, actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, timestamp: Number }],
     strokes: [{ _id: false,
                 strokeUuid: String,
                 strokeAttributes: { _id: false, color: String, height: Number, width: Number, stylusTip: String },
                 dots: [{ _id: false, x: Number, y: Number }],
     }],
+    pixels: [{ _id: false, x: Number, y: Number, color: String }],
 }, { timestamps: true });
 drawingSchema.plugin(mongoosePaginate);
 
