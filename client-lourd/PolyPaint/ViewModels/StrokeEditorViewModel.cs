@@ -65,6 +65,7 @@ namespace PolyPaint.ViewModels
             ChooseTool = new RelayCommand<string>(_editor.SelectTool);
             ChooseShape = new RelayCommand<StrokeEditor.DrawableShapes>(_editor.SelectShape);
             ResetDrawingCommand = new RelayCommand<object>(ResetDrawing);
+
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawingPrompt);
             SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawingPrompt);
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
@@ -83,12 +84,14 @@ namespace PolyPaint.ViewModels
             VerticalFlipCommand = new RelayCommand<InkCanvas>(_editor.VerticalFlip);
             HorizontalFlipCommand = new RelayCommand<InkCanvas>(_editor.HorizontalFlip);
 
+            InsertTextCommand = new RelayCommand<InkCanvas>(InsertText);
+
+            OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
+
             if (Messenger?.IsConnected ?? false)
             {
                 ChatDocked = Visibility.Visible;
             }
-
-            InsertTextCommand = new RelayCommand<InkCanvas>(InsertText);
 
             LoginStatusChanged += ProcessLoginStatusChange;
 
@@ -186,6 +189,8 @@ namespace PolyPaint.ViewModels
             }
         }
 
+        public static HistoryWindowView HistoryWindow { get; set; }
+
         public StrokeCollection StrokesCollection { get; set; }
         public ISet<string> LockedStrokes { get; set; }
         private List<string> LockedStrokesHeld { get; set; }
@@ -222,6 +227,8 @@ namespace PolyPaint.ViewModels
 
         public RelayCommand<InkCanvas> InsertTextCommand { get; set; }
 
+        public RelayCommand<object> OpenHistoryCommand { get; set; }
+
         internal bool IsErasingByPoint { get; set; }
         internal bool IsErasingByStroke { get; set; }
 
@@ -230,6 +237,7 @@ namespace PolyPaint.ViewModels
             StrokeEditorActionReceived -= ProcessReceivedStrokeEditorAction;
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
+            CloseHistory();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -525,6 +533,26 @@ namespace PolyPaint.ViewModels
             }
 
             Messenger?.UnsubscribeToDrawing();
+        }
+
+        public void OpenHistory(object o)
+        {
+            if (HistoryWindow == null)
+            {
+                HistoryWindow = new HistoryWindowView();
+                HistoryWindow.Show();
+                HistoryWindow.Closed += (sender, args) => HistoryWindow = null;
+            }
+            else
+            {
+                HistoryWindow.Activate();
+            }
+        }
+
+        public void CloseHistory()
+        {
+            HistoryWindow?.Close();
+            HistoryWindow = null;
         }
 
         /// <summary>

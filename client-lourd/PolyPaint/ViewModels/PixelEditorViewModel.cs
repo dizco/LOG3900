@@ -31,6 +31,8 @@ namespace PolyPaint.ViewModels
 
             ExportImageCommand = new RelayCommand<object>(_pixelEditor.ExportImagePrompt);
 
+            OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
+
             if (Messenger?.IsConnected ?? false)
             {
                 ChatDocked = Visibility.Visible;
@@ -90,6 +92,8 @@ namespace PolyPaint.ViewModels
             set => _pixelEditor.PixelSize = value;
         }
 
+        public static HistoryWindowView HistoryWindow { get; set; }
+
         //Commands for choosing the tools
         public RelayCommand<string> ChooseTool { get; set; }
 
@@ -99,10 +103,13 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> OpenChatWindowCommand { get; set; }
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
+        public RelayCommand<object> OpenHistoryCommand { get; set; }
+
         public void Dispose()
         {
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
+            CloseHistory();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -176,6 +183,26 @@ namespace PolyPaint.ViewModels
         public void UnsubscribeDrawingRoom()
         {
             Messenger?.UnsubscribeToDrawing();
+        }
+
+        public void OpenHistory(object o)
+        {
+            if (HistoryWindow == null)
+            {
+                HistoryWindow = new HistoryWindowView();
+                HistoryWindow.Show();
+                HistoryWindow.Closed += (sender, args) => HistoryWindow = null;
+            }
+            else
+            {
+                HistoryWindow.Activate();
+            }
+        }
+
+        public void CloseHistory()
+        {
+            HistoryWindow?.Close();
+            HistoryWindow = null;
         }
     }
 }
