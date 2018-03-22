@@ -4,6 +4,7 @@ import { PaginateResult } from "mongoose";
 
 const enum DrawingFields {
     Name = "name",
+    Mode = "mode",
     Visibility = "visibility",
     ProtectionActive = "protection-active",
     ProtectionPassword = "protection-password",
@@ -22,7 +23,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const options = {
-        select: "name protection visibility",
+        select: "name mode protection visibility",
         populate: [
             { path: "owner", select: "username" },
             ],
@@ -48,6 +49,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
  */
 export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
     req.checkBody(DrawingFields.Name, "Drawing name cannot be empty").notEmpty();
+    validateModeParameters(req);
     validateVisibilityParameters(req);
     validateProtectionParameters(req);
 
@@ -59,6 +61,7 @@ export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
 
     const drawing = new Drawing({
         name: req.body[DrawingFields.Name],
+        mode: req.body[DrawingFields.Mode],
         owner: req.user,
         visibility: req.body[DrawingFields.Visibility],
         protection: {
@@ -204,6 +207,10 @@ function buildUpdateFields(req: Request): any {
         fields.visibility = req.body[DrawingFields.Visibility];
     }
     return fields;
+}
+
+function validateModeParameters(req: Request): void {
+    req.checkBody(DrawingFields.Mode, "Mode must be 'stroke' or 'pixel'").isIn(["stroke", "pixel"]);
 }
 
 function validateVisibilityParameters(req: Request): void {
