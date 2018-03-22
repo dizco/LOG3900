@@ -127,6 +127,7 @@
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
     <Compile Include="Models\MessagingModels\PixelEditorActionModel.cs" />
+    <Compile Include="Models\MessagingModels\HistoryChangeDisplayModel.cs" />
     <Compile Include="Models\PixelModels\PixelEditor.cs" />
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Strategy\PixelEditorActionStrategy\EditorActionStrategyContext.cs" />
     <Compile Include="Strategy\PixelEditorActionStrategy\IEditorActionStrategy.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionResetStrategy.cs" />
+    <Compile Include="ViewModels\HistoryWindowViewModel.cs" />
     <Compile Include="ViewModels\PixelEditorViewModel.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionTransformStrokesStrategy.cs" />
@@ -142,6 +144,9 @@
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
     <Compile Include="Views\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HistoryWindowView.xaml.cs">
+      <DependentUpon>HistoryWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PixelEditorView.xaml.cs">
       <DependentUpon>PixelEditorView.xaml</DependentUpon>
@@ -181,6 +186,10 @@
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\ChatView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HistoryWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -311,14 +320,26 @@
     <!-- from https://www.iconfinder.com/icons/131866/arrow_image_right_rotate_icon -->
   </ItemGroup>
   <ItemGroup>
-       <!-- from https://www.iconfinder.com/icons/1654369 -->
+    <!-- from https://www.iconfinder.com/icons/1654369 -->
     <Resource Include="Resources\Icons\docked.png" />
-       <!-- from https://www.iconfinder.com/icons/118630 -->
+    <!-- from https://www.iconfinder.com/icons/118630 -->
     <Resource Include="Resources\Icons\windowed.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\insert_text.png" />
     <!-- from https://www.iconfinder.com/icons/42369/c_letter_text_icon#size=32 -->
+  </ItemGroup>
+  <ItemGroup>
+    <!-- from https://www.iconfinder.com/icons/308956/arrow_next_icon#size=32 -->
+    <Resource Include="Resources\Icons\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- from https://www.iconfinder.com/icons/326679/refresh_reload_icon#size=32 -->
+    <Resource Include="Resources\Icons\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- from https://www.iconfinder.com/icons/308957/arrow_previous_icon#size=32 -->
+    <Resource Include="Resources\Icons\previous.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

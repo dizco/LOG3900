@@ -1,0 +1,97 @@
+﻿<Window x:Class="PolyPaint.Views.HistoryWindowView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PolyPaint.Views"
+      mc:Ignorable="d"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:vm="clr-namespace:PolyPaint.ViewModels"
+      d:DataContext="{d:DesignInstance vm:HistoryWindowViewModel}"
+      Title="Historique des modifications" Height="600" Width="315" ResizeMode="NoResize">
+
+    <Grid>
+        <Border>
+            <Grid Background="LightGray">
+                <StackPanel Orientation="Vertical">
+                    <!-- Top bar -->
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Name="PageIndexBox" Width="40" Height="20" Margin="5,5,5,5"
+                                     Text="{Binding PageIndex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     BorderThickness="0.0" Background="Transparent" FontWeight ="Bold"
+                                     >
+                            </TextBox>
+                            <Button Name="Previous" Width="25" Height="25" Margin="60,5,5,5"
+                                    HorizontalContentAlignment="Right"
+                                    BorderBrush="Transparent"
+                                    Background="Transparent">
+                                <StackPanel>
+                                    <Image Source="/Resources/Icons/previous.png" />
+                                </StackPanel>
+                            </Button>
+                            <Button Name="Next" Width="25" Height="25" Margin="35,5,5,5"
+                                    HorizontalContentAlignment="Right"
+                                    BorderBrush="Transparent"
+                                    Background="Transparent">
+                                <StackPanel>
+                                    <Image Source="/Resources/Icons/next.png" />
+                                </StackPanel>
+                            </Button>
+                            <Button Name="Refresh" Width="25" Height="25" Margin="70,5,5,5"
+                                    HorizontalContentAlignment="Right"
+                                    BorderBrush="Transparent"
+                                    Background="Transparent">
+                                <StackPanel>
+                                    <Image Source="/Resources/Icons/refresh.png" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    <!-- Scrollviewer -->
+                    <Grid>
+                        <ScrollViewer HorizontalAlignment="Right"
+                                      VerticalScrollBarVisibility="Auto"
+                                      Width="310" Height="535"
+                                      ScrollChanged="ScrollViewScrollToBottom"
+                                      Background="WhiteSmoke">
+                            <ItemsControl ItemsSource="{Binding HistoryChanges}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="5">
+                                            <Grid>
+                                                <Grid Margin="25,0,25,0"
+                                              HorizontalAlignment="Stretch">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel>
+                                                        <Border>
+                                                            <TextBlock VerticalAlignment="Center"
+                                                               FontFamily="{StaticResource LatoRegular}"
+                                                               TextWrapping="Wrap">
+                                                        <Run Text="{Binding AuthorName}"
+                                                             FontFamily="{StaticResource LatoBold}" />
+                                                        <Run Text="-" />
+                                                        <Run Text="{Binding Timestamp, StringFormat=HH:mm:ss}" />
+                                                        <LineBreak />
+                                                        <Run Text="{Binding ChangeText}" />
+                                                            </TextBlock>
+                                                        </Border>
+                                                        <Separator />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
