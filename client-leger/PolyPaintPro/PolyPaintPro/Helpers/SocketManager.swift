@@ -12,7 +12,13 @@ import Starscream
 protocol SocketManagerDelegate: class {
     func connect()
     func disconnect(error: Error?)
+}
+
+protocol ChatSocketManagerDelegate: SocketManagerDelegate {
     func managerDidReceiveChat(data: Data)
+}
+
+protocol ActionSocketManagerDelegate: SocketManagerDelegate {
     func managerDidReceiveAction(data: Data)
 }
 
@@ -24,8 +30,8 @@ class SocketManager {
     static let sharedInstance = SocketManager()
     private var socket: WebSocket?
 
-    weak var chatDelegate: SocketManagerDelegate?
-    weak var actionDelegate: SocketManagerDelegate?
+    weak var chatDelegate: ChatSocketManagerDelegate?
+    weak var actionDelegate: ActionSocketManagerDelegate?
 
     func send(data: Data) {
         if !socket!.isConnected {
@@ -60,10 +66,12 @@ class SocketManager {
 
         self.socket!.onConnect = {
             self.chatDelegate?.connect()
+            self.actionDelegate?.connect()
         }
 
         self.socket!.onDisconnect = { error in
             self.chatDelegate?.disconnect(error: error)
+            self.actionDelegate?.disconnect(error: error)
         }
 
         self.socket!.onText = { text in
