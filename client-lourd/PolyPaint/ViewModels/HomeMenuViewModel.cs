@@ -443,6 +443,7 @@ namespace PolyPaint.ViewModels
 
             StrokeEditor = null;
             PixelEditor = null;
+            DrawingRoomId = null;
         }
     }
 }
