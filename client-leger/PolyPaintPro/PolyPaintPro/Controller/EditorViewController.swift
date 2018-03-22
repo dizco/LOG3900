@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 import AVFoundation
 
-class EditorViewController: UIViewController, SocketManagerDelegate {
+class EditorViewController: UIViewController, ChatSocketManagerDelegate {
     private var colorsValidator: TextFieldValidator!
     private var alphaValidator: TextFieldValidator!
     private var sizeValidator: TextFieldValidator!
@@ -127,7 +127,7 @@ class EditorViewController: UIViewController, SocketManagerDelegate {
         AudioServicesPlaySystemSound(SystemSoundID(1003)) //See https://github.com/TUNER88/iOSSystemSoundsLibrary
     }
 
-    // MARK: - SocketManagerDelegate
+    // MARK: - ChatSocketManagerDelegate
     internal func connect() {
         print("Connecting to server.")
     }
@@ -152,10 +152,6 @@ class EditorViewController: UIViewController, SocketManagerDelegate {
         } catch let error {
             print(error)
         }
-    }
-
-    internal func managerDidReceiveAction(data: Data) {
-        // do nothing
     }
 
     // MARK: - Text field validators

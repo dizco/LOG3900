@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SpriteKit
 
-class StrokeEditorViewController: EditorViewController, DrawingToolsViewDelegate, ToolsViewDelegate {
+class StrokeEditorViewController: EditorViewController, ActionSocketManagerDelegate, DrawingToolsViewDelegate, ToolsViewDelegate {
     // MARK: - Scene
     var scene = StrokeEditorScene()
 
@@ -36,8 +36,8 @@ class StrokeEditorViewController: EditorViewController, DrawingToolsViewDelegate
         super.viewDidAppear(animated)
     }
 
-    // MARK: - SocketManagerDelegate
-    override func managerDidReceiveAction(data: Data) {
+    // MARK: - ActionSocketManagerDelegate
+    func managerDidReceiveAction(data: Data) {
         do {
             print("Action data received.")
             let decoder = JSONDecoder()
