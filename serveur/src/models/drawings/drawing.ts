@@ -16,7 +16,7 @@ export function setWss(wssInstance: WebSocketServer): void {
 
 interface DrawingInterface extends DrawingAttributes {
     actions?: ServerEditorAction[];
-    strokes: Stroke[];
+    strokes?: Stroke[];
 }
 
 export type DrawingModel = mongoose.Document & DrawingInterface;
