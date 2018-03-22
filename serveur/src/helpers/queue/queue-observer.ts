@@ -47,16 +47,18 @@ export class QueueObserver extends Observer {
         }
         command.execute().then((success: boolean) => {
             if (success) {
-                console.log(`${chalk.cyan("[QueueObserver]")} Command ran successfully.`);
+                if (process.env.NODE_ENV === "development") {
+                    console.log(`${chalk.cyan("[QueueObserver]")} Command ran successfully. ${command.getDescription()}.`);
+                }
                 this.queue.dequeue(); //Remove the operation which was peeked
                 //We *could* dequeue instead of peek, and then if the operation fails re-enqueue it, but we would lose the order
             }
             else {
-                console.log(`${chalk.cyan("[QueueObserver]")} Command failed.`);
+                console.log(`${chalk.cyan("[QueueObserver]")} Command failed. ${command.getDescription()}.`);
             }
             return this.runQueue(); //Run next command or try again
         }).catch((reason: any) => {
-            console.log(`${chalk.cyan("[QueueObserver]")} Command errored. ${reason}`);
+            console.log(`${chalk.cyan("[QueueObserver]")} Command errored. ${command.getDescription()}. ${reason}`);
             return this.runQueue(); //Try again
         });
     }
@@ -66,6 +68,6 @@ export class QueueObserver extends Observer {
         //command.resetTries();
         //this.queue.enqueue(command);
         //TODO: Add command to a fails queue?
-        console.log(chalk.bgRed(`${chalk.cyan("[QueueObserver]")} Ignoring failed command. Queue size: ${this.queue.size()}`));
+        console.log(chalk.bgRed(`${chalk.cyan("[QueueObserver]")} Ignoring failed command. ${command.getDescription()}. Queue size: ${this.queue.size()}`));
     }
 }

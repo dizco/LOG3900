@@ -53,7 +53,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             return;
         }
         const socketMessage: SocketMessage = <SocketMessage>parsedMessage;
-        console.log("Message received\n", socketMessage, "\n");
+        if (process.env.NODE_ENV === "development") {
+            console.log("Message received\n", socketMessage, "\n");
+        }
 
         //Interpret the message and determine the best strategy to use
         if (SocketStrategyContext.canParse(socketMessage)) {

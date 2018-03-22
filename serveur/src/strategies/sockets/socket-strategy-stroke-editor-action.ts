@@ -55,7 +55,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
     }
 
     private static buildUpdateCommand(commandName: string, conditions: object, update: object): Command {
-        return new Command(() => {
+        return new Command("StrokeEditorAction: " + commandName, () => {
             return new Promise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
@@ -74,7 +74,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
     }
 
     private static buildReplaceStrokeCommand(conditions: object, message: ServerStrokeEditorAction): Command {
-        return new Command(() => {
+        return new Command("StrokeEditorAction: ReplaceStroke", () => {
             return new Promise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
@@ -88,7 +88,9 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
                     //There is only one remove when ReplaceStroke
                     const removeIndex = drawing.strokes.findIndex((stroke: Stroke) => stroke.strokeUuid === message.delta.remove[0]);
                     if (removeIndex > -1) {
-                        console.log(`ReplaceStroke: Removing stroke (id ${message.delta.remove[0]}).`);
+                        if (process.env.NODE_ENV === "development") {
+                            console.log(`ReplaceStroke: Removing stroke (id ${message.delta.remove[0]}).`);
+                        }
                         drawing.strokes.splice(removeIndex, 1);
                         if (message.delta.add && message.delta.add.length > 0) {
                             drawing.strokes = InsertAllAtIndex<Stroke>(drawing.strokes, removeIndex, ...message.delta.add);
@@ -107,13 +109,12 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
                         return reject(err);
                     });
                 });
-
             });
         });
     }
 
     private static buildTransformCommand(conditions: object, message: ServerStrokeEditorAction): Command {
-        return new Command(() => {
+        return new Command("StrokeEditorAction: Transform", () => {
             return new Promise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
@@ -140,7 +141,6 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
                         return reject(err);
                     });
                 });
-
             });
         });
     }
