@@ -85,12 +85,41 @@ namespace PolyPaint.ViewModels
 
             if (Messenger?.IsConnected ?? false)
             {
-                OpenEditorChat();
+                ChatDocked = Visibility.Visible;
             }
 
             LoginStatusChanged += ProcessLoginStatusChange;
 
             EditorActionReceived += ProcessReceivedEditorAction;
+
+            ChangeEditorChatDisplayState += ChatDisplayStateChanged;
+        }
+
+        private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
+        {
+            switch (e)
+            {
+                case EditorChatDisplayOptions.Display:
+                    ChatDocked = Visibility.Visible;
+                    break;
+                case EditorChatDisplayOptions.Hide:
+                    ChatDocked = Visibility.Collapsed;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(e), e, null);
+            }
+        }
+
+        private Visibility _chatDocked = Visibility.Collapsed;
+
+        public Visibility ChatDocked
+        {
+            get => _chatDocked;
+            private set
+            {
+                _chatDocked = value;
+                PropertyModified();
+            }
         }
 
         // Ensemble d'attributs qui définissent l'apparence d'un trait.
@@ -176,6 +205,7 @@ namespace PolyPaint.ViewModels
         {
             EditorActionReceived -= ProcessReceivedEditorAction;
             LoginStatusChanged -= ProcessLoginStatusChange;
+            ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

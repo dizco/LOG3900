@@ -7,7 +7,7 @@ using PolyPaint.ViewModels;
 
 namespace PolyPaint.Views
 {
-    public partial class PixelEditorView : Window, IDisposable
+    public partial class PixelEditorView : Window
     {
         private Point _newPosition;
         private Point _oldPosition;
@@ -16,24 +16,6 @@ namespace PolyPaint.Views
         {
             InitializeComponent();
             DataContext = new PixelEditorViewModel();
-            ViewModelBase.ChangeEditorChatDisplayState += ToggleEditorChatHandler;
-        }
-
-        public void Dispose()
-        {
-            ViewModelBase.ChangeEditorChatDisplayState -= ToggleEditorChatHandler;
-        }
-
-        private void ToggleEditorChatHandler(object sender, ViewModelBase.EditorChatDisplayOptions e)
-        {
-            if (e == ViewModelBase.EditorChatDisplayOptions.Display)
-            {
-                DockedChat.Visibility = Visibility.Visible;
-            }
-            else if (e == ViewModelBase.EditorChatDisplayOptions.Hide)
-            {
-                DockedChat.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void GlisserCommence(object sender, DragStartedEventArgs e)

@@ -6,7 +6,10 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="PolyPaintPro" Height="754" Width="616.336"
-        MinHeight="700" MinWidth="350">
+        MinHeight="700" MinWidth="350"
+        xmlns:vm="clr-namespace:PolyPaint.ViewModels"
+        d:DataContext="{d:DesignInstance vm:LoginWindowViewModel}">
+
     <Window.Background>
         <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg"/>
     </Window.Background>

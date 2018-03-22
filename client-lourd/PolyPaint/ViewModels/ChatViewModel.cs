@@ -32,13 +32,10 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> SendMessageCommand { get; set; }
         public RelayCommand<object> ToggleChatCommand { get; set; }
 
-        public ImageSource ChatToggleButtonIcon => ChatWindow != null
-                                                       ? new
-                                                           BitmapImage(new
-                                                                           Uri("pack://application:,,,/Resources/Icons/docked.png"))
-                                                       : new
-                                                           BitmapImage(new
-                                                                           Uri("pack://application:,,,/Resources/Icons/windowed.png"));
+        public ImageSource ChatToggleButtonIcon =>
+            ChatWindow != null
+                ? new BitmapImage(new Uri("pack://application:,,,/Resources/Icons/docked.png"))
+                : new BitmapImage(new Uri("pack://application:,,,/Resources/Icons/windowed.png"));
 
         //Contain the information of all message sent in the chatroom
         public ObservableCollection<ChatMessageDisplayModel> ChatMessages { get; set; }
@@ -58,7 +55,7 @@ namespace PolyPaint.ViewModels
         public void SendMessage(object o)
         {
             //Sending all the information about the item
-            if (!string.IsNullOrWhiteSpace(OutgoingChatMessage) && Messenger.IsConnected)
+            if (!string.IsNullOrWhiteSpace(OutgoingChatMessage) && (Messenger?.IsConnected ?? false))
             {
                 Messenger.SendChatMessage(OutgoingChatMessage);
                 OutgoingChatMessage = string.Empty;
@@ -67,7 +64,7 @@ namespace PolyPaint.ViewModels
 
         /// <summary>
         ///     Call when a property of the ViewModel is changed
-        ///     An event is send by the Viewmodel then
+        ///     An event is sent by the Viewmodel then
         ///     The event contains the name of the property modified and will be catched by the View
         ///     The View will than update the componant concerned
         /// </summary>

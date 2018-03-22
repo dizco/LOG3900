@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Views;
@@ -50,7 +52,10 @@ namespace PolyPaint.ViewModels
         protected static void OpenEditorChat()
         {
             ChatWindow = null;
-            ChangeEditorChatDisplayState?.Invoke(null, EditorChatDisplayOptions.Display);
+            if (_messenger?.IsConnected ?? false)
+            {
+                ChangeEditorChatDisplayState?.Invoke(null, EditorChatDisplayOptions.Display);
+            }
         }
 
         protected static void CloseAllChat()
@@ -163,13 +168,13 @@ namespace PolyPaint.ViewModels
 
         public static void OnWebSocketConnected(object sender, EventArgs e)
         {
-            OpenEditorChat();
+            (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(OpenEditorChat);
             WebSocketConnectedEvent?.Invoke(sender, e);
         }
 
         private static void OnWebSocketDisconnected(object sender, int e)
         {
-            CloseAllChat();
+            (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CloseAllChat);
             WebSocketDisconnectedEvent?.Invoke(sender, e);
         }
 
