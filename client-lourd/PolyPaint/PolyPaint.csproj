@@ -307,7 +307,9 @@
     <!-- from https://www.iconfinder.com/icons/131866/arrow_image_right_rotate_icon -->
   </ItemGroup>
   <ItemGroup>
+	<!-- from https://www.iconfinder.com/icons/1654369 -->
     <Resource Include="Resources\Icons\docked.png" />
+	<!-- from https://www.iconfinder.com/icons/118630 -->
     <Resource Include="Resources\Icons\windowed.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
