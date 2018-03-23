@@ -23,10 +23,10 @@ namespace PolyPaint.Models.MessagingModels
     public class DeltaModel
     {
         [JsonProperty(PropertyName = "add")]
-        public StrokeModel[] Add { get; set; }
+        public StrokeModel[] Add { get; set; } = new StrokeModel[0];
 
         [JsonProperty(PropertyName = "remove")]
-        public string[] Remove { get; set; }
+        public string[] Remove { get; set; } = new string[0];
     }
 
     public class StrokeActionModel
