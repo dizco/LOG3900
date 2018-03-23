@@ -21,7 +21,10 @@ export class SocketStrategyEditorSubscription implements SocketStrategy {
 
     private selectSubscription(wsDecorator: WebSocketDecorator): Function {
         if (this.clientSubscription.action.id === EditorSubscriptionAction.Join) {
-            return (roomId: string) => wsDecorator.join(roomId); //TODO: Evaluate if possible to force remove the user of all drawing rooms
+            return (roomId: string) => { //TODO: Evaluate if possible to force remove the user of all drawing rooms
+                wsDecorator.join(roomId);
+                wsDecorator.acceptPolling(roomId); //We are ready to get polled
+            };
         }
         else if (this.clientSubscription.action.id === EditorSubscriptionAction.Leave) {
             return (roomId: string) => wsDecorator.leave(roomId);

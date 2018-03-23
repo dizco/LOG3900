@@ -68,7 +68,10 @@ export class WebSocketServer extends WebSocket.Server {
 
     private cleanupEmptyRooms(): void {
         this.rooms = this.rooms.filter((room: Room) => {
-            return !room.isEmpty();
+            const isEmpty = room.isEmpty();
+            if (isEmpty)
+                room.stopPolling();
+            return !isEmpty;
         });
     }
 }
