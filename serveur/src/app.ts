@@ -116,6 +116,7 @@ app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDra
 app.get("/drawings/:id", passportConfig.isAuthenticated, drawingsController.getDrawing);
 app.get("/drawings/:id/actions", passportConfig.isAuthenticated, drawingsController.getDrawingActions);
 app.patch("/drawings/:id", passportConfig.isAuthenticated, drawingsController.patchDrawing);
+app.put("/drawings/:id/thumbnail", passportConfig.isAuthenticated, drawingsController.putDrawingThumbnail);
 
 /**
  * Ping
