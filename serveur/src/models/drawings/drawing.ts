@@ -16,6 +16,7 @@ export function setWss(wssInstance: WebSocketServer): void {
 }
 
 interface DrawingInterface extends DrawingAttributes {
+    thumbnail: string;
     actions?: ServerEditorAction[];
     strokes?: Stroke[];
     pixels?: ColorPixel[];
@@ -35,6 +36,7 @@ const drawingSchema = new mongoose.Schema({
                 dots: [{ _id: false, x: Number, y: Number }],
     }],
     pixels: [{ _id: false, x: Number, y: Number, color: String }],
+    thumbnail: { type: String, default: "" },
 }, { timestamps: true });
 drawingSchema.plugin(mongoosePaginate);
 
