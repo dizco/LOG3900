@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct JoinDrawingsDataStruct: Codable {
+struct OnlineDrawingModel: Codable {
     let id: String
     let name: String
-    let privacyStatus: Bool //true = protected, false = public
+    let protected: Bool 
     let type: String
 }
 
-struct OpenLocalDrawingsDataStruct: Codable {
+struct LocalDrawingModel: Codable {
     let id: String
     let name: String
     let type: String
