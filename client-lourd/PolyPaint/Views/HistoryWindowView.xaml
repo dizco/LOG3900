@@ -53,7 +53,6 @@
                         <ScrollViewer HorizontalAlignment="Right"
                                       VerticalScrollBarVisibility="Auto"
                                       Width="310" Height="535"
-                                      ScrollChanged="ScrollViewScrollToBottom"
                                       Background="WhiteSmoke">
                             <ItemsControl ItemsSource="{Binding HistoryChanges}">
                                 <ItemsControl.ItemTemplate>
@@ -72,12 +71,12 @@
                                                             <TextBlock VerticalAlignment="Center"
                                                                FontFamily="{StaticResource LatoRegular}"
                                                                TextWrapping="Wrap">
-                                                        <Run Text="{Binding AuthorName}"
+                                                        <Run Text="{Binding ActionId}"
                                                              FontFamily="{StaticResource LatoBold}" />
                                                         <Run Text="-" />
                                                         <Run Text="{Binding Timestamp, StringFormat=HH:mm:ss}" />
                                                         <LineBreak />
-                                                        <Run Text="{Binding ChangeText}" />
+                                                        <Run Text="{Binding Author}" />
                                                             </TextBlock>
                                                         </Border>
                                                         <Separator />

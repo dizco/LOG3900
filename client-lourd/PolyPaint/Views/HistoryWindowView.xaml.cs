@@ -14,13 +14,5 @@ namespace PolyPaint.Views
             InitializeComponent();
             DataContext = new HistoryWindowViewModel();
         }
-
-        private void ScrollViewScrollToBottom(object sender, ScrollChangedEventArgs e)
-        {
-            if (e.ExtentHeightChange > 0)
-            {
-                (sender as ScrollViewer)?.ScrollToEnd();
-            }
-        }
     }
 }

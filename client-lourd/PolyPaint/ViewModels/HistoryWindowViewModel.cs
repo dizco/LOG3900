@@ -15,7 +15,7 @@ namespace PolyPaint.ViewModels
         //Constructor
         public HistoryWindowViewModel()
         {
-            HistoryChanges = new ObservableCollection<HistoryChangeDisplayModel>(); ;
+            HistoryChanges = new ObservableCollection<HistoryChangeModel>(); ;
         }
 
         private string _pageIndex = "1 / 1";
@@ -31,18 +31,11 @@ namespace PolyPaint.ViewModels
         }
 
         //Contain the information of all changes occuring in the editor
-        public ObservableCollection<HistoryChangeDisplayModel> HistoryChanges { get; set; }
+        public ObservableCollection<HistoryChangeModel> HistoryChanges { get; set; }
         
         public event PropertyChangedEventHandler PropertyChanged;
 
 //        TODO : sync HistoryChanges to the changes on the drawing
-//        To add in the collection :
-//        HistoryChanges.Add(new HistoryChangeDisplayModel
-//        {
-//            ChangeText = message,
-//            Timestamp = messageTime,
-//            AuthorName = author
-//        });
 
         /// <summary>
         ///     Called when a property of the ViewModel is changed.

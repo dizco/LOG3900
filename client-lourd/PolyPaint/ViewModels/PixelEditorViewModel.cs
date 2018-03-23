@@ -109,7 +109,7 @@ namespace PolyPaint.ViewModels
         {
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
-            CloseHistory();
+            HistoryWindow?.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -191,18 +191,12 @@ namespace PolyPaint.ViewModels
             {
                 HistoryWindow = new HistoryWindowView();
                 HistoryWindow.Show();
-                HistoryWindow.Closed += (sender, args) => HistoryWindow = null;
+                HistoryWindow.Closing += (sender, args) => HistoryWindow = null;
             }
             else
             {
                 HistoryWindow.Activate();
             }
-        }
-
-        public void CloseHistory()
-        {
-            HistoryWindow?.Close();
-            HistoryWindow = null;
         }
     }
 }
