@@ -44,14 +44,14 @@ function IsClientEditorAction(action: any): action is ClientEditorAction {
 }
 
 export function IsClientStrokeEditorAction(action: any): action is ClientStrokeEditorAction {
-    action = <ClientStrokeEditorAction>action;
     if (!IsClientEditorAction(action)) {
         return false;
     }
-    else if (!("delta" in action)) {
+    action = <ClientStrokeEditorAction>action;
+    if (!("delta" in action)) {
         return false;
     }
-    else if (!(IsDelta(action!.delta))) { //! avoids error :  Property 'delta' does not exist on type 'never'
+    else if (!(IsDelta(action.delta))) {
         return false;
     }
 
@@ -59,11 +59,11 @@ export function IsClientStrokeEditorAction(action: any): action is ClientStrokeE
 }
 
 export function IsClientPixelEditorAction(action: any): action is ClientPixelEditorAction {
-    action = <ClientPixelEditorAction>action;
     if (!IsClientEditorAction(action)) {
         return false;
     }
-    else if (!("pixels" in action)) {
+    action = <ClientPixelEditorAction>action;
+    if (!("pixels" in action)) {
         return false;
     }
 
