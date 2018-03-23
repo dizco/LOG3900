@@ -36,6 +36,7 @@
 		BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */; };
 		BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A1E202102CD00FD1C50 /* SocketManager.swift */; };
 		BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A2020215E3C00FD1C50 /* ChatMessage.swift */; };
+		BE67C52F206559CF00C2EA77 /* MessageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C52E206559CF00C2EA77 /* MessageConstants.swift */; };
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
 		BECC087920619D4D0040EB4B /* ActionMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* ActionMessage.swift */; };
@@ -105,6 +106,7 @@
 		BE426A2020215E3C00FD1C50 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		BE4B72A2202CE72F004205E8 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		BE4B72A4202CE9A1004205E8 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		BE67C52E206559CF00C2EA77 /* MessageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageConstants.swift; sourceTree = "<group>"; };
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
 		BECC087820619D4D0040EB4B /* ActionMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMessage.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				C067AF5E205A1A050078CF27 /* Timers.swift */,
 				BECC087820619D4D0040EB4B /* ActionMessage.swift */,
 				BE1FCAEF2061E40900C57F02 /* SKStroke.swift */,
+				BE67C52E206559CF00C2EA77 /* MessageConstants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 				BECC087920619D4D0040EB4B /* ActionMessage.swift in Sources */,
 				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
 				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,
+				BE67C52F206559CF00C2EA77 /* MessageConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

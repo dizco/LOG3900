@@ -80,9 +80,9 @@ class SocketManager {
             do {
                 let socketMessageType = try decoder.decode(SocketMessageType.self, from: data)
                 print(socketMessageType.type)
-                if socketMessageType.type == "server.editor.action" {
+                if socketMessageType.type == IncomingMessageConstants.strokeAction.rawValue {
                     self.actionDelegate?.managerDidReceiveAction(data: data)
-                } else if socketMessageType.type == "server.chat.message" {
+                } else if socketMessageType.type == OutgoingMessageConstants.chat.rawValue {
                     self.chatDelegate?.managerDidReceiveChat(data: data)
                 }
             } catch let error {
