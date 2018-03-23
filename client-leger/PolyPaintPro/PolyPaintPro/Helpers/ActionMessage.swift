@@ -81,7 +81,7 @@ struct IncomingOwner: Codable {
 
 struct Delta: Codable {
     let add: [IncomingAdd]
-    //let remove: String // this is currently received as null...
+    let remove: [String]
 }
 
 struct IncomingAdd: Codable {

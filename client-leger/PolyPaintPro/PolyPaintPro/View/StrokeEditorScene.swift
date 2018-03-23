@@ -94,7 +94,7 @@ class StrokeEditorScene: SKScene {
 
     // MARK: - Functions for received actions
     func applyReceived(incomingAction: IncomingActionMessage) {
-        if incomingAction.type == "server.editor.action" {
+        if incomingAction.type == IncomingMessageConstants.strokeAction.rawValue {
             for receivedStroke in incomingAction.delta.add {
                 let path = self.createReceivedPathWith(dotsArray: receivedStroke.dots)
                 self.drawReceived(stroke: receivedStroke)
