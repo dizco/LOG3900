@@ -24,7 +24,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const options = {
-        select: "name mode protection visibility",
+        select: "name mode protection visibility thumbnail",
         populate: [
             { path: "owner", select: "username" },
             ],
