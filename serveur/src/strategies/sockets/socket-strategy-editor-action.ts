@@ -9,7 +9,7 @@ import { PriorityQueue, QueueElementPriority } from "../../helpers/queue/priorit
 import { WebSocketDecorator } from "../../decorators/websocket-decorator";
 import { ServerEditorAction } from "../../models/sockets/server-editor-action";
 import { EditorActionDecorator } from "../../decorators/editor-action-decorator";
-import Drawing, { DrawingModel } from "../../models/drawings/drawing";
+import { default as Action } from "../../models/drawings/action";
 
 export abstract class SocketStrategyEditorAction implements SocketStrategy {
     protected static queue: PriorityQueue<Command> = new PriorityQueue<Command>();
@@ -61,8 +61,9 @@ export abstract class SocketStrategyEditorAction implements SocketStrategy {
                         return reject(err);
                     }
                     else {
-                        const action = { actionId: message.action.id, name: message.action.name, author: user, timestamp: message.timestamp };
-                        Drawing.findByIdAndUpdate(message.drawing.id, { $push: { actions: action }}, (err: any, drawing: DrawingModel) => {
+                        const action = new Action({ drawing: message.drawing.id, actionId: message.action.id, name: message.action.name,
+                            author: user, timestamp: message.timestamp });
+                        action.save((err) => {
                             timer.stop();
                             timer.print("Update Drawing Actions: SaveAction");
                             if (err) {

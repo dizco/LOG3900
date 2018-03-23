@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
 import { PaginateResult } from "mongoose";
+import Action, { ActionModel } from "../models/drawings/action";
 
 const enum DrawingFields {
     Name = "name",
@@ -95,7 +96,7 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
     const populateOptions = [
         { path: "owner", select: "username" },
     ];
-    Drawing.findOne({_id: req.params.id}, {actions: 0}).populate(populateOptions).exec((err: any, drawing: any) => {
+    Drawing.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, drawing: any) => {
         if (err) {
             return next(err);
         }
@@ -140,6 +141,7 @@ function handlePasswordProtectedDrawing(drawing: any, req: Request, res: Respons
 export let getDrawingActions = (req: Request, res: Response, next: NextFunction) => {
     req.checkParams("id", "Drawing id cannot be empty").notEmpty();
     req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
+    req.checkQuery("page", "Page number must be an integer above 0").isInt({ min: 1 });
 
     const errors = req.validationErrors();
 
@@ -147,18 +149,28 @@ export let getDrawingActions = (req: Request, res: Response, next: NextFunction)
         return res.status(422).json({ status: "error", error: "Failed to validate drawing id.", hints: errors });
     }
 
-    const populateOptions = [
-        { path: "actions.author", select: "username" },
-    ];
-    Drawing.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, drawing: DrawingModel) => {
+    const options = {
+        select: "actionId name timestamp",
+        sort: { timestamp: -1 }, //Newest come first
+        populate: [
+            { path: "author", select: "username" },
+        ],
+        page: req.query.page,
+        limit: 40,
+    };
+
+    Action.paginate({ drawing: { _id: req.params.id }}, options, (err: any, actions: PaginateResult<ActionModel>) => {
         if (err) {
             return next(err);
         }
-        if (!drawing) {
-            return res.status(404).json({ status: "error", error: "Drawing not found." });
-        }
-        return res.json((<any>drawing.toObject()).actions);
-    });
+        actions.docs = <any>actions.docs.map(function(action) {
+            return action.toObject(); //Keep actions
+        });
+        return res.json(actions);
+    }).catch((reason => {
+        console.log("Failed to fetch and paginate actions", reason);
+        return next(reason);
+    }));
 };
 
 /**

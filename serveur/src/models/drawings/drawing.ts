@@ -29,7 +29,6 @@ const drawingSchema = new mongoose.Schema({
     owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     visibility: { type: String, enum: ["public", "private"], default: "public", required: true },
     protection: { type: { active: { type: Boolean, default: false }, password: { type: String, default: "" }}, required: true },
-    actions: [{ _id: false, actionId: Number, name: String, author: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, timestamp: Number }],
     strokes: [{ _id: false,
                 strokeUuid: String,
                 strokeAttributes: { _id: false, color: String, height: Number, width: Number, stylusTip: String },
@@ -89,14 +88,6 @@ drawingSchema.methods.comparePassword = function(candidatePassword: string, cb: 
 if (!(<any>drawingSchema).options.toObject) (<any>drawingSchema).options.toObject = {};
 (<any>drawingSchema).options.toObject.transform = function (doc: any, ret: any, options: any) {
     delete ret.protection.password;
-    if (ret.actions) {
-        ret.actions = <any>ret.actions.map((action: any) => {
-            action.id = action.actionId;
-            delete action.actionId;
-            delete action._id;
-            return action;
-        });
-    }
 
     addUsersAttribute(ret);
 
