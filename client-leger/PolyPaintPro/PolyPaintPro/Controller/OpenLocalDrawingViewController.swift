@@ -11,15 +11,15 @@ import UIKit
 
 class OpenLocalDrawingViewController: UIViewController {
    internal var connectionStatus = true
-    var drawingList: [OpenLocalDrawingsDataStruct] = []
+    var drawingList: [LocalDrawingModel] = []
 
     @IBOutlet weak var openLocalDrawingTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         openLocalDrawingTableView.tableFooterView = UIView(frame: CGRect.zero)
-        drawingList.append(OpenLocalDrawingsDataStruct(id: "123", name: "mona lisa", type: "trait")) //mocked data
-        drawingList.append(OpenLocalDrawingsDataStruct(id: "456", name: "msdkjfhx", type: "pixel")) //mocked data
+        drawingList.append(LocalDrawingModel(id: "123", name: "mona lisa", type: "trait")) //mocked data
+        drawingList.append(LocalDrawingModel(id: "456", name: "msdkjfhx", type: "pixel")) //mocked data
 
         // Do any additional setup after loading the view.
     }
@@ -39,9 +39,9 @@ class OpenLocalDrawingViewController: UIViewController {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //function called when a table view cell is pressed
-        if (drawingList[indexPath.row] as OpenLocalDrawingsDataStruct).type == "pixel" {
+        if (drawingList[indexPath.row] as LocalDrawingModel).type == "pixel" {
             performSegue(withIdentifier: "OpenLocalPixelDrawingSegue", sender: self)
-        } else if (drawingList[indexPath.row] as OpenLocalDrawingsDataStruct).type == "trait" {
+        } else if (drawingList[indexPath.row] as LocalDrawingModel).type == "trait" {
             performSegue(withIdentifier: "OpenLocalStrokeDrawingSegue", sender: self)
         }
     }
@@ -56,10 +56,10 @@ extension OpenLocalDrawingViewController: UITableViewDataSource, UITableViewDele
         let cellIdentifier = "Cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as UITableViewCell
 
-        cell.textLabel?.text = (drawingList[indexPath.row] as OpenLocalDrawingsDataStruct).name
-        if (drawingList[indexPath.row] as OpenLocalDrawingsDataStruct).type == "trait" {
+        cell.textLabel?.text = (drawingList[indexPath.row] as LocalDrawingModel).name
+        if (drawingList[indexPath.row] as LocalDrawingModel).type == "trait" {
             cell.detailTextLabel?.text = "Mode par trait"
-        } else if (drawingList[indexPath.row] as OpenLocalDrawingsDataStruct).type == "pixel" {
+        } else if (drawingList[indexPath.row] as LocalDrawingModel).type == "pixel" {
             cell.detailTextLabel?.text = "Mode par pixel"
         }
 
