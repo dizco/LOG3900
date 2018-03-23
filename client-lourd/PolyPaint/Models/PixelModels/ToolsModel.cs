@@ -9,10 +9,9 @@ namespace PolyPaint.Models.PixelModels
 {
     public class Tools
     {
-        private Point _oldPosition;
-        private Point _newPosition;
-
         private readonly WriteableBitmap _writeableBitmap;
+        private Point _newPosition;
+        private Point _oldPosition;
 
         internal event EventHandler<List<Tuple<Point, string>>> DrewLineEvent;
 
@@ -52,29 +51,43 @@ namespace PolyPaint.Models.PixelModels
             OnDrewLine();
         }
 
-        public void SelectZone()
+        /// <summary>
+        ///     The function pick two Points and returns the
+        ///     extremities of the rectangle that will be our selected region
+        /// </summary>
+        /// <returns></returns>
+        public KeyValuePair<Point, Point> SelectCropZone()
         {
-            int x1 = (int) _oldPosition.X;
-            int x2 = (int) _newPosition.X;
-            int y1 = (int) _oldPosition.Y;
-            int y2 = (int) _newPosition.Y;
+            //The Points are rounded to not let the
+            //decimals afect the dimension
 
-            if (x1 > x2)
+            Point lowCorner = new Point
             {
-                int temp = x1;
-                x1 = x2;
-                x2 = temp;
+                X = (int) _oldPosition.X,
+                Y = (int) _oldPosition.Y
+            };
+
+            Point highCorner = new Point
+            {
+                X = (int) _newPosition.X,
+                Y = (int) _newPosition.Y
+            };
+
+            if (lowCorner.X > highCorner.X)
+            {
+                double temp = lowCorner.X;
+                lowCorner.X = highCorner.X;
+                highCorner.X = temp;
             }
 
-            if (y1 > y2)
+            if (lowCorner.Y > highCorner.Y)
             {
-                int temp = y1;
-                y1 = y2;
-                y2 = temp;
+                double temp = lowCorner.Y;
+                lowCorner.Y = highCorner.Y;
+                highCorner.Y = temp;
             }
 
-            _writeableBitmap.FillRectangle(x1, y1, x2, y2, Colors.Transparent);
-
+            return new KeyValuePair<Point, Point>(lowCorner, highCorner);
         }
 
         private readonly List<Tuple<Point, string>> _drawnPixels = new List<Tuple<Point, string>>();

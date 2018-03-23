@@ -129,6 +129,7 @@
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
     <Compile Include="Models\MessagingModels\PixelEditorActionModel.cs" />
     <Compile Include="Models\ApiModels\HistoryChangeModel.cs" />
+    <Compile Include="Models\PixelModels\DraggableExtender.cs" />
     <Compile Include="Models\PixelModels\PixelEditor.cs" />
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
@@ -324,7 +325,7 @@
     <Resource Include="Resources\Icons\Selector.png" />
   </ItemGroup>
   <ItemGroup>
-	<!-- from https://www.iconfinder.com/icons/1654369 -->
+    <!-- from https://www.iconfinder.com/icons/1654369 -->
     <Resource Include="Resources\Icons\docked.png" />
     <!-- from https://www.iconfinder.com/icons/118630 -->
     <Resource Include="Resources\Icons\windowed.png" />

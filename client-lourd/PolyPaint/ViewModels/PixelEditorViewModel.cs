@@ -75,10 +75,43 @@ namespace PolyPaint.ViewModels
             set => PropertyModified();
         }
 
+        public Point CropWriteableBitmapPosition
+        {
+            get => _pixelEditor.CropWriteableBitmapPosition;
+            set => PropertyModified();
+        }
+
+        public bool IsWriteableBitmapOnEdition
+        {
+            get => _pixelEditor.IsWriteableBitmapOnEdition;
+            set => PropertyModified();
+        }
+
         public string ToolSelected
         {
             get => _pixelEditor.SelectedTool;
             set => PropertyModified();
+        }
+
+
+        public void PixelDraw(Point oldPoint, Point newPoint)
+        {
+            _pixelEditor.DrawPixels(oldPoint, newPoint);
+        }
+
+        public void PixelCursors(Border displayArea)
+        {
+            _pixelEditor.PixelCursor(displayArea);
+        }
+
+        public void ZoneSelector(Point oldPoint, Point newPoint)
+        {
+            _pixelEditor.ZoneSelector(oldPoint, newPoint);
+        }
+
+        public void BlitZoneSelector()
+        {
+            _pixelEditor.BlitZoneSelector();
         }
 
         public string ColorSelected
@@ -182,21 +215,6 @@ namespace PolyPaint.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException(nameof(e), e, null);
             }
-        }
-
-        public void PixelDraw(Point oldPoint, Point newPoint)
-        {
-            _pixelEditor.DrawPixels(oldPoint, newPoint);
-        }
-
-        public void PixelCursors(Border displayArea)
-        {
-            _pixelEditor.PixelCursor(displayArea);
-        }
-
-        public void ZoneSelector(Point oldPoint, Point newPoint)
-        {
-            _pixelEditor.ZoneSelector(oldPoint, newPoint);
         }
 
         private void ProcessLoginStatusChange(object sender, string username)

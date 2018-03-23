@@ -19,10 +19,11 @@ namespace PolyPaint.Models.PixelModels
 {
     internal class PixelEditor : INotifyPropertyChanged
     {
-        private readonly WriteableBitmap _cropWriteableBitmap = BitmapFactory.New(100, 100);
 
         // Size of the pixel trace in our draw
         private int _pixelSize = 5;
+
+        private Point _cropWriteableBitmapPosition = new Point(0,0);
 
         // Pixel color drawn by the pencil
         private string _selectedColor = "Black";
@@ -32,15 +33,18 @@ namespace PolyPaint.Models.PixelModels
 
         private WriteableBitmap _writeableBitmap;
 
+        private WriteableBitmap _cropWriteableBitmap;
+        private bool _isWriteableBitmapOnEdition;
+
         public PixelEditor()
         {
             //Todo: Resize dynamically with the size of the Canvas
 
             WriteableBitmap = BitmapFactory.New(1000, 1000);
+            WriteableBitmap.Clear(Colors.Transparent);
 
-            // Clear the WriteableBitmap with white color
-            //WriteableBitmap.Clear(Colors.Red);
-            //CropWriteableBitmap.Clear(Colors.Blue);
+            CropWriteableBitmap = BitmapFactory.New(0, 0);
+            CropWriteableBitmap.Clear(Colors.Blue);
         }
 
         public WriteableBitmap WriteableBitmap
@@ -58,7 +62,27 @@ namespace PolyPaint.Models.PixelModels
             get => _cropWriteableBitmap;
             set
             {
-                _writeableBitmap = value;
+                _cropWriteableBitmap = value;
+                PropertyModified();
+            }
+        }
+
+        public Point CropWriteableBitmapPosition
+        {
+            get => _cropWriteableBitmapPosition;
+            set
+            {
+                _cropWriteableBitmapPosition = value;
+                PropertyModified();
+            }
+        }
+
+        public bool IsWriteableBitmapOnEdition
+        {
+            get => _isWriteableBitmapOnEdition;
+            set
+            {
+                _isWriteableBitmapOnEdition = value;
                 PropertyModified();
             }
         }
@@ -134,17 +158,38 @@ namespace PolyPaint.Models.PixelModels
 
         public void ZoneSelector(Point oldPosition, Point newPosition)
         {
-            if (SelectedTool == "selector")
-            {
-                WriteableBitmap =
-                    WriteableBitmap.Resize(100, 300,
-                                           WriteableBitmapExtensions.Interpolation.Bilinear);
-
-                //_writeableBitmap = _writeableBitmap.Resize(23, 43, WriteableBitmapExtensions.Interpolation.Bilinear);
+          
+                //Todo: Create points and put this beautiful
 
                 Tools tools = new Tools(WriteableBitmap, oldPosition, newPosition);
-                tools.SelectZone();
-            }
+
+                //We crop a second WriteableBitmap that will be edited into the size
+                // of our selectedZone
+                KeyValuePair<Point, Point> selectedRectangle = tools.SelectCropZone();
+                Rect rect = new Rect(selectedRectangle.Key, selectedRectangle.Value);
+                CropWriteableBitmap = WriteableBitmap.Crop(rect);
+                
+                //We translate our cropped writeableBitmap into the position
+                //of the selectedZone
+                CropWriteableBitmapPosition = selectedRectangle.Key;
+
+                //Similar to MsPaint, the zoneSelected of our original writeableBitmap is filled with no color
+                 WriteableBitmap.FillRectangle((int)selectedRectangle.Key.X, (int)selectedRectangle.Key.Y, (int)selectedRectangle.Value.X, (int)selectedRectangle.Value.Y, Colors.Transparent);
+
+                //We can then start our edition
+                IsWriteableBitmapOnEdition = true;
+
+                CropWriteableBitmap.Clear(Colors.Green);
+        }
+
+        /// <summary>
+        /// Merge the edited bitmap on the original bitmap (the draw) 
+        /// </summary>
+        public void BlitZoneSelector()
+        {
+            WriteableBitmap.Blit(new Rect(CropWriteableBitmapPosition.X, CropWriteableBitmapPosition.Y, CropWriteableBitmap.PixelWidth, CropWriteableBitmap.PixelHeight), CropWriteableBitmap, new Rect(0, 0, CropWriteableBitmap.PixelWidth, CropWriteableBitmap.PixelHeight));
+            IsWriteableBitmapOnEdition = false;
+           CropWriteableBitmap.Clear(Colors.Red);
         }
 
         /// <summary>

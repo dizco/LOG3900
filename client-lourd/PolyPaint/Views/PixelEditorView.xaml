@@ -6,6 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:converters="clr-namespace:PolyPaint.Converters"
         xmlns:uc="clr-namespace:PolyPaint.Views"
+        xmlns:local="clr-namespace:PolyPaint.Models.PixelModels"
         Title="PolyPaint" Height="700" Width="900" Background="#CBD4E4" MinWidth="627" MinHeight="200"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:PolyPaint.ViewModels"
@@ -86,12 +87,14 @@
                         Margin="12"
                         Foreground="Gray"
                         TickFrequency="10" TickPlacement="BottomRight" IsSnapToTickEnabled="False" />
+                <StackPanel Orientation="Horizontal">
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                </StackPanel>
             </StackPanel>
         </Border>
         <Border DockPanel.Dock="Bottom" Height="25" BorderThickness="0,0.75,0,0.75" BorderBrush="#77000000">
             <StackPanel Orientation="Horizontal" Background="#FFF0F0F0">
                 <Image Source="Resources/position.png" Margin="5,5,5,5" VerticalAlignment="Center" />
-                <TextBlock Name="textBlockPosition" VerticalAlignment="Center" HorizontalAlignment="Left" />
             </StackPanel>
         </Border>
         <Grid>
@@ -127,7 +130,14 @@
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                 MouseMove="DrawingSurfaceMouseMove" MouseEnter="DrawingSurfaceMouseEnter" PreviewMouseDown=" DrawingSurfacePreviewMouseDown">
                             <Image x:Name="DrawnImage" VerticalAlignment="Top" Source="{Binding WriteableBitmap}" />
-                            <Image x:Name="SelectedZone" VerticalAlignment="Top" Source="{Binding CropWriteableBitmap}" />
+
+                            <!-- This image contains a writeableBitmap that is blid to our principal writeableBitmap after his edition-->
+                            <Border BorderThickness="1"
+                                    BorderBrush="DodgerBlue"
+                                    Canvas.Left="{Binding CropWriteableBitmapPosition.X}" Canvas.Top="{Binding CropWriteableBitmapPosition.Y}" >
+                                <Image x:Name="SelectedZone" VerticalAlignment="Stretch" 
+                                    Source="{Binding CropWriteableBitmap}" />
+                            </Border>
                         </Canvas>
                         <Border.Effect>
 
@@ -135,9 +145,9 @@
                         </Border.Effect>
                     </Border>
 
-                    <Canvas Margin="5,5,0,0">
-                        <!-- This canvas is overlaid over the previous canvas and is used to 
+                    <!-- This canvas is overlaid over the previous canvas and is used to 
                     place the rectangle that implements the drag selection box. -->
+                    <Canvas Margin="5,5,0,0">
                         <Rectangle
                             x:Name="selectionBox"
                             Visibility="Collapsed"
