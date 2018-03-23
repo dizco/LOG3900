@@ -6,6 +6,7 @@ import Action, { ActionModel } from "../models/drawings/action";
 const enum DrawingFields {
     Name = "name",
     Mode = "mode",
+    Thumbnail = "thumbnail",
     Visibility = "visibility",
     ProtectionActive = "protection-active",
     ProtectionPassword = "protection-password",
@@ -15,7 +16,7 @@ const enum DrawingFields {
  * GET /drawings
  */
 export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
-    req.checkQuery("page", "Page number must be an integer above 0").isInt({ min: 1 });
+    validatePageParameters(req);
 
     const errors = req.validationErrors();
 
@@ -83,8 +84,7 @@ export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
  * GET /drawings/:id
  */
 export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
-    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
-    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
+    validateIdParameters(req);
     req.checkHeaders(DrawingFields.ProtectionPassword, "Protection password cannot be empty").optional().notEmpty();
 
     const errors = req.validationErrors();
@@ -139,9 +139,8 @@ function handlePasswordProtectedDrawing(drawing: any, req: Request, res: Respons
  * GET /drawings/:id/actions
  */
 export let getDrawingActions = (req: Request, res: Response, next: NextFunction) => {
-    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
-    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
-    req.checkQuery("page", "Page number must be an integer above 0").isInt({ min: 1 });
+    validateIdParameters(req);
+    validatePageParameters(req);
 
     const errors = req.validationErrors();
 
@@ -177,8 +176,7 @@ export let getDrawingActions = (req: Request, res: Response, next: NextFunction)
  * PATCH /drawings/:id
  */
 export let patchDrawing = (req: Request, res: Response, next: NextFunction) => {
-    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
-    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
+    validateIdParameters(req);
     validateVisibilityParameters(req);
     validateProtectionParameters(req);
 
@@ -189,6 +187,30 @@ export let patchDrawing = (req: Request, res: Response, next: NextFunction) => {
     }
 
     Drawing.findByIdAndUpdate(req.params.id, buildUpdateFields(req), (err: any, drawing: DrawingModel) => {
+        if (err) {
+            return next(err);
+        }
+        if (!drawing) {
+            return res.status(404).json({ status: "error", error: "Drawing not found." });
+        }
+        return res.json({ status: "success" });
+    });
+};
+
+/**
+ * PUT /drawings/:id/thumbnail
+ */
+export let putDrawingThumbnail = (req: Request, res: Response, next: NextFunction) => {
+    req.checkBody(DrawingFields.Thumbnail, "Drawing thumbnail must exist").exists();
+    validateIdParameters(req);
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Failed to validate parameters or body.", hints: errors });
+    }
+
+    Drawing.findByIdAndUpdate(req.params.id, { thumbnail: req.body[DrawingFields.Thumbnail] }, (err: any, drawing: DrawingModel) => {
         if (err) {
             return next(err);
         }
@@ -219,6 +241,15 @@ function buildUpdateFields(req: Request): any {
         fields.visibility = req.body[DrawingFields.Visibility];
     }
     return fields;
+}
+
+function validateIdParameters(req: Request): void {
+    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
+    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i); //Match ObjectId : https://stackoverflow.com/a/20988824/6316091
+}
+
+function validatePageParameters(req: Request): void {
+    req.checkQuery("page", "Page number must be an integer above 0").isInt({ min: 1 });
 }
 
 function validateModeParameters(req: Request): void {
