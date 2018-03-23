@@ -223,6 +223,7 @@ namespace PolyPaint.Models
                     JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
 
                     Dictionary<string, int> users = content.GetValue("users").ToObject<Dictionary<string, int>>();
+                    string editingMode = content.GetValue("mode").ToString();
 
                     users.TryGetValue("active", out int activeUsers);
                     users.TryGetValue("limit", out int limitUsers);
@@ -237,6 +238,15 @@ namespace PolyPaint.Models
 
                     // TODO: Get actual editing mode from drawing info once implemented
                     EditingModeOption option = EditingModeOption.Trait;
+                    if (editingMode == "stroke")
+                    {
+                        option = EditingModeOption.Trait;
+                    }
+                    else if (editingMode == "pixel")
+
+                    {
+                        option = EditingModeOption.Pixel;
+                    }
 
                     OnOnlineDrawingJoined(id, drawingName, option, strokes);
                 }

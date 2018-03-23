@@ -6,7 +6,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
+using PolyPaint.Models.MessagingModels;
 using PolyPaint.Models.PixelModels;
+using PolyPaint.Strategy.PixelEditorActionStrategy;
 using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels
@@ -34,9 +36,19 @@ namespace PolyPaint.ViewModels
                 ChatDocked = Visibility.Visible;
             }
 
+            SubscribeDrawingRoom();
+
             LoginStatusChanged += ProcessLoginStatusChange;
 
             ChangeEditorChatDisplayState += ChatDisplayStateChanged;
+
+            PixelEditorActionReceived += ProcessPixelEditorActionReceived;
+        }
+
+        private void ProcessPixelEditorActionReceived(object sender, PixelEditorActionModel action)
+        {
+            EditorActionStrategyContext context = new EditorActionStrategyContext(action);
+            context.ExecuteStrategy(_pixelEditor);
         }
 
         public Visibility ChatDocked
@@ -51,10 +63,7 @@ namespace PolyPaint.ViewModels
 
         private void PixelEditorDrewLineEventHandler(object o, List<Tuple<Point, string>> pixels)
         {
-            foreach (Tuple<Point, string> pixel in pixels)
-            {
-                //_pixelEditor.DrawPixel(pixel.Item1, pixel.Item2);
-            }
+            SendNewPixels(pixels);
         }
 
         public WriteableBitmap WriteableBitmap
@@ -157,6 +166,16 @@ namespace PolyPaint.ViewModels
         internal void SendNewPixels(List<Tuple<Point, string>> pixels)
         {
             Messenger?.SendEditorActionNewPixels(pixels);
+        }
+
+        private void SubscribeDrawingRoom()
+        {
+            Messenger?.SubscribeToDrawing();
+        }
+
+        public void UnsubscribeDrawingRoom()
+        {
+            Messenger?.UnsubscribeToDrawing();
         }
     }
 }

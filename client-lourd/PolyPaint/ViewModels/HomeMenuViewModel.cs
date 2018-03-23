@@ -430,6 +430,7 @@ namespace PolyPaint.ViewModels
             }
             else if (sender is PixelEditorView pixelEditorView)
             {
+                (pixelEditorView.DataContext as PixelEditorViewModel)?.UnsubscribeDrawingRoom();
                 (pixelEditorView.DataContext as PixelEditorViewModel)?.Dispose();
             }
 

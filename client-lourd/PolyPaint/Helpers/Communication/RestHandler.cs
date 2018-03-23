@@ -63,10 +63,21 @@ namespace PolyPaint.Helpers.Communication
 
         public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option, bool visibilityPublic = true)
         {
+            string mode = null;
+            if (option == EditingModeOption.Pixel)
+            {
+                mode = "pixel";
+            }
+            else if (option == EditingModeOption.Trait)
+            {
+                mode = "stroke";
+            }
+
             Dictionary<string, string> drawingInfo = new Dictionary<string, string>
             {
                 {"name", drawingName},
-                {"visibility", visibilityPublic? "public":"private"}
+                {"visibility", visibilityPublic? "public":"private"},
+                {"mode",mode}
             };
 
             return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
@@ -75,12 +86,23 @@ namespace PolyPaint.Helpers.Communication
         public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option,
             string password, bool visibilityPublic = true)
         {
+            string mode = null;
+            if (option == EditingModeOption.Pixel)
+            {
+                mode = "pixel";
+            }
+            else if (option == EditingModeOption.Trait)
+            {
+                mode = "stroke";
+            }
+
             Dictionary<string, string> drawingInfo = new Dictionary<string, string>
             {
                 {"name", drawingName},
                 {"protection-active", "true"},
                 {"protection-password", password},
-                {"visibility", visibilityPublic? "public":"private"}
+                {"visibility", visibilityPublic? "public":"private"},
+                {"mode",mode}
             };
 
             return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
