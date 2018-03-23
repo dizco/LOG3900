@@ -36,11 +36,51 @@ class JoinDrawingViewController: UIViewController {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).type == "pixel" {
-            performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
-        } else if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).type == "trait" {
-            performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
+        if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).privacyStatus { //protected drawing
+            let alert = UIAlertController(title: "AlertController Tutorial",
+                                          message: "Submit something",
+                                          preferredStyle: .alert)
+            // Submit button
+            let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
+                // Get 1st TextField's text
+                let inputPwd = alert.textFields![0]
+                print(inputPwd.text!)
+                if self.validatePwd(inputPwd: inputPwd.text!) {
+                    if (self.joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).type == "pixel" {
+                        self.performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
+                    } else if (self.joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).type == "trait" {
+                        self.performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
+                    }
+                } else if !self.validatePwd(inputPwd: inputPwd.text!) {
+                    inputPwd.text! = ""
+                }
+            })
+            // Cancel button
+            let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+            alert.addTextField { (textField: UITextField) in
+                textField.keyboardAppearance = .dark
+                textField.keyboardType = .default
+                textField.autocorrectionType = .default
+                textField.placeholder = "Type something here"
+                textField.clearButtonMode = .whileEditing
+            }
+            // Add action buttons and present the Alert
+            alert.addAction(submitAction)
+            alert.addAction(cancel)
+            present(alert, animated: true, completion: nil)
+
+        } else if !(joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).privacyStatus { //not protected drawing
+            if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).type == "pixel" {
+                performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
+            } else if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).type == "trait" {
+                performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
+            }
         }
+    }
+
+    func validatePwd(inputPwd: String) -> Bool {
+        // MARK: - insert logic for pwd validation here
+        return true
     }
 }
 
@@ -55,9 +95,9 @@ extension JoinDrawingViewController: UITableViewDataSource, UITableViewDelegate 
 
         cell.textLabel?.text = (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).name
         if (joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).privacyStatus {
-            cell.detailTextLabel?.text = "\u{1f513}"
-        } else if !(joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).privacyStatus {
             cell.detailTextLabel?.text = "\u{1f512}"
+        } else if !(joinDrawingList[indexPath.row] as JoinDrawingsDataStruct).privacyStatus {
+            cell.detailTextLabel?.text = "\u{1f513}"
         }
         return cell
     }

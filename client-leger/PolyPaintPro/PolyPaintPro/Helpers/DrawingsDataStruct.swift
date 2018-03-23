@@ -11,7 +11,7 @@ import Foundation
 struct JoinDrawingsDataStruct: Codable {
     let id: String
     let name: String
-    let privacyStatus: Bool
+    let privacyStatus: Bool //true = protected, false = public
     let type: String
 }
 
