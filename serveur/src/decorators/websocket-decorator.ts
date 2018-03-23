@@ -87,6 +87,17 @@ export class WebSocketDecorator {
     }
 
     /**
+     * Informs the room that we are ready to receive polling
+     * @param {string} roomId
+     */
+    public acceptPolling(roomId: string): void {
+        const room = this.wss.findRoom(roomId);
+        if (room) {
+            room.startPolling();
+        }
+    }
+
+    /**
      * Sends a ping on the socket with an interval and checks if the pong was received
      */
     public detectDisconnect(): void {
