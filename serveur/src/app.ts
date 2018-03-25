@@ -25,6 +25,7 @@ import * as userController from "./controllers/user";
 import * as pingController from "./controllers/ping";
 //import * as contactController from "./controllers/contact";
 import * as drawingsController from "./controllers/drawings";
+import * as templatesController from "./controllers/templates";
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
 
@@ -117,6 +118,13 @@ app.get("/drawings/:id", passportConfig.isAuthenticated, drawingsController.getD
 app.get("/drawings/:id/actions", passportConfig.isAuthenticated, drawingsController.getDrawingActions);
 app.patch("/drawings/:id", passportConfig.isAuthenticated, drawingsController.patchDrawing);
 app.put("/drawings/:id/thumbnail", passportConfig.isAuthenticated, drawingsController.putDrawingThumbnail);
+
+/**
+ * Templates
+ */
+app.get("/templates", templatesController.getTemplates);
+app.post("/templates", templatesController.postTemplate);
+app.get("/templates/:id", templatesController.getTemplate);
 
 /**
  * Ping
