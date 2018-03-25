@@ -34,12 +34,43 @@ export let getTemplates = (req: Request, res: Response, next: NextFunction) => {
             return next(err);
         }
 
-        return res.json(templates);
+        return appendLikesToTemplates(req, res, next, templates);
     }).catch((reason => {
         console.log("Failed to fetch and paginate templates", reason);
         return next(reason);
     }));
 };
+
+function appendLikesToTemplates(req: Request, res: Response, next: NextFunction, templates: PaginateResult<TemplateModel>): void {
+    const idList: any[] = [];
+    templates.docs = <any>templates.docs.map(function(template) {
+        idList.push(mongoose.Types.ObjectId(template.id));
+        return template.toObject(); //Transform every template
+    });
+
+    const aggregateOptions = [
+        {
+            $match: { template: { $in: idList }},
+        },
+        {
+            $group: {
+                _id: "$template",
+                count: { $sum: 1 },
+            }
+        }
+    ];
+    Like.aggregate(aggregateOptions).exec((err: any, result: any[]) => {
+        if (err) {
+            return next(err);
+        }
+        templates.docs.forEach((template: any) => {
+            const templateLikesCount = result.find((likes: any) => likes._id.toString() === template._id.toString());
+            template.likes = (templateLikesCount) ? templateLikesCount.count : 0;
+        });
+
+        return res.json(templates);
+    });
+}
 
 /**
  * POST /templates
@@ -111,3 +142,37 @@ export let getTemplate = (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
+/**
+ * POST /templates/:id/likes
+ */
+export let postTemplateLike = (req: Request, res: Response, next: NextFunction) => {
+    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
+    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i);
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Failed to validate template id.", hints: errors });
+    }
+
+    Template.findOne({_id: req.params.id}, (err: any, template: TemplateModel) => {
+        if (err) {
+            return next(err);
+        }
+        if (!template) {
+            return res.status(404).json({ status: "error", error: "Template not found." });
+        }
+
+        const like = new Like({
+            template: template,
+            user: req.user,
+        });
+
+        like.save((err) => {
+            if (err) {
+                return next(err);
+            }
+            return res.json({ status: "success", objectId: like.id });
+        });
+    });
+};
