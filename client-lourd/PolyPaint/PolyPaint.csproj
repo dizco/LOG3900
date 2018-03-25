@@ -377,5 +377,13 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\blur.png" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- from https://www.iconfinder.com/icons/131745/bucket_color_fill_paint_painting_tool_icon -->
+    <Resource Include="Resources\Icons\fill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- from http://www.rw-designer.com/cursor-detail/97776 -->
+    <Resource Include="Resources\Cursors\filler.cur" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
