@@ -125,6 +125,7 @@ app.put("/drawings/:id/thumbnail", passportConfig.isAuthenticated, drawingsContr
 app.get("/templates", templatesController.getTemplates);
 app.post("/templates", templatesController.postTemplate);
 app.get("/templates/:id", templatesController.getTemplate);
+app.post("/templates/:id/likes", passportConfig.isAuthenticated, templatesController.postTemplateLike);
 
 /**
  * Ping
