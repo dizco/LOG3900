@@ -70,6 +70,12 @@ namespace PolyPaint.Views
                 (DataContext as PixelEditorViewModel)?.BlitZoneSelector();
                 SelectedZoneThumb.Visibility = Visibility.Hidden;
             }
+
+            if ((DataContext as PixelEditorViewModel)?.ToolSelected == "fill")
+            {
+                (DataContext as PixelEditorViewModel)?.Fill(_oldPositionDrawing, DrawingSurface.ActualWidth,
+                                                            DrawingSurface.ActualHeight);
+            }
         }
 
         private void DrawingSurfaceMouseMove(object sender, MouseEventArgs e)

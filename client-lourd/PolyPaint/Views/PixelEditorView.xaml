@@ -55,6 +55,15 @@
                         <Image Source="/Resources/efface_crayon.png" />
                     </StackPanel>
                 </Button>
+                <Button Name="Fill" Width="40" Height="40" Margin="5"
+                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=filler, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=filler, UpdateSourceTrigger=PropertyChanged}"
+                        Command="{Binding Path=ChooseTool}"
+                        CommandParameter="fill">
+                    <StackPanel>
+                        <Image Source="/Resources/Icons/fill.png" />
+                    </StackPanel>
+                </Button>
                 <Button Name="SelectPixel" Width="40" Height="40" Margin="5" 
                         BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=select_pixel, UpdateSourceTrigger=PropertyChanged}" 
                         Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=select_pixel, UpdateSourceTrigger=PropertyChanged}" 
@@ -182,7 +191,7 @@
         </Border>
         <Border DockPanel.Dock="Bottom" Height="25" BorderThickness="0,0.75,0,0.75" BorderBrush="#77000000">
             <StackPanel Orientation="Horizontal" Background="#FFF0F0F0">
-                <Image Source="Resources/position.png" Margin="5,5,5,5" VerticalAlignment="Center" />
+                <Image Source="/Resources/position.png" Margin="5,5,5,5" VerticalAlignment="Center" />
             </StackPanel>
         </Border>
         <Grid>
@@ -210,8 +219,7 @@
                         DragStarted="GlisserCommence" DragCompleted="GlisserTermine"
                  />
                 <Grid Name="GridSurface"
-                      MouseMove="GridSurfaceMouseMove" MouseUp="GridSurfaceMouseUp" MouseDown="GridSurfaceMouseDown"
-                >
+                      MouseMove="GridSurfaceMouseMove" MouseUp="GridSurfaceMouseUp" MouseDown="GridSurfaceMouseDown">
                     <Border x:Name="DisplayArea" BorderThickness="5,5,0,0" >
                         <Canvas x:Name="DrawingSurface"
                                 Background="White" ClipToBounds="True"  
@@ -243,13 +251,12 @@
                     <!-- This canvas is overlaid over the previous canvas and is used to 
                     place the rectangle that implements the drag selection box. -->
                     <Canvas Margin="5,5,0,0">
-                        <Rectangle
+                            <Rectangle
                             x:Name="selectionBox"
                             Visibility="Collapsed"
                             Stroke="Black"
                             StrokeThickness="1"
-                            StrokeDashArray="4 4"
-                        />
+                            StrokeDashArray="4 4" />
                     </Canvas>
                 </Grid>
             </Grid>

@@ -255,6 +255,11 @@ namespace PolyPaint.ViewModels
             _pixelEditor.CurrentUsername = username;
         }
 
+        public void Fill(Point oldPoint, double maxWidth, double maxHeight)
+        {
+            _pixelEditor.FloodFill(oldPoint, maxWidth, maxHeight);
+        }
+
         /// <summary>
         ///     Appelee lorsqu'une propriété de VueModele est modifiée.
         ///     Un évènement indiquant qu'une propriété a été modifiée est alors émis à partir de VueModèle.

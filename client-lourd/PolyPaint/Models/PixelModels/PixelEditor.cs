@@ -6,9 +6,14 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Application = System.Windows.Application;
+using Color = System.Windows.Media.Color;
+using ColorConverter = System.Windows.Media.ColorConverter;
+using Cursor = System.Windows.Input.Cursor;
+using Cursors = System.Windows.Input.Cursors;
+using Point = System.Windows.Point;
 
 namespace PolyPaint.Models.PixelModels
 {
@@ -23,6 +28,10 @@ namespace PolyPaint.Models.PixelModels
 
         private const int ClockwiseAngle = 90; // degrees
         private const int CounterClockwiseAngle = 270; // degrees
+
+        private const int AlphaShift = 24;
+        private const int RedShift = 16;
+        private const int GreenShift = 8;
 
         // Size of the pixel trace in our draw
         private int _pixelSize = 5;
@@ -258,6 +267,12 @@ namespace PolyPaint.Models.PixelModels
                 case "selector":
                     displayArea.Cursor = Cursors.Cross;
                     break;
+                case "fill":
+                    Cursor fill =
+                        new Cursor(Application.GetResourceStream(new Uri("/Resources/Cursors/filler.cur",
+                                                                         UriKind.Relative)).Stream);
+                    displayArea.Cursor = fill;
+                    break;
                 default:
                     displayArea.Cursor = Cursors.Pen;
                     break;
@@ -281,6 +296,83 @@ namespace PolyPaint.Models.PixelModels
         public void SelectTool(string tool)
         {
             SelectedTool = tool;
+        }
+
+        private static int ToInt(Color mediaColor)
+        {
+            return (mediaColor.A << AlphaShift) | (mediaColor.R << RedShift) |
+                   (mediaColor.G << GreenShift) | mediaColor.B;
+        }
+
+        public void FloodFill(Point startPoint, double maxWidth, double maxHeight)
+        {
+            Color fillColor = (Color)ColorConverter.ConvertFromString(SelectedColor);
+
+            int oldColor = ToInt(WriteableBitmap.GetPixel((int)startPoint.X, (int)startPoint.Y));
+            int fillColorInt = ToInt(fillColor);
+
+            if (oldColor == fillColorInt)
+            {
+                return;
+            }
+
+            Stack<Point> pixels = new Stack<Point>();
+            pixels.Push(startPoint);
+            WriteableBitmap.Lock();
+
+            while (pixels.Count != 0)
+            {
+                Point currentPixel = pixels.Pop();
+                int currentY = (int)currentPixel.Y;
+
+                while (0 <= currentY && ToInt(WriteableBitmap.GetPixel((int)currentPixel.X, currentY)) == oldColor)
+                {
+                    currentY--;
+                }
+                currentY++;
+                
+                bool spanLeft = false;
+                bool spanRight = false;
+                
+                while (0 <= currentY && currentY < maxHeight && ToInt(WriteableBitmap.GetPixel((int)currentPixel.X, currentY)) == oldColor)
+                {
+                    WriteableBitmap.SetPixel((int)currentPixel.X, currentY, fillColor);
+                    
+                    if (1.0 < currentPixel.X)
+                    {
+                        int getColor = ToInt(WriteableBitmap.GetPixel((int)currentPixel.X - 1, currentY));
+
+                        if (!spanLeft && getColor == oldColor)
+                        {
+                            pixels.Push(new Point(currentPixel.X - 1.0, currentY));
+                            spanLeft = true;
+                        }
+                        else if (getColor != oldColor)
+                        {
+                            spanLeft = false;
+                        }
+                    }
+
+                    if (currentPixel.X < maxWidth - 1.0)
+                    {
+                        int getColor = ToInt(WriteableBitmap.GetPixel((int)currentPixel.X + 1, currentY));
+
+                        if (!spanRight && getColor == oldColor)
+                        {
+                            pixels.Push(new Point(currentPixel.X + 1.0, currentY));
+                            spanRight = true;
+                        }
+                        else if (getColor != oldColor)
+                        {
+                            spanRight = false;
+                        }
+                    }
+
+                    currentY++;
+                }
+            }
+
+            WriteableBitmap.Unlock();
         }
     }
 }
