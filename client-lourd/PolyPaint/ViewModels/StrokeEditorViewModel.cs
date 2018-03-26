@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +29,8 @@ namespace PolyPaint.ViewModels
     internal class StrokeEditorViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
         private readonly StrokeEditor _editor = new StrokeEditor();
+
+        private Visibility _chatDocked = Visibility.Collapsed;
 
         /// <summary>
         ///     Constructeur de VueModele
@@ -86,6 +89,7 @@ namespace PolyPaint.ViewModels
             InsertTextCommand = new RelayCommand<InkCanvas>(InsertText);
 
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
+            TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
 
             if (Messenger?.IsConnected ?? false)
             {
@@ -98,25 +102,6 @@ namespace PolyPaint.ViewModels
 
             ChangeEditorChatDisplayState += ChatDisplayStateChanged;
         }
-
-        public bool IsConnectedToDrawing => (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
-
-        private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
-        {
-            switch (e)
-            {
-                case EditorChatDisplayOptions.Display:
-                    ChatDocked = Visibility.Visible;
-                    break;
-                case EditorChatDisplayOptions.Hide:
-                    ChatDocked = Visibility.Collapsed;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(e), e, null);
-            }
-        }
-
-        private Visibility _chatDocked = Visibility.Collapsed;
 
         public Visibility ChatDocked
         {
@@ -153,12 +138,12 @@ namespace PolyPaint.ViewModels
         {
             get => _editor.TextToInsertContent;
             set
-                {
-                    _editor.TextToInsertContent = value;
-                    PropertyModified();
-                }
+            {
+                _editor.TextToInsertContent = value;
+                PropertyModified();
+            }
         }
-        
+
         public string TextSize
         {
             get => _editor.TextToInsertSize;
@@ -189,6 +174,15 @@ namespace PolyPaint.ViewModels
                 return _editor.RecentAutosaves;
             }
         }
+
+        public string LockUnlockDrawingMessage => IsPasswordProtected
+                                                      ? "Retirer la protection du dessin"
+                                                      : "Protéger le dessin par un mot de passe";
+
+        public string LockUnlockIcon => IsPasswordProtected ? "🔒" : "🔓";
+
+        public bool ProtectionToggleIsEnabled =>
+            IsDrawingOwner && (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
 
         public static HistoryWindowView HistoryWindow { get; set; }
 
@@ -229,6 +223,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<InkCanvas> InsertTextCommand { get; set; }
 
         public RelayCommand<object> OpenHistoryCommand { get; set; }
+        public RelayCommand<object> TogglePasswordCommand { get; set; }
 
         internal bool IsErasingByPoint { get; set; }
         internal bool IsErasingByStroke { get; set; }
@@ -242,6 +237,55 @@ namespace PolyPaint.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
+        {
+            switch (e)
+            {
+                case EditorChatDisplayOptions.Display:
+                    ChatDocked = Visibility.Visible;
+                    break;
+                case EditorChatDisplayOptions.Hide:
+                    ChatDocked = Visibility.Collapsed;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(e), e, null);
+            }
+        }
+
+        private async void TogglePasswordProtection(object obj)
+        {
+            if (IsPasswordProtected)
+            {
+                HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId);
+                if (response.IsSuccessStatusCode)
+                {
+                    IsPasswordProtected = false;
+                }
+            }
+            else
+            {
+                PasswordPrompt passwordPrompt = new PasswordPrompt();
+
+                passwordPrompt.PasswordEntered += async (sender, password) =>
+                {
+                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId, password);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        IsPasswordProtected = true;
+                    }
+
+                    passwordPrompt.Close();
+                };
+
+                passwordPrompt.ShowDialog();
+            }
+
+            PropertyModified("LockUnlockDrawingMessage");
+            PropertyModified("ProtectionToggleIsEnabled");
+            PropertyModified("LockUnlockIcon");
+        }
+
         public event EventHandler<StrokeCollection> LockedStrokesSelectedEvent;
 
         private void OnStrokeStackedHandler(object sender, CustomStroke stroke)
@@ -303,7 +347,7 @@ namespace PolyPaint.ViewModels
             }
 
             TextBox newTextBox = _editor.InsertText(drawingSurface);
-            UIElement[] newSelectedText = { newTextBox };
+            UIElement[] newSelectedText = {newTextBox};
             drawingSurface.Select(newSelectedText);
             TextToInsert = string.Empty;
         }

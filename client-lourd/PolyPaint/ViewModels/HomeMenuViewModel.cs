@@ -266,6 +266,7 @@ namespace PolyPaint.ViewModels
                 {
                     _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, password.Password,
                                                CreatePubliclyVisibleDrawing);
+                    IsPasswordProtected = true;
                 }
                 else
                 {
@@ -276,7 +277,10 @@ namespace PolyPaint.ViewModels
             {
                 _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode,
                                            visibilityPublic: CreatePubliclyVisibleDrawing);
+                IsPasswordProtected = false;
             }
+
+            IsDrawingOwner = true;
         }
 
         private void OpenMenu(object obj)
@@ -316,8 +320,10 @@ namespace PolyPaint.ViewModels
                 return;
             }
 
-            bool drawingProtected = SelectedOnlineDrawing.Protection.Active &&
-                                    Username != SelectedOnlineDrawing.Owner.Username;
+            IsPasswordProtected = SelectedOnlineDrawing.Protection.Active;
+            IsDrawingOwner = Username == SelectedOnlineDrawing.Owner.Username;
+
+            bool drawingProtected = IsPasswordProtected && !IsDrawingOwner;
 
             _homeMenu.JoinOnlineDrawing(SelectedOnlineDrawing.Id, drawingProtected);
         }

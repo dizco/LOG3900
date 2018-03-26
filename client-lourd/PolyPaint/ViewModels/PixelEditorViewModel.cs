@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
+using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Models.PixelModels;
 using PolyPaint.Strategy.PixelEditorActionStrategy;
@@ -32,6 +34,7 @@ namespace PolyPaint.ViewModels
             ExportImageCommand = new RelayCommand<object>(_pixelEditor.ExportImagePrompt);
 
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
+            TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
 
             if (IsConnectedToDrawing)
             {
@@ -95,6 +98,16 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
         public RelayCommand<object> OpenHistoryCommand { get; set; }
+        public RelayCommand<object> TogglePasswordCommand { get; set; }
+
+        public string LockUnlockDrawingMessage => IsPasswordProtected
+                                                      ? "Retirer la protection du dessin"
+                                                      : "Protéger le dessin par un mot de passe";
+
+        public string LockUnlockIcon => IsPasswordProtected ? "🔒" : "🔓";
+
+        public bool ProtectionToggleIsEnabled =>
+            IsDrawingOwner && (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
 
         public void Dispose()
         {
@@ -104,6 +117,39 @@ namespace PolyPaint.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private async void TogglePasswordProtection(object obj)
+        {
+            if (IsPasswordProtected)
+            {
+                HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId);
+                if (response.IsSuccessStatusCode)
+                {
+                    IsPasswordProtected = false;
+                }
+            }
+            else
+            {
+                PasswordPrompt passwordPrompt = new PasswordPrompt();
+
+                passwordPrompt.PasswordEntered += async (sender, password) =>
+                {
+                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId, password);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        IsPasswordProtected = true;
+                    }
+
+                    passwordPrompt.Close();
+                };
+
+                passwordPrompt.ShowDialog();
+            }
+
+            PropertyModified("LockUnlockDrawingMessage");
+            PropertyModified("ProtectionToggleIsEnabled");
+            PropertyModified("LockUnlockIcon");
+        }
 
         private void ProcessPixelEditorActionReceived(object sender, PixelEditorActionModel action)
         {

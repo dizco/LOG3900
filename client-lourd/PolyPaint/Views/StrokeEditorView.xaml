@@ -32,18 +32,12 @@
                 <MenuItem Header="Enregistrer _sous" InputGestureText="Ctrl+s" Command="{Binding SaveFileCommand}" />
                 <MenuItem Header="_Exporter le dessin" InputGestureText="Ctrl+e" Command="{Binding ExportImageCommand}"
                           CommandParameter="{Binding ElementName=DrawingSurface}" />
-                <!--<Separator></Separator>
-                <MenuItem Header="_Récents" ItemsSource="{Binding RecentAutosaves}">
-                    <MenuItem.ItemContainerStyle>
-                        <Style TargetType="MenuItem">
-                            <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DockPanel}, Path=DataContext.LoadAutosaved}"/>
-                            <Setter Property="CommandParameter" Value="{Binding}"/>
-                        </Style>
-                    </MenuItem.ItemContainerStyle>
-                </MenuItem>-->
             </MenuItem>
             <MenuItem Header="_Dessin">
                 <MenuItem Header="Historique des modifications" Command="{Binding OpenHistoryCommand}" IsEnabled="{Binding IsConnectedToDrawing}"/>
+            </MenuItem>
+            <MenuItem Header="_Accessibilité">
+                <MenuItem Header="{Binding LockUnlockDrawingMessage}" Icon="{Binding LockUnlockIcon}" IsEnabled="{Binding ProtectionToggleIsEnabled}" Command="{Binding TogglePasswordCommand}"/>
             </MenuItem>
         </Menu>
         <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0.5" BorderBrush="#77000000">

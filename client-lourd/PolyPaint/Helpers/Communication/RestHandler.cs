@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using PolyPaint.CustomComponents;
 using PolyPaint.Models.ApiModels;
 
 namespace PolyPaint.Helpers.Communication
@@ -127,6 +128,23 @@ namespace PolyPaint.Helpers.Communication
         public static async Task<HttpResponseMessage> GetDrawingActionsHistory(string drawingId, int page = 1)
         {
             return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}/actions?page={page}");
+        }
+
+        public static async Task<HttpResponseMessage> UpdateDrawingProtection(string drawingId, [Optional] string password)
+        {
+            Dictionary<string, string> requestContent = new Dictionary<string, string>();
+
+            if (password != null)
+            {
+                requestContent.Add("protection-active", "true");
+                requestContent.Add("protection-password", password);
+            }
+            else
+            {
+                requestContent.Add("protection-active", "false");
+            }
+
+            return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}", new FormUrlEncodedContent(requestContent));
         }
     }
 }
