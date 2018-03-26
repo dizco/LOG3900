@@ -123,5 +123,10 @@ namespace PolyPaint.Helpers.Communication
 
             return await response;
         }
+
+        public static async Task<HttpResponseMessage> GetDrawingActionsHistory(string drawingId, int page = 1)
+        {
+            return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}/actions?page={page}");
+        }
     }
 }

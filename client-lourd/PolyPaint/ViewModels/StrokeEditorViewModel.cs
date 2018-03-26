@@ -99,6 +99,8 @@ namespace PolyPaint.ViewModels
             ChangeEditorChatDisplayState += ChatDisplayStateChanged;
         }
 
+        public bool IsConnectedToDrawing => (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
+
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
         {
             switch (e)
