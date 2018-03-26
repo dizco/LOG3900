@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
@@ -93,27 +94,6 @@ namespace PolyPaint.ViewModels
             set => PropertyModified();
         }
 
-
-        public void PixelDraw(Point oldPoint, Point newPoint)
-        {
-            _pixelEditor.DrawPixels(oldPoint, newPoint);
-        }
-
-        public void PixelCursors(Border displayArea)
-        {
-            _pixelEditor.PixelCursor(displayArea);
-        }
-
-        public void ZoneSelector(Point oldPoint, Point newPoint)
-        {
-            _pixelEditor.ZoneSelector(oldPoint, newPoint);
-        }
-
-        public void BlitZoneSelector()
-        {
-            _pixelEditor.BlitZoneSelector();
-        }
-
         public string ColorSelected
         {
             get => _pixelEditor.SelectedColor;
@@ -200,6 +180,31 @@ namespace PolyPaint.ViewModels
         private void PixelEditorDrewLineEventHandler(object o, List<Tuple<Point, string>> pixels)
         {
             SendNewPixels(pixels);
+        }
+
+        public void ChangeCropWriteableBitmapPosition(Point position)
+        {
+            _pixelEditor.ChangeCropWriteableBitmapPosition(position);
+        }
+
+        public void PixelDraw(Point oldPoint, Point newPoint)
+        {
+            _pixelEditor.DrawPixels(oldPoint, newPoint);
+        }
+
+        public void PixelCursors(Border displayArea)
+        {
+            _pixelEditor.PixelCursor(displayArea);
+        }
+
+        public void ZoneSelector(Thumb selectedZoneThumb, Point oldPoint, Point newPoint)
+        {
+            _pixelEditor.SelectZone(selectedZoneThumb, oldPoint, newPoint);
+        }
+
+        public void BlitZoneSelector()
+        {
+            _pixelEditor.BlitZoneSelector();
         }
 
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)

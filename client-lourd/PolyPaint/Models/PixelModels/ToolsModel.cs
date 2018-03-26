@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -9,11 +8,10 @@ namespace PolyPaint.Models.PixelModels
 {
     public class Tools
     {
+        private readonly List<Tuple<Point, string>> _drawnPixels = new List<Tuple<Point, string>>();
         private readonly WriteableBitmap _writeableBitmap;
         private Point _newPosition;
         private Point _oldPosition;
-
-        internal event EventHandler<List<Tuple<Point, string>>> DrewLineEvent;
 
         public Tools(WriteableBitmap writeableBitmap, Point oldPosition, Point newPosition)
         {
@@ -21,6 +19,8 @@ namespace PolyPaint.Models.PixelModels
             _oldPosition = oldPosition;
             _newPosition = newPosition;
         }
+
+        internal event EventHandler<List<Tuple<Point, string>>> DrewLineEvent;
 
         /// <summary>
         ///     Draw a serie of pixel between a position and another
@@ -38,10 +38,10 @@ namespace PolyPaint.Models.PixelModels
             {
                 for (int i = 0; i < pixelSize; i++)
                 {
-                    int x1 = (int)_oldPosition.X - i;
+                    int x1 = (int) _oldPosition.X - i;
                     int x2 = (int) _newPosition.X - i;
-                    int y1 = (int)_oldPosition.Y - j;
-                    int y2 = (int)_newPosition.Y - j;
+                    int y1 = (int) _oldPosition.Y - j;
+                    int y2 = (int) _newPosition.Y - j;
 
                     _writeableBitmap.DrawLine(x1, y1, x2, y2, color);
                     GeneratePixels(x1, y1, x2, y2, color);
@@ -56,11 +56,10 @@ namespace PolyPaint.Models.PixelModels
         ///     extremities of the rectangle that will be our selected region
         /// </summary>
         /// <returns></returns>
-        public KeyValuePair<Point, Point> SelectCropZone()
+        public Tuple<Point, Point> SelectCropZone()
         {
-            //The Points are rounded to not let the
+            //The Points are convert to int to not let the
             //decimals afect the dimension
-
             Point lowCorner = new Point
             {
                 X = (int) _oldPosition.X,
@@ -87,10 +86,8 @@ namespace PolyPaint.Models.PixelModels
                 highCorner.Y = temp;
             }
 
-            return new KeyValuePair<Point, Point>(lowCorner, highCorner);
+            return new Tuple<Point, Point>(lowCorner, highCorner);
         }
-
-        private readonly List<Tuple<Point, string>> _drawnPixels = new List<Tuple<Point, string>>();
 
         private void GeneratePixels(int x1, int y1, int x2, int y2, Color color)
         {
@@ -104,10 +101,10 @@ namespace PolyPaint.Models.PixelModels
 
             int stepRatio = lengthX > lengthY ? lengthX : lengthY;
 
-            double stepX = Math.Round((double)dx / stepRatio,doublePrecision);
-            double stepY = Math.Round((double)dy / stepRatio,doublePrecision);
+            double stepX = Math.Round((double) dx / stepRatio, doublePrecision);
+            double stepY = Math.Round((double) dy / stepRatio, doublePrecision);
 
-            int stepCount = stepRatio == lengthX ? (int)(dx / stepX) : (int)(dy / stepY);
+            int stepCount = stepRatio == lengthX ? (int) (dx / stepX) : (int) (dy / stepY);
 
             for (int i = 0; i < stepCount; i++)
             {
