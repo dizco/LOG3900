@@ -39,7 +39,6 @@
                     </LinearGradientBrush>
                 </StackPanel.Background>
 
-
                 <Button Name="crayon" Width="40" Height="40" Margin="5"
                         BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=crayon, UpdateSourceTrigger=PropertyChanged}"
                         Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=crayon, UpdateSourceTrigger=PropertyChanged}"
@@ -58,13 +57,13 @@
                         <Image Source="/Resources/efface_crayon.png" />
                     </StackPanel>
                 </Button>
-                <Button Name="select_pixelt" Width="40" Height="40" Margin="5" 
+                <Button Name="SelectPixel" Width="40" Height="40" Margin="5" 
                         BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=select_pixel, UpdateSourceTrigger=PropertyChanged}" 
                         Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=select_pixel, UpdateSourceTrigger=PropertyChanged}" 
                         Command="{Binding Path=ChooseTool}"
                         CommandParameter="selector">
                     <StackPanel>
-                        <Image Source="/Resources/Icons/Selector.png" />
+                        <Image Source="/Resources/Icons/Selector.png" Height="28" Width="28" />
                     </StackPanel>
                 </Button>
 
@@ -129,18 +128,25 @@
                                 Background="White" ClipToBounds="True"  
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                 MouseMove="DrawingSurfaceMouseMove" MouseEnter="DrawingSurfaceMouseEnter" PreviewMouseDown=" DrawingSurfacePreviewMouseDown">
-                            <Image x:Name="DrawnImage" VerticalAlignment="Top" Source="{Binding WriteableBitmap}" />
+                            <Image x:Name="DrawnImage" 
+                                  VerticalAlignment="Top" Source="{Binding WriteableBitmap}" />
 
                             <!-- This image contains a writeableBitmap that is blid to our principal writeableBitmap after his edition-->
-                            <Border BorderThickness="1"
-                                    BorderBrush="DodgerBlue"
-                                    Canvas.Left="{Binding CropWriteableBitmapPosition.X}" Canvas.Top="{Binding CropWriteableBitmapPosition.Y}" >
-                                <Image x:Name="SelectedZone" VerticalAlignment="Stretch" 
-                                    Source="{Binding CropWriteableBitmap}" />
-                            </Border>
+                            <Canvas x:Name="SelectedZoneCanvas"  Cursor="SizeAll">
+                                <Thumb x:Name="SelectedZoneThumb" Canvas.Left="{Binding CropWriteableBitmapPosition.X}" Canvas.Top="{Binding CropWriteableBitmapPosition.Y}"
+                                       DragDelta="Thumb_DragDelta">
+                                    <Thumb.Template>
+                                        <ControlTemplate>
+                                            <Border SnapsToDevicePixels="True" BorderThickness="1" Margin="-1,-1" Opacity="20" BorderBrush="Black">
+                                                <Image  x:Name="SelectedZoneImage" VerticalAlignment="Top"
+                                                            Source="{Binding CropWriteableBitmap}"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Canvas>
                         </Canvas>
                         <Border.Effect>
-
                             <DropShadowEffect Opacity="0.3" BlurRadius="10" />
                         </Border.Effect>
                     </Border>

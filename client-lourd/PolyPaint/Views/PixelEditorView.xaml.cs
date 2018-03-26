@@ -73,13 +73,20 @@ namespace PolyPaint.Views
                 (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPositionDrawing, _newPositionDrawing);
                 _oldPositionDrawing = _newPositionDrawing;
             }
+
+            // Blit the selector when another tool is selected
+            if ((DataContext as PixelEditorViewModel)?.ToolSelected != "selector")
+            {
+                (DataContext as PixelEditorViewModel)?.BlitZoneSelector();
+                SelectedZoneThumb.Visibility = Visibility.Hidden;
+            }
         }
 
         private void GridSurfaceMouseDown(object sender, MouseButtonEventArgs e)
         {
             // Capture and track the mouse.
             _isMouseDownSelector = true;
-            _mouseDownPositionSelector = e.GetPosition(DrawingSurface);
+            _mouseDownPositionSelector = e.GetPosition(DisplayArea);
             DrawingSurface.CaptureMouse();
 
             // Initial placement of the drag selection box.         
@@ -88,20 +95,19 @@ namespace PolyPaint.Views
             selectionBox.Width = 0;
             selectionBox.Height = 0;
 
-            if ((DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition
-                && ((DataContext as PixelEditorViewModel)?.ToolSelected != "selector" ||
-                    !e.OriginalSource.Equals(SelectedZone)))
-            {
-                (DataContext as PixelEditorViewModel)?.BlitZoneSelector();
-            }
-
+            // Blit the selector on the original drawing
+            //during the edition on the original draw when
+            //clicked outside the selector. A new selectionBox appears then
             if ((DataContext as PixelEditorViewModel)?.ToolSelected == "selector"
-                && !e.OriginalSource.Equals(SelectedZone)
-                )
+                && !e.OriginalSource.Equals(SelectedZoneThumb))
             {
-                // Make the drag selection box visible.
-                //TODO: Activate cross crusor
+                // Make the drag selection box visible.           
                 selectionBox.Visibility = Visibility.Visible;
+
+                if ((DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition)
+                {
+                    (DataContext as PixelEditorViewModel)?.BlitZoneSelector();
+                }
             }
         }
 
@@ -115,33 +121,29 @@ namespace PolyPaint.Views
             selectionBox.Visibility = Visibility.Collapsed;
             Point mouseUpPosition = e.GetPosition(DisplayArea);
 
-
-           
-
             // The mouse has been released, select the pixel in this rectangle
-            if (!(DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition &&
-                (DataContext as PixelEditorViewModel)?.ToolSelected == "selector")
+            if (!(DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition
+                && (DataContext as PixelEditorViewModel)?.ToolSelected == "selector")
             {
-                (DataContext as PixelEditorViewModel)?.ZoneSelector(_mouseDownPositionSelector, mouseUpPosition);
+                SelectedZoneThumb.Visibility = _mouseDownPositionSelector.Equals(mouseUpPosition)
+                                               ? Visibility.Hidden
+                                               : Visibility.Visible;
+                
+                // Fonction of the selection box
+                (DataContext as PixelEditorViewModel)?.ZoneSelector(SelectedZoneThumb, _mouseDownPositionSelector, mouseUpPosition);
             }
-
-            
         }
 
         private void GridSurfaceMouseMove(object sender, MouseEventArgs e)
         {
-            //TODO: MVVM this
             Point mousePosition = e.GetPosition(DrawingSurface);
 
-            //When the selection box gets out of the border, reposition the extremities.
+            // Confine the selectionBox in the DrawingSurface
+            //When the selection box gets out of the border, reposition the extremities. 
             mousePosition.X = mousePosition.X < 0 ? 0 : mousePosition.X;
-            mousePosition.X = mousePosition.X > DrawingSurface.ActualWidth
-                                  ? mousePosition.X = DrawingSurface.ActualWidth
-                                  : mousePosition.X;
+            mousePosition.X = mousePosition.X > DrawingSurface.ActualWidth ? mousePosition.X = DrawingSurface.ActualWidth : mousePosition.X;
             mousePosition.Y = mousePosition.Y < 0 ? 0 : mousePosition.Y;
-            mousePosition.Y = mousePosition.Y > DrawingSurface.ActualHeight
-                                  ? mousePosition.Y = DrawingSurface.ActualHeight
-                                  : mousePosition.Y;
+            mousePosition.Y = mousePosition.Y > DrawingSurface.ActualHeight ? mousePosition.Y = DrawingSurface.ActualHeight : mousePosition.Y;
 
             if (_isMouseDownSelector)
             {
@@ -169,6 +171,18 @@ namespace PolyPaint.Views
                     selectionBox.Height = _mouseDownPositionSelector.Y - mousePosition.Y;
                 }
             }
+        }
+
+        private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            UIElement thumb = e.Source as UIElement;
+
+            Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
+            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
+
+            //  The cropWriteableBitmap on the selected zone is also moved
+            Point position = new Point(Canvas.GetLeft(thumb), Canvas.GetTop(thumb));
+            (DataContext as PixelEditorViewModel)?.ChangeCropWriteableBitmapPosition(position);
         }
     }
 }
