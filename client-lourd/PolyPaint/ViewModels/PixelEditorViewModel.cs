@@ -33,7 +33,7 @@ namespace PolyPaint.ViewModels
 
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
 
-            if (Messenger?.IsConnected ?? false)
+            if (IsConnectedToDrawing)
             {
                 ChatDocked = Visibility.Visible;
             }
@@ -47,11 +47,7 @@ namespace PolyPaint.ViewModels
             PixelEditorActionReceived += ProcessPixelEditorActionReceived;
         }
 
-        private void ProcessPixelEditorActionReceived(object sender, PixelEditorActionModel action)
-        {
-            EditorActionStrategyContext context = new EditorActionStrategyContext(action);
-            context.ExecuteStrategy(_pixelEditor);
-        }
+        public bool IsConnectedToDrawing => (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
 
         public Visibility ChatDocked
         {
@@ -61,11 +57,6 @@ namespace PolyPaint.ViewModels
                 _chatDocked = value;
                 PropertyModified();
             }
-        }
-
-        private void PixelEditorDrewLineEventHandler(object o, List<Tuple<Point, string>> pixels)
-        {
-            SendNewPixels(pixels);
         }
 
         public WriteableBitmap WriteableBitmap
@@ -113,6 +104,17 @@ namespace PolyPaint.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ProcessPixelEditorActionReceived(object sender, PixelEditorActionModel action)
+        {
+            EditorActionStrategyContext context = new EditorActionStrategyContext(action);
+            context.ExecuteStrategy(_pixelEditor);
+        }
+
+        private void PixelEditorDrewLineEventHandler(object o, List<Tuple<Point, string>> pixels)
+        {
+            SendNewPixels(pixels);
+        }
 
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
         {

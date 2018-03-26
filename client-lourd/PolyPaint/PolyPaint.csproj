@@ -127,7 +127,7 @@
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
     <Compile Include="Models\MessagingModels\PixelEditorActionModel.cs" />
-    <Compile Include="Models\MessagingModels\HistoryChangeModel.cs" />
+    <Compile Include="Models\ApiModels\HistoryChangeModel.cs" />
     <Compile Include="Models\PixelModels\PixelEditor.cs" />
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />

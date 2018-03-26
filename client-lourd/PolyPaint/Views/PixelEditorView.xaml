@@ -22,7 +22,7 @@
                           CommandParameter="{Binding ElementName=DrawingSurface}" />
             </MenuItem>
             <MenuItem Header="_Dessin">
-                <MenuItem Header="Historique des modifications" Command="{Binding OpenHistoryCommand}" />
+                <MenuItem Header="Historique des modifications" Command="{Binding OpenHistoryCommand}" IsEnabled="{Binding IsConnectedToDrawing}" />
             </MenuItem>
         </Menu>
         <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0.5" BorderBrush="#77000000">

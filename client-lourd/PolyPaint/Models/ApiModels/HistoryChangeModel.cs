@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+using PolyPaint.Models.MessagingModels;
 
-namespace PolyPaint.Models.MessagingModels
+namespace PolyPaint.Models.ApiModels
 {
     class HistoryChangeModel : MessageModelBase
     {
@@ -12,5 +14,12 @@ namespace PolyPaint.Models.MessagingModels
 
         [JsonProperty(PropertyName = "author")]
         public AuthorModel Author { get; set; }
+    }
+
+    internal class HistoryDisplayModel
+    {
+        public string ActionDescription { get; set; }
+        public DateTime Timestamp { get; set; }
+        public string Author { get; set; }
     }
 }
