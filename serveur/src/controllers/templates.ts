@@ -53,19 +53,42 @@ function appendLikesToTemplates(req: Request, res: Response, next: NextFunction,
             $match: { template: { $in: idList }},
         },
         {
-            $group: {
+            $lookup: //Join Users table
+                {
+                    from: "users",
+                    localField: "user",
+                    foreignField: "_id",
+                    as: "users_docs"
+                }
+        },
+        {
+            $unwind: "$users_docs" //Transform "users_docs" from an array to individual documents
+        },
+        {
+            $addFields: { //Don't know why, but the "group" pipeline can't find items if they're nested so here we put it at the root of the doc
+                user_id: "$users_docs._id",
+                user_username: "$users_docs.username",
+            },
+        },
+        {
+            $group: { //Group likes per template
                 _id: "$template",
+                users: { $push: { _id: "$user_id", username: "$user_username" }},
                 count: { $sum: 1 },
             }
         }
     ];
     Like.aggregate(aggregateOptions).exec((err: any, result: any[]) => {
+        console.log("likes", err, result, JSON.stringify(result));
         if (err) {
             return next(err);
         }
         templates.docs.forEach((template: any) => {
-            const templateLikesCount = result.find((likes: any) => likes._id.toString() === template._id.toString());
-            template.likes = (templateLikesCount) ? templateLikesCount.count : 0;
+            const templateLikes = result.find((likes: any) => likes._id.toString() === template._id.toString());
+            template.likes = {
+                users: (templateLikes) ? templateLikes.users : [],
+                total: (templateLikes) ? templateLikes.count : 0,
+            };
         });
 
         return res.json(templates);
@@ -170,6 +193,9 @@ export let postTemplateLike = (req: Request, res: Response, next: NextFunction) 
 
         like.save((err) => {
             if (err) {
+                if (err.name === "MongoError" && err.code === 11000) {
+                    return res.status(418).json({ status: "error", error: "Template can't be liked twice." });
+                }
                 return next(err);
             }
             return res.json({ status: "success", objectId: like.id });
