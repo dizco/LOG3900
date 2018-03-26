@@ -33,6 +33,8 @@ namespace PolyPaint.ViewModels
         public static ChatWindowView ChatWindow { get; set; }
         public static PixelEditorView PixelEditor { get; set; }
         public static StrokeEditorView StrokeEditor { get; set; }
+        public static bool IsDrawingOwner { get; set; }
+        public static bool IsPasswordProtected { get; set; }
 
         protected static string DrawingRoomId
         {
