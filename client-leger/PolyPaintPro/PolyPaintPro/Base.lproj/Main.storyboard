@@ -404,20 +404,31 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_corrected" translatesAutoresizingMaskIntoConstraints="NO" id="KTD-qF-iAX">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dpV-73-MeE">
+                                <rect key="frame" x="0.0" y="64" width="1024" height="704"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="dpV-73-MeE" firstAttribute="leading" secondItem="sDb-8P-67h" secondAttribute="leading" id="1DT-pY-dFI"/>
+                            <constraint firstItem="hHu-lU-Iee" firstAttribute="top" secondItem="dpV-73-MeE" secondAttribute="bottom" id="DPI-l0-Oew"/>
+                            <constraint firstItem="dpV-73-MeE" firstAttribute="top" secondItem="dzF-JR-ACx" secondAttribute="bottom" id="Uko-y1-z0A"/>
                             <constraint firstItem="hHu-lU-Iee" firstAttribute="top" secondItem="KTD-qF-iAX" secondAttribute="bottom" id="aTt-15-lCU"/>
                             <constraint firstAttribute="trailing" secondItem="KTD-qF-iAX" secondAttribute="trailing" id="bP6-I9-vGc"/>
                             <constraint firstItem="KTD-qF-iAX" firstAttribute="top" secondItem="sDb-8P-67h" secondAttribute="top" id="f6g-8w-alM"/>
                             <constraint firstItem="KTD-qF-iAX" firstAttribute="leading" secondItem="sDb-8P-67h" secondAttribute="leading" id="tq4-JR-AaQ"/>
+                            <constraint firstAttribute="trailing" secondItem="dpV-73-MeE" secondAttribute="trailing" id="yTR-Rg-pZo"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Rejoindre la Galerie" id="aIG-bG-0tM"/>
+                    <connections>
+                        <outlet property="webView" destination="dpV-73-MeE" id="u8d-KX-6zl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXq-TJ-Lrm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1757" y="1751"/>
+            <point key="canvasLocation" x="1756.640625" y="1750.78125"/>
         </scene>
         <!--PolyPaintPro-->
         <scene sceneID="7HE-J6-6B8">
