@@ -8,6 +8,8 @@ enum PixelEditingMode {
 
 class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
     internal var lastPoint = CGPoint.zero //last drawn point on the canvas
+    internal var fisrtPointSelection = CGPoint.zero
+    internal var lastPointSelection = CGPoint.zero
     internal var red: CGFloat = 0.0 //RGB, stores the currend rgb value from the selector
     internal var green: CGFloat = 0.0
     internal var blue: CGFloat = 0.0
@@ -37,7 +39,11 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
                 lastPoint = touch.location(in: self.view)
             }
         case .select:
-            print("not yet implemented")
+            swiped = false
+            if let touch = touches.first {
+                fisrtPointSelection = touch.location(in: self.view)
+                print(fisrtPointSelection)
+            }
         case .eraseByPoint:
             print("erase point")
         }
@@ -53,7 +59,12 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
                 lastPoint = currentPoint
             }
         case .select:
-            print("not yet implemented")
+            swiped = true
+            if let touch = touches.first {
+                let currentPoint = touch.location(in: view)
+                selectArea(fromPoint: fisrtPointSelection, toPoint: currentPoint)
+                lastPoint = currentPoint
+            }
         case .eraseByPoint:
             print("erase point")
         }
@@ -62,12 +73,16 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         switch self.currentEditingMode {
         case .ink:
-            if !swiped {
-                // draw a single point
-                self.drawLine(fromPoint: lastPoint, toPoint: lastPoint)
+            swiped = false
+            if let touch = touches.first {
+                lastPoint = touch.location(in: self.view)
             }
         case .select:
-            print("not yet implemented")
+            swiped = false
+            if let touch = touches.first {
+                lastPointSelection = touch.location(in: self.view)
+            }
+            drawSelectionRectangle(fromPoint: fisrtPointSelection, toPoint: lastPointSelection)
         case .eraseByPoint:
             print("erase point")
         }
@@ -108,6 +123,25 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
         context?.setLineWidth(brushWidth)
         context?.setStrokeColor(red: red/255, green: green/255, blue: blue/255, alpha: opacity/100)
         context?.setBlendMode(CGBlendMode.normal)
+        context?.strokePath()
+
+        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        imageView.alpha = opacity
+        UIGraphicsEndImageContext()
+    }
+
+    func selectArea(fromPoint: CGPoint, toPoint: CGPoint) {
+        drawSelectionRectangle(fromPoint: fisrtPointSelection, toPoint: toPoint)
+    }
+
+    func drawSelectionRectangle(fromPoint: CGPoint, toPoint: CGPoint) {
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
+        imageView.image?.draw(in: view.bounds)
+        let context = UIGraphicsGetCurrentContext()
+        context?.setLineWidth(4.0)
+        context?.setStrokeColor(UIColor.blue.cgColor)
+        let rectangle = CGRect(x: fromPoint.x, y: fromPoint.y, width: toPoint.x - fromPoint.x, height: toPoint.y - fromPoint.y)
+        context?.addRect(rectangle)
         context?.strokePath()
 
         imageView.image = UIGraphicsGetImageFromCurrentImageContext()
