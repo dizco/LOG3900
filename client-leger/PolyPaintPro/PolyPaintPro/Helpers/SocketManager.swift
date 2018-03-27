@@ -82,7 +82,7 @@ class SocketManager {
                 print(socketMessageType.type)
                 if socketMessageType.type == IncomingMessageConstants.strokeAction.rawValue {
                     self.actionDelegate?.managerDidReceiveAction(data: data)
-                } else if socketMessageType.type == OutgoingMessageConstants.chat.rawValue {
+                } else if socketMessageType.type == IncomingMessageConstants.chat.rawValue {
                     self.chatDelegate?.managerDidReceiveChat(data: data)
                 }
             } catch let error {

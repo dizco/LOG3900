@@ -52,6 +52,7 @@ struct IncomingActionMessage: ActionMessage, Codable {
     let drawing: IncomingDrawing
     let author: Author
     let delta: Delta
+    let timestamp: Double
 }
 
 struct IncomingDrawing: Codable {
@@ -106,14 +107,16 @@ struct IncomingDots: Codable {
 
 // MARK: - OutgoingActionMessage
 struct OutgoingActionMessage: ActionMessage, Codable {
-    var type: String
-    var action: Action
-    var drawing: OutgoingDrawing
+    let type: String
+    let action: Action
+    let drawing: OutgoingDrawing
+    let delta: OutgoingDelta
 
-    init() {
-        self.type = "client.editor.action"
-        self.action = Action(id: 1, name: "watsgoingon") // TO-DO : send the good action
-        self.drawing = OutgoingDrawing(id: "errmagawd") // TO-DO : fetch the good id
+    init(actionId: Int, actionName: String, delta: OutgoingDelta) {
+        self.type = OutgoingMessageConstants.strokeAction.rawValue
+        self.action = Action(id: actionId, name: actionName)
+        self.drawing = OutgoingDrawing(id: "5ab91791ae6a83a7d8e4fa60") // TO-DO : fetch the good id from AccountManager after subscription
+        self.delta = delta
     }
 }
 
@@ -122,4 +125,47 @@ struct OutgoingDrawing: Codable {
     init(id: String) {
         self.id = id
     }
+}
+
+struct OutgoingDelta: Codable {
+    let add: [OutgoingAdd]
+    let remove: [String]
+    init(add: [OutgoingAdd] = [], remove: [String] = []) {
+        self.add = add
+        self.remove = remove
+    }
+}
+
+struct OutgoingAdd: Codable {
+    let strokeUuid: String
+    let strokeAttributes: OutgoingStrokeAttributes
+    let dots: [OutgoingDots]
+    init(strokeUuid: String, strokeAttributes: OutgoingStrokeAttributes, dots: [OutgoingDots]) {
+        self.strokeUuid = strokeUuid
+        self.strokeAttributes = strokeAttributes
+        self.dots = dots
+    }
+}
+
+struct OutgoingStrokeAttributes: Codable {
+    let color: String
+    let height: Int
+    let width: Int
+    let stylusTip: String = "Ellipse"
+    init(color: String, height: Int, width: Int) {
+        self.color = color
+        self.height = height
+        self.width = width
+    }
+}
+
+struct OutgoingDots: Codable {
+    // swiftlint:disable identifier_name
+    let x: Double
+    let y: Double
+    init(x: Double, y: Double) {
+        self.x = x
+        self.y = y
+    }
+    // swiftlint:enable identifier_name
 }

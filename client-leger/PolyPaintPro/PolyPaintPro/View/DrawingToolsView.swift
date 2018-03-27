@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol DrawingToolsViewDelegate: class {
-    func updateColorValues(red: Int, green: Int, blue: Int, opacity: Int)
+    func updateColorValues(red: Int, green: Int, blue: Int, alpha: Int)
     func updateBrushSize(size: Int)
 }
 
@@ -111,7 +111,7 @@ class DrawingToolsView: UIView {
         PixelEditorViewController().green = CGFloat(greenValue)
         PixelEditorViewController().blue = CGFloat(blueValue)
 
-        self.delegate?.updateColorValues(red: self.redValue, green: self.greenValue, blue: self.blueValue, opacity: self.alphaValue)
+        self.delegate?.updateColorValues(red: self.redValue, green: self.greenValue, blue: self.blueValue, alpha: self.alphaValue)
     }
 
     private func updateSize() {

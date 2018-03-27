@@ -21,7 +21,7 @@ struct OutgoingChatMessage: ChatMessage, Codable {
     var author: Author
 
     init(message: String) {
-        self.type = "client.chat.message"
+        self.type = OutgoingMessageConstants.chat.rawValue
         self.room = OutgoingRoom(id: "chat")
         self.message = message
         self.author = Author(id: "-1", username: "", url: "", avatarUrl: "")
