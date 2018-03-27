@@ -15,8 +15,13 @@ protocol ToolsViewDelegate: class {
     func unstack()
 }
 
+protocol PixelToolsViewDelegate: class {
+    func updateEditingMode(mode: PixelEditingMode)
+}
+
 class ToolsView: UIView {
     weak var delegate: ToolsViewDelegate?
+    weak var pixelDeletage: PixelToolsViewDelegate?
 
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var strokeEraseButton: UIButton!
@@ -38,16 +43,21 @@ class ToolsView: UIView {
     @IBAction func penButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "pencil")
         self.delegate?.updateEditingMode(mode: EditingMode.ink)
+        self.pixelDeletage?.updateEditingMode(mode: PixelEditingMode.ink)
     }
 
     @IBAction func eraseButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "eraser")
         self.delegate?.updateEditingMode(mode: EditingMode.eraseByStroke)
+        self.pixelDeletage?.updateEditingMode(mode: PixelEditingMode.select)
         // TO-DO : We need an eraser for eraseByPoint...
     }
 
-    @IBAction func cutButton(_ sender: UIButton) {
-       resetButtons(sender: sender, filename: "cut")
+    @IBAction func byPointEraserButton(_ sender: UIButton) {
+        //TO-DO : remplacer limage et le nom ici par les bonnes images
+       resetButtons(sender: sender, filename: "eraser2")
+        self.delegate?.updateEditingMode(mode: EditingMode.eraseByPoint)
+        self.pixelDeletage?.updateEditingMode(mode: PixelEditingMode.eraseByPoint)
     }
 
     @IBAction func pasteButton(_ sender: UIButton) {
@@ -93,7 +103,7 @@ class ToolsView: UIView {
         strokeEraseButton.setImage(eraserTintedImage, for: .normal)
         strokeEraseButton.tintColor = .black
 
-        let cutOrigImage = UIImage(named: "cut")
+        let cutOrigImage = UIImage(named: "eraser2")
         let cutTintedImage = cutOrigImage?.withRenderingMode(.alwaysTemplate)
         segmentEraseButton.setImage(cutTintedImage, for: .normal)
         segmentEraseButton.tintColor = .black

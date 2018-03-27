@@ -749,9 +749,9 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="OYV-tt-sia" secondAttribute="height" multiplier="283:256" id="b4Z-ek-F2J"/>
                                         </constraints>
-                                        <state key="normal" title="Button" image="horizontalLine"/>
+                                        <state key="normal" title="Button" image="eraser2"/>
                                         <connections>
-                                            <action selector="cutButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="6Z9-F4-Cee"/>
+                                            <action selector="byPointEraserButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="6Z9-F4-Cee"/>
                                             <action selector="cutButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="8aB-xC-f9b"/>
                                         </connections>
                                     </button>
@@ -1660,11 +1660,11 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="77Q-0h-Sdk" secondAttribute="height" multiplier="283:256" id="Xqr-gW-LVy"/>
                                         </constraints>
-                                        <state key="normal" title="Button" image="horizontalLine"/>
+                                        <state key="normal" title="Button" image="eraser2"/>
                                         <connections>
+                                            <action selector="byPointEraserButton:" destination="hDU-do-IRe" eventType="touchUpInside" id="oJ0-eT-WaO"/>
                                             <action selector="cutButton:" destination="brS-fH-NQP" eventType="touchUpInside" id="jre-fX-PTs"/>
                                             <action selector="cutButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="mdQ-2f-NjH"/>
-                                            <action selector="cutButton:" destination="hDU-do-IRe" eventType="touchUpInside" id="oJ0-eT-WaO"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4c-5Y-Rfv" userLabel="paste">
@@ -1837,6 +1837,7 @@
         <image name="circle" width="260" height="260"/>
         <image name="duplicate" width="512" height="512"/>
         <image name="eraser" width="512" height="512"/>
+        <image name="eraser2" width="256" height="256"/>
         <image name="horizontalLine" width="260" height="260"/>
         <image name="icon" width="1024" height="1024"/>
         <image name="pencil" width="512" height="512"/>
