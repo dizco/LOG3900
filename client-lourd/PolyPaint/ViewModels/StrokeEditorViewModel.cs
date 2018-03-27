@@ -26,7 +26,7 @@ namespace PolyPaint.ViewModels
     ///     Expose des commandes et propriétés connectées au modèle aux des éléments de la vue peuvent se lier.
     ///     Reçoit des avis de changement du modèle et envoie des avis de changements à la vue.
     /// </summary>
-    internal class StrokeEditorViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
+    internal class StrokeEditorViewModel : EditorViewModelBase, INotifyPropertyChanged
     {
         private readonly StrokeEditor _editor = new StrokeEditor();
 
@@ -73,7 +73,7 @@ namespace PolyPaint.ViewModels
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
             LoadAutosaved = new RelayCommand<string>(_editor.OpenAutosave);
 
-            ExportImageCommand = new RelayCommand<InkCanvas>(_editor.ExportImagePrompt);
+            ExportImageCommand = new RelayCommand<InkCanvas>(ExportImagePrompt);
 
             StrokesCollection.StrokesChanged += AutosaveOnStrokeCollectionChanged;
 
@@ -101,6 +101,11 @@ namespace PolyPaint.ViewModels
             StrokeEditorActionReceived += ProcessReceivedStrokeEditorAction;
 
             ChangeEditorChatDisplayState += ChatDisplayStateChanged;
+        }
+
+        public StrokeEditorViewModel(InkCanvas inkCanvas) : this()
+        {
+            Canvas = inkCanvas;
         }
 
         public Visibility ChatDocked
@@ -228,15 +233,16 @@ namespace PolyPaint.ViewModels
         internal bool IsErasingByPoint { get; set; }
         internal bool IsErasingByStroke { get; set; }
 
-        public void Dispose()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public new void Dispose()
         {
+            base.Dispose();
             StrokeEditorActionReceived -= ProcessReceivedStrokeEditorAction;
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
             HistoryWindow?.Close();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
         {
@@ -601,6 +607,17 @@ namespace PolyPaint.ViewModels
         public void OnSelectionTransformedHandler(StrokeCollection strokes)
         {
             Messenger?.SendEditorActionTransformedStrokes(strokes);
+        }
+
+        public void ExportImagePrompt(InkCanvas drawingSurface)
+        {
+            if (StrokesCollection.Count == 0 || _editor._isLoadingDrawing)
+            {
+                UserAlerts.ShowErrorMessage("Veuillez utiliser un dessin non vide");
+                return;
+            }
+
+            ExportImagePrompt(this);
         }
     }
 }

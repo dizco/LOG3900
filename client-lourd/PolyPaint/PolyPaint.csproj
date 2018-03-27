@@ -137,6 +137,7 @@
     <Compile Include="Strategy\PixelEditorActionStrategy\EditorActionStrategyContext.cs" />
     <Compile Include="Strategy\PixelEditorActionStrategy\IEditorActionStrategy.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionResetStrategy.cs" />
+    <Compile Include="ViewModels\EditorViewModelBase.cs" />
     <Compile Include="ViewModels\HistoryWindowViewModel.cs" />
     <Compile Include="ViewModels\PixelEditorViewModel.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionLockStrokesStrategy.cs" />

@@ -13,5 +13,6 @@
         public const string TypePixelEditorActionOutgoingValue = "client.editor.pixel.action";
         public const string TypePixelEditorActionIncomingValue = "server.editor.pixel.action";
         public const string TypeEditorSubscriptionOutgoingValue = "client.editor.subscription";
+        public const string TypeEditorPollIncomingValue = "server.editor.poll";
     }
 }
