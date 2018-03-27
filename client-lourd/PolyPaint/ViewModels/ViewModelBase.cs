@@ -96,6 +96,12 @@ namespace PolyPaint.ViewModels
         protected static event EventHandler<PixelEditorActionModel> PixelEditorActionReceived;
 
         /// <summary>
+        ///     EditorPollRequestReceived event is available for the editors to declare their own EventHandler in order to process
+        ///     an incoming request to update the thumbnail of the current drawing
+        /// </summary>
+        protected static event EventHandler EditorPollRequestReceived;
+
+        /// <summary>
         ///     Raises event once the WebSocket is connected to refresh bindings that depend on it (HomeMenu)
         /// </summary>
         protected static event EventHandler WebSocketConnectedEvent;
@@ -128,12 +134,18 @@ namespace PolyPaint.ViewModels
                 socketHandler.PixelEditorActionReceived += OnPixelEditorActionReceived;
                 socketHandler.WebSocketConnectedEvent += OnWebSocketConnected;
                 socketHandler.WebSocketDisconnectedEvent += OnWebSocketDisconnected;
+                socketHandler.EditorPollRequestReceived += OnEditorPollRequestReceived;
                 _messenger = new Messenger(socketHandler);
 
                 BindingOperations.EnableCollectionSynchronization(ChatMessageCollection, Lock);
             }
 
             return _messenger;
+        }
+
+        private static void OnEditorPollRequestReceived(object sender, EventArgs eventArgs)
+        {
+            EditorPollRequestReceived?.Invoke(sender, eventArgs);
         }
 
         public static void OnChatMessageReceived(object sender, ChatMessageModel chatMessageModel)

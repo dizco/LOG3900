@@ -16,7 +16,7 @@ using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels
 {
-    internal class PixelEditorViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
+    internal class PixelEditorViewModel : EditorViewModelBase, INotifyPropertyChanged
     {
         private readonly PixelEditor _pixelEditor = new PixelEditor();
 
@@ -33,7 +33,7 @@ namespace PolyPaint.ViewModels
             // Donc, aucune vérification de type Peut"Action" à faire.
             ChooseTool = new RelayCommand<string>(_pixelEditor.SelectTool);
 
-            ExportImageCommand = new RelayCommand<object>(_pixelEditor.ExportImagePrompt);
+            ExportImageCommand = new RelayCommand<Canvas>(ExportImagePrompt);
 
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
             TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
@@ -56,6 +56,11 @@ namespace PolyPaint.ViewModels
             ChangeEditorChatDisplayState += ChatDisplayStateChanged;
 
             PixelEditorActionReceived += ProcessPixelEditorActionReceived;
+        }
+
+        public PixelEditorViewModel(Canvas canvas) : this()
+        {
+            Canvas = canvas;
         }
 
         public bool IsConnectedToDrawing => (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
@@ -117,7 +122,7 @@ namespace PolyPaint.ViewModels
         //Commands for choosing the tools
         public RelayCommand<string> ChooseTool { get; set; }
 
-        public RelayCommand<object> ExportImageCommand { get; set; }
+        public RelayCommand<Canvas> ExportImageCommand { get; set; }
 
         //Command for managing the views
         public RelayCommand<object> OpenChatWindowCommand { get; set; }
@@ -141,14 +146,15 @@ namespace PolyPaint.ViewModels
         public bool ProtectionToggleIsEnabled =>
             IsDrawingOwner && (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
 
-        public void Dispose()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public new void Dispose()
         {
+            base.Dispose();
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
             HistoryWindow?.Close();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private async void TogglePasswordProtection(object obj)
         {
@@ -292,6 +298,13 @@ namespace PolyPaint.ViewModels
             {
                 HistoryWindow.Activate();
             }
+        }
+
+        public void ExportImagePrompt(InkCanvas drawingSurface)
+        {
+            // TODO: Validate exportation of empty drawing
+
+            ExportImagePrompt(this);
         }
     }
 }

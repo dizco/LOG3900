@@ -21,7 +21,7 @@ namespace PolyPaint.Views
         public PixelEditorView()
         {
             InitializeComponent();
-            DataContext = new PixelEditorViewModel();
+            DataContext = new PixelEditorViewModel(DrawingSurface);
         }
 
         private void GlisserCommence(object sender, DragStartedEventArgs e)

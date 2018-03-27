@@ -12,13 +12,13 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using PolyPaint.Constants;
 using PolyPaint.CustomComponents;
 using PolyPaint.Helpers;
 using PolyPaint.ViewModels;
 using Application = System.Windows.Application;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace PolyPaint.Models
 {
@@ -42,7 +42,7 @@ namespace PolyPaint.Models
 
         private readonly StrokeCollection _removedStrokesCollection = new StrokeCollection();
 
-        private bool _isLoadingDrawing;
+        internal bool _isLoadingDrawing;
 
         // Couleur des traits tracés par le crayon.
         private string _selectedColor = "Black";
@@ -56,10 +56,10 @@ namespace PolyPaint.Models
         // Outil actif dans l'éditeur
         private string _selectedTool = "crayon";
 
-        private string _textToInsertSize = "12pt";
-
         // Grosseur des traits tracés par le crayon.
         private int _strokeSize = 11;
+
+        private string _textToInsertSize = "12pt";
 
         public ISet<string> LockedStrokes = new HashSet<string>();
 
@@ -407,7 +407,7 @@ namespace PolyPaint.Models
 
         internal void ReplaceStroke(string uuid, Stroke stroke)
         {
-            StrokeCollection transformedStroke = new StrokeCollection(new []{stroke});
+            StrokeCollection transformedStroke = new StrokeCollection(new[] {stroke});
             ReplaceStroke(uuid, transformedStroke);
         }
 
@@ -547,78 +547,6 @@ namespace PolyPaint.Models
             }
         }
 
-        public void ExportImagePrompt(InkCanvas drawingSurface)
-        {
-            //cancels an empty drawing exportation
-            if (StrokesCollection.Count == 0 || _isLoadingDrawing)
-            {
-                UserAlerts.ShowErrorMessage("Veuillez utiliser un dessin non vide");
-                return;
-            }
-
-            SaveFileDialog exportImageDialog = new SaveFileDialog
-            {
-                Title = "Exporter le dessin",
-                Filter = FileExtensionConstants.ExportImageFilter,
-                AddExtension = true
-            };
-
-            if (exportImageDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePathNameExt = Path.GetFullPath(exportImageDialog.FileName);
-                ExportImage(filePathNameExt, drawingSurface);
-            }
-        }
-
-        public void ExportImage(string filePathNameExt, InkCanvas drawingSurface)
-        {
-            FileStream imageStream = null;
-            try
-            {
-                int imageWidth = (int) drawingSurface.ActualWidth;
-                int imageHeight = (int) drawingSurface.ActualHeight;
-                RenderTargetBitmap imageRender = new RenderTargetBitmap(imageWidth, imageHeight,
-                                                                        ImageManipulationConstants.DotsPerInch,
-                                                                        ImageManipulationConstants.DotsPerInch,
-                                                                        PixelFormats.Pbgra32);
-                imageRender.Render(drawingSurface);
-                imageStream = new FileStream(filePathNameExt, FileMode.Create);
-                BitmapEncoder encoder = null;
-
-                switch (Path.GetExtension(filePathNameExt))
-                {
-                    case ".png": //png
-                        encoder = new PngBitmapEncoder();
-                        break;
-                    case ".jpg": //jpg or jpeg
-                        encoder = new JpegBitmapEncoder();
-                        ((JpegBitmapEncoder) encoder).QualityLevel = 100; //maximum jpeg quality
-                        break;
-                    case ".bmp": //bmp
-                        encoder = new BmpBitmapEncoder();
-                        break;
-                }
-
-                encoder?.Frames.Add(BitmapFrame.Create(imageRender));
-                encoder?.Save(imageStream);
-                //result message
-                UserAlerts.ShowInfoMessage("Image exportée avec succès");
-            }
-            catch (UnauthorizedAccessException)
-            {
-                UserAlerts.ShowErrorMessage("L'accès à ce fichier est interdit");
-            }
-            catch (Exception e)
-            {
-                UserAlerts
-                    .ShowErrorMessage($"Une erreur est survenue.\n{e.Message}\nCode:{e.HResult & ((1 << 16) - 1)}");
-            }
-            finally
-            {
-                imageStream?.Close();
-            }
-        }
-
         public void UpdateRecentAutosaves()
         {
             string[] autosavedDrawings = FetchAutosavedDrawings();
@@ -730,16 +658,16 @@ namespace PolyPaint.Models
             OnSelectedStrokesTransformed(selectedStrokes);
         }
 
-        public System.Windows.Controls.TextBox InsertText(InkCanvas drawingSurface)
+        public TextBox InsertText(InkCanvas drawingSurface)
         {
-            System.Windows.Controls.TextBox textToInsert = new System.Windows.Controls.TextBox
+            TextBox textToInsert = new TextBox
             {
                 Text = TextToInsertContent
             };
-            
-            Color textToInsertColor = (Color)ColorConverter.ConvertFromString(SelectedColor);
+
+            Color textToInsertColor = (Color) ColorConverter.ConvertFromString(SelectedColor);
             textToInsert.Foreground = new SolidColorBrush(textToInsertColor);
-            textToInsert.FontSize = (double)new FontSizeConverter().ConvertFrom(TextToInsertSize);
+            textToInsert.FontSize = (double) new FontSizeConverter().ConvertFrom(TextToInsertSize);
             textToInsert.TextWrapping = TextWrapping.WrapWithOverflow;
             textToInsert.BorderThickness = new Thickness(0.0);
             textToInsert.AcceptsReturn = true;

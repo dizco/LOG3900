@@ -22,7 +22,7 @@ namespace PolyPaint.Views
         public StrokeEditorView()
         {
             InitializeComponent();
-            DataContext = new StrokeEditorViewModel();
+            DataContext = new StrokeEditorViewModel(DrawingSurface);
             ((StrokeEditorViewModel) DataContext).LockedStrokesSelectedEvent += OnLockedStrokesSelectedEventHandler;
         }
 
