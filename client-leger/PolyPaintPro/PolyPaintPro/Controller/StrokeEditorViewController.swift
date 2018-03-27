@@ -49,8 +49,8 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
     }
 
     // MARK: - DrawingToolsViewDelegate
-    func updateColorValues(red: Int, green: Int, blue: Int, opacity: Int) {
-        self.scene.updateColorValues(red: red, green: green, blue: blue, opacity: opacity)
+    func updateColorValues(red: Int, green: Int, blue: Int, alpha: Int) {
+        self.scene.updateColorValues(red: red, green: green, blue: blue, alpha: alpha)
     }
 
     func updateBrushSize(size: Int) {

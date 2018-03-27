@@ -10,8 +10,10 @@ import Foundation
 
 enum IncomingMessageConstants: String {
     case strokeAction = "server.editor.stroke.action"
+    case chat = "server.chat.message"
 }
 
 enum OutgoingMessageConstants: String {
-    case chat = "server.chat.message"
+    case strokeAction = "client.editor.stroke.action"
+    case chat = "client.chat.message"
 }
