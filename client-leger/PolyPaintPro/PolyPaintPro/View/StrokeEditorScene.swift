@@ -172,7 +172,6 @@ class StrokeEditorScene: SKScene {
     func applyReceived(incomingAction: IncomingActionMessage) {
         if incomingAction.type == IncomingMessageConstants.strokeAction.rawValue {
             for receivedStroke in incomingAction.delta.add {
-                let path = self.createReceivedPathWith(dotsArray: receivedStroke.dots)
                 self.drawReceived(stroke: receivedStroke)
             }
         }
@@ -328,7 +327,6 @@ class StrokeEditorScene: SKScene {
                 })
                 // we redraw the stroke using all the collected waypoints
                 self.drawStroke(start: self.start, end: self.end)
-                print(self.end)
             }
         case .select:
             print("Not implemented.")
@@ -436,8 +434,7 @@ class StrokeEditorScene: SKScene {
                     print(error)
                 }
             }
-        }
-        else {
+        } else {
             // Add the stroke locally if not connected
             self.addChild(shapeNode)
         }
@@ -445,7 +442,6 @@ class StrokeEditorScene: SKScene {
 
     private func eraseByStroke(position: CGPoint) {
         // most recent stroke is returned as the first one
-        let strokeToBeErased = self.nodes(at: position).first as? SKStroke
         let strokesToBeErased = self.nodes(at: position) as? [SKStroke]
 
         if strokesToBeErased == nil {

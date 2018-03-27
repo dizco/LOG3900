@@ -201,9 +201,7 @@
 				C067AF5E205A1A050078CF27 /* Timers.swift */,
 				BECC087820619D4D0040EB4B /* ActionMessage.swift */,
 				BE1FCAEF2061E40900C57F02 /* SKStroke.swift */,
-				BE67C52E206559CF00C2EA77 /* MessageConstants.swift */,
-                270EC6ED206575630018A2A6 /* DrawingsDataStruct.swift */,
-
+				270EC6ED206575630018A2A6 /* DrawingsDataStruct.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -296,6 +294,7 @@
 		C08BE3FF2056D16800525038 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				BE67C52E206559CF00C2EA77 /* MessageConstants.swift */,
 				C08BE4002056D1E200525038 /* Rest.swift */,
 				274956052058236D0053DAD4 /* DrawingTypes.swift */,
 			);
