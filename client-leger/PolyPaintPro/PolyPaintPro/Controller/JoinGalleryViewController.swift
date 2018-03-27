@@ -10,9 +10,13 @@ import Foundation
 import UIKit
 
 class JoinGalleryViewController: UIViewController {
+    @IBOutlet var webView: UIWebView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        let url = NSURL (string: "https://www.google.ca/")
+        let request = NSURLRequest(url: url! as URL)
+        webView.loadRequest(request as URLRequest)
     }
 
     override func didReceiveMemoryWarning() {
