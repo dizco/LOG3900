@@ -11,7 +11,7 @@ import Foundation
 struct OnlineDrawingModel: Codable {
     let id: String
     let name: String
-    let protected: Bool 
+    let protection: IncomingProtection
     let type: String
 }
 

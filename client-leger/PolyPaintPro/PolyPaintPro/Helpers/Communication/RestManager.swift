@@ -11,8 +11,8 @@ import Alamofire
 import PromiseKit
 
 class RestManager {
-    var username: String
-    var password: String
+    private var username: String
+    private var password: String
 
     init(username: String, password: String) {
         self.username = username.lowercased()

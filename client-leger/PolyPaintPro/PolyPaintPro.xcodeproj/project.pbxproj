@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CF9202650CD0071FDC0 /* Extensions.swift */; };
 		27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27080CFC2026528E0071FDC0 /* ChatView.swift */; };
-		270EC6EE206575630018A2A6 /* DrawingsDataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270EC6ED206575630018A2A6 /* DrawingsDataStruct.swift */; };
+		270EC6EE206575630018A2A6 /* DrawingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270EC6ED206575630018A2A6 /* DrawingModels.swift */; };
 		271C1EC7203CC5D70090D6A5 /* DrawingToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */; };
 		271E38F720572CFC0067BD16 /* NewDrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271E38F620572CFB0067BD16 /* NewDrawingViewController.swift */; };
 		274956062058236D0053DAD4 /* DrawingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274956052058236D0053DAD4 /* DrawingTypes.swift */; };
@@ -36,14 +36,14 @@
 		BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90D92028AEB0003C8F1E /* Timestamp.swift */; };
 		BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */; };
 		BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A1E202102CD00FD1C50 /* SocketManager.swift */; };
-		BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A2020215E3C00FD1C50 /* ChatMessage.swift */; };
+		BE426A2120215E3C00FD1C50 /* ChatMessageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A2020215E3C00FD1C50 /* ChatMessageModels.swift */; };
 		BE67C52F206559CF00C2EA77 /* MessageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C52E206559CF00C2EA77 /* MessageConstants.swift */; };
 		BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */; };
 		BE67C534206BF55B00C2EA77 /* AddStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */; };
 		BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */; };
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
-		BECC087920619D4D0040EB4B /* ActionMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* ActionMessage.swift */; };
+		BECC087920619D4D0040EB4B /* SocketEditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* SocketEditorDataModels.swift */; };
 		C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF572059C9990078CF27 /* EditorViewController.swift */; };
 		C067AF5F205A1A050078CF27 /* Timers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF5E205A1A050078CF27 /* Timers.swift */; };
 		C08BE4012056D1E200525038 /* Rest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08BE4002056D1E200525038 /* Rest.swift */; };
@@ -73,7 +73,7 @@
 		0AC961F50C2F7E8CE3CB5B4D /* Pods_PolyPaintProTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PolyPaintProTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		27080CF9202650CD0071FDC0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		27080CFC2026528E0071FDC0 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
-		270EC6ED206575630018A2A6 /* DrawingsDataStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingsDataStruct.swift; sourceTree = "<group>"; };
+		270EC6ED206575630018A2A6 /* DrawingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingModels.swift; sourceTree = "<group>"; };
 		271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingToolsView.swift; sourceTree = "<group>"; };
 		271E38F620572CFB0067BD16 /* NewDrawingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDrawingViewController.swift; sourceTree = "<group>"; };
 		274956052058236D0053DAD4 /* DrawingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTypes.swift; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 		BE2C90D92028AEB0003C8F1E /* Timestamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timestamp.swift; sourceTree = "<group>"; };
 		BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerLookup.swift; sourceTree = "<group>"; };
 		BE426A1E202102CD00FD1C50 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
-		BE426A2020215E3C00FD1C50 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		BE426A2020215E3C00FD1C50 /* ChatMessageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModels.swift; sourceTree = "<group>"; };
 		BE4B72A2202CE72F004205E8 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		BE4B72A4202CE9A1004205E8 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		BE67C52E206559CF00C2EA77 /* MessageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageConstants.swift; sourceTree = "<group>"; };
@@ -117,7 +117,7 @@
 		BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
-		BECC087820619D4D0040EB4B /* ActionMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMessage.swift; sourceTree = "<group>"; };
+		BECC087820619D4D0040EB4B /* SocketEditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketEditorDataModels.swift; sourceTree = "<group>"; };
 		C067AF572059C9990078CF27 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		C067AF5E205A1A050078CF27 /* Timers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timers.swift; sourceTree = "<group>"; };
 		C08BE4002056D1E200525038 /* Rest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rest.swift; sourceTree = "<group>"; };
@@ -180,6 +180,7 @@
 		27080CF72026508F0071FDC0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C08EB117206C411E00468D80 /* Editors */,
 				C0A5ECC62061C89E007FD989 /* Validators */,
 				27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */,
 				27C07AA52050D319006BB8EB /* RecentsViewController.swift */,
@@ -187,9 +188,6 @@
 				27F2FE262057656C006090B5 /* OpenLocalDrawingViewController.swift */,
 				27F2FE2820576591006090B5 /* JoinDrawingViewController.swift */,
 				27F2FE2A205765BE006090B5 /* JoinGalleryViewController.swift */,
-				BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */,
-				274C034A200EF37900DDAD8D /* PixelEditorViewController.swift */,
-				C067AF572059C9990078CF27 /* EditorViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -197,18 +195,12 @@
 		27080CF8202650AD0071FDC0 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				BE67C532206BF52400C2EA77 /* StrokeActionStrategy */,
-				BE23A188202D2DC800342007 /* AccountManager.swift */,
-				BE23A189202D2DC800342007 /* RestManager.swift */,
+				C0F3859B206BF3C700529D4D /* Communication */,
 				27080CF9202650CD0071FDC0 /* Extensions.swift */,
-				BE426A1E202102CD00FD1C50 /* SocketManager.swift */,
-				BE426A2020215E3C00FD1C50 /* ChatMessage.swift */,
 				BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */,
 				BE2C90D92028AEB0003C8F1E /* Timestamp.swift */,
 				C067AF5E205A1A050078CF27 /* Timers.swift */,
-				BECC087820619D4D0040EB4B /* ActionMessage.swift */,
 				BE1FCAEF2061E40900C57F02 /* SKStroke.swift */,
-				270EC6ED206575630018A2A6 /* DrawingsDataStruct.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -216,6 +208,9 @@
 		27080CFB202650D50071FDC0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BE426A2020215E3C00FD1C50 /* ChatMessageModels.swift */,
+				BECC087820619D4D0040EB4B /* SocketEditorDataModels.swift */,
+				270EC6ED206575630018A2A6 /* DrawingModels.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -247,6 +242,7 @@
 		274C0347200EF37900DDAD8D /* PolyPaintPro */ = {
 			isa = PBXGroup;
 			children = (
+				C08EB116206C40FC00468D80 /* Strategy */,
 				C08BE3FF2056D16800525038 /* Constants */,
 				27080CFB202650D50071FDC0 /* Model */,
 				27080CF8202650AD0071FDC0 /* Helpers */,
@@ -318,12 +314,40 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		C08EB116206C40FC00468D80 /* Strategy */ = {
+			isa = PBXGroup;
+			children = (
+				BE67C532206BF52400C2EA77 /* StrokeActionStrategy */,
+			);
+			path = Strategy;
+			sourceTree = "<group>";
+		};
+		C08EB117206C411E00468D80 /* Editors */ = {
+			isa = PBXGroup;
+			children = (
+				BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */,
+				274C034A200EF37900DDAD8D /* PixelEditorViewController.swift */,
+				C067AF572059C9990078CF27 /* EditorViewController.swift */,
+			);
+			path = Editors;
+			sourceTree = "<group>";
+		};
 		C0A5ECC62061C89E007FD989 /* Validators */ = {
 			isa = PBXGroup;
 			children = (
 				C0A5ECC72061C8D4007FD989 /* TextFieldValidator.swift */,
 			);
 			path = Validators;
+			sourceTree = "<group>";
+		};
+		C0F3859B206BF3C700529D4D /* Communication */ = {
+			isa = PBXGroup;
+			children = (
+				BE23A188202D2DC800342007 /* AccountManager.swift */,
+				BE426A1E202102CD00FD1C50 /* SocketManager.swift */,
+				BE23A189202D2DC800342007 /* RestManager.swift */,
+			);
+			path = Communication;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -648,8 +672,8 @@
 				274C034B200EF37900DDAD8D /* PixelEditorViewController.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				274956062058236D0053DAD4 /* DrawingTypes.swift in Sources */,
-				270EC6EE206575630018A2A6 /* DrawingsDataStruct.swift in Sources */,
-				BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */,
+				270EC6EE206575630018A2A6 /* DrawingModels.swift in Sources */,
+				BE426A2120215E3C00FD1C50 /* ChatMessageModels.swift in Sources */,
 				271C1EC7203CC5D70090D6A5 /* DrawingToolsView.swift in Sources */,
 				BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */,
 				2778DAB6205600D400690A65 /* ToolsView.swift in Sources */,
@@ -667,7 +691,7 @@
 				C067AF5F205A1A050078CF27 /* Timers.swift in Sources */,
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
-				BECC087920619D4D0040EB4B /* ActionMessage.swift in Sources */,
+				BECC087920619D4D0040EB4B /* SocketEditorDataModels.swift in Sources */,
 				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
 				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,
 				BE67C52F206559CF00C2EA77 /* MessageConstants.swift in Sources */,

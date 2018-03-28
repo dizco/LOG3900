@@ -62,13 +62,13 @@ struct IncomingDrawing: Codable {
     //let owner: IncomingOwner
 }
 
-// Will delete here, once I have confirmation that this is not used anymore.
-
-/*struct IncomingProtection: Codable {
+struct IncomingProtection: Codable {
     let active: Bool
 }
 
-struct IncomingOwner: Codable {
+// Will delete here, once I have confirmation that this is not used anymore.
+
+/*struct IncomingOwner: Codable {
     let username: String
     let url: String
     let avatarUrl: String
