@@ -17,6 +17,8 @@ const enum DrawingFields {
  */
 export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
     validatePageParameters(req);
+    req.checkParams("owner", "Owner must be of type ObjectId").optional().matches(/^[a-f\d]{24}$/i);
+    validateVisibilityParameters(req);
 
     const errors = req.validationErrors();
 
@@ -24,6 +26,9 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
         return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
     }
 
+    const query: any = {};
+    if (req.query.owner) { query.owner = req.query.owner; }
+    if (req.query[DrawingFields.Visibility]) { query.visibility = req.query[DrawingFields.Visibility]; }
     const options = {
         select: "name mode protection visibility",
         populate: [
@@ -32,7 +37,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
         page: req.query.page,
     };
 
-    Drawing.paginate({}, options, (err: any, drawings: PaginateResult<DrawingModel>) => {
+    Drawing.paginate(query, options, (err: any, drawings: PaginateResult<DrawingModel>) => {
         if (err) {
             return next(err);
         }
