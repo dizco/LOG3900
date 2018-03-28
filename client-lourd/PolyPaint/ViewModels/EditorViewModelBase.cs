@@ -1,12 +1,21 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Forms;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using PolyPaint.Constants;
+using PolyPaint.CustomComponents;
 using PolyPaint.Helpers;
+using PolyPaint.Helpers.Communication;
+using Application = System.Windows.Application;
 
 namespace PolyPaint.ViewModels
 {
@@ -14,6 +23,10 @@ namespace PolyPaint.ViewModels
     {
         private Canvas _currentCanvas;
         private InkCanvas _currentInkCanvas;
+
+        private const int WaitTimeForThread = 5;
+        private const int ImageHeight = 720;
+        private const int ImageWidth = 1280;
 
         protected EditorViewModelBase()
         {
@@ -43,21 +56,41 @@ namespace PolyPaint.ViewModels
             EditorPollRequestReceived -= OnEditorPollRequestReceived;
         }
 
-        private void OnEditorPollRequestReceived(object sender, EventArgs eventArgs)
+        private async void OnEditorPollRequestReceived(object sender, EventArgs eventArgs)
         {
-            MemoryStream imageStream = _currentCanvas == null
-                                           ? BuildImageStream(_currentInkCanvas)
-                                           : BuildImageStream(_currentCanvas);
+            try
+            {
+                AutoResetEvent copiedCanvas = new AutoResetEvent(false);
+                MemoryStream imageStream = null;
 
-            byte[] imageBytes = imageStream.ToArray();
+                (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
+                {
+                    imageStream = BuildImageStream();
+                    copiedCanvas.Set();
+                });
 
-            string base64Image = Convert.ToBase64String(imageBytes);
+                copiedCanvas.WaitOne(TimeSpan.FromSeconds(WaitTimeForThread));
+
+                byte[] imageBytes = imageStream.ToArray();
+
+                imageStream.Close();
+
+                string base64Image = Convert.ToBase64String(imageBytes);
+
+                HttpResponseMessage response = await RestHandler.UpdateDrawingThumbnail(DrawingRoomId, base64Image);
+            }
+            catch (AbandonedMutexException)
+            {
+                // ignored
+                // Application thread couldn't copy the canvas in time
+            }
         }
 
-        private MemoryStream BuildImageStream([Optional] object canvasObject, [Optional] object sender,
+        private MemoryStream BuildImageStream([Optional] object sender,
             [Optional] string imageFormat)
         {
             MemoryStream imageStream = new MemoryStream();
+            object canvasObject = null;
 
             if (sender is StrokeEditorViewModel)
             {
@@ -69,16 +102,30 @@ namespace PolyPaint.ViewModels
                 // A PixelEditor is requesting a memory stream of the current drawing
                 canvasObject = _currentCanvas;
             }
-            else if (canvasObject == null)
+            else if (_currentCanvas != null)
             {
-                // When neither a StrokeEditor, PixelEditor not EditorViewModelBase is requesting a memory stream of the current drawing
-                return null;
+                canvasObject = _currentCanvas;
+            }
+            else if (_currentInkCanvas != null)
+            {
+                canvasObject = _currentInkCanvas;
             }
 
-            int imageHeight = (int) ((canvasObject as Canvas)?.ActualHeight ??
+            int imageHeight;
+            int imageWidth;
+
+            if (sender is StrokeEditorViewModel || sender is PixelEditorViewModel)
+            {
+                imageHeight = (int) ((canvasObject as Canvas)?.ActualHeight ??
                                      (canvasObject as InkCanvas)?.ActualHeight ?? 0);
-            int imageWidth =
-                (int) ((canvasObject as Canvas)?.ActualWidth ?? (canvasObject as InkCanvas)?.ActualWidth ?? 0);
+                imageWidth =
+                    (int) ((canvasObject as Canvas)?.ActualWidth ?? (canvasObject as InkCanvas)?.ActualWidth ?? 0);
+            }
+            else
+            {
+                imageHeight = ImageHeight;
+                imageWidth = ImageWidth;
+            }
 
             RenderTargetBitmap imageRender = new RenderTargetBitmap(imageWidth, imageHeight,
                                                                     ImageManipulationConstants.DotsPerInch,
@@ -102,13 +149,14 @@ namespace PolyPaint.ViewModels
                 case ".png": //png
                     encoder = new PngBitmapEncoder();
                     break;
-                case ".jpg": //jpg
-                    encoder = new JpegBitmapEncoder();
-                    ((JpegBitmapEncoder) encoder).QualityLevel = 100;
-                    break;
-                default: //bmp
+                case ".bmp": //bmp
                     encoder = new BmpBitmapEncoder();
                     break;
+                default: //jpg
+                    encoder = new JpegBitmapEncoder();
+                    ((JpegBitmapEncoder) encoder).QualityLevel = 75;
+                    break;
+                    
             }
 
             encoder.Frames.Add(BitmapFrame.Create(imageRender));
@@ -153,6 +201,7 @@ namespace PolyPaint.ViewModels
             }
             finally
             {
+                imageStream?.Close();
                 fileImageStream?.Close();
             }
         }

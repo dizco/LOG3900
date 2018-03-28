@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PolyPaint.CustomComponents;
 using PolyPaint.Models.ApiModels;
 
@@ -145,6 +148,18 @@ namespace PolyPaint.Helpers.Communication
             }
 
             return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}", new FormUrlEncodedContent(requestContent));
+        }
+
+        public static async Task<HttpResponseMessage> UpdateDrawingThumbnail(string drawingId, string base64Bitmap)
+        {
+            Dictionary<string, string> content = new Dictionary<string, string>
+            {
+                {"thumbnail",base64Bitmap}
+            };
+
+            string jsonpayload = JsonConvert.SerializeObject(content);
+
+            return await Client.PutAsync($"{ServerUri}/drawings/{drawingId}/thumbnail", new StringContent(jsonpayload, Encoding.UTF8, "application/json"));
         }
     }
 }
