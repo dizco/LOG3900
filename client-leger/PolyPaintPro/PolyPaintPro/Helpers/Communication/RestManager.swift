@@ -11,120 +11,99 @@ import Alamofire
 import PromiseKit
 
 class RestManager {
-    private var username: String
-    private var password: String
-
-    init(username: String, password: String) {
-        self.username = username.lowercased()
-        self.password = password
-    }
-
-    func buildUrl(endpoint: String) -> String {
+    private class func buildUrl(endpoint: String) -> String {
         return Rest.Connection.HttpProtocol
             + ServerLookup.sharedInstance.address
             + Rest.Connection.DefaultPort
             + endpoint
     }
 
-    func loginToServer() -> Promise<AuthServerResponse> {
-        if ServerLookup.sharedInstance.address.isEmpty {
-            return Promise(value: AuthServerResponse(success: false, error: Rest.Auth.NoServerAddress))
-        } else {
-            return Promise<AuthServerResponse> { fulfill, reject in
-                let headers = ["Content-Type": "application/x-www-form-urlencoded"]
-                let parameters: [String: String] = [
-                    "email": self.username,
-                    "password": self.password
-                ]
-                Alamofire.request(self.buildUrl(endpoint: Rest.Auth.Routes.Login),
-                                  method: .post,
-                                  parameters: parameters,
-                                  encoding: URLEncoding.default,
-                                  headers: headers)
-                    .responseJSON { response in
-                        do {
-                            if let data = response.data,
-                                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                                let authServerResponse = AuthServerResponse(json: json) {
-                                if authServerResponse.success {
+        }
+
+    static func loginToServer(username: String, password: String) -> Promise<AuthServerResponse<EmptyData>> {
+        let headers = ["Content-Type": "application/x-www-form-urlencoded"]
+        let parameters: [String: String] = [
+            "email": username,
+            "password": password
+        ]
+        return Promise<AuthServerResponse> { fulfill, reject in
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Login),
+                              method: .post,
+                              parameters: parameters,
+                              encoding: URLEncoding.default,
+                              headers: headers)
+                .responseJSON { response in
+                    do {
+                        if let data = response.data,
+                            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                            let authServerResponse = AuthServerResponse<EmptyData>(json: json) {
+                            	if authServerResponse.success {
                                     AccountManager.sharedInstance.saveCookies(response: response)
                                 }
                                 fulfill(authServerResponse)
-                            } else {
-                                fulfill(AuthServerResponse(success: false))
-                            }
-                        } catch let error {
-                            reject(error)
-                        }
-                }
-            }
-        }
-    }
-
-    func registerToServer() -> Promise<AuthServerResponse> {
-        if ServerLookup.sharedInstance.address.isEmpty {
-            return Promise(value: AuthServerResponse(success: false, error: Rest.Auth.NoServerAddress))
-        } else {
-            return Promise<AuthServerResponse> { fulfill, reject in
-                let headers = ["Content-Type": "application/x-www-form-urlencoded"]
-                let parameters: [String: String] = [
-                    "email": self.username,
-                    "password": self.password
-                ]
-                Alamofire.request(self.buildUrl(endpoint: Rest.Auth.Routes.Register),
-                                  method: .post,
-                                  parameters: parameters,
-                                  encoding: URLEncoding.default,
-                                  headers: headers)
-                    .responseJSON { response in
-                        do {
-                            if let data = response.data,
-                                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                                let authServerResponse = AuthServerResponse(json: json) {
-                                fulfill(authServerResponse)
-                                return
-                            } else {
-                                fulfill(AuthServerResponse(success: false))
-                            }
-                        } catch let error {
-                            reject(error)
-                        }
-                }
-            }
-        }
-    }
-
-    func testServerConnection() -> Promise<AuthServerResponse> {
-        if ServerLookup.sharedInstance.address.isEmpty {
-            return Promise(value: AuthServerResponse(success: false, error: Rest.Auth.NoServerAddress))
-        } else {
-            return Promise<AuthServerResponse> { fulfill, _ in
-                Alamofire.request(self.buildUrl(endpoint: Rest.Auth.Routes.Register),
-                                  method: .get,
-                                  encoding: JSONEncoding.default)
-                    .responseJSON { (response) -> Void in
-                        if self.isValidResponse(response: response) {
-                            fulfill(AuthServerResponse(success: true))
                         } else {
                             fulfill(AuthServerResponse(success: false))
                         }
-                }
+                    } catch let error {
+                        reject(error)
+                    }
             }
         }
     }
 
-    private func isValidResponse(response: DataResponse<Any>) -> Bool {
+    static func registerToServer(username: String, password: String) -> Promise<AuthServerResponse<EmptyData>> {
+        let headers = ["Content-Type": "application/x-www-form-urlencoded"]
+        let parameters: [String: String] = [
+            "email": username,
+            "password": password
+        ]
+        return Promise<AuthServerResponse> { fulfill, reject in
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Register),
+                                method: .post,
+                                parameters: parameters,
+                                encoding: URLEncoding.default,
+                                headers: headers)
+                .responseJSON { response in
+                    do {
+                        if let data = response.data,
+                            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                            let authServerResponse = AuthServerResponse<EmptyData>(json: json) {
+                            fulfill(authServerResponse)
+                        } else {
+                            fulfill(AuthServerResponse(success: false))
+                        }
+                    } catch let error {
+                        reject(error)
+                    }
+            }
+        }
+    }
+
+    static func testServerConnection() -> Promise<AuthServerResponse<EmptyData>> {
+        return Promise<AuthServerResponse> { fulfill, _ in
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Ping))
+                .responseJSON { (response) -> Void in
+                    fulfill(AuthServerResponse(success: self.isValidResponse(response: response)))
+                }
+            }
+    }
+
+    private static func isValidResponse(response: DataResponse<Any>) -> Bool {
         if let resp = response.response {
             return resp.statusCode >= 200 && resp.statusCode <= 299
         }
         return false
     }
 
-    public struct AuthServerResponse: Codable {
+    public struct EmptyData: Codable {}
+
+    public struct AuthServerResponse<T: Codable> {
+        let data: T?
         let success: Bool
         let error: String
 
         init(success: Bool, error: String = "") {
+            self.data = nil
             self.success = success
             self.error = error
         }
@@ -136,6 +115,7 @@ class RestManager {
                     return nil
             }
 
+            self.data = nil
             self.success = status == "success"
             self.error = json["error"] as? String ?? ""
         }
