@@ -84,6 +84,10 @@ class ToolsView: UIView {
     @IBAction func settingsButton(_ sender: UIButton) {
     }
 
+    @IBAction func exitEditorButton(_ sender: Any) {
+       //ibaction that is executed when the exit button is pressed in both editor view controllers
+    }
+
     func setDefault() {
         let origImage = UIImage(named: "pencil")
         let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
