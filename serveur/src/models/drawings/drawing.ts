@@ -89,7 +89,9 @@ drawingSchema.methods.comparePassword = function(candidatePassword: string, cb: 
 //Remove the protection password field, add users
 if (!(<any>drawingSchema).options.toObject) (<any>drawingSchema).options.toObject = {};
 (<any>drawingSchema).options.toObject.transform = function (doc: any, ret: any, options: any) {
-    delete ret.protection.password;
+    if (ret.protection && ret.protection.password) {
+        delete ret.protection.password;
+    }
 
     addUsersAttribute(ret);
 

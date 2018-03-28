@@ -22,7 +22,7 @@ export let getTemplates = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const options = {
-        select: "name mode thumbnail",
+        select: "name mode",
         populate: [
             { path: "owner", select: "username" },
         ],
@@ -152,7 +152,7 @@ export let getTemplate = (req: Request, res: Response, next: NextFunction) => {
     const populateOptions = [
         { path: "owner", select: "username" },
     ];
-    Template.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, template: TemplateModel) => {
+    Template.findOne({_id: req.params.id}, {thumbnail: 0}).populate(populateOptions).exec((err: any, template: TemplateModel) => {
         if (err) {
             return next(err);
         }
@@ -161,6 +161,31 @@ export let getTemplate = (req: Request, res: Response, next: NextFunction) => {
         }
 
         return res.json(template.toObject({ versionKey: false }));
+    });
+};
+
+/**
+ * GET /templates/:id/thumbnail
+ */
+export let getTemplateThumbnail = (req: Request, res: Response, next: NextFunction) => {
+    req.checkParams("id", "Drawing id cannot be empty").notEmpty();
+    req.checkParams("id", "Id must be of type ObjectId").matches(/^[a-f\d]{24}$/i);
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Failed to validate template id.", hints: errors });
+    }
+
+    Template.findOne({_id: req.params.id}, {thumbnail: 1}, (err: any, template: TemplateModel) => {
+        if (err) {
+            return next(err);
+        }
+        if (!template) {
+            return res.status(404).json({ status: "error", error: "Template not found." });
+        }
+
+        return res.json({ thumbnail: template.thumbnail });
     });
 };
 
