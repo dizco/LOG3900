@@ -119,7 +119,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
         self.timer?.invalidate()
         self.chatToggleBtn.tintColor = UIColor.red
         if self.chatShowing {
-            self.timer = setTimeout(0.5) { //Flash red for 1 second if chat is showing
+            self.timer = setTimeout(0.5) { //Flash red for 0.5 seconds if chat is showing
                 self.chatToggleBtn.tintColor = UIColor.blue
             }
         }
