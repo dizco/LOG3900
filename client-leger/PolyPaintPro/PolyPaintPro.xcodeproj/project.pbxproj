@@ -38,6 +38,9 @@
 		BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A1E202102CD00FD1C50 /* SocketManager.swift */; };
 		BE426A2120215E3C00FD1C50 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE426A2020215E3C00FD1C50 /* ChatMessage.swift */; };
 		BE67C52F206559CF00C2EA77 /* MessageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C52E206559CF00C2EA77 /* MessageConstants.swift */; };
+		BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */; };
+		BE67C534206BF55B00C2EA77 /* AddStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */; };
+		BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */; };
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
 		BECC087920619D4D0040EB4B /* ActionMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* ActionMessage.swift */; };
@@ -109,6 +112,9 @@
 		BE4B72A2202CE72F004205E8 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		BE4B72A4202CE9A1004205E8 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		BE67C52E206559CF00C2EA77 /* MessageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageConstants.swift; sourceTree = "<group>"; };
+		BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
 		BECC087820619D4D0040EB4B /* ActionMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionMessage.swift; sourceTree = "<group>"; };
@@ -191,6 +197,7 @@
 		27080CF8202650AD0071FDC0 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BE67C532206BF52400C2EA77 /* StrokeActionStrategy */,
 				BE23A188202D2DC800342007 /* AccountManager.swift */,
 				BE23A189202D2DC800342007 /* RestManager.swift */,
 				27080CF9202650CD0071FDC0 /* Extensions.swift */,
@@ -289,6 +296,16 @@
 				BE4B72A2202CE72F004205E8 /* Login.swift */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		BE67C532206BF52400C2EA77 /* StrokeActionStrategy */ = {
+			isa = PBXGroup;
+			children = (
+				BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */,
+				BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */,
+				BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */,
+			);
+			path = StrokeActionStrategy;
 			sourceTree = "<group>";
 		};
 		C08BE3FF2056D16800525038 /* Constants */ = {
@@ -626,6 +643,7 @@
 				BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */,
 				BE1FCAF02061E40900C57F02 /* SKStroke.swift in Sources */,
 				27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */,
+				BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */,
 				C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */,
 				274C034B200EF37900DDAD8D /* PixelEditorViewController.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
@@ -636,9 +654,11 @@
 				BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */,
 				2778DAB6205600D400690A65 /* ToolsView.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
+				BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */,
 				27F2FE2920576591006090B5 /* JoinDrawingViewController.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
 				27C07AA62050D319006BB8EB /* RecentsViewController.swift in Sources */,
+				BE67C534206BF55B00C2EA77 /* AddStrokeActionStrategy.swift in Sources */,
 				C08BE4012056D1E200525038 /* Rest.swift in Sources */,
 				BE23A18B202D2DC800342007 /* RestManager.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
