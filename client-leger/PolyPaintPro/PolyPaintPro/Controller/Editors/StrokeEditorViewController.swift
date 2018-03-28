@@ -12,7 +12,7 @@ import SpriteKit
 
 class StrokeEditorViewController: EditorViewController, ActionSocketManagerDelegate, DrawingToolsViewDelegate, StrokeToolsViewDelegate {
     // MARK: - Scene
-    var scene = StrokeEditorScene()
+    private var scene = StrokeEditorScene()
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
