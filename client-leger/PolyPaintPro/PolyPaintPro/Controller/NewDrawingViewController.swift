@@ -12,9 +12,14 @@ import UIKit
 class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     internal var connectionStatus = true
     internal var selectedDrawingType: String = DrawingTypes.Types[0] //type of drawing the user selected
+    internal var visibility = true //visibility var for the drawing to be created
+    internal var protection = true //protection variable for the drawing to be created
 
     @IBOutlet weak var drawingNameTextField: UITextField!
     @IBOutlet weak var drawingTypePickerview: UIPickerView!
+    @IBOutlet var visibilitySegmentedControl: UISegmentedControl!
+    @IBOutlet var protectionToggle: UISwitch!
+    @IBOutlet var passwordProtectionTextField: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +52,27 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
             }*/
         } else if selectedDrawingType == DrawingTypes.Types[1] {
             performSegue(withIdentifier: "PixelEditorSegue", sender: self)
+        }
+    }
+
+    @IBAction func visibilityChanged(_ sender: Any) {
+        switch visibilitySegmentedControl.selectedSegmentIndex {
+        case 0:
+            visibility = true
+        case 1:
+            visibility = false
+        default:
+            break
+        }
+    }
+    @IBAction func protectionChanged(_ sender: UISwitch) {
+        if protection {
+            protection = !protection
+            passwordProtectionTextField.isUserInteractionEnabled = false
+        } else if !protection {
+            protection = !protection
+            passwordProtectionTextField.isUserInteractionEnabled = true
+
         }
     }
 
