@@ -204,7 +204,7 @@ namespace PolyPaint.ViewModels
 
         public void BlitZoneSelector()
         {
-            _pixelEditor.BlitZoneSelector();
+            _pixelEditor.BlitSelectedZone();
         }
 
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)

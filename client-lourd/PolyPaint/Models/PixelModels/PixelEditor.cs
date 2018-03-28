@@ -23,7 +23,7 @@ namespace PolyPaint.Models.PixelModels
         //writeableBitmap used on edition
         private WriteableBitmap _cropWriteableBitmap;
 
-        private Point _cropWriteableBitmapPosition = new Point(0, 0);
+        private Point _cropWriteableBitmapPosition;
 
         private bool _isWriteableBitmapOnEdition;
 
@@ -44,8 +44,7 @@ namespace PolyPaint.Models.PixelModels
             WriteableBitmap = BitmapFactory.New(1000, 1000);
             WriteableBitmap.Clear(Colors.Transparent);
 
-            CropWriteableBitmap = BitmapFactory.New(0, 0);
-            CropWriteableBitmap.Clear(Colors.Transparent);
+            _cropWriteableBitmapPosition = new Point(0, 0);
         }
 
         public WriteableBitmap WriteableBitmap
@@ -193,7 +192,7 @@ namespace PolyPaint.Models.PixelModels
         /// <summary>
         ///     Merge the edited bitmap on the original bitmap (the draw)
         /// </summary>
-        public void BlitZoneSelector()
+        public void BlitSelectedZone()
         {
             Rect destinationRectangle = new Rect(CropWriteableBitmapPosition.X, CropWriteableBitmapPosition.Y,
                                                  CropWriteableBitmap.PixelWidth, CropWriteableBitmap.PixelHeight);
