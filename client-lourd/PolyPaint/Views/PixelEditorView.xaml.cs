@@ -62,6 +62,14 @@ namespace PolyPaint.Views
             //enable it
             Point onePixelPoint = new Point(_oldPositionDrawing.X + 1, _oldPositionDrawing.Y);
             (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPositionDrawing, onePixelPoint);
+
+            // Blit the selector when another tool is selected
+            if ((DataContext as PixelEditorViewModel)?.ToolSelected != "selector"
+                && (DataContext as PixelEditorViewModel)?.CropWriteableBitmap != null)
+            {
+                (DataContext as PixelEditorViewModel)?.BlitZoneSelector();
+                SelectedZoneThumb.Visibility = Visibility.Hidden;
+            }
         }
 
         private void DrawingSurfaceMouseMove(object sender, MouseEventArgs e)
@@ -73,20 +81,13 @@ namespace PolyPaint.Views
                 (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPositionDrawing, _newPositionDrawing);
                 _oldPositionDrawing = _newPositionDrawing;
             }
-
-            // Blit the selector when another tool is selected
-            if ((DataContext as PixelEditorViewModel)?.ToolSelected != "selector")
-            {
-                (DataContext as PixelEditorViewModel)?.BlitZoneSelector();
-                SelectedZoneThumb.Visibility = Visibility.Hidden;
-            }
         }
 
         private void GridSurfaceMouseDown(object sender, MouseButtonEventArgs e)
         {
             // Capture and track the mouse.
             _isMouseDownSelector = true;
-            _mouseDownPositionSelector = e.GetPosition(DisplayArea);
+            _mouseDownPositionSelector = e.GetPosition(DrawingSurface);
             DrawingSurface.CaptureMouse();
 
             // Initial placement of the drag selection box.         
@@ -119,7 +120,12 @@ namespace PolyPaint.Views
 
             // Hide the drag selection box.
             selectionBox.Visibility = Visibility.Collapsed;
-            Point mouseUpPosition = e.GetPosition(DisplayArea);
+            Point mouseUpPosition = e.GetPosition(DrawingSurface);
+
+            mouseUpPosition.X = mouseUpPosition.X < 0 ? 0 : mouseUpPosition.X;
+            mouseUpPosition.X = mouseUpPosition.X > DrawingSurface.ActualWidth ? mouseUpPosition.X = DrawingSurface.ActualWidth : mouseUpPosition.X;
+            mouseUpPosition.Y = mouseUpPosition.Y < 0 ? 0 : mouseUpPosition.Y;
+            mouseUpPosition.Y = mouseUpPosition.Y > DrawingSurface.ActualHeight ? mouseUpPosition.Y = DrawingSurface.ActualHeight : mouseUpPosition.Y;
 
             // The mouse has been released, select the pixel in this rectangle
             if (!(DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition
@@ -136,39 +142,40 @@ namespace PolyPaint.Views
 
         private void GridSurfaceMouseMove(object sender, MouseEventArgs e)
         {
-            Point mousePosition = e.GetPosition(DrawingSurface);
+            Point mouseUpPosition = e.GetPosition(DrawingSurface);
 
             // Confine the selectionBox in the DrawingSurface
             //When the selection box gets out of the border, reposition the extremities. 
-            mousePosition.X = mousePosition.X < 0 ? 0 : mousePosition.X;
-            mousePosition.X = mousePosition.X > DrawingSurface.ActualWidth ? mousePosition.X = DrawingSurface.ActualWidth : mousePosition.X;
-            mousePosition.Y = mousePosition.Y < 0 ? 0 : mousePosition.Y;
-            mousePosition.Y = mousePosition.Y > DrawingSurface.ActualHeight ? mousePosition.Y = DrawingSurface.ActualHeight : mousePosition.Y;
+            mouseUpPosition.X = mouseUpPosition.X < 0 ? 0 : mouseUpPosition.X;
+            mouseUpPosition.X = mouseUpPosition.X > DrawingSurface.ActualWidth ? mouseUpPosition.X = DrawingSurface.ActualWidth : mouseUpPosition.X;
+            mouseUpPosition.Y = mouseUpPosition.Y < 0 ? 0 : mouseUpPosition.Y;
+            mouseUpPosition.Y = mouseUpPosition.Y > DrawingSurface.ActualHeight ? mouseUpPosition.Y = DrawingSurface.ActualHeight : mouseUpPosition.Y;
+
 
             if (_isMouseDownSelector)
             {
                 // When the mouse is held down, reposition the drag selection box.
 
-                if (_mouseDownPositionSelector.X < mousePosition.X)
+                if (_mouseDownPositionSelector.X < mouseUpPosition.X)
                 {
                     Canvas.SetLeft(selectionBox, _mouseDownPositionSelector.X);
-                    selectionBox.Width = mousePosition.X - _mouseDownPositionSelector.X;
+                    selectionBox.Width = mouseUpPosition.X - _mouseDownPositionSelector.X;
                 }
                 else
                 {
-                    Canvas.SetLeft(selectionBox, mousePosition.X);
-                    selectionBox.Width = _mouseDownPositionSelector.X - mousePosition.X;
+                    Canvas.SetLeft(selectionBox, mouseUpPosition.X);
+                    selectionBox.Width = _mouseDownPositionSelector.X - mouseUpPosition.X;
                 }
 
-                if (_mouseDownPositionSelector.Y < mousePosition.Y)
+                if (_mouseDownPositionSelector.Y < mouseUpPosition.Y)
                 {
                     Canvas.SetTop(selectionBox, _mouseDownPositionSelector.Y);
-                    selectionBox.Height = mousePosition.Y - _mouseDownPositionSelector.Y;
+                    selectionBox.Height = mouseUpPosition.Y - _mouseDownPositionSelector.Y;
                 }
                 else
                 {
-                    Canvas.SetTop(selectionBox, mousePosition.Y);
-                    selectionBox.Height = _mouseDownPositionSelector.Y - mousePosition.Y;
+                    Canvas.SetTop(selectionBox, mouseUpPosition.Y);
+                    selectionBox.Height = _mouseDownPositionSelector.Y - mouseUpPosition.Y;
                 }
             }
         }

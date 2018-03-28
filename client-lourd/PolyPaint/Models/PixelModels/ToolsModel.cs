@@ -60,33 +60,33 @@ namespace PolyPaint.Models.PixelModels
         {
             //The Points are convert to int to not let the
             //decimals afect the dimension
-            Point lowCorner = new Point
+            Point lowerLeftCorner = new Point
             {
                 X = (int) _oldPosition.X,
                 Y = (int) _oldPosition.Y
             };
 
-            Point highCorner = new Point
+            Point upperRightCorner = new Point
             {
                 X = (int) _newPosition.X,
                 Y = (int) _newPosition.Y
             };
 
-            if (lowCorner.X > highCorner.X)
+            if (lowerLeftCorner.X > upperRightCorner.X)
             {
-                double temp = lowCorner.X;
-                lowCorner.X = highCorner.X;
-                highCorner.X = temp;
+                int temp = (int) lowerLeftCorner.X;
+                lowerLeftCorner.X = upperRightCorner.X;
+                upperRightCorner.X = temp;
             }
 
-            if (lowCorner.Y > highCorner.Y)
+            if (lowerLeftCorner.Y > upperRightCorner.Y)
             {
-                double temp = lowCorner.Y;
-                lowCorner.Y = highCorner.Y;
-                highCorner.Y = temp;
+                int temp = (int) lowerLeftCorner.Y;
+                lowerLeftCorner.Y = upperRightCorner.Y;
+                upperRightCorner.Y = temp;
             }
 
-            return new Tuple<Point, Point>(lowCorner, highCorner);
+            return new Tuple<Point, Point>(lowerLeftCorner, upperRightCorner);
         }
 
         private void GeneratePixels(int x1, int y1, int x2, int y2, Color color)

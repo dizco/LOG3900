@@ -6,7 +6,6 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:converters="clr-namespace:PolyPaint.Converters"
         xmlns:uc="clr-namespace:PolyPaint.Views"
-        xmlns:local="clr-namespace:PolyPaint.Models.PixelModels"
         Title="PolyPaint" Height="700" Width="900" Background="#CBD4E4" MinWidth="627" MinHeight="200"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:PolyPaint.ViewModels"
@@ -38,7 +37,6 @@
                         <GradientStop Color="#FFE0E0E0" Offset="1" />
                     </LinearGradientBrush>
                 </StackPanel.Background>
-
                 <Button Name="crayon" Width="40" Height="40" Margin="5"
                         BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=crayon, UpdateSourceTrigger=PropertyChanged}"
                         Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=crayon, UpdateSourceTrigger=PropertyChanged}"
@@ -131,7 +129,7 @@
                             <Image x:Name="DrawnImage" 
                                   VerticalAlignment="Top" Source="{Binding WriteableBitmap}" />
 
-                            <!-- This image contains a writeableBitmap that is blid to our principal writeableBitmap after his edition-->
+                            <!-- This image contains another writeableBitmap that is blit to our principal writeableBitmap after his edition-->
                             <Canvas x:Name="SelectedZoneCanvas"  Cursor="SizeAll">
                                 <Thumb x:Name="SelectedZoneThumb" Canvas.Left="{Binding CropWriteableBitmapPosition.X}" Canvas.Top="{Binding CropWriteableBitmapPosition.Y}"
                                        DragDelta="Thumb_DragDelta">
@@ -168,6 +166,5 @@
                 <uc:ChatView />
             </Grid>
         </Grid>
-        
     </DockPanel>
 </Window>
