@@ -47,8 +47,8 @@ mongoose.connect(mongoUrl, { useMongoClient: true }).then(
 app.set("port", process.env.PORT || 3000);
 app.use(compression());
 app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "5mb" }));
+app.use(bodyParser.urlencoded({ limit: "5mb", extended: true }));
 app.use(expressValidator());
 const mongoStore = new MongoStore({
     url: mongoUrl,
@@ -82,9 +82,10 @@ app.post("/register", userController.postRegister);
 /**
  * Drawings
  */
-app.get("/drawings", passportConfig.isAuthenticated, drawingsController.getDrawings);
+app.get("/drawings", drawingsController.getDrawings);
 app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDrawing);
 app.get("/drawings/:id", passportConfig.isAuthenticated, drawingsController.getDrawing);
+app.get("/drawings/:id/thumbnail", drawingsController.getDrawingThumbnail);
 app.get("/drawings/:id/actions", passportConfig.isAuthenticated, drawingsController.getDrawingActions);
 app.patch("/drawings/:id", passportConfig.isAuthenticated, drawingsController.patchDrawing);
 app.put("/drawings/:id/thumbnail", passportConfig.isAuthenticated, drawingsController.putDrawingThumbnail);
@@ -95,6 +96,7 @@ app.put("/drawings/:id/thumbnail", passportConfig.isAuthenticated, drawingsContr
 app.get("/templates", templatesController.getTemplates);
 app.post("/templates", templatesController.postTemplate);
 app.get("/templates/:id", templatesController.getTemplate);
+app.get("/templates/:id/thumbnail", templatesController.getTemplateThumbnail);
 app.post("/templates/:id/likes", passportConfig.isAuthenticated, templatesController.postTemplateLike);
 
 /**

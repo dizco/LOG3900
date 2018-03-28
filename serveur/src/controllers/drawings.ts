@@ -25,7 +25,7 @@ export let getDrawings = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const options = {
-        select: "name mode protection visibility thumbnail",
+        select: "name mode protection visibility",
         populate: [
             { path: "owner", select: "username" },
             ],
@@ -96,7 +96,7 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
     const populateOptions = [
         { path: "owner", select: "username" },
     ];
-    Drawing.findOne({_id: req.params.id}).populate(populateOptions).exec((err: any, drawing: any) => {
+    Drawing.findOne({_id: req.params.id}, {thumbnail: 0}).populate(populateOptions).exec((err: any, drawing: DrawingModel) => {
         if (err) {
             return next(err);
         }
@@ -134,6 +134,30 @@ function handlePasswordProtectedDrawing(drawing: any, req: Request, res: Respons
         return res.status(401).json({ status: "error", error: "Invalid password on password protected drawing." });
     }
 }
+
+/**
+ * GET /drawings/:id/thumbnail
+ */
+export let getDrawingThumbnail = (req: Request, res: Response, next: NextFunction) => {
+    validateIdParameters(req);
+
+    const errors = req.validationErrors();
+
+    if (errors) {
+        return res.status(422).json({ status: "error", error: "Failed to validate drawing id.", hints: errors });
+    }
+
+    Drawing.findOne({_id: req.params.id}, {thumbnail: 1}, (err: any, drawing: DrawingModel) => {
+        if (err) {
+            return next(err);
+        }
+        if (!drawing) {
+            return res.status(404).json({ status: "error", error: "Drawing not found." });
+        }
+
+        return res.json({ thumbnail: drawing.thumbnail });
+    });
+};
 
 /**
  * GET /drawings/:id/actions
