@@ -14,17 +14,19 @@ struct Rest {
         static let HttpProtocol = "http://"
     }
 
-    struct Auth {
-        struct Routes {
-            static let Login = "/login"
-            static let Register = "/register"
-        }
-        static let NoServerAddress = "No server address found."
-    }
+    struct Routes {
+        // MARK: - Auth routes
+        static let Login = "/login"
+        static let Register = "/register"
 
-    struct Ping {
-        struct Routes {
-            static let Ping = "/ping"
-        }
+        // MARK: - Drawings routes
+        static let Drawings = "/drawings"
+
+        // MARK: - Ping routes
+        static let Ping = "/ping"
+    }
+    
+    struct Auth {
+        static let NoServerAddress = "No server address found."
     }
 }

@@ -114,14 +114,14 @@ class LoginViewController: UIViewController {
             connectionView?.isHidden = false
             registerView?.isHidden = true
         } else if sender.selectedSegmentIndex == 1 {
-            welcomeLabel.text = "Bienvenue! Entrez vos informations pour creer un compte PolyPaintPro"
+            welcomeLabel.text = "Bienvenue! Entrez vos informations pour créer un compte PolyPaintPro"
             connectionView?.isHidden = true
             registerView?.isHidden = false
         }
     }
 
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
-        //attempt function to attempt to connect to the server modify the connectionState and errorMessage
+        //attempt to connect to the server modify the connectionState and errorMessage
         let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
         serverAddressEntered(connectionState: isTrueIP)
     }
@@ -129,41 +129,37 @@ class LoginViewController: UIViewController {
     // MARK: - Functions
     private func registerAccount(sender: UIButton, username: String, password: String) {
         print("try to register")
-        restManager = RestManager(username: username, password: password)
         firstly {
-            restManager!.registerToServer()
-            }.then { response -> Void in
-                if response.success {
-                    self.loginErrorTextField?.isHidden = true
-                    // Account creation successful: auto login immediately
-                    self.loginToServer(sender: sender, username: username, password: password)
-                } else {
-                    self.registerErrorTextField?.text = response.error
-                    self.registerErrorTextField?.isHidden = false
-                }
-            }.catch { error in
-                print(error)
+            RestManager.registerToServer(username: username, password: password)
+        }.then { response -> Void in
+            if response.success {
+                self.loginErrorTextField?.isHidden = true
+                // Account creation successful: auto login immediately
+                self.loginToServer(sender: sender, username: username, password: password)
+            } else {
+                self.registerErrorTextField?.text = response.error
+                self.registerErrorTextField?.isHidden = false
+            }
+        }.catch { error in
+            print("Unexpected error during register: \(error)")
         }
     }
 
     private func loginToServer(sender: UIButton, username: String, password: String) {
         print("try to login")
-        restManager = RestManager(username: username, password: password)
         firstly {
-            restManager!.loginToServer()
-            }.then { response -> Void in
-                if response.success {
-                    self.loginErrorTextField?.isHidden = true
-                    // TO-MOVE: Connect with socket only in ChatViewController
-                    // TO-DO: Establish connection ONLY after the LOGIN POST
-                    SocketManager.sharedInstance.establishConnection(ipAddress: ServerLookup.sharedInstance.address)
-                    self.performSegue(withIdentifier: "welcome", sender: sender)
-                } else {
-                    self.loginErrorTextField?.text = response.error
-                    self.loginErrorTextField?.isHidden = false
-                }
-            }.catch { error in
-                print(error)
+            RestManager.loginToServer(username: username, password: password)
+        }.then { response -> Void in
+            if response.success {
+                self.loginErrorTextField?.isHidden = true
+                SocketManager.sharedInstance.establishConnection(ipAddress: ServerLookup.sharedInstance.address)
+                self.performSegue(withIdentifier: "welcome", sender: sender)
+            } else {
+                self.loginErrorTextField?.text = response.error
+                self.loginErrorTextField?.isHidden = false
+            }
+        }.catch { error in
+            print("Unexpected error during login: \(error)")
         }
     }
 
