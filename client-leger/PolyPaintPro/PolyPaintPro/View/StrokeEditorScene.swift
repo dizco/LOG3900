@@ -63,16 +63,7 @@ class StrokeEditorScene: SKScene {
     }
 
     func setEditingMode(mode: EditingMode) {
-        switch mode {
-        case .ink:
-            self.currentEditingMode = mode
-        case .select:
-            self.currentEditingMode = mode
-        case .eraseByPoint:
-            self.currentEditingMode = mode
-        case .eraseByStroke:
-            self.currentEditingMode = mode
-        }
+        self.currentEditingMode = mode
     }
 
     // MARK: - Get the view size
