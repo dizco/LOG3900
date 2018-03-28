@@ -17,6 +17,10 @@ class AccountManager {
     var registerError: String?
     let passwordMinLength = 8
 
+    func isMyself(username: String) -> Bool {
+        return username == self.username
+    }
+
     func saveUsername(username: String) -> Bool {
         if username.isEmpty {
             self.usernameError = "Un nom d'usager est requis."

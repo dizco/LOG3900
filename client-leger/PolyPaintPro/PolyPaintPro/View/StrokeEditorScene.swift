@@ -65,13 +65,13 @@ class StrokeEditorScene: SKScene {
     func setEditingMode(mode: EditingMode) {
         switch mode {
         case .ink:
-            self.currentEditingMode = EditingMode.ink
+            self.currentEditingMode = mode
         case .select:
-            self.currentEditingMode = EditingMode.select
+            self.currentEditingMode = mode
         case .eraseByPoint:
-            self.currentEditingMode = EditingMode.eraseByPoint
+            self.currentEditingMode = mode
         case .eraseByStroke:
-            self.currentEditingMode = EditingMode.eraseByStroke
+            self.currentEditingMode = mode
         }
     }
 
@@ -171,102 +171,8 @@ class StrokeEditorScene: SKScene {
     // MARK: - Functions for received actions
     func applyReceived(incomingAction: IncomingActionMessage) {
         if incomingAction.type == IncomingMessageConstants.strokeAction.rawValue {
-            for receivedStroke in incomingAction.delta.add {
-                self.drawReceived(stroke: receivedStroke)
-            }
+            AddStrokeActionStrategy().applyReceived(scene: self, incomingAction: incomingAction)
         }
-    }
-
-    // IncomingAdd is the struct that contains the info of the stroke to draw
-    private func drawReceived(stroke: IncomingAdd) {
-        let path = self.createReceivedPathWith(dotsArray: stroke.dots)
-        let color = self.convertHexToUIColor(hex: stroke.strokeAttributes.color)!
-
-        let shapeNode = SKStroke()
-        shapeNode.path = path
-        shapeNode.name = self.RECEIVEDSTROKE
-        shapeNode.setReceivedUuid(uuid: stroke.strokeUuid)
-
-        shapeNode.strokeColor = color
-        shapeNode.lineWidth = CGFloat(stroke.strokeAttributes.width)
-        // Can't do stuff with strokeAttributes.height
-        shapeNode.lineJoin = CGLineJoin.round
-        shapeNode.lineCap = CGLineCap.round
-
-        self.addChild(shapeNode)
-    }
-
-    private func convertHexToUIColor(hex: String) -> UIColor? {
-        // https://cocoacasts.com/from-hex-to-uicolor-and-back-in-swift
-        // thank you mr skeltal
-        var rgb: UInt32 = 0
-
-        var red: CGFloat = 0.0
-        var green: CGFloat = 0.0
-        var blue: CGFloat = 0.0
-        var alpha: CGFloat = 0.0
-
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-        let length = hexSanitized.count
-
-        guard Scanner(string: hexSanitized).scanHexInt32(&rgb) else { return nil }
-
-        if length == 6 {
-            red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-            green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-            blue = CGFloat(rgb & 0x0000FF) / 255.0
-
-        } else if length == 8 {
-            alpha = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
-            red = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
-            green = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
-            blue = CGFloat(rgb & 0x000000FF) / 255.0
-        } else {
-            return nil
-        }
-
-        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
-    }
-
-    private func createReceivedPathWith(dotsArray: [IncomingDots]) -> CGMutablePath {
-        let strokeStart: CGPoint
-        let strokeEnd: CGPoint
-        var dotsArrayToUse: [IncomingDots] = dotsArray
-        var isOneOrTwoDots = false
-
-        if dotsArray.count == 1 {
-            isOneOrTwoDots = true
-            strokeStart = self.convertDotToCGPoint(dot: dotsArray.first!)
-            strokeEnd = strokeStart
-        } else if dotsArray.count == 2 {
-            isOneOrTwoDots = true
-            strokeStart = self.convertDotToCGPoint(dot: dotsArray.first!)
-            strokeEnd = self.convertDotToCGPoint(dot: dotsArray.last!)
-        } else {
-            strokeStart = self.convertDotToCGPoint(dot: dotsArray.first!)
-            strokeEnd = self.convertDotToCGPoint(dot: dotsArray.last!)
-            let tmpDotsArray = dotsArray.dropFirst()
-            dotsArrayToUse = Array(tmpDotsArray.dropLast())
-        }
-
-        let path = CGMutablePath()
-        path.move(to: strokeStart)
-
-        if isOneOrTwoDots {
-            path.addLine(to: strokeEnd)
-        } else {
-            for dot in dotsArrayToUse {
-                path.addLine(to: self.convertDotToCGPoint(dot: dot))
-            }
-            path.addLine(to: strokeEnd)
-        }
-        return path
-    }
-
-    private func convertDotToCGPoint(dot: IncomingDots) -> CGPoint {
-        let dot = CGPoint(x: dot.x, y: dot.y)
-        return self.convertPoint(fromView: dot)
     }
 
     // MARK: - Touches function
@@ -422,6 +328,7 @@ class StrokeEditorScene: SKScene {
         shapeNode.strokeColor = UIColor(red: self.red, green: self.green, blue: self.blue, alpha: self.alphaValue)
         shapeNode.lineWidth = self.width
         shapeNode.lineCap = CGLineCap.round
+        self.addChild(shapeNode)
 
         // Only send the stroke if the socket is connected
         if SocketManager.sharedInstance.getConnectionStatus() {
@@ -434,9 +341,6 @@ class StrokeEditorScene: SKScene {
                     print(error)
                 }
             }
-        } else {
-            // Add the stroke locally if not connected
-            self.addChild(shapeNode)
         }
     }
 
