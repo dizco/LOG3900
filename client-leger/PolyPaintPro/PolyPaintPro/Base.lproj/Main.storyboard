@@ -972,13 +972,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8V4-FX-BeG">
                                 <rect key="frame" x="128" y="210" width="769" height="491"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lV-ZG-hPe">
-                                        <rect key="frame" x="163" y="309" width="431" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pbe-sK-Rao">
                                         <rect key="frame" x="365" y="424" width="38" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -995,16 +988,55 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nom du dessin" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0xN-F3-kO3">
-                                        <rect key="frame" x="128" y="135" width="500" height="30"/>
+                                        <rect key="frame" x="128" y="90" width="500" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="awZ-vt-zKk">
-                                        <rect key="frame" x="106" y="211" width="544" height="144"/>
+                                        <rect key="frame" x="128" y="137" width="500" height="69"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     </pickerView>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5Pb-RL-Vud">
+                                        <rect key="frame" x="128" y="255" width="500" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="Public"/>
+                                            <segment title="Privé"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="visibilityChanged:" destination="6fs-n7-ZOE" eventType="valueChanged" id="lle-u4-5Cr"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gRO-bj-ZQO">
+                                        <rect key="frame" x="128" y="350" width="49" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="protectionChanged:" destination="6fs-n7-ZOE" eventType="valueChanged" id="YJs-YG-M4K"/>
+                                        </connections>
+                                    </switch>
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mot de passe" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mgp-If-vaI">
+                                        <rect key="frame" x="190" y="350" width="438" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Visibilité" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ekU-jS-LBg">
+                                        <rect key="frame" x="346" y="226" width="64" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Protégé" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I94-fw-qLe">
+                                        <rect key="frame" x="354" y="321" width="61" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.89411764709999997" green="0.94117647059999998" blue="0.94901960780000005" alpha="0.49954516269999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -1034,6 +1066,9 @@
                     <connections>
                         <outlet property="drawingNameTextField" destination="0xN-F3-kO3" id="CvR-ag-V2Y"/>
                         <outlet property="drawingTypePickerview" destination="awZ-vt-zKk" id="crc-yj-y6r"/>
+                        <outlet property="passwordProtectionTextField" destination="mgp-If-vaI" id="4IZ-Bs-VtE"/>
+                        <outlet property="protectionToggle" destination="gRO-bj-ZQO" id="sth-K1-cV5"/>
+                        <outlet property="visibilitySegmentedControl" destination="5Pb-RL-Vud" id="6eI-Xx-dif"/>
                         <segue destination="KwV-uG-opW" kind="show" identifier="PixelEditorSegue" id="ry0-7g-c8d"/>
                         <segue destination="nF6-Tx-Hhl" kind="show" identifier="StrokeEditorSegue" id="n3S-PR-NxG"/>
                     </connections>
@@ -1891,9 +1926,9 @@
         <image name="verticalLine" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yY8-vV-TGb"/>
+        <segue reference="n3S-PR-NxG"/>
         <segue reference="HCx-mM-CNV"/>
         <segue reference="as1-Pa-vvV"/>
-        <segue reference="Fwt-4B-rsB"/>
+        <segue reference="ry0-7g-c8d"/>
     </inferredMetricsTieBreakers>
 </document>
