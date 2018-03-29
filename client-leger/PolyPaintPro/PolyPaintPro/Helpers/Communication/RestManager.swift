@@ -11,14 +11,16 @@ import Alamofire
 import PromiseKit
 
 class RestManager {
-    private class func buildUrl(endpoint: String) -> String {
-        return Rest.Connection.HttpProtocol
+    private class func buildUrl(endpoint: String, page: Int? = nil) -> String {
+        var url = Rest.Connection.HttpProtocol
             + ServerLookup.sharedInstance.address
             + Rest.Connection.DefaultPort
             + endpoint
-    }
-
+        if let pageNumber = page {
+            url += "?page=" + String(pageNumber)
         }
+        return url
+    }
 
     static func loginToServer(username: String, password: String) -> Promise<AuthServerResponse<EmptyData>> {
         let headers = ["Content-Type": "application/x-www-form-urlencoded"]
@@ -88,6 +90,25 @@ class RestManager {
             }
     }
 
+    static func getDrawingsListPage(page: Int = 1) -> Promise<AuthServerResponse<PaginatedDrawingsResponse>> {
+        return Promise<AuthServerResponse> { fulfill, reject in
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings, page: page))
+                .responseJSON { response in
+                    do {
+                        if let data = response.data {
+                            let paginatedResponse = try JSONDecoder().decode(PaginatedDrawingsResponse.self, from: data)
+                            let authServerResponse = AuthServerResponse<PaginatedDrawingsResponse>(data: paginatedResponse)
+                            fulfill(authServerResponse!)
+                        } else {
+                            fulfill(AuthServerResponse(success: false))
+                        }
+                    } catch let error {
+                        reject(error)
+                    }
+            }
+        }
+    }
+
     private static func isValidResponse(response: DataResponse<Any>) -> Bool {
         if let resp = response.response {
             return resp.statusCode >= 200 && resp.statusCode <= 299
@@ -106,6 +127,12 @@ class RestManager {
             self.data = nil
             self.success = success
             self.error = error
+        }
+
+        init?(data: T?) {
+            self.data = data
+            self.success = true
+            self.error = ""
         }
 
         //Init via a raw json server response
