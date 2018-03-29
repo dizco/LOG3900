@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import PromiseKit
 
 class JoinDrawingViewController: UIViewController {
     internal var connectionStatus = true
@@ -17,12 +18,8 @@ class JoinDrawingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let protection = IncomingProtection(active: true)
         joinDrawingTableView.tableFooterView = UIView(frame: CGRect.zero)
-        joinDrawingList.append(OnlineDrawingModel(id: "123", name: "mona lisa",
-                                                  protection: protection, type: "stroke")) //mocked data
-        joinDrawingList.append(OnlineDrawingModel(id: "456", name: "msdkjfhx",
-                                                  protection: protection, type: "pixel")) //mocked data
+        loadOnlineDrawings()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,10 +27,9 @@ class JoinDrawingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    func insertNewDrawing() {
+    func insertNewDrawing(drawing: OnlineDrawingModel) {
+        joinDrawingList.append(drawing)
         let indexPath = IndexPath(row: joinDrawingList.count - 1, section: 0)
-        //joinDrawingList.append(OnlineDrawingModel(id: "456", name: "msdkjfhx",
-                                                  //protection: protection, type: "pixel")) //mocked data
         joinDrawingTableView.beginUpdates()
         joinDrawingTableView.insertRows(at: [indexPath], with: .automatic)
         joinDrawingTableView.endUpdates()
@@ -43,9 +39,9 @@ class JoinDrawingViewController: UIViewController {
         if (joinDrawingList[indexPath.row] as OnlineDrawingModel).protection.active { //protected drawing
             showAlert(indexPath: indexPath)
         } else { //not protected drawing
-            if (joinDrawingList[indexPath.row] as OnlineDrawingModel).type == "pixel" {
+            if (joinDrawingList[indexPath.row] as OnlineDrawingModel).mode == DrawingTypes.Pixel {
                 performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
-            } else if (joinDrawingList[indexPath.row] as OnlineDrawingModel).type == "stroke" {
+            } else if (joinDrawingList[indexPath.row] as OnlineDrawingModel).mode == DrawingTypes.Stroke {
                 performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
             }
         }
@@ -66,9 +62,9 @@ class JoinDrawingViewController: UIViewController {
             let inputPassword = alert.textFields![0]
             print(inputPassword.text!)
             if self.validatePassword(inputPassword: inputPassword.text!) {
-                if (self.joinDrawingList[indexPath.row] as OnlineDrawingModel).type == "pixel" {
+                if (self.joinDrawingList[indexPath.row] as OnlineDrawingModel).mode == DrawingTypes.Pixel {
                     self.performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
-                } else if (self.joinDrawingList[indexPath.row] as OnlineDrawingModel).type == "stroke" {
+                } else if (self.joinDrawingList[indexPath.row] as OnlineDrawingModel).mode == DrawingTypes.Stroke {
                     self.performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
                 }
             } else if !self.validatePassword(inputPassword: inputPassword.text!) {
@@ -89,7 +85,35 @@ class JoinDrawingViewController: UIViewController {
         alert.addAction(submitAction)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
+    }
 
+    private func loadOnlineDrawings() {
+        firstly {
+            RestManager.getDrawingsListPage(page: 1)
+        }.then { response -> Void in
+            if response.success {
+                for drawing in (response.data?.docs)! {
+                    self.insertNewDrawing(drawing: drawing)
+                }
+                for index in 2...(response.data?.pages)! { //Load all other pages (other than page 1)
+                    RestManager.getDrawingsListPage(page: index).then { response -> Void in
+                        if response.success {
+                            for drawing in (response.data?.docs)! {
+                                self.insertNewDrawing(drawing: drawing)
+                            }
+                        } else {
+                            print("Failed to get drawings page: \(index)")
+                        }
+                    }.catch { error in
+                        print("Unexpected error during get drawings: \(error). At page: \(index)")
+                    }
+                }
+            } else {
+                print("Failed to get drawings page: 1")
+            }
+        }.catch { error in
+            print("Unexpected error during get drawings: \(error). At page: 1")
+        }
     }
 }
 
