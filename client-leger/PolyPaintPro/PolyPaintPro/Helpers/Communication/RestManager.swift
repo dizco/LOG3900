@@ -1,11 +1,3 @@
-//
-//  Login.swift
-//  PolyPaintPro
-//
-//  Created by Kenny Nguyen on 2018-02-08.
-//  Copyright © 2018 Les Pods c'est pour les lunchs. All rights reserved.
-//
-
 import Foundation
 import Alamofire
 import PromiseKit

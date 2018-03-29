@@ -25,7 +25,7 @@ struct Rest {
         // MARK: - Ping routes
         static let Ping = "/ping"
     }
-    
+
     struct Auth {
         static let NoServerAddress = "No server address found."
     }
