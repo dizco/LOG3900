@@ -27,7 +27,7 @@ internal struct Stack {
     }
 }
 
-enum EditingMode {
+enum StrokeEditingMode {
     case ink, select, eraseByPoint, eraseByStroke
 }
 
@@ -56,13 +56,13 @@ class StrokeEditorScene: SKScene {
     internal var lastLocation = CGPoint.zero
 
     // MARK: - Editing mode
-    internal var currentEditingMode = EditingMode.ink // will be used to switch editing modes
+    internal var currentEditingMode = StrokeEditingMode.ink // will be used to switch editing modes
 
     override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.white
     }
 
-    func setEditingMode(mode: EditingMode) {
+    func setEditingMode(mode: StrokeEditingMode) {
         self.currentEditingMode = mode
     }
 
@@ -323,7 +323,7 @@ class StrokeEditorScene: SKScene {
 
         // Only send the stroke if the socket is connected
         if SocketManager.sharedInstance.getConnectionStatus() {
-            if self.currentEditingMode == EditingMode.ink {
+            if self.currentEditingMode == StrokeEditingMode.ink {
                 do {
                     let outgoingActionMessage = self.buildOutgoingAction(actionId: 1, strokeUuid: shapeNode.id)!
                     let encodedData = try JSONEncoder().encode(outgoingActionMessage)

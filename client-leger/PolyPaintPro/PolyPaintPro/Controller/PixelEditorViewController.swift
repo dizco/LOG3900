@@ -24,7 +24,7 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        toolsView.pixelDeletage = self
+        toolsView.pixelDelegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -89,21 +89,7 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
     }
 
     func updateEditingMode(mode: PixelEditingMode) {
-         self.setEditingMode(mode: mode)
-    }
-
-    func setEditingMode(mode: PixelEditingMode) {
-        switch mode {
-        case .ink:
-            self.currentEditingMode = PixelEditingMode.ink
-            print("ink")
-        case .select:
-            self.currentEditingMode = PixelEditingMode.select
-            print("select")
-        case .eraseByPoint:
-            self.currentEditingMode = PixelEditingMode.eraseByPoint
-            print("erase point")
-        }
+         self.currentEditingMode = mode
     }
 
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {

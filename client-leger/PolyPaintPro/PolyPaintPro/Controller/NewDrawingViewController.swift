@@ -13,7 +13,7 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     internal var connectionStatus = true
     internal var selectedDrawingType: String = DrawingTypes.Types[0] //type of drawing the user selected
     internal var visibility = true //visibility var for the drawing to be created
-    internal var protection = true //protection variable for the drawing to be created
+    internal var protection = false //protection variable for the drawing to be created
 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet weak var drawingNameTextField: UITextField!
@@ -28,7 +28,7 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
         drawingTypePickerview.dataSource = self
         self.hideKeyboard()
         self.observeKeyboardNotification()
-
+        passwordProtectionTextField.isUserInteractionEnabled = protection
     }
 
     override func viewDidLayoutSubviews() {
@@ -47,43 +47,39 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     }
 
     @IBAction func createDrawingButton(_ sender: UIButton) {
-        if selectedDrawingType == DrawingTypes.Types[0] {
-            performSegue(withIdentifier: "StrokeEditorSegue", sender: self)
-            // TO-DO : Correctly send a drawing subscription the server
-            /*
-            if SocketManager.sharedInstance.getConnectionStatus() {
-                do {
-                    let outgoingMessage = DrawingSubscription()
-                    let encodedData = try JSONEncoder().encode(outgoingMessage)
-                    SocketManager.sharedInstance.send(data: encodedData)
-                } catch let error {
-                    print(error)
-                }
-            }*/
-        } else if selectedDrawingType == DrawingTypes.Types[1] {
-            performSegue(withIdentifier: "PixelEditorSegue", sender: self)
+        if (protection && passwordProtectionTextField.text!.count >= 5 && !drawingNameTextField.text!.isEmpty) || (!protection && !drawingNameTextField.text!.isEmpty) {
+            if selectedDrawingType == DrawingTypes.Types[0] {
+                performSegue(withIdentifier: "StrokeEditorSegue", sender: self)
+                // TO-DO : Correctly send a drawing subscription the server
+                /*
+                if SocketManager.sharedInstance.getConnectionStatus() {
+                    do {
+                        let outgoingMessage = DrawingSubscription()
+                        let encodedData = try JSONEncoder().encode(outgoingMessage)
+                        SocketManager.sharedInstance.send(data: encodedData)
+                    } catch let error {
+                        print(error)
+                    }
+                }*/
+            } else if selectedDrawingType == DrawingTypes.Types[1] {
+                performSegue(withIdentifier: "PixelEditorSegue", sender: self)
+            }
+        } else {
+            let alert = UIAlertController(title: "Attention", message: "Vous devez nommer votre dessin et définir un mot de passe de 5 caractères s'il est protégé", preferredStyle: .alert)
+
+            alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+
+            self.present(alert, animated: true)
         }
     }
 
     @IBAction func visibilityChanged(_ sender: Any) {
-        switch visibilitySegmentedControl.selectedSegmentIndex {
-        case 0:
-            visibility = true
-        case 1:
-            visibility = false
-        default:
-            break
-        }
+        self.visibility = visibilitySegmentedControl.selectedSegmentIndex == 0 //toggles the visibility mode
     }
-    @IBAction func protectionChanged(_ sender: UISwitch) {
-        if protection {
-            protection = !protection
-            passwordProtectionTextField.isUserInteractionEnabled = false
-        } else if !protection {
-            protection = !protection
-            passwordProtectionTextField.isUserInteractionEnabled = true
 
-        }
+    @IBAction func protectionChanged(_ sender: UISwitch) {
+        protection = !protection
+        passwordProtectionTextField.isUserInteractionEnabled = protection
     }
 
     // MARK: - UIPickerView

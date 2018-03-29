@@ -16,7 +16,7 @@ class JoinGalleryViewController: UIViewController {
         super.viewDidLoad()
         let url = NSURL (string: "https://www.google.ca/")
         let request = NSURLRequest(url: url! as URL)
-        webView.loadRequest(request as URLRequest)
+        self.webView.loadRequest(request as URLRequest)
     }
 
     override func didReceiveMemoryWarning() {
