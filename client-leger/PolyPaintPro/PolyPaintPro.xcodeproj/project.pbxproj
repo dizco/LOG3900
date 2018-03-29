@@ -43,7 +43,7 @@
 		BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */; };
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
-		BECC087920619D4D0040EB4B /* SocketEditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* SocketEditorDataModels.swift */; };
+		BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* EditorDataModels.swift */; };
 		C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF572059C9990078CF27 /* EditorViewController.swift */; };
 		C067AF5F205A1A050078CF27 /* Timers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF5E205A1A050078CF27 /* Timers.swift */; };
 		C08BE4012056D1E200525038 /* Rest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08BE4002056D1E200525038 /* Rest.swift */; };
@@ -117,7 +117,7 @@
 		BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
-		BECC087820619D4D0040EB4B /* SocketEditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketEditorDataModels.swift; sourceTree = "<group>"; };
+		BECC087820619D4D0040EB4B /* EditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorDataModels.swift; sourceTree = "<group>"; };
 		C067AF572059C9990078CF27 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		C067AF5E205A1A050078CF27 /* Timers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timers.swift; sourceTree = "<group>"; };
 		C08BE4002056D1E200525038 /* Rest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rest.swift; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				BE426A2020215E3C00FD1C50 /* ChatMessageModels.swift */,
-				BECC087820619D4D0040EB4B /* SocketEditorDataModels.swift */,
+				BECC087820619D4D0040EB4B /* EditorDataModels.swift */,
 				270EC6ED206575630018A2A6 /* DrawingModels.swift */,
 			);
 			path = Model;
@@ -691,7 +691,7 @@
 				C067AF5F205A1A050078CF27 /* Timers.swift in Sources */,
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
-				BECC087920619D4D0040EB4B /* SocketEditorDataModels.swift in Sources */,
+				BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */,
 				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
 				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,
 				BE67C52F206559CF00C2EA77 /* MessageConstants.swift in Sources */,

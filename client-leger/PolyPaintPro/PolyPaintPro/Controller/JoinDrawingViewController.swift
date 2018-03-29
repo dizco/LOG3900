@@ -95,18 +95,9 @@ class JoinDrawingViewController: UIViewController {
                 for drawing in (response.data?.docs)! {
                     self.insertNewDrawing(drawing: drawing)
                 }
-                for index in 2...(response.data?.pages)! { //Load all other pages (other than page 1)
-                    RestManager.getDrawingsListPage(page: index).then { response -> Void in
-                        if response.success {
-                            for drawing in (response.data?.docs)! {
-                                self.insertNewDrawing(drawing: drawing)
-                            }
-                        } else {
-                            print("Failed to get drawings page: \(index)")
-                        }
-                    }.catch { error in
-                        print("Unexpected error during get drawings: \(error). At page: \(index)")
-                    }
+                if (response.data?.pages)! > 1 {
+                    //Load all other pages (other than page 1)
+                    self.loadOnlineDrawingsPages(from: 2, to: (response.data?.pages)!)
                 }
             } else {
                 print("Failed to get drawings page: 1")
@@ -115,6 +106,24 @@ class JoinDrawingViewController: UIViewController {
             print("Unexpected error during get drawings: \(error). At page: 1")
         }
     }
+
+    // swiftlint:disable identifier_name
+    private func loadOnlineDrawingsPages(from: Int, to: Int) {
+        for index in from...to {
+            RestManager.getDrawingsListPage(page: index).then { response -> Void in
+                if response.success {
+                    for drawing in (response.data?.docs)! {
+                        self.insertNewDrawing(drawing: drawing)
+                    }
+                } else {
+                    print("Failed to get drawings page: \(index)")
+                }
+            }.catch { error in
+                print("Unexpected error during get drawings: \(error). At page: \(index)")
+            }
+        }
+    }
+    // swiftlint:enable identifier_name
 }
 
 extension JoinDrawingViewController: UITableViewDataSource, UITableViewDelegate {
