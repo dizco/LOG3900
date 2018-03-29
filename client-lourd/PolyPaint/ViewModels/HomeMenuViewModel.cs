@@ -16,7 +16,9 @@ using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Models.ApiModels;
 using PolyPaint.Models.MessagingModels;
+using PolyPaint.ViewModels.Gallery;
 using PolyPaint.Views;
+using PolyPaint.Views.Gallery;
 using Application = System.Windows.Application;
 
 namespace PolyPaint.ViewModels
@@ -174,6 +176,13 @@ namespace PolyPaint.ViewModels
         {
             // TODO: Create gallery and link it here
             UserAlerts.ShowErrorMessage("Is this the Krusty Krab?");
+
+            var gall = new GalleryWindowView();
+            gall.Show();
+            gall.Closing += (sender, arg) => {
+                (gall.DataContext as GalleryViewModel)?.Dispose();
+                gall = null;
+            };
         }
 
         private void OpenLogin(object obj)

@@ -28,6 +28,8 @@ namespace PolyPaint.ViewModels
             }
         }
 
+        public static string UserId { get; set; }
+
         public static LoginWindowView LoginWindow { get; set; }
         public static HomeMenu HomeMenu { get; set; }
         public static ChatWindowView ChatWindow { get; set; }

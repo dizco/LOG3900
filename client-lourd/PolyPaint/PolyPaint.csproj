@@ -133,11 +133,14 @@
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Models\MessagingModels\SubscriptionMessageModel.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Strategy\PixelEditorActionStrategy\EditorActionNewPixelStrategy.cs" />
     <Compile Include="Strategy\PixelEditorActionStrategy\EditorActionStrategyContext.cs" />
     <Compile Include="Strategy\PixelEditorActionStrategy\IEditorActionStrategy.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionResetStrategy.cs" />
     <Compile Include="ViewModels\EditorViewModelBase.cs" />
+    <Compile Include="ViewModels\Gallery\GalleryItemViewModel.cs" />
+    <Compile Include="ViewModels\Gallery\GalleryViewModel.cs" />
     <Compile Include="ViewModels\HistoryWindowViewModel.cs" />
     <Compile Include="ViewModels\PixelEditorViewModel.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionLockStrokesStrategy.cs" />
@@ -146,6 +149,12 @@
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
     <Compile Include="Views\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Gallery\GalleryItemView.xaml.cs">
+      <DependentUpon>GalleryItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Gallery\GalleryWindowView.xaml.cs">
+      <DependentUpon>GalleryWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HistoryWindowView.xaml.cs">
       <DependentUpon>HistoryWindowView.xaml</DependentUpon>
@@ -188,6 +197,14 @@
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\ChatView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Gallery\GalleryItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Gallery\GalleryWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

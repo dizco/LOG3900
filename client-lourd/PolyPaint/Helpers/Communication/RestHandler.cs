@@ -65,6 +65,16 @@ namespace PolyPaint.Helpers.Communication
             return await Client.GetAsync($"{ServerUri}/drawings?page={page}");
         }
 
+        public static async Task<HttpResponseMessage> GetOnlineDrawingsForAuthor(string userEmail, int page)
+        {
+            return await Client.GetAsync($"{ServerUri}/drawings?owner={userEmail}&page={page}");
+        }
+
+        public static async Task<HttpResponseMessage> GetPublicOnlineDrawings(int page)
+        {
+            return await Client.GetAsync($"{ServerUri}/drawings?visibility=public&page={page}");
+        }
+
         public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option, bool visibilityPublic = true)
         {
             string mode = null;
@@ -160,6 +170,11 @@ namespace PolyPaint.Helpers.Communication
             string jsonpayload = JsonConvert.SerializeObject(content);
 
             return await Client.PutAsync($"{ServerUri}/drawings/{drawingId}/thumbnail", new StringContent(jsonpayload, Encoding.UTF8, "application/json"));
+        }
+
+        public static async Task<HttpResponseMessage> GetDrawingThumbnail(string drawingId)
+        {
+            return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}/thumbnail");
         }
     }
 }

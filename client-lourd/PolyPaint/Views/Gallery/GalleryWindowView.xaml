@@ -1,0 +1,47 @@
+﻿<Window x:Class="PolyPaint.Views.Gallery.GalleryWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vg="clr-namespace:PolyPaint.Views.Gallery"
+        xmlns:vm="clr-namespace:PolyPaint.ViewModels.Gallery"
+        mc:Ignorable="d"
+        Title="GalleryWindowView"
+        MinHeight="700" MinWidth="600" MaxWidth="600"
+        d:DataContext="{d:DesignInstance vm:GalleryViewModel}">
+    <Window.Background>
+        <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg"/>
+    </Window.Background>
+    <Grid Margin="5,0,5,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="49*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="49*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Content="Mes dessins" FontSize="18" FontWeight="Bold" Padding="10" Foreground="White" Background="#FF7DC1D4"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding CurrentUserDrawings}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <vg:GalleryItemView Margin="10,0,10,0"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+        <Border Grid.Column="1" Background="Transparent"></Border>
+        <StackPanel Grid.Column="2">
+            <Label Content="Dessins publics" FontSize="18" FontWeight="Bold" Padding="10" Foreground="White" Background="#FF7DC1D4"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding PublicDrawings}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <vg:GalleryItemView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
+</Window>
