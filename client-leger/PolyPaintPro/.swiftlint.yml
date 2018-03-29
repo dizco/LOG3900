@@ -49,8 +49,10 @@ type_name:
   excluded: iPhone # excluded via string
 
 identifier_name:
-  min_length: # only min_length
-    error: 3 # only error
+  min_length: 3 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
   excluded: # excluded via string array
     - id
     - URL
