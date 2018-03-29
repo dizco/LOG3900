@@ -8,8 +8,8 @@
 
 import UIKit
 
-protocol ToolsViewDelegate: class {
-    func updateEditingMode(mode: EditingMode)
+protocol StrokeToolsViewDelegate: class {
+    func updateEditingMode(mode: StrokeEditingMode)
     func resetCanvas()
     func stack()
     func unstack()
@@ -20,8 +20,8 @@ protocol PixelToolsViewDelegate: class {
 }
 
 class ToolsView: UIView {
-    weak var delegate: ToolsViewDelegate?
-    weak var pixelDeletage: PixelToolsViewDelegate?
+    weak var strokeDelegate: StrokeToolsViewDelegate?
+    weak var pixelDelegate: PixelToolsViewDelegate?
 
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var strokeEraseButton: UIButton!
@@ -42,22 +42,22 @@ class ToolsView: UIView {
 
     @IBAction func penButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "pencil")
-        self.delegate?.updateEditingMode(mode: EditingMode.ink)
-        self.pixelDeletage?.updateEditingMode(mode: PixelEditingMode.ink)
+        self.strokeDelegate?.updateEditingMode(mode: StrokeEditingMode.ink)
+        self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.ink)
     }
 
     @IBAction func eraseButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "eraser")
-        self.delegate?.updateEditingMode(mode: EditingMode.eraseByStroke)
-        self.pixelDeletage?.updateEditingMode(mode: PixelEditingMode.select)
+        self.strokeDelegate?.updateEditingMode(mode: StrokeEditingMode.eraseByStroke)
+        self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.select)
         // TO-DO : We need an eraser for eraseByPoint...
     }
 
     @IBAction func byPointEraserButton(_ sender: UIButton) {
         //TO-DO : remplacer limage et le nom ici par les bonnes images
        resetButtons(sender: sender, filename: "eraser2")
-        self.delegate?.updateEditingMode(mode: EditingMode.eraseByPoint)
-        self.pixelDeletage?.updateEditingMode(mode: PixelEditingMode.eraseByPoint)
+        self.strokeDelegate?.updateEditingMode(mode: StrokeEditingMode.eraseByPoint)
+        self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.eraseByPoint)
     }
 
     @IBAction func pasteButton(_ sender: UIButton) {
@@ -66,19 +66,19 @@ class ToolsView: UIView {
 
     @IBAction func resetButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "reset")
-        self.delegate?.resetCanvas()
+        self.strokeDelegate?.resetCanvas()
     }
 
     @IBAction func stackButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "")
         sender.setTitleColor(.white, for: .normal)
-        self.delegate?.stack()
+        self.strokeDelegate?.stack()
     }
 
     @IBAction func unstackButton(_ sender: UIButton) {
         resetButtons(sender: sender, filename: "")
         sender.setTitleColor(.white, for: .normal)
-        self.delegate?.unstack()
+        self.strokeDelegate?.unstack()
     }
 
     @IBAction func settingsButton(_ sender: UIButton) {

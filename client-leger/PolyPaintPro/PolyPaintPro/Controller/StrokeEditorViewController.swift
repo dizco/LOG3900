@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SpriteKit
 
-class StrokeEditorViewController: EditorViewController, ActionSocketManagerDelegate, DrawingToolsViewDelegate, ToolsViewDelegate {
+class StrokeEditorViewController: EditorViewController, ActionSocketManagerDelegate, DrawingToolsViewDelegate, StrokeToolsViewDelegate {
     // MARK: - Scene
     var scene = StrokeEditorScene()
 
@@ -24,7 +24,7 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
         // StrokeEditor Embassy
         SocketManager.sharedInstance.actionDelegate = self
         drawingSettingsView.delegate = self
-        toolsView.delegate = self
+        toolsView.strokeDelegate = self
 
         self.scene = StrokeEditorScene(size: view.frame.size)
         let skView = view as? SKView
@@ -58,7 +58,7 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
     }
 
     // MARK: - ToolsViewDelegate
-    func updateEditingMode(mode: EditingMode) {
+    func updateEditingMode(mode: StrokeEditingMode) {
         self.scene.setEditingMode(mode: mode)
     }
 
