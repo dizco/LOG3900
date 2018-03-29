@@ -15,6 +15,7 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     internal var visibility = true //visibility var for the drawing to be created
     internal var protection = true //protection variable for the drawing to be created
 
+    @IBOutlet var scrollView: UIScrollView!
     @IBOutlet weak var drawingNameTextField: UITextField!
     @IBOutlet weak var drawingTypePickerview: UIPickerView!
     @IBOutlet var visibilitySegmentedControl: UISegmentedControl!
@@ -25,6 +26,15 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
         super.viewDidLoad()
         drawingTypePickerview.delegate = self
         drawingTypePickerview.dataSource = self
+        self.hideKeyboard()
+        self.observeKeyboardNotification()
+
+    }
+
+    override func viewDidLayoutSubviews() {
+        scrollView.isScrollEnabled = true
+        scrollView.contentSize = CGSize (width: scrollView.contentSize.width, height: 900)
+        scrollView.contentOffset.y = 900 - 740
     }
 
     override func didReceiveMemoryWarning() {
