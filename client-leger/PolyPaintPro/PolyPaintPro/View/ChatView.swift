@@ -50,6 +50,7 @@ class ChatView: UIView {
         chatTableView.insertRows(at: [indexPath], with: .right)
         rowNumber += 1
         messageField.text = ""
+        chatTableView.contentOffset.y += (chatTableView.cellForRow(at: indexPath)?.bounds.height)!
     }
 
     func updateContentInsetForTableView(tableView: UITableView, animated: Bool) {
