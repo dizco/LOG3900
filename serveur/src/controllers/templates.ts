@@ -79,7 +79,6 @@ function appendLikesToTemplates(req: Request, res: Response, next: NextFunction,
         }
     ];
     Like.aggregate(aggregateOptions).exec((err: any, result: any[]) => {
-        console.log("likes", err, result, JSON.stringify(result));
         if (err) {
             return next(err);
         }
