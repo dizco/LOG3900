@@ -11,9 +11,14 @@
         xmlns:vm="clr-namespace:PolyPaint.ViewModels"
         d:DataContext="{d:DesignInstance vm:PixelEditorViewModel}">
     <Window.Resources>
-        <converters:BorderConverter x:Key="BorderConverter" />
-        <converters:BackgroundColorConverter x:Key="BackgroundColorConverter" />
-        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Designs/ContentControl.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters:BorderConverter x:Key="BorderConverter" />
+            <converters:BackgroundColorConverter x:Key="BackgroundColorConverter" />
+            <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        </ResourceDictionary>
     </Window.Resources>
     <DockPanel>
         <Menu IsMainMenu="True" DockPanel.Dock="Top">
@@ -232,19 +237,14 @@
 
                             <!-- This image contains another writeableBitmap that is blit to our principal writeableBitmap after his edition-->
                             <Canvas x:Name="SelectedZoneCanvas"  Cursor="SizeAll">
-                                <Thumb x:Name="SelectedZoneThumb" Canvas.Left="{Binding CropWriteableBitmapPosition.X}" Canvas.Top="{Binding CropWriteableBitmapPosition.Y}"
-                                       DragDelta="Thumb_DragDelta">
-                                    <Thumb.Template>
-                                        <ControlTemplate>
-                                            <Border SnapsToDevicePixels="True" BorderThickness="1" Margin="-1,-1" Opacity="20" BorderBrush="Black">
-                                                <Image  x:Name="SelectedZoneImage" VerticalAlignment="Top"
-                                                            Source="{Binding CropWriteableBitmap}"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Thumb.Template>
-                                </Thumb>
+                                <ContentControl x:Name="ContentControle"
+                                                Canvas.Left="{Binding CropWriteableBitmapPosition.X}"
+                                                Canvas.Top="{Binding CropWriteableBitmapPosition.Y}"
+                                                Style="{StaticResource DesignerItemStyle}">
+                                        <Image x:Name="SelectedZoneImage" Stretch="Fill"  IsHitTestVisible="False"  Source="{Binding CropWriteableBitmap}"/>
+                                </ContentControl>
                             </Canvas>
-                        </Canvas>
+                            </Canvas>
                         <Border.Effect>
                             <DropShadowEffect Opacity="0.3" BlurRadius="10" />
                         </Border.Effect>

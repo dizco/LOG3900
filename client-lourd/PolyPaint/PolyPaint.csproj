@@ -122,9 +122,14 @@
     <Compile Include="CustomComponents\CustomCanvas.cs" />
     <Compile Include="Converters\Converters.cs" />
     <Compile Include="CustomComponents\CustomStroke.cs" />
+    <Compile Include="CustomComponents\ContentControlDecorator.cs" />
     <Compile Include="CustomComponents\FixedWidthGridViewColumn.cs" />
     <Compile Include="CustomComponents\HttpClientExtensions.cs" />
     <Compile Include="Helpers\Communication\ServerErrorParser.cs" />
+    <Compile Include="CustomComponents\MoveThumb.cs" />
+    <Compile Include="CustomComponents\ResizeThumb.cs" />
+    <Compile Include="Helpers\Adorners\ResizeAdorner.cs" />
+    <Compile Include="Helpers\Adorners\ResizeChrome.cs" />
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />
@@ -197,6 +202,14 @@
     <Compile Include="Views\PasswordPrompt.xaml.cs">
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\Designs\ContentControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Designs\ResizeChrome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ChatView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

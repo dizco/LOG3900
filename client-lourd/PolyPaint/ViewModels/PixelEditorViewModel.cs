@@ -167,14 +167,14 @@ namespace PolyPaint.ViewModels
             _pixelEditor.PixelCursor(displayArea);
         }
 
-        public void ZoneSelector(Thumb selectedZoneThumb, Point oldPoint, Point newPoint)
+        public void ZoneSelector(ContentControl selectedZoneThumb, Point oldPoint, Point newPoint)
         {
             _pixelEditor.SelectZone(selectedZoneThumb, oldPoint, newPoint);
         }
 
-        public void BlitZoneSelector()
+        public void BlitZoneSelector(ContentControl contentControl)
         {
-            _pixelEditor.BlitSelectedZone();
+            _pixelEditor.BlitSelectedZone(contentControl);
         }
 
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)

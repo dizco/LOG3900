@@ -22,6 +22,11 @@ namespace PolyPaint.Views
         {
             InitializeComponent();
             DataContext = new PixelEditorViewModel(DrawingSurface);
+
+            foreach (Control child in SelectedZoneCanvas.Children)
+            {
+                Selector.SetIsSelected(child, true);
+            }
         }
 
         private void GlisserCommence(object sender, DragStartedEventArgs e)
@@ -67,8 +72,8 @@ namespace PolyPaint.Views
             if ((DataContext as PixelEditorViewModel)?.ToolSelected != "selector"
                 && (DataContext as PixelEditorViewModel)?.CropWriteableBitmap != null)
             {
-                (DataContext as PixelEditorViewModel)?.BlitZoneSelector();
-                SelectedZoneThumb.Visibility = Visibility.Hidden;
+                (DataContext as PixelEditorViewModel)?.BlitZoneSelector(ContentControle);
+                SelectedZoneCanvas.Visibility = Visibility.Hidden;
             }
 
             if ((DataContext as PixelEditorViewModel)?.ToolSelected == "fill")
@@ -106,14 +111,14 @@ namespace PolyPaint.Views
             //during the edition on the original draw when
             //clicked outside the selector. A new selectionBox appears then
             if ((DataContext as PixelEditorViewModel)?.ToolSelected == "selector"
-                && !e.OriginalSource.Equals(SelectedZoneThumb))
+                && !e.OriginalSource.Equals(SelectedZoneCanvas))
             {
                 // Make the drag selection box visible.           
                 selectionBox.Visibility = Visibility.Visible;
 
                 if ((DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition)
                 {
-                    (DataContext as PixelEditorViewModel)?.BlitZoneSelector();
+                    (DataContext as PixelEditorViewModel)?.BlitZoneSelector(ContentControle);
                 }
             }
         }
@@ -140,13 +145,13 @@ namespace PolyPaint.Views
                 (DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition = false;
                 if (!_mouseDownPositionSelector.Equals(mouseUpPosition))
                 {
-                    SelectedZoneThumb.Visibility = Visibility.Visible;
+                    SelectedZoneCanvas.Visibility = Visibility.Visible;
                     // Fonction of the selection box
-                    (DataContext as PixelEditorViewModel)?.ZoneSelector(SelectedZoneThumb, _mouseDownPositionSelector, mouseUpPosition);
+                    (DataContext as PixelEditorViewModel)?.ZoneSelector(ContentControle, _mouseDownPositionSelector, mouseUpPosition);
                 }
                 else
                 {
-                    SelectedZoneThumb.Visibility = Visibility.Hidden;
+                    SelectedZoneCanvas.Visibility = Visibility.Hidden;
                 }
             }
         }
