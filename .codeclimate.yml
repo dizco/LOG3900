@@ -1,4 +1,6 @@
 version: "2"
+exclude_patterns:
+  - "site-web/"
 checks:
   method-lines:
     config:
