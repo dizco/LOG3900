@@ -21,9 +21,6 @@ before_install:
   - if [ "$TO_TEST" = "CLIENT_LEGER" ]; then cd client-leger/PolyPaintPro; pod repo update; fi
   - if [ "$TO_TEST" = "CLIENT_LOURD" ]; then cd client-lourd; fi
 
-after_install:
-  - if [ "$TO_TEST" = "SERVEUR" ]; then npm rebuild node-sass; fi
-
 script:
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run build; fi
   - if [ "$TO_TEST" = "SERVEUR" ]; then npm run test; fi

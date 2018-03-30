@@ -1,31 +1,13 @@
-//import * as async from "async";
-//import * as crypto from "crypto";
-//import * as nodemailer from "nodemailer";
 import * as passport from "passport";
 import { default as User, UserModel } from "../models/User";
 import { NextFunction, Request, Response } from "express";
 import { IVerifyOptions } from "passport-local";
-//import { WriteError } from "mongodb";
-
-//const request = require("express-validator");
+import { WriteError } from "mongodb";
 
 const enum LoginFields {
     Username = "email",
     Password = "password",
 }
-
-/**
- * GET /login
- * Login page.
- */
-/*export let getLogin = (req: Request, res: Response) => {
-    if (req.user) {
-        return res.redirect("/");
-    }
-    res.render("account/login", {
-        title: "Login"
-    });
-};*/
 
 /**
  * POST /login
@@ -68,19 +50,6 @@ export let logout = (req: Request, res: Response) => {
 };
 
 /**
- * GET /signup
- * Signup page.
- */
-/*export let getSignup = (req: Request, res: Response) => {
-    if (req.user) {
-        return res.redirect("/");
-    }
-    res.render("account/signup", {
-        title: "Create Account"
-    });
-};*/
-
-/**
  * POST /register
  * Create a new local account.
  */
@@ -121,16 +90,6 @@ export let postRegister = (req: Request, res: Response, next: NextFunction) => {
         });
     });
 };
-
-/**
- * GET /account
- * Profile page.
- */
-/*export let getAccount = (req: Request, res: Response) => {
-    res.render("account/profile", {
-        title: "Account Management"
-    });
-};*/
 
 /**
  * POST /account/password

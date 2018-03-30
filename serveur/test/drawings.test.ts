@@ -1,6 +1,5 @@
 import * as request from "supertest";
 import { app } from "../src/app";
-import { expect } from "chai";
 
 //TODO: UNSKIP these tests once the routes are implemented
 
