@@ -167,7 +167,7 @@ namespace PolyPaint.Models.PixelModels
             WriteableBitmap.SetPixel(x, y, (Color) ColorConverter.ConvertFromString(pixelColor));
         }
 
-        public void SelectZone(Thumb selectedZoneThumb, Point oldPosition, Point newPosition)
+        public void SelectZone(ContentControl selectedZoneThumb, Point oldPosition, Point newPosition)
         {
             Tools tools = new Tools(WriteableBitmap, oldPosition, newPosition);
 
@@ -179,6 +179,8 @@ namespace PolyPaint.Models.PixelModels
             // of our selectedZone
             Rect rect = new Rect(selectedRectangle.Item1, selectedRectangle.Item2);
             CropWriteableBitmap = WriteableBitmap.Crop(rect);
+            selectedZoneThumb.Height = rect.Height;
+            selectedZoneThumb.Width = rect.Width;
 
             //We move our croppedwriteableBitmap into the position
             //of the selectedZone
@@ -196,10 +198,18 @@ namespace PolyPaint.Models.PixelModels
         }
 
         /// <summary>
-        ///     Merge the edited bitmap on the original bitmap (the draw)
+        ///     Put the change made by the user on the edited bitmap
+        ///     Merge then the edited bitmap on the original bitmap (the draw)
         /// </summary>
-        public void BlitSelectedZone()
+        public void BlitSelectedZone(ContentControl contentControl)
         {
+            CropWriteableBitmap = CropWriteableBitmap.Resize((int)contentControl.Width, (int)contentControl.Height,
+                                       WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+
+            //The CropWriteableBitmap is moved on the position dragged by the user
+            Point position = new Point(Canvas.GetLeft(contentControl), Canvas.GetTop(contentControl));
+            ChangeCropWriteableBitmapPosition(position);
+
             Rect destinationRectangle = new Rect(CropWriteableBitmapPosition.X, CropWriteableBitmapPosition.Y,
                                                  CropWriteableBitmap.PixelWidth, CropWriteableBitmap.PixelHeight);
             Rect sourceRectangle = new Rect(0, 0, CropWriteableBitmap.PixelWidth, CropWriteableBitmap.PixelHeight);
