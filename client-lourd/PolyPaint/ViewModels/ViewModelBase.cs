@@ -211,5 +211,30 @@ namespace PolyPaint.ViewModels
             Display,
             Hide
         }
+
+        protected void OnEditorClosedHandler(object sender, EventArgs e)
+        {
+            if (sender is StrokeEditorView strokeEditorView)
+            {
+                (strokeEditorView.DataContext as StrokeEditorViewModel)?.UnsubscribeDrawingRoom();
+                (strokeEditorView.DataContext as StrokeEditorViewModel)?.Dispose();
+            }
+            else if (sender is PixelEditorView pixelEditorView)
+            {
+                (pixelEditorView.DataContext as PixelEditorViewModel)?.UnsubscribeDrawingRoom();
+                (pixelEditorView.DataContext as PixelEditorViewModel)?.Dispose();
+            }
+
+            if (HomeMenu == null)
+            {
+                HomeMenu = new HomeMenu();
+                HomeMenu.Show();
+                HomeMenu.Closing += (s, a) => HomeMenu = null;
+            }
+
+            StrokeEditor = null;
+            PixelEditor = null;
+            DrawingRoomId = null;
+        }
     }
 }

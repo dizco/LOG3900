@@ -29,7 +29,6 @@ namespace PolyPaint.ViewModels.Gallery
             _publicDrawingsId = new HashSet<string>();
 
             InitialLoadUserDrawings();
-            InitialLoadPublicDrawings();
         }
 
         public ObservableCollection<GalleryItemView> CurrentUserDrawings
@@ -66,18 +65,26 @@ namespace PolyPaint.ViewModels.Gallery
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler ClosingRequest;
 
         private async void InitialLoadUserDrawings()
         {
-            List<Tuple<string, string, bool>> userDrawings = await FetchAllOwnerDrawings();
+            List<Tuple<string, string, bool, bool>> userDrawings = await FetchAllOwnerDrawings();
 
             CurrentUserDrawings = new ObservableCollection<GalleryItemView>();
 
-            foreach (Tuple<string, string, bool> drawing in userDrawings)
+            foreach (Tuple<string, string, bool, bool> drawing in userDrawings)
             {
                 _currentUserDrawingsId.Add(drawing.Item2);
-                CurrentUserDrawings.Add(new GalleryItemView(drawing.Item1, drawing.Item2, true, drawing.Item3));
+                GalleryItemView item =
+                    new GalleryItemView(drawing.Item1, drawing.Item2, true, drawing.Item3, drawing.Item4);
+
+                item.ClosingRequest += (sender, args) => ClosingRequest?.Invoke(sender, args);
+
+                CurrentUserDrawings.Add(item);
             }
+
+            InitialLoadPublicDrawings();
         }
 
         private async void InitialLoadPublicDrawings()
@@ -93,20 +100,28 @@ namespace PolyPaint.ViewModels.Gallery
                 }
 
                 _publicDrawingsId.Add(drawing.Item2);
-                PublicDrawings.Add(new GalleryItemView(drawing.Item1, drawing.Item2, false, drawing.Item3));
+
+                GalleryItemView item = new GalleryItemView(drawing.Item1, drawing.Item2, false, drawing.Item3, true);
+
+                item.ClosingRequest += (sender, args) => ClosingRequest?.Invoke(sender, args);
+
+                PublicDrawings.Add(item);
             }
         }
 
         /// <summary>
         ///     Fetches drawings for which the owner is the current user
         /// </summary>
-        /// <returns>A tuple in which Item1 is the drawing name, Item2 is the drawing id, Item3 is the protection status</returns>
-        private static async Task<List<Tuple<string, string, bool>>> FetchAllOwnerDrawings()
+        /// <returns>
+        ///     A tuple in which Item1 is the drawing name, Item2 is the drawing id, Item3 is the protection status, Item4 is
+        ///     visibility
+        /// </returns>
+        private static async Task<List<Tuple<string, string, bool, bool>>> FetchAllOwnerDrawings()
         {
             int currentPage = 1;
             int maxPages = 0;
 
-            List<Tuple<string, string, bool>> currentUserDrawings = new List<Tuple<string, string, bool>>();
+            List<Tuple<string, string, bool, bool>> currentUserDrawings = new List<Tuple<string, string, bool, bool>>();
 
             do
             {
@@ -124,8 +139,9 @@ namespace PolyPaint.ViewModels.Gallery
                         content.GetValue("docs").ToObject<OnlineDrawingModel[]>();
                     foreach (OnlineDrawingModel drawing in docsArray)
                     {
-                        currentUserDrawings.Add(new Tuple<string, string, bool>(drawing.Name, drawing.Id,
-                                                                                drawing.Protection.Active));
+                        currentUserDrawings.Add(new Tuple<string, string, bool, bool>(drawing.Name, drawing.Id,
+                                                                                      drawing.Protection.Active,
+                                                                                      drawing.Visibility == "public"));
                     }
                 }
                 catch

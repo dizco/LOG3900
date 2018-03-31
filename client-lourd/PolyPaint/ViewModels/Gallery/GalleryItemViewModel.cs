@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -13,46 +14,57 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Annotations;
+using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
+using PolyPaint.Models;
+using PolyPaint.Models.ApiModels;
+using PolyPaint.Models.MessagingModels;
+using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels.Gallery
 {
-    internal class GalleryItemViewModel : INotifyPropertyChanged, IDisposable
+    internal class GalleryItemViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
         private const int RefreshTimeoutSeconds = 10;
 
-        private readonly bool _drawingIsLocked;
+        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private readonly bool _isDrawingOwner;
 
         private readonly EventHandler _loadDrawingThumbnailFinishedEvent;
-        private readonly bool _isDrawingOwner;
-        private string _drawingId;
-        private string _drawingName;
 
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        private CancellationToken _cancellationToken;
+        private string _drawingId;
+
+        private bool _drawingIsLocked;
+        private bool _drawingIsPublic;
+        private string _drawingName;
 
         private Bitmap _image;
 
-        public GalleryItemViewModel(string drawingName, string drawingId, bool isOwner, bool isLocked)
+        public GalleryItemViewModel(string drawingName, string drawingId, bool isOwner, bool isLocked, bool isPublic)
         {
             DrawingId = drawingId;
             DrawingName = drawingName;
             _isDrawingOwner = isOwner;
             _drawingIsLocked = isLocked;
+            _drawingIsPublic = isPublic;
             LoadDrawingThumbnail();
 
-            _cancellationToken = _cancellationTokenSource.Token;
+            TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
+            ToggleVisibilityCommand = new RelayCommand<object>(ToggleVisibility);
+            JoinDrawingCommand = new RelayCommand<object>(o => JoinOnlineDrawing());
+
+            CancellationToken cancellationToken = _cancellationTokenSource.Token;
 
             void RefreshThumbnailAction()
             {
-                if (_cancellationToken.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
 
                 Thread.Sleep(TimeSpan.FromSeconds(RefreshTimeoutSeconds));
 
-                if (_cancellationToken.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested)
                 {
                     return;
                 }
@@ -62,16 +74,17 @@ namespace PolyPaint.ViewModels.Gallery
 
             _loadDrawingThumbnailFinishedEvent += (s, e) =>
             {
-                Task refreshThumnailTask = new Task((Action) RefreshThumbnailAction, _cancellationToken);
-                refreshThumnailTask.Start();
+                Task refreshThumnailTask = new Task(RefreshThumbnailAction, cancellationToken);
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    refreshThumnailTask.Start();
+                }
             };
         }
 
-        public void Dispose()
-        {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
-        }
+        public RelayCommand<object> TogglePasswordCommand { get; set; }
+        public RelayCommand<object> ToggleVisibilityCommand { get; set; }
+        public RelayCommand<object> JoinDrawingCommand { get; set; }
 
         public string DrawingId
         {
@@ -97,6 +110,10 @@ namespace PolyPaint.ViewModels.Gallery
 
         public string DrawingLockCursor => _isDrawingOwner ? "Hand" : "Cursor";
 
+        public string DrawingVisibilityCursor => _isDrawingOwner ? "Hand" : "Cursor";
+
+        public string VisibilityToolTipText => _drawingIsPublic ? "Dessin public" : "Dessin privé";
+
         private Bitmap Image
         {
             get => _image;
@@ -121,7 +138,14 @@ namespace PolyPaint.ViewModels.Gallery
             }
         }
 
+        public void Dispose()
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler ClosingRequest;
 
         private async void LoadDrawingThumbnail()
         {
@@ -139,7 +163,15 @@ namespace PolyPaint.ViewModels.Gallery
                     // ignored
                 }
             }
+
             _loadDrawingThumbnailFinishedEvent?.Invoke(this, null);
+        }
+        /// <summary>
+        ///     Raises ClosingRequest to trigger the closing of the LoginWindowView
+        /// </summary>
+        private void OnClosingRequest()
+        {
+            ClosingRequest?.Invoke(this, EventArgs.Empty);
         }
 
         [NotifyPropertyChangedInvocator]
@@ -158,6 +190,170 @@ namespace PolyPaint.ViewModels.Gallery
 
             imageStream.Close();
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() => { Image = bitmapImage; });
+        }
+
+        private async void TogglePasswordProtection(object obj)
+        {
+            if (_drawingIsLocked && _isDrawingOwner)
+            {
+                HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(_drawingId);
+                if (response.IsSuccessStatusCode)
+                {
+                    _drawingIsLocked = false;
+                }
+            }
+            else if (_isDrawingOwner)
+            {
+                PasswordPrompt passwordPrompt = new PasswordPrompt();
+
+                passwordPrompt.PasswordEntered += async (sender, password) =>
+                {
+                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(_drawingId, password);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        _drawingIsLocked = true;
+                    }
+
+                    passwordPrompt.Close();
+                };
+
+                passwordPrompt.ShowDialog();
+            }
+
+            PropertyModified(nameof(DrawingLockStatus));
+        }
+
+        private async void ToggleVisibility(object obj)
+        {
+            if (_isDrawingOwner)
+            {
+                HttpResponseMessage response = await RestHandler.UpdateDrawingVisibility(_drawingId, !_drawingIsPublic);
+                if (response.IsSuccessStatusCode)
+                {
+                    _drawingIsPublic = !_drawingIsPublic;
+                }
+            }
+
+            PropertyModified(nameof(VisibilityToolTipText));
+        }
+
+        internal async void JoinOnlineDrawing()
+        {
+            HttpResponseMessage response;
+
+            if (!_isDrawingOwner && _drawingIsLocked)
+            {
+                string drawingPassword = null;
+
+                PasswordPrompt passwordPrompt = new PasswordPrompt();
+
+                passwordPrompt.PasswordEntered += (s, password) =>
+                {
+                    drawingPassword = password;
+                    passwordPrompt.Close();
+                };
+
+                passwordPrompt.ShowDialog();
+
+                if (drawingPassword != null)
+                {
+                    response = await RestHandler.GetOnlineDrawing(_drawingId, drawingPassword);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                response = await RestHandler.GetOnlineDrawing(_drawingId);
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+
+                    Dictionary<string, int> users = content.GetValue("users").ToObject<Dictionary<string, int>>();
+                    string editingMode = content.GetValue("mode").ToString();
+
+                    users.TryGetValue("active", out int activeUsers);
+                    users.TryGetValue("limit", out int limitUsers);
+                    if (activeUsers >= limitUsers)
+                    {
+                        OnOnlineDrawingJoinFailed($"Impossible d\'ouvrir le dessin. Le nombre maximal d\'éditeurs a été atteint.");
+                        return;
+                    }
+
+                    List<StrokeModel> strokes = content.GetValue("strokes").ToObject<List<StrokeModel>>();
+                    string drawingName = content.GetValue("name").ToString();
+
+                    // TODO: Get actual editing mode from drawing info once implemented
+                    EditingModeOption option = EditingModeOption.Trait;
+                    if (editingMode == "stroke")
+                    {
+                        option = EditingModeOption.Trait;
+                    }
+                    else if (editingMode == "pixel")
+
+                    {
+                        option = EditingModeOption.Pixel;
+                    }
+
+                    OnOnlineDrawingJoined(_drawingId, drawingName, option, strokes);
+                }
+                catch
+                {
+                    UserAlerts.ShowErrorMessage("Une erreur est survenue");
+                }
+            }
+            else
+            {
+                HomeMenuModel.OnResponseError(await response?.Content.ReadAsStringAsync());
+            }
+        }
+
+        private void OnOnlineDrawingJoined(string drawingId, string drawingName, EditingModeOption option,
+            List<StrokeModel> strokes)
+        {
+            DrawingRoomId = drawingId;
+            ViewModelBase.DrawingName = drawingName;
+
+            if (option == EditingModeOption.Trait)
+            {
+                if (StrokeEditor == null)
+                {
+                    PixelEditor = null;
+                    StrokeEditor = new StrokeEditorView();
+                    StrokeEditor.Show();
+                    if (strokes != null)
+                    {
+                        (StrokeEditor.DataContext as StrokeEditorViewModel)?.RebuildDrawing(strokes);
+                    }
+
+                    StrokeEditor.Closing += OnEditorClosedHandler;
+                    OnClosingRequest();
+                }
+            }
+            else if (option == EditingModeOption.Pixel)
+            {
+                if (PixelEditor == null)
+                {
+                    StrokeEditor = null;
+                    PixelEditor = new PixelEditorView();
+                    PixelEditor.Show();
+                    // TODO: Modify this function once server saving protocol is established
+                    //(PixelEditor.DataContext as StrokeEditorViewModel)?.ReplayActions(strokes);
+                    PixelEditor.Closing += OnEditorClosedHandler;
+                    OnClosingRequest();
+                }
+            }
+        }
+
+        private void OnOnlineDrawingJoinFailed(string error)
+        {
+            UserAlerts.ShowErrorMessage(error);
         }
     }
 }

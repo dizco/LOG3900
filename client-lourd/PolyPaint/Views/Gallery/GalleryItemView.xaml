@@ -5,14 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              xmlns:vm="clr-namespace:PolyPaint.ViewModels.Gallery"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              d:DataContext="{d:DesignInstance vm:GalleryItemViewModel}"
              d:DesignWidth="256" Height="185">
     <Grid>
         <StackPanel Background="#FFE4F0F2">
-            <Image Source="{Binding ImageSource, Mode=OneWay}" Cursor="Hand" Stretch="Uniform" Height="150" Margin="5,5,5,0"/>
+            <Image Source="{Binding ImageSource, Mode=OneWay}" Cursor="Hand" Stretch="Uniform" Height="150" Margin="5,5,5,0" ToolTip="Clickez pour rejoindre">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding JoinDrawingCommand}"></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Image>
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding DrawingName}" FontSize="14" FontWeight="Bold" Width="180" Margin="10,0,0,0"/>
-                <Label Content="{Binding DrawingLockStatus}" Cursor="{Binding DrawingLockCursor}" FontSize="14" Width="30"/>
+                <Label Content="{Binding DrawingLockStatus}" Cursor="{Binding DrawingLockCursor}" FontSize="14" Width="30">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding TogglePasswordCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Label>
+                <Label Content="👁" Cursor="{Binding DrawingVisibilityCursor}" ToolTip="{Binding VisibilityToolTipText}" FontSize="14" Width="30">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding ToggleVisibilityCommand}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Label>
             </StackPanel>
         </StackPanel>
     </Grid>
