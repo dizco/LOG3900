@@ -3,16 +3,12 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Forms;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using PolyPaint.Constants;
-using PolyPaint.CustomComponents;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using Application = System.Windows.Application;
@@ -21,12 +17,11 @@ namespace PolyPaint.ViewModels
 {
     internal class EditorViewModelBase : ViewModelBase, IDisposable
     {
-        private Canvas _currentCanvas;
-        private InkCanvas _currentInkCanvas;
-
         private const int WaitTimeForThread = 5;
         private const int ImageHeight = 720;
         private const int ImageWidth = 1280;
+        private Canvas _currentCanvas;
+        private InkCanvas _currentInkCanvas;
 
         protected EditorViewModelBase()
         {
@@ -156,7 +151,6 @@ namespace PolyPaint.ViewModels
                     encoder = new JpegBitmapEncoder();
                     ((JpegBitmapEncoder) encoder).QualityLevel = 75;
                     break;
-                    
             }
 
             encoder.Frames.Add(BitmapFrame.Create(imageRender));
@@ -182,7 +176,7 @@ namespace PolyPaint.ViewModels
             }
 
             string filePathNameExt = Path.GetFullPath(exportImageDialog.FileName);
-            MemoryStream imageStream = BuildImageStream(sender: this, imageFormat: Path.GetExtension(filePathNameExt));
+            MemoryStream imageStream = BuildImageStream(this, Path.GetExtension(filePathNameExt));
 
             FileStream fileImageStream = null;
             try

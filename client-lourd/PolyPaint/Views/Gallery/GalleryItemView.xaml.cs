@@ -9,17 +9,19 @@ namespace PolyPaint.Views.Gallery
     /// </summary>
     public partial class GalleryItemView : UserControl
     {
-        public event EventHandler ClosingRequest;
         public GalleryItemView()
         {
             InitializeComponent();
         }
 
-        public GalleryItemView(string drawingName, string drawingId, bool isOwner, bool isLocked, bool isPublic) : this()
+        public GalleryItemView(string drawingName, string drawingId, bool isOwner, bool isLocked, bool isPublic) :
+            this()
         {
             DataContext = new GalleryItemViewModel(drawingName, drawingId, isOwner, isLocked, isPublic);
             ((GalleryItemViewModel) DataContext).ClosingRequest +=
                 (sender, args) => ClosingRequest?.Invoke(sender, args);
         }
+
+        public event EventHandler ClosingRequest;
     }
 }

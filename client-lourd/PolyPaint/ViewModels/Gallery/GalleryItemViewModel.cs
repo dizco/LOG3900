@@ -166,6 +166,7 @@ namespace PolyPaint.ViewModels.Gallery
 
             _loadDrawingThumbnailFinishedEvent?.Invoke(this, null);
         }
+
         /// <summary>
         ///     Raises ClosingRequest to trigger the closing of the LoginWindowView
         /// </summary>
@@ -319,6 +320,8 @@ namespace PolyPaint.ViewModels.Gallery
         {
             DrawingRoomId = drawingId;
             ViewModelBase.DrawingName = drawingName;
+            IsDrawingOwner = _isDrawingOwner;
+            IsPasswordProtected = _drawingIsLocked;
 
             if (option == EditingModeOption.Trait)
             {

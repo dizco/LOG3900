@@ -158,7 +158,8 @@ namespace PolyPaint.Helpers.Communication
                 requestContent.Add("protection-active", "false");
             }
 
-            return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}", new FormUrlEncodedContent(requestContent));
+            return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}",
+                                           new FormUrlEncodedContent(requestContent));
         }
 
         public static async Task<HttpResponseMessage> UpdateDrawingVisibility(string drawingId, bool makePublic)
@@ -168,7 +169,8 @@ namespace PolyPaint.Helpers.Communication
                 {"visibility", makePublic ? "public" : "private"}
             };
 
-            return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}", new FormUrlEncodedContent(requestContent));
+            return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}",
+                                           new FormUrlEncodedContent(requestContent));
         }
 
         public static async Task<HttpResponseMessage> UpdateDrawingThumbnail(string drawingId, string base64Bitmap)

@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Views;
+using PolyPaint.Views.Gallery;
 
 namespace PolyPaint.ViewModels
 {
@@ -35,6 +36,7 @@ namespace PolyPaint.ViewModels
         public static ChatWindowView ChatWindow { get; set; }
         public static PixelEditorView PixelEditor { get; set; }
         public static StrokeEditorView StrokeEditor { get; set; }
+        public static GalleryWindowView GalleryWindow { get; set; }
         public static bool IsDrawingOwner { get; set; }
         public static bool IsPasswordProtected { get; set; }
 
@@ -206,12 +208,6 @@ namespace PolyPaint.ViewModels
             WebSocketDisconnectedEvent?.Invoke(sender, e);
         }
 
-        internal enum EditorChatDisplayOptions
-        {
-            Display,
-            Hide
-        }
-
         protected void OnEditorClosedHandler(object sender, EventArgs e)
         {
             if (sender is StrokeEditorView strokeEditorView)
@@ -235,6 +231,12 @@ namespace PolyPaint.ViewModels
             StrokeEditor = null;
             PixelEditor = null;
             DrawingRoomId = null;
+        }
+
+        internal enum EditorChatDisplayOptions
+        {
+            Display,
+            Hide
         }
     }
 }
