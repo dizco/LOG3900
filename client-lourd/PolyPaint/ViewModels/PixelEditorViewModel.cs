@@ -38,6 +38,12 @@ namespace PolyPaint.ViewModels
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
             TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
 
+            //Pixel Rotate tool
+            QuarterTurnClockwiseCommand = new RelayCommand<object>(_pixelEditor.QuarterTurnClockwise);
+            QuarterTurnCounterClockwiseCommand = new RelayCommand<object>(_pixelEditor.QuarterTurnCounterClockwise);
+            VerticalFlipCommand = new RelayCommand<object>(_pixelEditor.VerticalFlip);
+            HorizontalFlipCommand = new RelayCommand<object>(_pixelEditor.HorizontalFlip);
+
             if (IsConnectedToDrawing)
             {
                 ChatDocked = Visibility.Visible;
@@ -119,6 +125,12 @@ namespace PolyPaint.ViewModels
 
         public RelayCommand<object> OpenHistoryCommand { get; set; }
         public RelayCommand<object> TogglePasswordCommand { get; set; }
+
+        //Pixel Rotate tool
+        public RelayCommand<object> QuarterTurnClockwiseCommand { get; set; }
+        public RelayCommand<object> QuarterTurnCounterClockwiseCommand { get; set; }
+        public RelayCommand<object> VerticalFlipCommand { get; set; }
+        public RelayCommand<object> HorizontalFlipCommand { get; set; }
 
         public string LockUnlockDrawingMessage => IsPasswordProtected
                                                       ? "Retirer la protection du dessin"

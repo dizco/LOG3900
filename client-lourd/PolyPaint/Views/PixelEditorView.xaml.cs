@@ -131,12 +131,17 @@ namespace PolyPaint.Views
             if (!(DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition
                 && (DataContext as PixelEditorViewModel)?.ToolSelected == "selector")
             {
-                SelectedZoneThumb.Visibility = _mouseDownPositionSelector.Equals(mouseUpPosition)
-                                               ? Visibility.Hidden
-                                               : Visibility.Visible;
-                
-                // Fonction of the selection box
-                (DataContext as PixelEditorViewModel)?.ZoneSelector(SelectedZoneThumb, _mouseDownPositionSelector, mouseUpPosition);
+                (DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition = false;
+                if (!_mouseDownPositionSelector.Equals(mouseUpPosition))
+                {
+                    SelectedZoneThumb.Visibility = Visibility.Visible;
+                    // Fonction of the selection box
+                    (DataContext as PixelEditorViewModel)?.ZoneSelector(SelectedZoneThumb, _mouseDownPositionSelector, mouseUpPosition);
+                }
+                else
+                {
+                    SelectedZoneThumb.Visibility = Visibility.Hidden;
+                }
             }
         }
 
