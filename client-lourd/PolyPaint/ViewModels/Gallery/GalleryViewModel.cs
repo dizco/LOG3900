@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Annotations;
 using PolyPaint.Helpers.Communication;
@@ -15,10 +19,14 @@ namespace PolyPaint.ViewModels.Gallery
 {
     internal class GalleryViewModel : ViewModelBase, INotifyPropertyChanged, IDisposable
     {
+        private const int RefreshTimeoutSeconds = 10;
+        private readonly CancellationToken _cancellationToken;
+        private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private readonly ISet<string> _currentUserDrawingsId;
-        private readonly ISet<string> _publicDrawingsId;
+        private ISet<string> _publicDrawingsId;
         private ObservableCollection<GalleryItemView> _currentUserDrawings;
         private ObservableCollection<GalleryItemView> _publicDrawings;
+        private Task _refreshDrawingListTask;
 
         public GalleryViewModel()
         {
@@ -28,7 +36,9 @@ namespace PolyPaint.ViewModels.Gallery
             _currentUserDrawingsId = new HashSet<string>();
             _publicDrawingsId = new HashSet<string>();
 
-            InitialLoadUserDrawings();
+            _cancellationToken = new CancellationToken();
+
+            LoadDrawings();
         }
 
         public ObservableCollection<GalleryItemView> CurrentUserDrawings
@@ -65,9 +75,45 @@ namespace PolyPaint.ViewModels.Gallery
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        ///     Loads user's drawing before public drawings to avoid duplicates
+        /// </summary>
+        private async void LoadDrawings()
+        {
+            await InitialLoadUserDrawings();
+            await InitialLoadPublicDrawings();
+            _refreshDrawingListTask = new Task(RefreshDrawings, _cancellationToken);
+            _refreshDrawingListTask.Start();
+        }
+
+        private async void RefreshDrawings()
+        {
+            Thread.Sleep(TimeSpan.FromSeconds(RefreshTimeoutSeconds));
+            await RefreshUserDrawings();
+            await RefreshPublicDrawings();
+            OnRefreshDrawingListTaskCompleted();
+        }
+
+        protected virtual void OnRefreshDrawingListTaskCompleted()
+        {
+            _refreshDrawingListTask = new Task(RefreshDrawings, _cancellationToken);
+            if (!_cancellationToken.IsCancellationRequested)
+            {
+                _refreshDrawingListTask.Start();
+            }
+        }
+
         public event EventHandler ClosingRequest;
 
-        private async void InitialLoadUserDrawings()
+        private void OnClosingRequest()
+        {
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+            ClosingRequest?.Invoke(this, null);
+        }
+
+        private async Task InitialLoadUserDrawings()
         {
             List<Tuple<string, string, bool, bool>> userDrawings = await FetchAllOwnerDrawings();
 
@@ -79,15 +125,95 @@ namespace PolyPaint.ViewModels.Gallery
                 GalleryItemView item =
                     new GalleryItemView(drawing.Item1, drawing.Item2, true, drawing.Item3, drawing.Item4);
 
-                item.ClosingRequest += (sender, args) => ClosingRequest?.Invoke(sender, args);
+                item.ClosingRequest += (sender, args) => OnClosingRequest();
 
                 CurrentUserDrawings.Add(item);
             }
-
-            InitialLoadPublicDrawings();
         }
 
-        private async void InitialLoadPublicDrawings()
+        /// <summary>
+        ///     Fetches the updated list of drawings owned by current user.
+        /// </summary>
+        /// <returns>Task completed</returns>
+        private async Task RefreshUserDrawings()
+        {
+            List<Tuple<string, string, bool, bool>> userDrawings = await FetchAllOwnerDrawings();
+
+            foreach (Tuple<string, string, bool, bool> drawing in userDrawings)
+            {
+                if (_currentUserDrawingsId.Contains(drawing.Item2))
+                {
+                    continue;
+                }
+
+                _currentUserDrawingsId.Add(drawing.Item2);
+
+                (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
+                {
+                    GalleryItemView item =
+                        new GalleryItemView(drawing.Item1, drawing.Item2, true, drawing.Item3, drawing.Item4);
+
+                    item.ClosingRequest += (sender, args) => OnClosingRequest();
+
+                    CurrentUserDrawings.Add(item);
+                });
+            }
+        }
+
+        /// <summary>
+        ///     Updates the list of public drawings.
+        ///     To do so, the function creates a Set of the currently accessible drawing IDs.
+        ///     If a drawing was already present, it is removed from the _publicDrawingsId list.
+        ///     All remaining drawings in _publicDrawingsId are now outdated and can be removed from the list.
+        ///     Replaces the HashSet of _publicDrawingsId by the most up-to-date one.
+        /// </summary>
+        /// <returns></returns>
+        private async Task RefreshPublicDrawings()
+        {
+            List<Tuple<string, string, bool>> publicDrawings = await FetchAllPublicDrawings();
+
+            ISet<string> updatedDrawingsId = new HashSet<string>();
+
+            foreach (Tuple<string, string, bool> drawing in publicDrawings)
+            {
+                if (_publicDrawingsId.Contains(drawing.Item2))
+                {
+                    updatedDrawingsId.Add(drawing.Item2);
+                    _publicDrawingsId.Remove(drawing.Item2);
+                }
+                else if (!_currentUserDrawingsId.Contains(drawing.Item2))
+                {
+                    updatedDrawingsId.Add(drawing.Item2);
+
+                    (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
+                    {
+                        GalleryItemView item =
+                            new GalleryItemView(drawing.Item1, drawing.Item2, true, drawing.Item3, true);
+
+                        item.ClosingRequest += (sender, args) => OnClosingRequest();
+
+                        PublicDrawings.Add(item);
+                    });
+                }
+            }
+
+            foreach (string drawingId in _publicDrawingsId)
+            {
+                GalleryItemView itemToRemove =
+                    PublicDrawings.First(item => (item.DataContext as GalleryItemViewModel)?.DrawingId ==
+                                                 drawingId);
+
+                (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
+                {
+                    PublicDrawings
+                        .Remove(itemToRemove);
+                });
+            }
+
+            _publicDrawingsId = updatedDrawingsId;
+        }
+
+        private async Task InitialLoadPublicDrawings()
         {
             List<Tuple<string, string, bool>> publicDrawings = await FetchAllPublicDrawings();
 
@@ -103,7 +229,7 @@ namespace PolyPaint.ViewModels.Gallery
 
                 GalleryItemView item = new GalleryItemView(drawing.Item1, drawing.Item2, false, drawing.Item3, true);
 
-                item.ClosingRequest += (sender, args) => ClosingRequest?.Invoke(sender, args);
+                item.ClosingRequest += (sender, args) => OnClosingRequest();
 
                 PublicDrawings.Add(item);
             }

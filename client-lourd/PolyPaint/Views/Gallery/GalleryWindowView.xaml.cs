@@ -12,6 +12,7 @@ namespace PolyPaint.Views.Gallery
         {
             InitializeComponent();
             DataContext = new GalleryViewModel();
+            ((GalleryViewModel) DataContext).ClosingRequest += (sender, args) => Close();
         }
     }
 }
