@@ -72,6 +72,24 @@ namespace PolyPaint.Converters
         }
     }
 
+    internal class VisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value as bool? == true ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Visibility)
+            {
+                return (Visibility) value == Visibility.Visible;
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+    }
+
     internal class DrawingProtectionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

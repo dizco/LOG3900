@@ -204,6 +204,26 @@ namespace PolyPaint.Models.PixelModels
             CropWriteableBitmap.Clear(Colors.Transparent);
         }
 
+        internal void QuarterTurnClockwise(object obj)
+        {
+            CropWriteableBitmap = CropWriteableBitmap.Rotate(90);
+        }
+
+        internal void QuarterTurnCounterClockwise(object obj)
+        {
+            CropWriteableBitmap = CropWriteableBitmap.Rotate(270);
+        }
+
+        internal void VerticalFlip(object obj)
+        {
+            CropWriteableBitmap = CropWriteableBitmap.Flip(WriteableBitmapExtensions.FlipMode.Vertical);
+        }
+
+        internal void HorizontalFlip(object obj)
+        {
+            CropWriteableBitmap = CropWriteableBitmap.Flip(WriteableBitmapExtensions.FlipMode.Horizontal);
+        }
+
         /// <summary>
         ///     Display a cursor in the drawingSurface
         ///     depending of the tool selected by the user

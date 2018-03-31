@@ -13,7 +13,7 @@
     <Window.Resources>
         <converters:BorderConverter x:Key="BorderConverter" />
         <converters:BackgroundColorConverter x:Key="BackgroundColorConverter" />
-        <converters:EditingToolConverter x:Key="EditingToolConverter" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
     </Window.Resources>
     <DockPanel>
         <Menu IsMainMenu="True" DockPanel.Dock="Top">
@@ -86,6 +86,49 @@
                         TickFrequency="10" TickPlacement="BottomRight" IsSnapToTickEnabled="False" />
                 <StackPanel Orientation="Horizontal">
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="5,5,5,5" VerticalAlignment="Center"
+                            Visibility="{Binding Path=IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" >
+                    <Button Name="TurnClockwise" Width="24" Height="24" Margin="0"
+                            HorizontalContentAlignment="Left"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Command="{Binding QuarterTurnClockwiseCommand}">
+                        <StackPanel>
+                            <Image Source="/Resources/rotate_right.png" />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="TurnCounterClockWise" Width="24" Height="24" Margin="0"
+                            HorizontalContentAlignment="Left"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Command="{Binding QuarterTurnCounterClockwiseCommand}">
+                        <StackPanel>
+                            <Image Source="/Resources/rotate_left.png" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="5,5,5,5" VerticalAlignment="Center"
+                            Visibility="{Binding Path=IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" >
+                    <Button Name="VerticalFlip" Width="24" Height="24" Margin="0"
+                            HorizontalContentAlignment="Left"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Command="{Binding VerticalFlipCommand}">
+                        <StackPanel>
+                            <Image Source="/Resources/flip_vertically.png" />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="HorizontalFlip" Width="24" Height="24" Margin="0"
+                            HorizontalContentAlignment="Left"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            
+                            Command="{Binding HorizontalFlipCommand}">
+                        <StackPanel>
+                            <Image Source="/Resources/flip_horizontally.png" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </StackPanel>
         </Border>
