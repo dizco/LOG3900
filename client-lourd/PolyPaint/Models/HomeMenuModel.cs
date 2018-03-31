@@ -290,7 +290,7 @@ namespace PolyPaint.Models
         ///     Parses server response and display appropriate error message
         /// </summary>
         /// <param name="response">Serialized JSON response</param>
-        private void OnResponseError(string response)
+        internal static void OnResponseError(string response)
         {
             JObject responseJson;
             try

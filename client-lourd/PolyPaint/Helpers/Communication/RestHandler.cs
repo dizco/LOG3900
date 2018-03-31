@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PolyPaint.CustomComponents;
 using PolyPaint.Models.ApiModels;
 
@@ -75,7 +74,8 @@ namespace PolyPaint.Helpers.Communication
             return await Client.GetAsync($"{ServerUri}/drawings?visibility=public&page={page}");
         }
 
-        public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option, bool visibilityPublic = true)
+        public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option,
+            bool visibilityPublic = true)
         {
             string mode = null;
             if (option == EditingModeOption.Pixel)
@@ -90,8 +90,8 @@ namespace PolyPaint.Helpers.Communication
             Dictionary<string, string> drawingInfo = new Dictionary<string, string>
             {
                 {"name", drawingName},
-                {"visibility", visibilityPublic? "public":"private"},
-                {"mode",mode}
+                {"visibility", visibilityPublic ? "public" : "private"},
+                {"mode", mode}
             };
 
             return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
@@ -115,8 +115,8 @@ namespace PolyPaint.Helpers.Communication
                 {"name", drawingName},
                 {"protection-active", "true"},
                 {"protection-password", password},
-                {"visibility", visibilityPublic? "public":"private"},
-                {"mode",mode}
+                {"visibility", visibilityPublic ? "public" : "private"},
+                {"mode", mode}
             };
 
             return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
@@ -143,7 +143,8 @@ namespace PolyPaint.Helpers.Communication
             return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}/actions?page={page}");
         }
 
-        public static async Task<HttpResponseMessage> UpdateDrawingProtection(string drawingId, [Optional] string password)
+        public static async Task<HttpResponseMessage> UpdateDrawingProtection(string drawingId,
+            [Optional] string password)
         {
             Dictionary<string, string> requestContent = new Dictionary<string, string>();
 
@@ -160,16 +161,27 @@ namespace PolyPaint.Helpers.Communication
             return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}", new FormUrlEncodedContent(requestContent));
         }
 
+        public static async Task<HttpResponseMessage> UpdateDrawingVisibility(string drawingId, bool makePublic)
+        {
+            Dictionary<string, string> requestContent = new Dictionary<string, string>
+            {
+                {"visibility", makePublic ? "public" : "private"}
+            };
+
+            return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}", new FormUrlEncodedContent(requestContent));
+        }
+
         public static async Task<HttpResponseMessage> UpdateDrawingThumbnail(string drawingId, string base64Bitmap)
         {
             Dictionary<string, string> content = new Dictionary<string, string>
             {
-                {"thumbnail",base64Bitmap}
+                {"thumbnail", base64Bitmap}
             };
 
             string jsonpayload = JsonConvert.SerializeObject(content);
 
-            return await Client.PutAsync($"{ServerUri}/drawings/{drawingId}/thumbnail", new StringContent(jsonpayload, Encoding.UTF8, "application/json"));
+            return await Client.PutAsync($"{ServerUri}/drawings/{drawingId}/thumbnail",
+                                         new StringContent(jsonpayload, Encoding.UTF8, "application/json"));
         }
 
         public static async Task<HttpResponseMessage> GetDrawingThumbnail(string drawingId)
