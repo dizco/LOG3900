@@ -10,8 +10,6 @@ using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.ApiModels;
-using PolyPaint.Models.MessagingModels;
-using PolyPaint.Views;
 
 namespace PolyPaint.Models
 {
@@ -31,14 +29,6 @@ namespace PolyPaint.Models
         ///     Tuple contains DrawingId, DrawingName and EditingModeOption (Stroke/Pixel)
         /// </summary>
         public event EventHandler<Tuple<string, string, EditingModeOption>> NewDrawingCreated;
-
-        /// <summary>
-        ///     Tuple contains DrawingId, DrawingName, EditingModeOption (Stroke/Pixel) and strokes to replay
-        /// </summary>
-        public event EventHandler<Tuple<string, string, EditingModeOption, List<StrokeModel>>>
-            OnlineDrawingJoined;
-
-        public event EventHandler<string> OnlineDrawingJoinFailed;
 
         internal async void LoadOnlineDrawingsList()
         {
@@ -184,83 +174,6 @@ namespace PolyPaint.Models
             }
         }
 
-        internal async void JoinOnlineDrawing(string id, bool isPasswordProtected)
-        {
-            HttpResponseMessage response;
-
-            if (isPasswordProtected)
-            {
-                string drawingPassword = null;
-
-                PasswordPrompt passwordPrompt = new PasswordPrompt();
-
-                passwordPrompt.PasswordEntered += (s, password) =>
-                {
-                    drawingPassword = password;
-                    passwordPrompt.Close();
-                };
-
-                passwordPrompt.ShowDialog();
-
-                if (drawingPassword != null)
-                {
-                    response = await RestHandler.GetOnlineDrawing(id, drawingPassword);
-                }
-                else
-                {
-                    return;
-                }
-            }
-            else
-            {
-                response = await RestHandler.GetOnlineDrawing(id);
-            }
-
-            if (response.IsSuccessStatusCode)
-            {
-                try
-                {
-                    JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
-
-                    Dictionary<string, int> users = content.GetValue("users").ToObject<Dictionary<string, int>>();
-                    string editingMode = content.GetValue("mode").ToString();
-
-                    users.TryGetValue("active", out int activeUsers);
-                    users.TryGetValue("limit", out int limitUsers);
-                    if (activeUsers >= limitUsers)
-                    {
-                        OnOnlineDrawingJoinFailed($"Impossible d\'ouvrir le dessin. Le nombre maximal d\'éditeurs a été atteint.");
-                        return;
-                    }
-                    
-                    List<StrokeModel> strokes = content.GetValue("strokes").ToObject<List<StrokeModel>>();
-                    string drawingName = content.GetValue("name").ToString();
-
-                    // TODO: Get actual editing mode from drawing info once implemented
-                    EditingModeOption option = EditingModeOption.Trait;
-                    if (editingMode == "stroke")
-                    {
-                        option = EditingModeOption.Trait;
-                    }
-                    else if (editingMode == "pixel")
-
-                    {
-                        option = EditingModeOption.Pixel;
-                    }
-
-                    OnOnlineDrawingJoined(id, drawingName, option, strokes);
-                }
-                catch
-                {
-                    UserAlerts.ShowErrorMessage("Une erreur est survenue");
-                }
-            }
-            else
-            {
-                OnResponseError(await response?.Content.ReadAsStringAsync());
-            }
-        }
-
         private void OnNewDrawingCreated(Tuple<string, string, EditingModeOption> drawingParams)
         {
             NewDrawingCreated?.Invoke(this, drawingParams);
@@ -269,21 +182,6 @@ namespace PolyPaint.Models
         private void CreateNewOfflineDrawing(string drawingName, EditingModeOption option)
         {
             OnNewDrawingCreated(new Tuple<string, string, EditingModeOption>(string.Empty, drawingName, option));
-        }
-
-        private void OnOnlineDrawingJoined(string drawingId, string drawingName, EditingModeOption option,
-            List<StrokeModel> strokes)
-        {
-            Tuple<string, string, EditingModeOption, List<StrokeModel>> drawingParams =
-                new Tuple<string, string, EditingModeOption, List<StrokeModel>>(drawingId, drawingName, option,
-                                                                                strokes);
-
-            OnlineDrawingJoined?.Invoke(this, drawingParams);
-        }
-
-        private void OnOnlineDrawingJoinFailed(string error)
-        {
-            OnlineDrawingJoinFailed?.Invoke(this, error);
         }
 
         /// <summary>

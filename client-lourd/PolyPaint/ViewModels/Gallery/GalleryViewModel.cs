@@ -23,9 +23,9 @@ namespace PolyPaint.ViewModels.Gallery
         private readonly CancellationToken _cancellationToken;
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         private readonly ISet<string> _currentUserDrawingsId;
-        private ISet<string> _publicDrawingsId;
         private ObservableCollection<GalleryItemView> _currentUserDrawings;
         private ObservableCollection<GalleryItemView> _publicDrawings;
+        private ISet<string> _publicDrawingsId;
         private Task _refreshDrawingListTask;
 
         public GalleryViewModel()
@@ -90,6 +90,11 @@ namespace PolyPaint.ViewModels.Gallery
         private async void RefreshDrawings()
         {
             Thread.Sleep(TimeSpan.FromSeconds(RefreshTimeoutSeconds));
+            if (_cancellationToken.IsCancellationRequested)
+            {
+                return;
+
+            }
             await RefreshUserDrawings();
             await RefreshPublicDrawings();
             OnRefreshDrawingListTaskCompleted();

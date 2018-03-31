@@ -34,19 +34,13 @@ namespace PolyPaint.ViewModels
         {
             _homeMenu = new HomeMenuModel();
             _homeMenu.NewDrawingCreated += DrawingLoadedHandler;
-            _homeMenu.OnlineDrawingJoined += OnlineDrawingLoadedHandler;
-            _homeMenu.OnlineDrawingJoinFailed += OnlineDrawingLoadingFailedHandler;
-            FilteredDrawings = _homeMenu.FilteredDrawings;
             AutosavedDrawings = _homeMenu.AutosavedDrawings;
-
             GoToNewDrawingSubMenuCommand = new RelayCommand<object>(OpenNewDrawingSubMenu);
             StartNewDrawing = new RelayCommand<object>(CreateNewDrawing);
             GoToLocalDrawingSubMenuCommand = new RelayCommand<object>(OpenLocalDrawingSubMenu);
             OpenAutosaveDrawingCommand = new RelayCommand<object>(OpenAutosaveDrawing);
             OpenDrawingPromtCommand = new RelayCommand<object>(OpenDrawingPrompt);
-            GoToOnlineDrawingSubMenuCommand = new RelayCommand<object>(OpenOnlineDrawingSubMenu, IsOnline);
-            JoinDrawingCommand = new RelayCommand<object>(JoinOnlineDrawing);
-            GalleryCommand = new RelayCommand<object>(OpenGallery);
+            GalleryCommand = new RelayCommand<object>(OpenGallery, IsOnline);
             GoToMenuCommand = new RelayCommand<object>(OpenMenu);
             BackToLogin = new RelayCommand<object>(OpenLogin);
 
@@ -70,18 +64,9 @@ namespace PolyPaint.ViewModels
         public string SelectedEditingMode { get; set; }
         public Array EditingModes => Enum.GetValues(typeof(EditingModeOption));
 
-        public ObservableCollection<OnlineDrawingModel> FilteredDrawings { get; set; }
-
         public ObservableCollection<string> AutosavedDrawings { get; set; }
 
-        public string DrawingSearchTerms
-        {
-            set => _homeMenu.SearchTextChangedHandlers(value.ToLower());
-        }
-
         public string NewDrawingName { get; set; }
-
-        public OnlineDrawingModel SelectedOnlineDrawing { get; set; }
 
         public string SelectedAutosaved { get; set; }
 
@@ -106,8 +91,6 @@ namespace PolyPaint.ViewModels
         public string VisibilityColor => CreatePubliclyVisibleDrawing ? "#FF2B3ACF" : "#FFB3B3B3";
 
         public RelayCommand<object> GalleryCommand { get; set; }
-        public RelayCommand<object> GoToOnlineDrawingSubMenuCommand { get; set; }
-        public RelayCommand<object> JoinDrawingCommand { get; set; }
         public RelayCommand<object> GoToNewDrawingSubMenuCommand { get; set; }
         public RelayCommand<object> StartNewDrawing { get; set; }
         public RelayCommand<object> GoToLocalDrawingSubMenuCommand { get; set; }
@@ -174,15 +157,26 @@ namespace PolyPaint.ViewModels
 
         private void OpenGallery(object obj)
         {
-            // TODO: Create gallery and link it here
-            UserAlerts.ShowErrorMessage("Is this the Krusty Krab?");
+            if (GalleryWindow == null)
+            {
+                GalleryWindow = new GalleryWindowView();
+                GalleryWindow.Show();
+                GalleryWindow.Closing += OnGalleryWindowClosing;
+                OnClosingRequest();
+            }
+        }
 
-            var gall = new GalleryWindowView();
-            gall.Show();
-            gall.Closing += (sender, arg) => {
-                (gall.DataContext as GalleryViewModel)?.Dispose();
-                gall = null;
-            };
+        private static void OnGalleryWindowClosing(object sender, CancelEventArgs arg)
+        {
+            if (!(StrokeEditor != null || PixelEditor != null) && HomeMenu == null)
+            {
+                HomeMenu = new HomeMenu();
+                HomeMenu.Show();
+                HomeMenu.Closing += (s, a) => HomeMenu = null;
+            }
+
+            (GalleryWindow.DataContext as GalleryViewModel)?.Dispose();
+            GalleryWindow = null;
         }
 
         private void OpenLogin(object obj)
@@ -301,16 +295,6 @@ namespace PolyPaint.ViewModels
             UpdateVisibilityProperties();
         }
 
-        private void OpenOnlineDrawingSubMenu(object obj)
-        {
-            _homeMenu.LoadOnlineDrawingsList();
-            MainMenuVisibility = Visibility.Collapsed;
-            NewDrawingVisibility = Visibility.Collapsed;
-            JoinDrawingVisibility = Visibility.Visible;
-            LocalDrawingVisibility = Visibility.Collapsed;
-            UpdateVisibilityProperties();
-        }
-
         private void OpenLocalDrawingSubMenu(object obj)
         {
             _homeMenu.LoadAutosavedDrawingsList();
@@ -319,22 +303,6 @@ namespace PolyPaint.ViewModels
             JoinDrawingVisibility = Visibility.Collapsed;
             LocalDrawingVisibility = Visibility.Visible;
             UpdateVisibilityProperties();
-        }
-
-        private void JoinOnlineDrawing(object obj)
-        {
-            if (SelectedOnlineDrawing == null)
-            {
-                UserAlerts.ShowErrorMessage("Veuillez choisir un dessin");
-                return;
-            }
-
-            IsPasswordProtected = SelectedOnlineDrawing.Protection.Active;
-            IsDrawingOwner = Username == SelectedOnlineDrawing.Owner.Username;
-
-            bool drawingProtected = IsPasswordProtected && !IsDrawingOwner;
-
-            _homeMenu.JoinOnlineDrawing(SelectedOnlineDrawing.Id, drawingProtected);
         }
 
         private void UpdateVisibilityProperties()
@@ -352,19 +320,6 @@ namespace PolyPaint.ViewModels
             DrawingRoomId = drawingParams.Item1;
             DrawingName = drawingParams.Item2;
             OpenEditorWindow(drawingParams.Item3);
-        }
-
-        private void OnlineDrawingLoadedHandler(object sender,
-            Tuple<string, string, EditingModeOption, List<StrokeModel>> drawingParams)
-        {
-            DrawingRoomId = drawingParams.Item1;
-            DrawingName = drawingParams.Item2;
-            OpenEditorWindow(drawingParams.Item3, drawingParams.Item4);
-        }
-
-        private static void OnlineDrawingLoadingFailedHandler(object sender, string e)
-        {
-            UserAlerts.ShowErrorMessage(e);
         }
 
         private void OpenEditorWindow(EditingModeOption option = EditingModeOption.Trait,

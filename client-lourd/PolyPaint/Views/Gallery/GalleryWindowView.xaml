@@ -10,34 +10,36 @@
         MinHeight="700" MinWidth="600" MaxWidth="600"
         d:DataContext="{d:DesignInstance vm:GalleryViewModel}">
     <Window.Background>
-        <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg"/>
+        <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg" />
     </Window.Background>
     <Grid Margin="5,0,5,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="49*"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="49*"/>
+            <ColumnDefinition Width="49*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="49*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Label Content="Mes dessins" FontSize="18" FontWeight="Bold" Padding="10" Foreground="White" Background="#FF7DC1D4"/>
+            <Label Content="Mes dessins" FontSize="18" FontWeight="Bold" Padding="10" Foreground="White"
+                   Background="#FF7DC1D4" />
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding CurrentUserDrawings}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <vg:GalleryItemView Margin="10,0,10,0"/>
+                            <vg:GalleryItemView Margin="10,0,10,0" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
         </StackPanel>
-        <Border Grid.Column="1" Background="Transparent"></Border>
+        <Border Grid.Column="1" Background="Transparent" />
         <StackPanel Grid.Column="2">
-            <Label Content="Dessins publics" FontSize="18" FontWeight="Bold" Padding="10" Foreground="White" Background="#FF7DC1D4"/>
+            <Label Content="Dessins publics" FontSize="18" FontWeight="Bold" Padding="10" Foreground="White"
+                   Background="#FF7DC1D4" />
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding PublicDrawings}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <vg:GalleryItemView/>
+                            <vg:GalleryItemView />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
