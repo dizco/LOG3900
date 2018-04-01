@@ -36,7 +36,7 @@ namespace PolyPaint.ViewModels.Gallery
             _currentUserDrawingsId = new HashSet<string>();
             _publicDrawingsId = new HashSet<string>();
 
-            _cancellationToken = new CancellationToken();
+            _cancellationToken = _cancellationTokenSource.Token;
 
             LoadDrawings();
         }
@@ -93,7 +93,6 @@ namespace PolyPaint.ViewModels.Gallery
             if (_cancellationToken.IsCancellationRequested)
             {
                 return;
-
             }
             await RefreshUserDrawings();
             await RefreshPublicDrawings();
@@ -225,11 +224,6 @@ namespace PolyPaint.ViewModels.Gallery
             PublicDrawings = new ObservableCollection<GalleryItemView>();
             foreach (Tuple<string, string, bool> drawing in publicDrawings)
             {
-                if (_currentUserDrawingsId.Contains(drawing.Item2))
-                {
-                    continue;
-                }
-
                 _publicDrawingsId.Add(drawing.Item2);
 
                 GalleryItemView item = new GalleryItemView(drawing.Item1, drawing.Item2, false, drawing.Item3, true);
@@ -310,8 +304,11 @@ namespace PolyPaint.ViewModels.Gallery
                         content.GetValue("docs").ToObject<OnlineDrawingModel[]>();
                     foreach (OnlineDrawingModel drawing in docsArray)
                     {
-                        publicDrawings.Add(new Tuple<string, string, bool>(drawing.Name, drawing.Id,
-                                                                           drawing.Protection.Active));
+                        if (drawing.Owner.Username != Username)
+                        {
+                            publicDrawings.Add(new Tuple<string, string, bool>(drawing.Name, drawing.Id,
+                                                                               drawing.Protection.Active));
+                        }
                     }
                 }
                 catch

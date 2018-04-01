@@ -363,5 +363,10 @@
     <!-- from https://www.iconfinder.com/icons/308957/arrow_previous_icon#size=32 -->
     <Resource Include="Resources\Icons\previous.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Misc\empty_drawing_placeholder.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
