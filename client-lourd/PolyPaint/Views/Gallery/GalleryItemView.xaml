@@ -28,7 +28,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Label>
-                <Label Content="👁" Cursor="{Binding DrawingVisibilityCursor}"
+                <Label Content="{Binding DrawingVisibilityStatus}" Cursor="{Binding DrawingVisibilityCursor}"
                        ToolTip="{Binding VisibilityToolTipText}" FontSize="14" Width="30">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDown">

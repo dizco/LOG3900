@@ -47,7 +47,6 @@ namespace PolyPaint.ViewModels.Gallery
             _isDrawingOwner = isOwner;
             _drawingIsLocked = isLocked;
             _drawingIsPublic = isPublic;
-            LoadDrawingThumbnail();
 
             TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
             ToggleVisibilityCommand = new RelayCommand<object>(ToggleVisibility);
@@ -80,6 +79,8 @@ namespace PolyPaint.ViewModels.Gallery
                     refreshThumnailTask.Start();
                 }
             };
+
+            LoadDrawingThumbnail();
         }
 
         public RelayCommand<object> TogglePasswordCommand { get; set; }
@@ -112,6 +113,8 @@ namespace PolyPaint.ViewModels.Gallery
 
         public string DrawingVisibilityCursor => _isDrawingOwner ? "Hand" : "Cursor";
 
+        public string DrawingVisibilityStatus => _drawingIsPublic ? "🐵" : "🙈";
+
         public string VisibilityToolTipText => _drawingIsPublic ? "Dessin public" : "Dessin privé";
 
         private Bitmap Image
@@ -134,7 +137,7 @@ namespace PolyPaint.ViewModels.Gallery
                                                                  BitmapSizeOptions.FromEmptyOptions());
                 }
 
-                return null;
+                return new BitmapImage(new Uri("/PolyPaint;component/Resources/Misc/empty_drawing_placeholder.jpg", UriKind.RelativeOrAbsolute));
             }
         }
 
@@ -236,6 +239,7 @@ namespace PolyPaint.ViewModels.Gallery
             }
 
             PropertyModified(nameof(VisibilityToolTipText));
+            PropertyModified(nameof(DrawingVisibilityStatus));
         }
 
         internal async void JoinOnlineDrawing()
@@ -289,8 +293,7 @@ namespace PolyPaint.ViewModels.Gallery
 
                     List<StrokeModel> strokes = content.GetValue("strokes").ToObject<List<StrokeModel>>();
                     string drawingName = content.GetValue("name").ToString();
-
-                    // TODO: Get actual editing mode from drawing info once implemented
+                    
                     EditingModeOption option = EditingModeOption.Trait;
                     if (editingMode == "stroke")
                     {
