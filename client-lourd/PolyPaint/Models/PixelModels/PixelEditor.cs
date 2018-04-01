@@ -27,6 +27,9 @@ namespace PolyPaint.Models.PixelModels
 
         private bool _isWriteableBitmapOnEdition;
 
+        private const int ClockwiseAngle = 90; // degrees
+        private const int CounterClockwiseAngle = 270; // degrees
+
         // Size of the pixel trace in our draw
         private int _pixelSize = 5;
 
@@ -206,12 +209,12 @@ namespace PolyPaint.Models.PixelModels
 
         internal void QuarterTurnClockwise(object obj)
         {
-            CropWriteableBitmap = CropWriteableBitmap.Rotate(90);
+            CropWriteableBitmap = CropWriteableBitmap.Rotate(ClockwiseAngle);
         }
 
         internal void QuarterTurnCounterClockwise(object obj)
         {
-            CropWriteableBitmap = CropWriteableBitmap.Rotate(270);
+            CropWriteableBitmap = CropWriteableBitmap.Rotate(CounterClockwiseAngle);
         }
 
         internal void VerticalFlip(object obj)
