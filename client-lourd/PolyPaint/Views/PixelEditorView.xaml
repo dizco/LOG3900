@@ -123,13 +123,61 @@
                             HorizontalContentAlignment="Left"
                             BorderBrush="Transparent"
                             Background="Transparent"
-                            
                             Command="{Binding HorizontalFlipCommand}">
                         <StackPanel>
                             <Image Source="/Resources/flip_horizontally.png" />
                         </StackPanel>
                     </Button>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding Path=IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                </StackPanel>
+                <Button Name="GreyFilter" Width="40" Height="40" Margin="5"
+                        HorizontalContentAlignment="Left"
+                        BorderBrush="Transparent"
+                        Background="Transparent"
+                        Visibility="{Binding Path=IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                        Command="{Binding GrayFilterCommand}">
+                    <StackPanel>
+                        <Image Source="/Resources/Icons/palette.ico" />
+                    </StackPanel>
+                    <Button.ToolTip>
+                        <ToolTip>
+                            <TextBlock FontWeight="Bold">Tons de Gris</TextBlock>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+                <Button Name="InvertFilter" Width="40" Height="40" Margin="5"
+                        HorizontalContentAlignment="Left"
+                        BorderBrush="Transparent"
+                        Background="Transparent"
+                        Visibility="{Binding Path=IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                        Command="{Binding InvertFilterCommand}">
+                    <StackPanel>
+                        <Image Source="/Resources/Icons/negate.png" VerticalAlignment="Center" Height="42" Width="53" />
+                    </StackPanel>
+                    <Button.ToolTip>
+                        <ToolTip>
+                            <TextBlock FontWeight="Bold">Effet Négatif</TextBlock>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+                <Button Name="BlurFilter" Width="40" Height="40" Margin="5"
+                        HorizontalContentAlignment="Left"
+                        BorderBrush="Transparent"
+                        Background="Transparent"
+                        Visibility="{Binding Path=IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                        Command="{Binding GaussianBlurFilterCommand}">
+                    <StackPanel >
+                        <Image Source="/Resources/Icons/blur.png" />
+                    </StackPanel>
+                    <Button.ToolTip>
+                        <ToolTip>
+                            <TextBlock FontWeight="Bold">Flou Gaussien</TextBlock>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
             </StackPanel>
         </Border>
         <Border DockPanel.Dock="Bottom" Height="25" BorderThickness="0,0.75,0,0.75" BorderBrush="#77000000">

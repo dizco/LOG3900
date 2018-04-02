@@ -39,7 +39,7 @@ namespace PolyPaint.Models.PixelModels
         {
             //Todo: Resize dynamically with the size of the Canvas
             WriteableBitmap = BitmapFactory.New(1000, 1000);
-            WriteableBitmap.Clear(Colors.Transparent);
+            WriteableBitmap.Clear(Colors.White);
 
             _cropWriteableBitmapPosition = new Point(0, 0);
         }
@@ -149,7 +149,7 @@ namespace PolyPaint.Models.PixelModels
             }
             else if (SelectedTool == "eraser")
             {
-                tools.DrawPixel(PixelSize, "Transparent");
+                tools.DrawPixel(PixelSize, "White");
             }
         }
 
@@ -180,7 +180,7 @@ namespace PolyPaint.Models.PixelModels
             //Similar to MsPaint, the zoneSelected of our original writeableBitmap is filled with no color
             WriteableBitmap.FillRectangle((int) selectedRectangle.Item1.X, (int) selectedRectangle.Item1.Y,
                                           (int) selectedRectangle.Item2.X, (int) selectedRectangle.Item2.Y,
-                                          Colors.Transparent);
+                                          Colors.White);
 
             //We can then start our edition
             IsWriteableBitmapOnEdition = true;
@@ -219,6 +219,22 @@ namespace PolyPaint.Models.PixelModels
         internal void HorizontalFlip(object obj)
         {
             CropWriteableBitmap = CropWriteableBitmap.Flip(WriteableBitmapExtensions.FlipMode.Horizontal);
+        }
+
+        internal void GrayFilter(object obj)
+        {
+            CropWriteableBitmap = CropWriteableBitmap.Gray();
+        }
+
+        internal void InvertFilter(object obj)
+        {
+            CropWriteableBitmap = CropWriteableBitmap.Invert();
+        }
+
+        internal void GaussianBlurFilter(object obj)
+        {
+            int[,] kernel = WriteableBitmapExtensions.KernelGaussianBlur3x3;
+            CropWriteableBitmap = CropWriteableBitmap.Convolute(kernel);
         }
 
         /// <summary>
