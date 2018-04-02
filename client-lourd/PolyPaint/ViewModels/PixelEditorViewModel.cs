@@ -44,6 +44,11 @@ namespace PolyPaint.ViewModels
             VerticalFlipCommand = new RelayCommand<object>(_pixelEditor.VerticalFlip);
             HorizontalFlipCommand = new RelayCommand<object>(_pixelEditor.HorizontalFlip);
 
+            //Filters
+            GrayFilterCommand = new RelayCommand<object>(_pixelEditor.GrayFilter);
+            InvertFilterCommand = new RelayCommand<object>(_pixelEditor.InvertFilter);
+            GaussianBlurFilterCommand = new RelayCommand<object>(_pixelEditor.GaussianBlurFilter);
+
             if (IsConnectedToDrawing)
             {
                 ChatDocked = Visibility.Visible;
@@ -136,6 +141,11 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> QuarterTurnCounterClockwiseCommand { get; set; }
         public RelayCommand<object> VerticalFlipCommand { get; set; }
         public RelayCommand<object> HorizontalFlipCommand { get; set; }
+
+        //Filters
+        public RelayCommand<object> GrayFilterCommand { get; set; }
+        public RelayCommand<object> InvertFilterCommand { get; set; }
+        public RelayCommand<object> GaussianBlurFilterCommand { get; set; }
 
         public string LockUnlockDrawingMessage => IsPasswordProtected
                                                       ? "Retirer la protection du dessin"
