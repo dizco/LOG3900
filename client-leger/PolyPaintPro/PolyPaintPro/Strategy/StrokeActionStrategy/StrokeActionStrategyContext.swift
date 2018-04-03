@@ -16,6 +16,8 @@ final class StrokeActionStrategyContext {
             AddStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
         } else if actionName == StrokeActionNameConstants.resetActionName.rawValue {
             ResetStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+        } else if actionName == StrokeActionNameConstants.replaceActionName.rawValue {
+            ReplaceStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
         }
     }
 }
