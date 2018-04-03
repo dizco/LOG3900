@@ -47,6 +47,10 @@
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
 		BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* EditorDataModels.swift */; };
 		BEE8DBED20741BDC00161243 /* CGPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBEC20741BDC00161243 /* CGPathExtension.swift */; };
+		BEE8DBF02074200D00161243 /* BuildStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBEF2074200D00161243 /* BuildStrokeActionStrategy.swift */; };
+		BEE8DBF22074206900161243 /* AddBuildStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF12074206900161243 /* AddBuildStrokeActionStrategy.swift */; };
+		BEE8DBF4207421EC00161243 /* BuildStrokeActionStrategyContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF3207421EC00161243 /* BuildStrokeActionStrategyContext.swift */; };
+		BEE8DBF62074226800161243 /* ActionIdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF52074226800161243 /* ActionIdConstants.swift */; };
 		C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF572059C9990078CF27 /* EditorViewController.swift */; };
 		C067AF5F205A1A050078CF27 /* Timers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF5E205A1A050078CF27 /* Timers.swift */; };
 		C08BE4012056D1E200525038 /* Rest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08BE4002056D1E200525038 /* Rest.swift */; };
@@ -124,6 +128,10 @@
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
 		BECC087820619D4D0040EB4B /* EditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorDataModels.swift; sourceTree = "<group>"; };
 		BEE8DBEC20741BDC00161243 /* CGPathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPathExtension.swift; sourceTree = "<group>"; };
+		BEE8DBEF2074200D00161243 /* BuildStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildStrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BEE8DBF12074206900161243 /* AddBuildStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBuildStrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BEE8DBF3207421EC00161243 /* BuildStrokeActionStrategyContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildStrokeActionStrategyContext.swift; sourceTree = "<group>"; };
+		BEE8DBF52074226800161243 /* ActionIdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionIdConstants.swift; sourceTree = "<group>"; };
 		C067AF572059C9990078CF27 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		C067AF5E205A1A050078CF27 /* Timers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timers.swift; sourceTree = "<group>"; };
 		C08BE4002056D1E200525038 /* Rest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rest.swift; sourceTree = "<group>"; };
@@ -313,12 +321,23 @@
 			path = StrokeActionStrategy;
 			sourceTree = "<group>";
 		};
+		BEE8DBEE20741FF600161243 /* BuildStrokeActionStrategy */ = {
+			isa = PBXGroup;
+			children = (
+				BEE8DBEF2074200D00161243 /* BuildStrokeActionStrategy.swift */,
+				BEE8DBF12074206900161243 /* AddBuildStrokeActionStrategy.swift */,
+				BEE8DBF3207421EC00161243 /* BuildStrokeActionStrategyContext.swift */,
+			);
+			path = BuildStrokeActionStrategy;
+			sourceTree = "<group>";
+		};
 		C08BE3FF2056D16800525038 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
 				BE67C52E206559CF00C2EA77 /* MessageConstants.swift */,
 				C08BE4002056D1E200525038 /* Rest.swift */,
 				274956052058236D0053DAD4 /* DrawingTypes.swift */,
+				BEE8DBF52074226800161243 /* ActionIdConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -326,6 +345,7 @@
 		C08EB116206C40FC00468D80 /* Strategy */ = {
 			isa = PBXGroup;
 			children = (
+				BEE8DBEE20741FF600161243 /* BuildStrokeActionStrategy */,
 				BE67C532206BF52400C2EA77 /* StrokeActionStrategy */,
 			);
 			path = Strategy;
@@ -687,8 +707,10 @@
 				BE426A2120215E3C00FD1C50 /* ChatMessageModels.swift in Sources */,
 				271C1EC7203CC5D70090D6A5 /* DrawingToolsView.swift in Sources */,
 				BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */,
+				BEE8DBF22074206900161243 /* AddBuildStrokeActionStrategy.swift in Sources */,
 				2778DAB6205600D400690A65 /* ToolsView.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
+				BEE8DBF62074226800161243 /* ActionIdConstants.swift in Sources */,
 				BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */,
 				27F2FE2920576591006090B5 /* JoinDrawingViewController.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
@@ -699,10 +721,12 @@
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
 				271E38F720572CFC0067BD16 /* NewDrawingViewController.swift in Sources */,
 				27F2FE272057656C006090B5 /* OpenLocalDrawingViewController.swift in Sources */,
+				BEE8DBF02074200D00161243 /* BuildStrokeActionStrategy.swift in Sources */,
 				BE919D5820740CC2009D5EDF /* ResetStrokeActionStrategy.swift in Sources */,
 				C067AF5F205A1A050078CF27 /* Timers.swift in Sources */,
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
+				BEE8DBF4207421EC00161243 /* BuildStrokeActionStrategyContext.swift in Sources */,
 				BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */,
 				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
 				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,

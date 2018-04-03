@@ -75,24 +75,6 @@ class SKStroke: SKShapeNode {
         let lowerBoundY: CGFloat = position.y - padding
         let upperBoundY: CGFloat = position.y + padding
 
-        /*
-        // Validation on start point
-        if lowerBoundX <= self.start.x && self.start.x <= upperBoundX && lowerBoundY <= self.start.y && self.start.y <= upperBoundY {
-            return true
-        }
-
-        // Validation on end point
-        if lowerBoundX <= self.end.x && self.end.x <= upperBoundX && lowerBoundY <= self.end.y && self.end.y <= upperBoundY {
-            return true
-        }
-
-        // Validation on the points in-between
-        for point in self.wayPoints {
-            if lowerBoundX <= point.x && point.x <= upperBoundX && lowerBoundY <= point.y && point.y <= upperBoundY {
-                return true
-            }
-        }*/
-
         let pointsList = self.path?.getPathElementsPoints()
 
         for point in pointsList! {
