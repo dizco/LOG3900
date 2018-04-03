@@ -148,7 +148,7 @@ namespace PolyPaintTests.Helpers
             Messenger.DrawingRoomId = "drawingId";
 
             string expectedOutputString =
-                "{\"action\":{\"id\":2,\"name\":\"ReplaceStroke\"},\"author\":null,\"drawing\":{\"id\":\"drawingId\"},\"delta\":{\"add\":null,\"remove\":[\"00000000-0000-0000-0000-000000000000\"]},\"layer\":0,\"type\":\"client.editor.stroke.action\"}";
+                "{\"action\":{\"id\":2,\"name\":\"ReplaceStroke\"},\"author\":null,\"drawing\":{\"id\":\"drawingId\"},\"delta\":{\"add\":[],\"remove\":[\"00000000-0000-0000-0000-000000000000\"]},\"layer\":0,\"type\":\"client.editor.stroke.action\"}";
 
             //Generate stylus points
             StylusPointCollection points = new StylusPointCollection();

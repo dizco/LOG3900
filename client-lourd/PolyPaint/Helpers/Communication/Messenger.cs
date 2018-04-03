@@ -233,7 +233,7 @@ namespace PolyPaint.Helpers.Communication
                         },
                         Dots = stroke.StylusPoints
                                      .Select(point => new StylusPointModel {X = point.X, Y = point.Y}).ToArray()
-                    }).ToArray()
+                    }).ToArray() ?? new StrokeModel[0]
                 };
 
                 string actionSerialized = JsonConvert.SerializeObject(outgoingRemoveStrokeAction);
