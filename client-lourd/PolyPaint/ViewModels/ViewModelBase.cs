@@ -39,6 +39,7 @@ namespace PolyPaint.ViewModels
         public static GalleryWindowView GalleryWindow { get; set; }
         public static bool IsDrawingOwner { get; set; }
         public static bool IsPasswordProtected { get; set; }
+        public static bool IsPubliclyVisible { get; set; }
 
         protected static string DrawingRoomId
         {

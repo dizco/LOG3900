@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -26,7 +24,7 @@ namespace PolyPaint.ViewModels
     ///     Expose des commandes et propriétés connectées au modèle aux des éléments de la vue peuvent se lier.
     ///     Reçoit des avis de changement du modèle et envoie des avis de changements à la vue.
     /// </summary>
-    internal class StrokeEditorViewModel : EditorViewModelBase, INotifyPropertyChanged
+    internal class StrokeEditorViewModel : EditorViewModelBase
     {
         private readonly StrokeEditor _editor = new StrokeEditor();
 
@@ -89,7 +87,6 @@ namespace PolyPaint.ViewModels
             InsertTextCommand = new RelayCommand<InkCanvas>(InsertText);
 
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
-            TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
 
             if (Messenger?.IsConnected ?? false)
             {
@@ -180,15 +177,6 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        public string LockUnlockDrawingMessage => IsPasswordProtected
-                                                      ? "Retirer la protection du dessin"
-                                                      : "Protéger le dessin par un mot de passe";
-
-        public string LockUnlockIcon => IsPasswordProtected ? "🔒" : "🔓";
-
-        public bool ProtectionToggleIsEnabled =>
-            IsDrawingOwner && (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
-
         public static HistoryWindowView HistoryWindow { get; set; }
 
         public StrokeCollection StrokesCollection { get; set; }
@@ -228,12 +216,9 @@ namespace PolyPaint.ViewModels
         public RelayCommand<InkCanvas> InsertTextCommand { get; set; }
 
         public RelayCommand<object> OpenHistoryCommand { get; set; }
-        public RelayCommand<object> TogglePasswordCommand { get; set; }
 
         internal bool IsErasingByPoint { get; set; }
         internal bool IsErasingByStroke { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public new void Dispose()
         {
@@ -257,39 +242,6 @@ namespace PolyPaint.ViewModels
                 default:
                     throw new ArgumentOutOfRangeException(nameof(e), e, null);
             }
-        }
-
-        private async void TogglePasswordProtection(object obj)
-        {
-            if (IsPasswordProtected)
-            {
-                HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId);
-                if (response.IsSuccessStatusCode)
-                {
-                    IsPasswordProtected = false;
-                }
-            }
-            else
-            {
-                PasswordPrompt passwordPrompt = new PasswordPrompt();
-
-                passwordPrompt.PasswordEntered += async (sender, password) =>
-                {
-                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId, password);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        IsPasswordProtected = true;
-                    }
-
-                    passwordPrompt.Close();
-                };
-
-                passwordPrompt.ShowDialog();
-            }
-
-            PropertyModified("LockUnlockDrawingMessage");
-            PropertyModified("ProtectionToggleIsEnabled");
-            PropertyModified("LockUnlockIcon");
         }
 
         public event EventHandler<StrokeCollection> LockedStrokesSelectedEvent;
@@ -374,18 +326,6 @@ namespace PolyPaint.ViewModels
                 CustomStroke newStroke = StrokeHelper.BuildIncomingStroke(stroke, string.Empty);
                 _editor.StrokesCollection.Add(newStroke);
             }
-        }
-
-        /// <summary>
-        ///     Appelee lorsqu'une propriété de VueModele est modifiée.
-        ///     Un évènement indiquant qu'une propriété a été modifiée est alors émis à partir de VueModèle.
-        ///     L'évènement qui contient le nom de la propriété modifiée sera attrapé par la vue qui pourra
-        ///     alors mettre à jour les composants concernés.
-        /// </summary>
-        /// <param name="propertyName">Nom de la propriété modifiée.</param>
-        protected virtual void PropertyModified([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

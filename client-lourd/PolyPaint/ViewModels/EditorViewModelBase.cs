@@ -1,6 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Controls;
@@ -8,14 +10,16 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using PolyPaint.Annotations;
 using PolyPaint.Constants;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
+using PolyPaint.Views;
 using Application = System.Windows.Application;
 
 namespace PolyPaint.ViewModels
 {
-    internal class EditorViewModelBase : ViewModelBase, IDisposable
+    internal class EditorViewModelBase : ViewModelBase, IDisposable, INotifyPropertyChanged
     {
         private const int WaitTimeForThread = 5;
         private const int ImageHeight = 720;
@@ -26,6 +30,53 @@ namespace PolyPaint.ViewModels
         protected EditorViewModelBase()
         {
             EditorPollRequestReceived += OnEditorPollRequestReceived;
+
+            ToggleVisibilityCommand = new RelayCommand<object>(ToggleVisibility);
+            TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
+        }
+
+        private async void ToggleVisibility(object obj)
+        {
+            HttpResponseMessage response = await RestHandler.UpdateDrawingVisibility(DrawingRoomId, !IsPubliclyVisible);
+            if (response.IsSuccessStatusCode)
+            {
+                IsPubliclyVisible = !IsPubliclyVisible;
+            }
+
+            PropertyModified(nameof(DrawingVisibilityMessage));
+            PropertyModified(nameof(VisibilityIcon));
+        }
+        private async void TogglePasswordProtection(object obj)
+        {
+            if (IsPasswordProtected)
+            {
+                HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId);
+                if (response.IsSuccessStatusCode)
+                {
+                    IsPasswordProtected = false;
+                }
+            }
+            else
+            {
+                PasswordPrompt passwordPrompt = new PasswordPrompt();
+
+                passwordPrompt.PasswordEntered += async (sender, password) =>
+                {
+                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId, password);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        IsPasswordProtected = true;
+                    }
+
+                    passwordPrompt.Close();
+                };
+
+                passwordPrompt.ShowDialog();
+            }
+
+            PropertyModified(nameof(LockUnlockDrawingMessage));
+            PropertyModified(nameof(AccessibilityToggleIsEnabled));
+            PropertyModified(nameof(LockUnlockIcon));
         }
 
         protected object Canvas
@@ -50,6 +101,23 @@ namespace PolyPaint.ViewModels
         {
             EditorPollRequestReceived -= OnEditorPollRequestReceived;
         }
+
+        public RelayCommand<object> ToggleVisibilityCommand { get; set; }
+        public RelayCommand<object> TogglePasswordCommand { get; set; }
+
+        public string LockUnlockDrawingMessage => IsPasswordProtected
+                                                      ? "Retirer la protection du dessin"
+                                                      : "Protéger le dessin par un mot de passe";
+        public string LockUnlockIcon => IsPasswordProtected ? "🔒" : "🔓";
+
+        public bool AccessibilityToggleIsEnabled =>
+            IsDrawingOwner && (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
+
+        public string DrawingVisibilityMessage => IsPubliclyVisible
+                                                      ? "Retirer l'accès public de la galerie"
+                                                      : "Rendre l'accès public de la galerie";
+
+        public string VisibilityIcon => IsPubliclyVisible ? "🐵" : "🙈";
 
         private async void OnEditorPollRequestReceived(object sender, EventArgs eventArgs)
         {
@@ -198,6 +266,14 @@ namespace PolyPaint.ViewModels
                 imageStream?.Close();
                 fileImageStream?.Close();
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected void PropertyModified([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

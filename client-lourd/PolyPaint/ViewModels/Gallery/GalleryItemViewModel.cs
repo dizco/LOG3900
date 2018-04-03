@@ -325,6 +325,7 @@ namespace PolyPaint.ViewModels.Gallery
             ViewModelBase.DrawingName = drawingName;
             IsDrawingOwner = _isDrawingOwner;
             IsPasswordProtected = _drawingIsLocked;
+            IsPubliclyVisible = _drawingIsPublic;
 
             if (option == EditingModeOption.Trait)
             {
