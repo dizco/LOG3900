@@ -84,79 +84,23 @@ class StrokeEditorScene: SKScene {
     }
 
     // MARK: - Functions for sending strokes
-    func buildOutgoingAction(actionId: Int, strokeUuid: String) -> OutgoingActionMessage? {
+    func sendEditorAction(actionId: Int, strokeUuid: String = "") {
+        // Only send if the socket is connected
+        if SocketManager.sharedInstance.getConnectionStatus() {
+            do {
+                let builtAction = BuildStrokeActionStrategyContext(scene: self, actionId: actionId, strokeUuid: strokeUuid)
+                let outgoingActionMessage = builtAction.getOutgoingMessage()
+                let encodedData = try JSONEncoder().encode(outgoingActionMessage)
+                SocketManager.sharedInstance.send(data: encodedData)
 
-        // 1. Convert the waypoints into dots
-        let dots: [OutgoingDots] = convertWaypointsToDots()
-        // 2. Save the stroke attributes
-        let strokeAttributes: OutgoingStrokeAttributes = buildStrokeAttributes()
-        // 3. Combine 1 and 3 into an OutgoingAdd
-        var add: [OutgoingAdd] = []
-        let stroke = OutgoingAdd(strokeUuid: strokeUuid, strokeAttributes: strokeAttributes, dots: dots)
-        add.append(stroke)
-
-        // 4. Create the OutgoingDelta
-        // TO-DO : Differentiate between adding a new stroke and removing
-        let delta: OutgoingDelta = OutgoingDelta(add: add)
-
-        // 5. Create the OutgoingActionMessage
-        if actionId == 1 {
-            return OutgoingActionMessage(actionId: actionId, actionName: "NewStroke", delta: delta)
-        } else {
-            return nil
+                // Special case: We call our local reset here to prevent an infinite loop.
+                if actionId == StrokeActionIdConstants.reset.rawValue {
+                    self.resetCanvas()
+                }
+            } catch let error {
+                print(error)
+            }
         }
-    }
-
-    private func buildStrokeAttributes() -> OutgoingStrokeAttributes {
-        let color = convertUIColorToHex()!
-        return OutgoingStrokeAttributes(color: color, height: Int(self.width), width: Int(self.width))
-    }
-
-    private func convertUIColorToHex(withAlpha: Bool = true) -> String? {
-        // https://cocoacasts.com/from-hex-to-uicolor-and-back-in-swift
-        let red = Float(self.red)
-        let green = Float(self.green)
-        let blue = Float(self.blue)
-        let alpha = Float(self.alphaValue)
-
-        // swiftlint:disable line_length
-        if withAlpha {
-            return String(format: "#%02lX%02lX%02lX%02lX", lroundf(alpha * 255), lroundf(red * 255), lroundf(green * 255), lroundf(blue * 255))
-        } else {
-            return String(format: "#%02lX%02lX%02lX", lroundf(red * 255), lroundf(green * 255), lroundf(blue * 255))
-        }
-        // swiftlint:enable line_length
-    }
-
-    private func convertWaypointsToDots() -> [OutgoingDots] {
-
-        var dots: [OutgoingDots] = []
-
-        // Convert the start point into server coordinates
-        let startPoint = convertCGPointToDot(point: self.start)
-        let start = OutgoingDots(x: Double(startPoint.x), y: Double(startPoint.y))
-
-        // Convert the end point into server coordinates
-        let endPoint = convertCGPointToDot(point: self.end)
-        let end = OutgoingDots(x: Double(endPoint.x), y: Double(endPoint.y))
-
-        dots.append(start)
-        // Convert the rest of the points into server coordinates
-        for wayPoint in self.wayPoints {
-            let point = self.convertCGPointToDot(point: wayPoint)
-            let dot = OutgoingDots(x: Double(point.x), y: Double(point.y))
-            dots.append(dot)
-        }
-
-        // if it's only a dot
-        if self.wayPoints.count > 1 {
-            dots.append(end)
-        }
-        return dots
-    }
-
-    private func convertCGPointToDot(point: CGPoint) -> CGPoint {
-        return self.convertPoint(toView: point)
     }
 
     // MARK: - Function for received actions
@@ -327,18 +271,7 @@ class StrokeEditorScene: SKScene {
         self.addChild(shapeNode)
 
         // Only send the stroke if the socket is connected
-        if SocketManager.sharedInstance.getConnectionStatus() {
-            do {
-                //let outgoingActionMessage = self.buildOutgoingAction(actionId: 1, strokeUuid: shapeNode.id)!
-                let actionId = ActionIdConstants.add.rawValue
-                let builtAction = BuildStrokeActionStrategyContext(scene: self, actionId: actionId, strokeUuid: shapeNode.id)
-                let outgoingActionMessage = builtAction.getOutgoingMessage()
-                let encodedData = try JSONEncoder().encode(outgoingActionMessage)
-                SocketManager.sharedInstance.send(data: encodedData)
-            } catch let error {
-                print(error)
-            }
-        }
+        self.sendEditorAction(actionId: StrokeActionIdConstants.add.rawValue, strokeUuid: shapeNode.id)
     }
 
     private func eraseByStroke(position: CGPoint) {

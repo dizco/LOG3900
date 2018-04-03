@@ -12,9 +12,9 @@ final class StrokeActionStrategyContext {
     init(scene: StrokeEditorScene, incomingAction: IncomingActionMessage) {
         let actionName = incomingAction.action.name
 
-        if actionName == IncomingMessageConstants.addActionName.rawValue {
+        if actionName == StrokeActionNameConstants.addActionName.rawValue {
             AddStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
-        } else if actionName == IncomingMessageConstants.resetActionName.rawValue {
+        } else if actionName == StrokeActionNameConstants.resetActionName.rawValue {
             ResetStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
         }
     }

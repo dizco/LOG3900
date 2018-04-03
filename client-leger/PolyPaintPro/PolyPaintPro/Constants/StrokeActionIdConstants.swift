@@ -1,5 +1,5 @@
 //
-//  ActionIdConstants.swift
+//  StrokeActionIdConstants.swift
 //  PolyPaintPro
 //
 //  Created by Kenny Nguyen on 2018-04-03.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ActionIdConstants: Int {
+enum StrokeActionIdConstants: Int {
     case add = 1
     case reset = 6
 }
