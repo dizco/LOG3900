@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -10,6 +12,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Newtonsoft.Json.Linq;
 using PolyPaint.Annotations;
 using PolyPaint.Constants;
 using PolyPaint.Helpers;
@@ -35,6 +38,49 @@ namespace PolyPaint.ViewModels
             TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
         }
 
+        protected object Canvas
+        {
+            set
+            {
+                switch (value)
+                {
+                    case Canvas canvas:
+                        _currentCanvas = canvas;
+                        _currentInkCanvas = null;
+                        break;
+                    case InkCanvas inkCanvas:
+                        _currentCanvas = null;
+                        _currentInkCanvas = inkCanvas;
+                        break;
+                }
+            }
+        }
+
+        public RelayCommand<object> ToggleVisibilityCommand { get; set; }
+        public RelayCommand<object> TogglePasswordCommand { get; set; }
+
+        public string LockUnlockDrawingMessage => IsPasswordProtected
+                                                      ? "Retirer la protection du dessin"
+                                                      : "Protéger le dessin par un mot de passe";
+
+        public string LockUnlockIcon => IsPasswordProtected ? "🔒" : "🔓";
+
+        public bool AccessibilityToggleIsEnabled =>
+            IsDrawingOwner && (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
+
+        public string DrawingVisibilityMessage => IsPubliclyVisible
+                                                      ? "Retirer l'accès public de la galerie"
+                                                      : "Rendre l'accès public de la galerie";
+
+        public string VisibilityIcon => IsPubliclyVisible ? "🐵" : "🙈";
+
+        public void Dispose()
+        {
+            EditorPollRequestReceived -= OnEditorPollRequestReceived;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private async void ToggleVisibility(object obj)
         {
             HttpResponseMessage response = await RestHandler.UpdateDrawingVisibility(DrawingRoomId, !IsPubliclyVisible);
@@ -46,6 +92,7 @@ namespace PolyPaint.ViewModels
             PropertyModified(nameof(DrawingVisibilityMessage));
             PropertyModified(nameof(VisibilityIcon));
         }
+
         private async void TogglePasswordProtection(object obj)
         {
             if (IsPasswordProtected)
@@ -66,9 +113,27 @@ namespace PolyPaint.ViewModels
                     if (response.IsSuccessStatusCode)
                     {
                         IsPasswordProtected = true;
-                    }
 
-                    passwordPrompt.Close();
+                        passwordPrompt.Close();
+                    }
+                    else
+                    {
+                        JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+                        List<Dictionary<string, object>> hints =
+                            content.GetValue("hints").ToObject<List<Dictionary<string, object>>>();
+
+                        string hintMessages = null;
+                        foreach (Dictionary<string, object> hint in hints)
+                        {
+                            hintMessages += hint["msg"];
+                            if (hint != hints.Last())
+                            {
+                                hintMessages += "\n";
+                            }
+                        }
+
+                        UserAlerts.ShowErrorMessage(hintMessages);
+                    }
                 };
 
                 passwordPrompt.ShowDialog();
@@ -78,46 +143,6 @@ namespace PolyPaint.ViewModels
             PropertyModified(nameof(AccessibilityToggleIsEnabled));
             PropertyModified(nameof(LockUnlockIcon));
         }
-
-        protected object Canvas
-        {
-            set
-            {
-                switch (value)
-                {
-                    case Canvas canvas:
-                        _currentCanvas = canvas;
-                        _currentInkCanvas = null;
-                        break;
-                    case InkCanvas inkCanvas:
-                        _currentCanvas = null;
-                        _currentInkCanvas = inkCanvas;
-                        break;
-                }
-            }
-        }
-
-        public void Dispose()
-        {
-            EditorPollRequestReceived -= OnEditorPollRequestReceived;
-        }
-
-        public RelayCommand<object> ToggleVisibilityCommand { get; set; }
-        public RelayCommand<object> TogglePasswordCommand { get; set; }
-
-        public string LockUnlockDrawingMessage => IsPasswordProtected
-                                                      ? "Retirer la protection du dessin"
-                                                      : "Protéger le dessin par un mot de passe";
-        public string LockUnlockIcon => IsPasswordProtected ? "🔒" : "🔓";
-
-        public bool AccessibilityToggleIsEnabled =>
-            IsDrawingOwner && (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
-
-        public string DrawingVisibilityMessage => IsPubliclyVisible
-                                                      ? "Retirer l'accès public de la galerie"
-                                                      : "Rendre l'accès public de la galerie";
-
-        public string VisibilityIcon => IsPubliclyVisible ? "🐵" : "🙈";
 
         private async void OnEditorPollRequestReceived(object sender, EventArgs eventArgs)
         {
@@ -267,8 +292,6 @@ namespace PolyPaint.ViewModels
                 fileImageStream?.Close();
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected void PropertyModified([CallerMemberName] string propertyName = null)

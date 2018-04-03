@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -137,7 +138,8 @@ namespace PolyPaint.ViewModels.Gallery
                                                                  BitmapSizeOptions.FromEmptyOptions());
                 }
 
-                return new BitmapImage(new Uri("/PolyPaint;component/Resources/Misc/empty_drawing_placeholder.jpg", UriKind.RelativeOrAbsolute));
+                return new BitmapImage(new Uri("/PolyPaint;component/Resources/Misc/empty_drawing_placeholder.jpg",
+                                               UriKind.RelativeOrAbsolute));
             }
         }
 
@@ -212,13 +214,31 @@ namespace PolyPaint.ViewModels.Gallery
 
                 passwordPrompt.PasswordEntered += async (sender, password) =>
                 {
-                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(_drawingId, password);
+                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId, password);
                     if (response.IsSuccessStatusCode)
                     {
-                        _drawingIsLocked = true;
-                    }
+                        IsPasswordProtected = true;
 
-                    passwordPrompt.Close();
+                        passwordPrompt.Close();
+                    }
+                    else
+                    {
+                        JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+                        List<Dictionary<string, object>> hints =
+                            content.GetValue("hints").ToObject<List<Dictionary<string, object>>>();
+
+                        string hintMessages = null;
+                        foreach (Dictionary<string, object> hint in hints)
+                        {
+                            hintMessages += hint["msg"];
+                            if (hint != hints.Last())
+                            {
+                                hintMessages += "\n";
+                            }
+                        }
+
+                        UserAlerts.ShowErrorMessage(hintMessages);
+                    }
                 };
 
                 passwordPrompt.ShowDialog();
@@ -293,7 +313,7 @@ namespace PolyPaint.ViewModels.Gallery
 
                     List<StrokeModel> strokes = content.GetValue("strokes").ToObject<List<StrokeModel>>();
                     string drawingName = content.GetValue("name").ToString();
-                    
+
                     EditingModeOption option = EditingModeOption.Trait;
                     if (editingMode == "stroke")
                     {
