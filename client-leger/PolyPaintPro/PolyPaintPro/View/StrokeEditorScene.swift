@@ -311,12 +311,19 @@ class StrokeEditorScene: SKScene {
         }
         path.addLine(to: end)
 
+        // Create the stroke to be added to canvas
         let shapeNode = SKStroke()
         shapeNode.path = path
         shapeNode.name = self.COMPLETESTROKE
         shapeNode.strokeColor = UIColor(red: self.red, green: self.green, blue: self.blue, alpha: self.alphaValue)
         shapeNode.lineWidth = self.width
         shapeNode.lineCap = CGLineCap.round
+
+        // Save the stroke parameters in its own class
+        let strokeColor = SKStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: self.alphaValue)
+        let strokeDots = SKStrokeDots(wayPoints: self.wayPoints, start: start, end: end)
+        shapeNode.saveParameters(color: strokeColor, dots: strokeDots)
+
         self.addChild(shapeNode)
 
         // Only send the stroke if the socket is connected
