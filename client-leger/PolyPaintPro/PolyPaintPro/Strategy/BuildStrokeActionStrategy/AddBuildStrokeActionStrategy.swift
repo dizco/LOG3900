@@ -25,7 +25,7 @@ final class AddBuildStrokeActionStrategy: BuildStrokeActionStrategy {
         let delta: OutgoingDelta = OutgoingDelta(add: add)
 
         // 5. Create the OutgoingActionMessage
-        return OutgoingActionMessage(actionId: actionId, actionName: "NewStroke", delta: delta)
+        return OutgoingActionMessage(actionId: actionId, actionName: StrokeActionNameConstants.addActionName.rawValue, delta: delta)
     }
 
     private func buildStrokeAttributes(scene: StrokeEditorScene) -> OutgoingStrokeAttributes {

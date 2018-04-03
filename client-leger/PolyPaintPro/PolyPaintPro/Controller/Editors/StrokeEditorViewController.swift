@@ -64,6 +64,9 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
 
     func resetCanvas() {
         self.scene.resetCanvas()
+
+        // Special case: Preventing the reset infinite loop.
+        self.scene.sendEditorAction(actionId: StrokeActionIdConstants.reset.rawValue)
     }
 
     func stack() {

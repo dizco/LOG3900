@@ -50,7 +50,9 @@
 		BEE8DBF02074200D00161243 /* BuildStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBEF2074200D00161243 /* BuildStrokeActionStrategy.swift */; };
 		BEE8DBF22074206900161243 /* AddBuildStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF12074206900161243 /* AddBuildStrokeActionStrategy.swift */; };
 		BEE8DBF4207421EC00161243 /* BuildStrokeActionStrategyContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF3207421EC00161243 /* BuildStrokeActionStrategyContext.swift */; };
-		BEE8DBF62074226800161243 /* ActionIdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF52074226800161243 /* ActionIdConstants.swift */; };
+		BEE8DBF62074226800161243 /* StrokeActionIdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF52074226800161243 /* StrokeActionIdConstants.swift */; };
+		BEE8DBF8207426D100161243 /* ResetBuildStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF7207426D100161243 /* ResetBuildStrokeActionStrategy.swift */; };
+		BEE8DBFA207427A600161243 /* StrokeActionNameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBF9207427A600161243 /* StrokeActionNameConstants.swift */; };
 		C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF572059C9990078CF27 /* EditorViewController.swift */; };
 		C067AF5F205A1A050078CF27 /* Timers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF5E205A1A050078CF27 /* Timers.swift */; };
 		C08BE4012056D1E200525038 /* Rest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08BE4002056D1E200525038 /* Rest.swift */; };
@@ -131,7 +133,9 @@
 		BEE8DBEF2074200D00161243 /* BuildStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BEE8DBF12074206900161243 /* AddBuildStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBuildStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BEE8DBF3207421EC00161243 /* BuildStrokeActionStrategyContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildStrokeActionStrategyContext.swift; sourceTree = "<group>"; };
-		BEE8DBF52074226800161243 /* ActionIdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionIdConstants.swift; sourceTree = "<group>"; };
+		BEE8DBF52074226800161243 /* StrokeActionIdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeActionIdConstants.swift; sourceTree = "<group>"; };
+		BEE8DBF7207426D100161243 /* ResetBuildStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetBuildStrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BEE8DBF9207427A600161243 /* StrokeActionNameConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeActionNameConstants.swift; sourceTree = "<group>"; };
 		C067AF572059C9990078CF27 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		C067AF5E205A1A050078CF27 /* Timers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timers.swift; sourceTree = "<group>"; };
 		C08BE4002056D1E200525038 /* Rest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rest.swift; sourceTree = "<group>"; };
@@ -327,6 +331,7 @@
 				BEE8DBEF2074200D00161243 /* BuildStrokeActionStrategy.swift */,
 				BEE8DBF12074206900161243 /* AddBuildStrokeActionStrategy.swift */,
 				BEE8DBF3207421EC00161243 /* BuildStrokeActionStrategyContext.swift */,
+				BEE8DBF7207426D100161243 /* ResetBuildStrokeActionStrategy.swift */,
 			);
 			path = BuildStrokeActionStrategy;
 			sourceTree = "<group>";
@@ -337,7 +342,8 @@
 				BE67C52E206559CF00C2EA77 /* MessageConstants.swift */,
 				C08BE4002056D1E200525038 /* Rest.swift */,
 				274956052058236D0053DAD4 /* DrawingTypes.swift */,
-				BEE8DBF52074226800161243 /* ActionIdConstants.swift */,
+				BEE8DBF52074226800161243 /* StrokeActionIdConstants.swift */,
+				BEE8DBF9207427A600161243 /* StrokeActionNameConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -695,6 +701,7 @@
 				C0A5ECC82061C8D4007FD989 /* TextFieldValidator.swift in Sources */,
 				BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */,
 				BE919D5620740864009D5EDF /* StrokeActionStrategyContext.swift in Sources */,
+				BEE8DBF8207426D100161243 /* ResetBuildStrokeActionStrategy.swift in Sources */,
 				BE1FCAF02061E40900C57F02 /* SKStroke.swift in Sources */,
 				27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */,
 				BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */,
@@ -710,13 +717,14 @@
 				BEE8DBF22074206900161243 /* AddBuildStrokeActionStrategy.swift in Sources */,
 				2778DAB6205600D400690A65 /* ToolsView.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
-				BEE8DBF62074226800161243 /* ActionIdConstants.swift in Sources */,
+				BEE8DBF62074226800161243 /* StrokeActionIdConstants.swift in Sources */,
 				BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */,
 				27F2FE2920576591006090B5 /* JoinDrawingViewController.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
 				27C07AA62050D319006BB8EB /* RecentsViewController.swift in Sources */,
 				BE67C534206BF55B00C2EA77 /* AddStrokeActionStrategy.swift in Sources */,
 				C08BE4012056D1E200525038 /* Rest.swift in Sources */,
+				BEE8DBFA207427A600161243 /* StrokeActionNameConstants.swift in Sources */,
 				BE23A18B202D2DC800342007 /* RestManager.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
 				271E38F720572CFC0067BD16 /* NewDrawingViewController.swift in Sources */,

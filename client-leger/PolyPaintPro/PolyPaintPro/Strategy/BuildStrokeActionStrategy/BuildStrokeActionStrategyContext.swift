@@ -12,8 +12,10 @@ final class BuildStrokeActionStrategyContext {
     let outgoingActionMessage: OutgoingActionMessage?
 
     init(scene: StrokeEditorScene, actionId: Int, strokeUuid: String) {
-        if actionId == ActionIdConstants.add.rawValue {
+        if actionId == StrokeActionIdConstants.add.rawValue {
             self.outgoingActionMessage = AddBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, strokeUuid: strokeUuid)
+        } else if actionId == StrokeActionIdConstants.reset.rawValue {
+            self.outgoingActionMessage = ResetBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, strokeUuid: strokeUuid)
         } else {
             self.outgoingActionMessage = nil
         }
