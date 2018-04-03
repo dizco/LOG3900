@@ -47,7 +47,7 @@ class SKStroke: SKShapeNode {
 
     var width: CGFloat = 10.0
 
-    var id: String = UUID().uuidString
+    var id: String = UUID().uuidString.lowercased()
 
     func saveParameters(color: SKStrokeColor, dots: SKStrokeDots, width: CGFloat) {
         self.red = color.red

@@ -10,5 +10,6 @@ import Foundation
 
 enum StrokeActionIdConstants: Int {
     case add = 1
+    case replace = 2
     case reset = 6
 }

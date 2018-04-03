@@ -286,14 +286,30 @@ class StrokeEditorScene: SKScene {
 
         for stroke in strokesToBeErased! {
             if stroke.isCloseTo(position: position) {
+                self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: stroke.id)
                 stroke.removeFromParent()
             }
         }
+    }
 
-        /*if SocketManager.sharedInstance.getConnectionStatus() {
-            if self.currentEditingMode
-        }*/
+    func eraseByStrokeWith(strokeUuid: String) {
+        // We're looking for the right stroke to erase...
 
+        // ... in our local strokes list ...
+        enumerateChildNodes(withName: self.COMPLETESTROKE, using: {node, stop in
+            let currentNode = node as! SKStroke
+            if currentNode.id == strokeUuid {
+                node.removeFromParent()
+            }
+        })
+
+        // ... and in our online strokes list.
+        enumerateChildNodes(withName: self.RECEIVEDSTROKE, using: {node, stop in
+            let currentNode = node as! SKStroke
+            if currentNode.id == strokeUuid {
+                node.removeFromParent()
+            }
+        })
     }
 
     func eraseByPoint(position: CGPoint) {

@@ -43,6 +43,8 @@
 		BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */; };
 		BE919D5620740864009D5EDF /* StrokeActionStrategyContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE919D5520740864009D5EDF /* StrokeActionStrategyContext.swift */; };
 		BE919D5820740CC2009D5EDF /* ResetStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE919D5720740CC2009D5EDF /* ResetStrokeActionStrategy.swift */; };
+		BEAC9A52207432C500A02BDB /* ReplaceStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAC9A51207432C500A02BDB /* ReplaceStrokeActionStrategy.swift */; };
+		BEAC9A5420743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAC9A5320743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift */; };
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
 		BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* EditorDataModels.swift */; };
@@ -126,6 +128,8 @@
 		BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BE919D5520740864009D5EDF /* StrokeActionStrategyContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeActionStrategyContext.swift; sourceTree = "<group>"; };
 		BE919D5720740CC2009D5EDF /* ResetStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetStrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BEAC9A51207432C500A02BDB /* ReplaceStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceStrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BEAC9A5320743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceBuildStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
 		BECC087820619D4D0040EB4B /* EditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorDataModels.swift; sourceTree = "<group>"; };
@@ -321,6 +325,7 @@
 				BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */,
 				BE919D5520740864009D5EDF /* StrokeActionStrategyContext.swift */,
 				BE919D5720740CC2009D5EDF /* ResetStrokeActionStrategy.swift */,
+				BEAC9A51207432C500A02BDB /* ReplaceStrokeActionStrategy.swift */,
 			);
 			path = StrokeActionStrategy;
 			sourceTree = "<group>";
@@ -332,6 +337,7 @@
 				BEE8DBF12074206900161243 /* AddBuildStrokeActionStrategy.swift */,
 				BEE8DBF3207421EC00161243 /* BuildStrokeActionStrategyContext.swift */,
 				BEE8DBF7207426D100161243 /* ResetBuildStrokeActionStrategy.swift */,
+				BEAC9A5320743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift */,
 			);
 			path = BuildStrokeActionStrategy;
 			sourceTree = "<group>";
@@ -701,6 +707,7 @@
 				C0A5ECC82061C8D4007FD989 /* TextFieldValidator.swift in Sources */,
 				BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */,
 				BE919D5620740864009D5EDF /* StrokeActionStrategyContext.swift in Sources */,
+				BEAC9A5420743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift in Sources */,
 				BEE8DBF8207426D100161243 /* ResetBuildStrokeActionStrategy.swift in Sources */,
 				BE1FCAF02061E40900C57F02 /* SKStroke.swift in Sources */,
 				27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */,
@@ -727,6 +734,7 @@
 				BEE8DBFA207427A600161243 /* StrokeActionNameConstants.swift in Sources */,
 				BE23A18B202D2DC800342007 /* RestManager.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
+				BEAC9A52207432C500A02BDB /* ReplaceStrokeActionStrategy.swift in Sources */,
 				271E38F720572CFC0067BD16 /* NewDrawingViewController.swift in Sources */,
 				27F2FE272057656C006090B5 /* OpenLocalDrawingViewController.swift in Sources */,
 				BEE8DBF02074200D00161243 /* BuildStrokeActionStrategy.swift in Sources */,

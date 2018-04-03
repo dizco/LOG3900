@@ -16,6 +16,8 @@ final class BuildStrokeActionStrategyContext {
             self.outgoingActionMessage = AddBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, strokeUuid: strokeUuid)
         } else if actionId == StrokeActionIdConstants.reset.rawValue {
             self.outgoingActionMessage = ResetBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, strokeUuid: strokeUuid)
+        } else if actionId == StrokeActionIdConstants.replace.rawValue {
+            self.outgoingActionMessage = ReplaceBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, strokeUuid: strokeUuid)
         } else {
             self.outgoingActionMessage = nil
         }
