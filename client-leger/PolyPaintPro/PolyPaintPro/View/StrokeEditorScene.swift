@@ -328,14 +328,15 @@ class StrokeEditorScene: SKScene {
 
         // Only send the stroke if the socket is connected
         if SocketManager.sharedInstance.getConnectionStatus() {
-            if self.currentEditingMode == StrokeEditingMode.ink {
-                do {
-                    let outgoingActionMessage = self.buildOutgoingAction(actionId: 1, strokeUuid: shapeNode.id)!
-                    let encodedData = try JSONEncoder().encode(outgoingActionMessage)
-                    SocketManager.sharedInstance.send(data: encodedData)
-                } catch let error {
-                    print(error)
-                }
+            do {
+                //let outgoingActionMessage = self.buildOutgoingAction(actionId: 1, strokeUuid: shapeNode.id)!
+                let actionId = ActionIdConstants.add.rawValue
+                let builtAction = BuildStrokeActionStrategyContext(scene: self, actionId: actionId, strokeUuid: shapeNode.id)
+                let outgoingActionMessage = builtAction.getOutgoingMessage()
+                let encodedData = try JSONEncoder().encode(outgoingActionMessage)
+                SocketManager.sharedInstance.send(data: encodedData)
+            } catch let error {
+                print(error)
             }
         }
     }
@@ -355,6 +356,10 @@ class StrokeEditorScene: SKScene {
                 stroke.removeFromParent()
             }
         }
+
+        /*if SocketManager.sharedInstance.getConnectionStatus() {
+            if self.currentEditingMode
+        }*/
 
     }
 
