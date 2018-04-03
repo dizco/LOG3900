@@ -41,6 +41,7 @@
 		BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */; };
 		BE67C534206BF55B00C2EA77 /* AddStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */; };
 		BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */; };
+		BE919D5620740864009D5EDF /* StrokeActionStrategyContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE919D5520740864009D5EDF /* StrokeActionStrategyContext.swift */; };
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
 		BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* EditorDataModels.swift */; };
@@ -115,6 +116,7 @@
 		BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveStrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BE919D5520740864009D5EDF /* StrokeActionStrategyContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeActionStrategyContext.swift; sourceTree = "<group>"; };
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
 		BECC087820619D4D0040EB4B /* EditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorDataModels.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */,
 				BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */,
 				BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */,
+				BE919D5520740864009D5EDF /* StrokeActionStrategyContext.swift */,
 			);
 			path = StrokeActionStrategy;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 			files = (
 				C0A5ECC82061C8D4007FD989 /* TextFieldValidator.swift in Sources */,
 				BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */,
+				BE919D5620740864009D5EDF /* StrokeActionStrategyContext.swift in Sources */,
 				BE1FCAF02061E40900C57F02 /* SKStroke.swift in Sources */,
 				27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */,
 				BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */,
