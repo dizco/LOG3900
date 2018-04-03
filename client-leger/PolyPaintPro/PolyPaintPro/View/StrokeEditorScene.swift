@@ -161,7 +161,7 @@ class StrokeEditorScene: SKScene {
 
     // MARK: - Function for received actions
     func applyReceived(incomingAction: IncomingActionMessage) {
-        let _ = StrokeActionStrategyContext(scene: self, incomingAction: incomingAction)
+        _ = StrokeActionStrategyContext(scene: self, incomingAction: incomingAction)
     }
 
     // MARK: - Touches function

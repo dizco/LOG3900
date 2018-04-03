@@ -9,11 +9,19 @@
 import Foundation
 
 enum IncomingMessageConstants: String {
+    // MARK: - Incoming Stroke constants
     case strokeAction = "server.editor.stroke.action"
+    case addActionName = "NewStroke"
+    case resetActionName = "Reset"
+
+    // MARK: - Incoming Chat constants
     case chat = "server.chat.message"
 }
 
 enum OutgoingMessageConstants: String {
+    // MARK: - Outgoing Stroke constants
     case strokeAction = "client.editor.stroke.action"
+
+    // MARK: - Outgoing Chat constants
     case chat = "client.chat.message"
 }
