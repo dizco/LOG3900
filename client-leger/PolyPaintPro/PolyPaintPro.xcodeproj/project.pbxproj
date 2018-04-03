@@ -46,6 +46,7 @@
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
 		BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* EditorDataModels.swift */; };
+		BEE8DBED20741BDC00161243 /* CGPathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE8DBEC20741BDC00161243 /* CGPathExtension.swift */; };
 		C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF572059C9990078CF27 /* EditorViewController.swift */; };
 		C067AF5F205A1A050078CF27 /* Timers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C067AF5E205A1A050078CF27 /* Timers.swift */; };
 		C08BE4012056D1E200525038 /* Rest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08BE4002056D1E200525038 /* Rest.swift */; };
@@ -122,6 +123,7 @@
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
 		BECC087820619D4D0040EB4B /* EditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorDataModels.swift; sourceTree = "<group>"; };
+		BEE8DBEC20741BDC00161243 /* CGPathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPathExtension.swift; sourceTree = "<group>"; };
 		C067AF572059C9990078CF27 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		C067AF5E205A1A050078CF27 /* Timers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timers.swift; sourceTree = "<group>"; };
 		C08BE4002056D1E200525038 /* Rest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rest.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				BE2C90D92028AEB0003C8F1E /* Timestamp.swift */,
 				C067AF5E205A1A050078CF27 /* Timers.swift */,
 				BE1FCAEF2061E40900C57F02 /* SKStroke.swift */,
+				BEE8DBEC20741BDC00161243 /* CGPathExtension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */,
 				274C034B200EF37900DDAD8D /* PixelEditorViewController.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
+				BEE8DBED20741BDC00161243 /* CGPathExtension.swift in Sources */,
 				274956062058236D0053DAD4 /* DrawingTypes.swift in Sources */,
 				270EC6EE206575630018A2A6 /* DrawingModels.swift in Sources */,
 				BE426A2120215E3C00FD1C50 /* ChatMessageModels.swift in Sources */,

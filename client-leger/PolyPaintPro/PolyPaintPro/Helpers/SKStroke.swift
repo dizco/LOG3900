@@ -45,9 +45,11 @@ class SKStroke: SKShapeNode {
     var blue: CGFloat = 0.0
     var alphaValue: CGFloat = 1.0
 
+    var width: CGFloat = 10.0
+
     var id: String = UUID().uuidString
 
-    func saveParameters(color: SKStrokeColor, dots: SKStrokeDots) {
+    func saveParameters(color: SKStrokeColor, dots: SKStrokeDots, width: CGFloat) {
         self.red = color.red
         self.green = color.green
         self.blue = color.blue
@@ -56,10 +58,48 @@ class SKStroke: SKShapeNode {
         self.wayPoints = dots.wayPoints
         self.start = dots.start
         self.end = dots.end
+
+        self.width = width
     }
 
     func setReceivedUuid(uuid: String) {
         self.id = uuid
     }
-    // TO-DO : Use author name to manage the stack.
+
+    func isCloseTo(position: CGPoint) -> Bool {
+        let padding: CGFloat = 3.0 + self.width
+
+        let lowerBoundX: CGFloat = position.x - padding
+        let upperBoundX: CGFloat = position.x + padding
+
+        let lowerBoundY: CGFloat = position.y - padding
+        let upperBoundY: CGFloat = position.y + padding
+
+        /*
+        // Validation on start point
+        if lowerBoundX <= self.start.x && self.start.x <= upperBoundX && lowerBoundY <= self.start.y && self.start.y <= upperBoundY {
+            return true
+        }
+
+        // Validation on end point
+        if lowerBoundX <= self.end.x && self.end.x <= upperBoundX && lowerBoundY <= self.end.y && self.end.y <= upperBoundY {
+            return true
+        }
+
+        // Validation on the points in-between
+        for point in self.wayPoints {
+            if lowerBoundX <= point.x && point.x <= upperBoundX && lowerBoundY <= point.y && point.y <= upperBoundY {
+                return true
+            }
+        }*/
+
+        let pointsList = self.path?.getPathElementsPoints()
+
+        for point in pointsList! {
+            if lowerBoundX <= point.x && point.x <= upperBoundX && lowerBoundY <= point.y && point.y <= upperBoundY {
+                return true
+            }
+        }
+        return false
+    }
 }
