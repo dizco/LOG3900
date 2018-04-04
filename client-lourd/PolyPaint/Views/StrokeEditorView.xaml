@@ -37,8 +37,8 @@
                 <MenuItem Header="Historique des modifications" Command="{Binding OpenHistoryCommand}" IsEnabled="{Binding IsConnectedToDrawing}"/>
             </MenuItem>
             <MenuItem Header="_Accessibilité">
-                <MenuItem Header="{Binding LockUnlockDrawingMessage}" Icon="{Binding LockUnlockIcon}" IsEnabled="{Binding AccessibilityToggleIsEnabled}" Command="{Binding TogglePasswordCommand}"/>
-                <MenuItem Header="{Binding DrawingVisibilityMessage}" Icon="{Binding VisibilityIcon}" IsEnabled="{Binding AccessibilityToggleIsEnabled}" Command="{Binding ToggleVisibilityCommand}"/>
+                <MenuItem Header="{Binding LockUnlockDrawingMessage}" IsEnabled="{Binding AccessibilityToggleIsEnabled}" Command="{Binding TogglePasswordCommand}"/>
+                <MenuItem Header="{Binding DrawingVisibilityMessage}" IsEnabled="{Binding AccessibilityToggleIsEnabled}" Command="{Binding ToggleVisibilityCommand}"/>
             </MenuItem>
         </Menu>
         <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0.5" BorderBrush="#77000000">
