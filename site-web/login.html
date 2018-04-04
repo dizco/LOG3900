@@ -17,7 +17,7 @@
 
 	<link rel="stylesheet" href="css/responsive.css" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    
 	<!-- Document Title
 	============================================= -->
 	<title>Connexion à PolyPaintPro</title>
@@ -47,7 +47,7 @@
 
 						<div class="card divcenter noradius noborder" style="max-width: 400px; background-color: rgba(255,255,255,0.93);">
 							<div class="card-body" style="padding: 40px;">
-								<form id="login-form" name="login-form" class="nobottommargin" action="#" method="post">
+								<form id="login-form" name="login-form" class="nobottommargin">
 									<h3>Connectez-vous</h3>
 
 									<div class="col_full">
@@ -64,7 +64,12 @@
 
 									<div class="col_full">
 										<label for="login-form-ip">Adresse IP du serveur:</label>
-										<input type="password" id="login-form-ip" name="login-form-ip" value="" class="form-control not-dark" />
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<div class="input-group-text" id="http">http://</div>
+											</div>
+											<input type="text" id="login-form-ip" name="login-form-ip" value="" class="form-control not-dark" />
+										</div>
 									</div>
 
 									<div class="line line-sm"></div>
@@ -96,6 +101,7 @@
 	============================================= -->
 	<script src="js/jquery.js"></script>
 	<script src="js/plugins.js"></script>
+    <script src="login.js"></script>
 
 	<!-- Footer Scripts
 	============================================= -->

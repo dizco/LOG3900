@@ -11,6 +11,7 @@ import * as mongoosePaginate from "mongoose-paginate";
 import * as passport from "passport";
 import * as expressValidator from "express-validator";
 import * as bluebird from "bluebird";
+import * as cors from "cors";
 
 const MongoStore = mongo(session);
 
@@ -65,6 +66,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
+app.use(cors());
 app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
