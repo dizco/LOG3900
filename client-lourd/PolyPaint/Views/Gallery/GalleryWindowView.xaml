@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:PolyPaint.ViewModels.Gallery"
         mc:Ignorable="d"
         Title="GalleryWindowView"
-        MinHeight="700" MinWidth="600" MaxWidth="600"
+        MinHeight="700" MaxHeight="700" MinWidth="600" MaxWidth="600"
         d:DataContext="{d:DesignInstance vm:GalleryViewModel}">
     <Window.Background>
         <ImageBrush ImageSource="/PolyPaint;component/Resources/background.jpg" />
@@ -18,10 +18,15 @@
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="49*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Label Content="Mes dessins" FontSize="18" FontWeight="Bold" Padding="10" Foreground="White"
-                   Background="#FF7DC1D4" />
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                   Background="#FF7DC1D4" Grid.Row="0"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding CurrentUserDrawings}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -30,12 +35,16 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-        </StackPanel>
+        </Grid>
         <Border Grid.Column="1" Background="Transparent" />
-        <StackPanel Grid.Column="2">
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Label Content="Dessins publics" FontSize="18" FontWeight="Bold" Padding="10" Foreground="White"
-                   Background="#FF7DC1D4" />
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                   Background="#FF7DC1D4" Grid.Row="0"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
                 <ItemsControl ItemsSource="{Binding PublicDrawings}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -44,6 +53,6 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Window>

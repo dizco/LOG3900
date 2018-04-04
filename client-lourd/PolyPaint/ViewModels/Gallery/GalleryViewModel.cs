@@ -72,6 +72,9 @@ namespace PolyPaint.ViewModels.Gallery
             {
                 (drawing.DataContext as GalleryItemViewModel)?.Dispose();
             }
+
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -112,8 +115,7 @@ namespace PolyPaint.ViewModels.Gallery
 
         private void OnClosingRequest()
         {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            Dispose();
             ClosingRequest?.Invoke(this, null);
         }
 
