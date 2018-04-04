@@ -21,14 +21,16 @@ namespace PolyPaint.Strategy.PixelEditorActionStrategy
                 // Handled locally
                 return;
             }
-
-            foreach (PixelModel pixel in _newPixelAction.Pixels)
+            (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
             {
-                (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
+                editor.WriteableBitmap.Lock();
+                foreach (PixelModel pixel in _newPixelAction.Pixels)
                 {
-                    editor.DrawIncomingPixel((int) pixel.X, (int) pixel.Y, pixel.Color);
-                });
-            }
+                        editor.DrawIncomingPixel((int) pixel.X, (int) pixel.Y, pixel.Color);
+                
+                }
+                editor.WriteableBitmap.Unlock();
+            });
         }
     }
 }

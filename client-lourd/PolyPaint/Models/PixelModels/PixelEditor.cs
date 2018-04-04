@@ -150,6 +150,8 @@ namespace PolyPaint.Models.PixelModels
         }
 
         public event EventHandler<List<Tuple<Point, string>>> DrewLineEvent;
+        public event EventHandler<Tuple<Point, Point>> SelectedRegionEvent;
+        public event EventHandler<Rect> BlitRegionEvent;
 
         /// <summary>
         ///     Draw on the writeableBitmap
@@ -210,6 +212,8 @@ namespace PolyPaint.Models.PixelModels
             WriteableBitmap.FillRectangle((int) selectedRectangle.Item1.X, (int) selectedRectangle.Item1.Y,
                                           (int) selectedRectangle.Item2.X, (int) selectedRectangle.Item2.Y,
                                           Colors.White);
+
+            OnSelectedRegion(new Tuple<Point,Point>(selectedRectangle.Item1, selectedRectangle.Item2));
 
             //We can then start our edition
             IsWriteableBitmapOnEdition = true;
@@ -372,6 +376,16 @@ namespace PolyPaint.Models.PixelModels
         protected void OnDrewLine(object sender, List<Tuple<Point, string>> drawnPixels)
         {
             DrewLineEvent?.Invoke(sender, drawnPixels);
+        }
+
+        protected void OnSelectedRegion(Tuple<Point, Point> selectedRegionLimits)
+        {
+            SelectedRegionEvent?.Invoke(this, selectedRegionLimits);
+        }
+
+        protected void OnBlitRegion(Rect blitRegion)
+        {
+            BlitRegionEvent?.Invoke(this, blitRegion);
         }
 
         /// <summary>
