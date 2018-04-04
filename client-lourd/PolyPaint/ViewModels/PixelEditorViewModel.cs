@@ -255,9 +255,9 @@ namespace PolyPaint.ViewModels
             _pixelEditor.CurrentUsername = username;
         }
 
-        public void Fill(Point oldPoint, double maxWidth, double maxHeight)
+        public void Fill(Point oldPoint)
         {
-            _pixelEditor.FloodFill(oldPoint, maxWidth, maxHeight);
+            _pixelEditor.FloodFill(oldPoint);
         }
 
         /// <summary>
