@@ -5,34 +5,32 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Application = System.Windows.Application;
-using Color = System.Windows.Media.Color;
-using ColorConverter = System.Windows.Media.ColorConverter;
-using Cursor = System.Windows.Input.Cursor;
-using Cursors = System.Windows.Input.Cursors;
-using Point = System.Windows.Point;
 
 namespace PolyPaint.Models.PixelModels
 {
     internal class PixelEditor : INotifyPropertyChanged
     {
-        //writeableBitmap used on edition
+        private const int ClockwiseAngle = 90; // degrees
+        private const int CounterClockwiseAngle = 270; // degrees
+        private const int AlphaShift = 24;
+        private const int RedShift = 16;
+        private const int GreenShift = 8;
+
+        // original draw
+        private WriteableBitmap _writeableBitmap;
+
+        // writeableBitmap used on edition
         private WriteableBitmap _cropWriteableBitmap;
+
+        // temporay writeableBitmap used for a better collab
+        private WriteableBitmap _tempWriteableBitmap;
 
         private Point _cropWriteableBitmapPosition;
 
         private bool _isWriteableBitmapOnEdition;
-
-        private const int ClockwiseAngle = 90; // degrees
-        private const int CounterClockwiseAngle = 270; // degrees
-
-        private const int AlphaShift = 24;
-        private const int RedShift = 16;
-        private const int GreenShift = 8;
 
         // Size of the pixel trace in our draw
         private int _pixelSize = 5;
@@ -42,8 +40,6 @@ namespace PolyPaint.Models.PixelModels
 
         // Actif tool of the editor
         private string _selectedTool = "pencil";
-
-        private WriteableBitmap _writeableBitmap;
 
         public PixelEditor()
         {
@@ -70,6 +66,16 @@ namespace PolyPaint.Models.PixelModels
             set
             {
                 _cropWriteableBitmap = value;
+                PropertyModified();
+            }
+        }
+
+        public WriteableBitmap TempWriteableBitmap
+        {
+            get => _tempWriteableBitmap;
+            set
+            {
+                _tempWriteableBitmap = value;
                 PropertyModified();
             }
         }
@@ -168,26 +174,35 @@ namespace PolyPaint.Models.PixelModels
             WriteableBitmap.SetPixel(x, y, (Color) ColorConverter.ConvertFromString(pixelColor));
         }
 
-        public void SelectZone(ContentControl selectedZoneThumb, Point oldPosition, Point newPosition)
+        /// <summary>
+        ///     Select a zone in the drawing
+        /// </summary>
+        /// <param name="selectedZoneControl">Element controlling our selection</param>
+        /// <param name="beginPosition">Point where the selection start</param>
+        /// <param name="endPosition">Point where the selection end</param>
+        public void SelectZone(ContentControl selectedZoneControl, Point beginPosition, Point endPosition)
         {
-            Tools tools = new Tools(WriteableBitmap, oldPosition, newPosition);
+            Tools tools = new Tools(WriteableBitmap, beginPosition, endPosition);
 
             //The first point returns the lowest coordinates
             //The second point returns the highest coordinates
             Tuple<Point, Point> selectedRectangle = tools.SelectCropZone();
 
-            //We crop a second WriteableBitmap that will be edited into the size
+            //We crop a second WriteableBitmap and temporary Bitmap that will be edited into the size
             // of our selectedZone
             Rect rect = new Rect(selectedRectangle.Item1, selectedRectangle.Item2);
             CropWriteableBitmap = WriteableBitmap.Crop(rect);
-            selectedZoneThumb.Height = rect.Height;
-            selectedZoneThumb.Width = rect.Width;
+            TempWriteableBitmap = WriteableBitmap.Crop(rect);
+            TempWriteableBitmap.Clear(Colors.White);
+
+            selectedZoneControl.Height = rect.Height;
+            selectedZoneControl.Width = rect.Width;
 
             //We move our croppedwriteableBitmap into the position
             //of the selectedZone
             CropWriteableBitmapPosition = selectedRectangle.Item1;
-            Canvas.SetLeft(selectedZoneThumb, CropWriteableBitmapPosition.X);
-            Canvas.SetTop(selectedZoneThumb, CropWriteableBitmapPosition.Y);
+            Canvas.SetLeft(selectedZoneControl, CropWriteableBitmapPosition.X);
+            Canvas.SetTop(selectedZoneControl, CropWriteableBitmapPosition.Y);
 
             //Similar to MsPaint, the zoneSelected of our original writeableBitmap is filled with no color
             WriteableBitmap.FillRectangle((int) selectedRectangle.Item1.X, (int) selectedRectangle.Item1.Y,
@@ -198,28 +213,56 @@ namespace PolyPaint.Models.PixelModels
             IsWriteableBitmapOnEdition = true;
         }
 
-        /// <summary>
-        ///     Put the change made by the user on the edited bitmap
-        ///     Merge then the edited bitmap on the original bitmap (the draw)
-        /// </summary>
-        public void BlitSelectedZone(ContentControl contentControl)
+        public void SelectTempZone(Point beginPosition, Point endPosition)
         {
-            CropWriteableBitmap = CropWriteableBitmap.Resize((int)contentControl.Width, (int)contentControl.Height,
-                                       WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+            Tools tools = new Tools(WriteableBitmap, beginPosition, endPosition);
 
-            //The CropWriteableBitmap is moved on the position dragged by the user
-            Point position = new Point(Canvas.GetLeft(contentControl), Canvas.GetTop(contentControl));
-            ChangeCropWriteableBitmapPosition(position);
+            //The first point returns the lower-left coordinates
+            //The second point returns the uppe-right coordinates
+            Tuple<Point, Point> selectedRectangle = tools.SelectCropZone();
 
-            Rect destinationRectangle = new Rect(CropWriteableBitmapPosition.X, CropWriteableBitmapPosition.Y,
-                                                 CropWriteableBitmap.PixelWidth, CropWriteableBitmap.PixelHeight);
-            Rect sourceRectangle = new Rect(0, 0, CropWriteableBitmap.PixelWidth, CropWriteableBitmap.PixelHeight);
 
-            WriteableBitmap.Blit(destinationRectangle, CropWriteableBitmap, sourceRectangle);
+            //We crop the WriteableBitmap destinaton
+            Rect rect = new Rect(selectedRectangle.Item1, selectedRectangle.Item2);
 
-            IsWriteableBitmapOnEdition = false;
-            CropWriteableBitmap.Clear(Colors.Transparent);
+            TempWriteableBitmap = WriteableBitmap.Crop(rect);
         }
+
+        /// <summary>
+        ///     Put the changes made by the user on the edited bitmap
+        ///     Merge the edited bitmap on the original bitmap (the draw)
+        /// </summary>
+        /// <param name="selectionContentControl">Control of the zone Selected</param>
+        /// <param name="writeableBitmapSource">Writeablebitmap source that is blit on the original draw</param>
+        /// <param name="isSelectionOver">the selection ends if the value is set to True</param>
+        public void BlitDraw(ContentControl selectionContentControl, WriteableBitmap writeableBitmapSource, bool isSelectionOver)
+        {
+            if (IsWriteableBitmapOnEdition)
+            {
+                writeableBitmapSource = writeableBitmapSource.Resize((int)selectionContentControl.Width, (int)selectionContentControl.Height,
+                                                                     WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+
+                Point position = new Point(Canvas.GetLeft(selectionContentControl),
+                                           Canvas.GetTop(selectionContentControl));
+
+                Rect destinationRectangle = new Rect(position.X, position.Y,
+                                                     writeableBitmapSource.PixelWidth,
+                                                     writeableBitmapSource.PixelHeight);
+                Rect sourceRectangle =
+                    new Rect(0, 0, writeableBitmapSource.PixelWidth, writeableBitmapSource.PixelHeight);
+
+                WriteableBitmap.Blit(destinationRectangle, writeableBitmapSource, sourceRectangle);
+
+
+                if (isSelectionOver)
+                {
+                    writeableBitmapSource.Clear(Colors.Transparent);
+                    TempWriteableBitmap.Clear(Colors.Transparent);
+                    IsWriteableBitmapOnEdition = false;
+                }
+            }
+        }
+
 
         internal void QuarterTurnClockwise(object obj)
         {
@@ -317,9 +360,9 @@ namespace PolyPaint.Models.PixelModels
 
         public void FloodFill(Point startPoint, double maxWidth, double maxHeight)
         {
-            Color fillColor = (Color)ColorConverter.ConvertFromString(SelectedColor);
+            Color fillColor = (Color) ColorConverter.ConvertFromString(SelectedColor);
 
-            int oldColor = ToInt(WriteableBitmap.GetPixel((int)startPoint.X, (int)startPoint.Y));
+            int oldColor = ToInt(WriteableBitmap.GetPixel((int) startPoint.X, (int) startPoint.Y));
             int fillColorInt = ToInt(fillColor);
 
             if (oldColor == fillColorInt)
@@ -334,24 +377,26 @@ namespace PolyPaint.Models.PixelModels
             while (pixels.Count != 0)
             {
                 Point currentPixel = pixels.Pop();
-                int currentY = (int)currentPixel.Y;
+                int currentY = (int) currentPixel.Y;
 
-                while (0 <= currentY && ToInt(WriteableBitmap.GetPixel((int)currentPixel.X, currentY)) == oldColor)
+                while (0 <= currentY && ToInt(WriteableBitmap.GetPixel((int) currentPixel.X, currentY)) == oldColor)
                 {
                     currentY--;
                 }
+
                 currentY++;
-                
+
                 bool spanLeft = false;
                 bool spanRight = false;
-                
-                while (0 <= currentY && currentY < maxHeight && ToInt(WriteableBitmap.GetPixel((int)currentPixel.X, currentY)) == oldColor)
+
+                while (0 <= currentY && currentY < maxHeight &&
+                       ToInt(WriteableBitmap.GetPixel((int) currentPixel.X, currentY)) == oldColor)
                 {
-                    WriteableBitmap.SetPixel((int)currentPixel.X, currentY, fillColor);
-                    
+                    WriteableBitmap.SetPixel((int) currentPixel.X, currentY, fillColor);
+
                     if (1.0 < currentPixel.X)
                     {
-                        int getColor = ToInt(WriteableBitmap.GetPixel((int)currentPixel.X - 1, currentY));
+                        int getColor = ToInt(WriteableBitmap.GetPixel((int) currentPixel.X - 1, currentY));
 
                         if (!spanLeft && getColor == oldColor)
                         {
@@ -366,7 +411,7 @@ namespace PolyPaint.Models.PixelModels
 
                     if (currentPixel.X < maxWidth - 1.0)
                     {
-                        int getColor = ToInt(WriteableBitmap.GetPixel((int)currentPixel.X + 1, currentY));
+                        int getColor = ToInt(WriteableBitmap.GetPixel((int) currentPixel.X + 1, currentY));
 
                         if (!spanRight && getColor == oldColor)
                         {

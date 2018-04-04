@@ -241,7 +241,10 @@
                                 <ContentControl x:Name="ContentControl" 
                                                 Canvas.Left="{Binding CropWriteableBitmapPosition.X}"
                                                 Canvas.Top="{Binding CropWriteableBitmapPosition.Y}"
-                                                Style="{StaticResource DesignerItemStyle}">
+                                                Style="{StaticResource DesignerItemStyle}"
+                                                PreviewMouseLeftButtonUp="ContentControlOnPreviewMouseLeftButtonUp"
+                                                PreviewMouseLeftButtonDown="ContentControlOnPreviewMouseLeftButtonDown"
+                                                SizeChanged="ContentControlOnSizeChanged">
                                     <Image x:Name="SelectedZoneImage" Stretch="Fill"  IsHitTestVisible="False"  Source="{Binding CropWriteableBitmap}"/>
                                 </ContentControl>
                             </Canvas>
