@@ -75,6 +75,8 @@ export let postDrawing = (req: Request, res: Response, next: NextFunction) => {
             active: protectionParameterIsActive(req),
             password: req.body[DrawingFields.ProtectionPassword],
         },
+        strokes: [],
+        pixels: [],
     });
 
     drawing.save((err) => {
@@ -152,7 +154,7 @@ export let getDrawingThumbnail = (req: Request, res: Response, next: NextFunctio
         return res.status(422).json({ status: "error", error: "Failed to validate drawing id.", hints: errors });
     }
 
-    Drawing.findOne({_id: req.params.id}, {thumbnail: 1}, (err: any, drawing: DrawingModel) => {
+    Drawing.findOne({_id: req.params.id}).select({thumbnail: 1}).exec((err: any, drawing: DrawingModel) => {
         if (err) {
             return next(err);
         }
@@ -215,11 +217,11 @@ export let patchDrawing = (req: Request, res: Response, next: NextFunction) => {
         return res.status(422).json({ status: "error", error: "Failed to validate parameters or body.", hints: errors });
     }
 
-    Drawing.findByIdAndUpdate(req.params.id, buildUpdateFields(req), (err: any, drawing: DrawingModel) => {
+    Drawing.updateOne({ _id: req.params.id }, buildUpdateFields(req), (err: any, raw: any) => {
         if (err) {
             return next(err);
         }
-        if (!drawing) {
+        if (!(raw.n > 0)) { //No document has been modified
             return res.status(404).json({ status: "error", error: "Drawing not found." });
         }
         return res.json({ status: "success" });
@@ -239,11 +241,11 @@ export let putDrawingThumbnail = (req: Request, res: Response, next: NextFunctio
         return res.status(422).json({ status: "error", error: "Failed to validate parameters or body.", hints: errors });
     }
 
-    Drawing.findByIdAndUpdate(req.params.id, { thumbnail: req.body[DrawingFields.Thumbnail] }, (err: any, drawing: DrawingModel) => {
+    Drawing.updateOne({ _id: req.params.id }, { thumbnail: req.body[DrawingFields.Thumbnail] }, (err: any, raw: any) => {
         if (err) {
             return next(err);
         }
-        if (!drawing) {
+        if (!(raw.n > 0)) { //No document has been modified
             return res.status(404).json({ status: "error", error: "Drawing not found." });
         }
         return res.json({ status: "success" });

@@ -79,7 +79,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
                 timer.start();
-                Drawing.findOne(conditions, {actions: 0}).exec((err: any, drawing: DrawingModel) => {
+                Drawing.findOne(conditions).select({strokes: 1}).exec((err: any, drawing: DrawingModel) => {
                     if (err || !drawing) {
                         console.log("ReplaceStroke: An error occurred while fetching drawing", err);
                         return reject(err);
@@ -119,7 +119,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
                 timer.start();
-                Drawing.findOne(conditions, {actions: 0}).exec((err: any, drawing: DrawingModel) => {
+                Drawing.findOne(conditions).select({strokes: 1}).exec((err: any, drawing: DrawingModel) => {
                     if (err || !drawing) {
                         console.log("Transform: An error occurred while fetching drawing", err);
                         return reject(err);
