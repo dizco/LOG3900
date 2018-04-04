@@ -177,7 +177,7 @@ export let getTemplateThumbnail = (req: Request, res: Response, next: NextFuncti
         return res.status(422).json({ status: "error", error: "Failed to validate template id.", hints: errors });
     }
 
-    Template.findOne({_id: req.params.id}, {thumbnail: 1}, (err: any, template: TemplateModel) => {
+    Template.findOne({_id: req.params.id}).select({thumbnail: 1}).exec((err: any, template: TemplateModel) => {
         if (err) {
             return next(err);
         }
