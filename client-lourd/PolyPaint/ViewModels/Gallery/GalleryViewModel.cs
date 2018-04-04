@@ -115,7 +115,6 @@ namespace PolyPaint.ViewModels.Gallery
 
         private void OnClosingRequest()
         {
-            Dispose();
             ClosingRequest?.Invoke(this, null);
         }
 
