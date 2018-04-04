@@ -210,18 +210,6 @@ namespace PolyPaint.ViewModels
             _pixelEditor.FloodFill(oldPoint);
         }
 
-        /// <summary>
-        ///     Appelee lorsqu'une propriété de VueModele est modifiée.
-        ///     Un évènement indiquant qu'une propriété a été modifiée est alors émis à partir de VueModèle.
-        ///     L'évènement qui contient le nom de la propriété modifiée sera attrapé par la vue qui pourra
-        ///     alors mettre à jour les composants concernés.
-        /// </summary>
-        /// <param name="propertyName">Nom de la propriété modifiée.</param>
-        protected virtual void PropertyModified([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public void OpenChatWindow(object o)
         {
             if (ChatWindow == null)

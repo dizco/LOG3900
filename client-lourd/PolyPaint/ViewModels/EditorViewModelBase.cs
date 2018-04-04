@@ -63,16 +63,12 @@ namespace PolyPaint.ViewModels
                                                       ? "Retirer la protection du dessin"
                                                       : "Protéger le dessin par un mot de passe";
 
-        public string LockUnlockIcon => IsPasswordProtected ? "🔒" : "🔓";
-
         public bool AccessibilityToggleIsEnabled =>
             IsDrawingOwner && (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
 
         public string DrawingVisibilityMessage => IsPubliclyVisible
                                                       ? "Retirer l'accès public de la galerie"
                                                       : "Rendre l'accès public de la galerie";
-
-        public string VisibilityIcon => IsPubliclyVisible ? "🐵" : "🙈";
 
         public void Dispose()
         {
@@ -90,7 +86,6 @@ namespace PolyPaint.ViewModels
             }
 
             PropertyModified(nameof(DrawingVisibilityMessage));
-            PropertyModified(nameof(VisibilityIcon));
         }
 
         private async void TogglePasswordProtection(object obj)
@@ -141,7 +136,6 @@ namespace PolyPaint.ViewModels
 
             PropertyModified(nameof(LockUnlockDrawingMessage));
             PropertyModified(nameof(AccessibilityToggleIsEnabled));
-            PropertyModified(nameof(LockUnlockIcon));
         }
 
         private async void OnEditorPollRequestReceived(object sender, EventArgs eventArgs)
