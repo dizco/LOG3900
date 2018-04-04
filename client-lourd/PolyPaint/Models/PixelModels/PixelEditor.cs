@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -149,7 +150,7 @@ namespace PolyPaint.Models.PixelModels
             CropWriteableBitmapPosition = position;
         }
 
-        public event EventHandler<List<Tuple<Point, string>>> DrewLineEvent;
+        public event EventHandler<List<Tuple<Point, string>>> DrewPixelsEvent;
         public event EventHandler<Tuple<Point, Point>> SelectedRegionEvent;
         public event EventHandler<Rect> BlitRegionEvent;
 
@@ -162,7 +163,7 @@ namespace PolyPaint.Models.PixelModels
         public void DrawPixels(Point oldPosition, Point newPosition)
         {
             Tools tools = new Tools(WriteableBitmap, oldPosition, newPosition);
-            tools.DrewLineEvent += OnDrewLine;
+            tools.DrewLineEvent += OnDrewPixels;
             if (SelectedTool == "pencil")
             {
                 tools.DrawPixel(PixelSize, SelectedColor);
@@ -213,7 +214,7 @@ namespace PolyPaint.Models.PixelModels
                                           (int) selectedRectangle.Item2.X, (int) selectedRectangle.Item2.Y,
                                           Colors.White);
 
-            OnSelectedRegion(new Tuple<Point,Point>(selectedRectangle.Item1, selectedRectangle.Item2));
+            OnSelectedRegion(new Tuple<Point, Point>(selectedRectangle.Item1, selectedRectangle.Item2));
 
             //We can then start our edition
             IsWriteableBitmapOnEdition = true;
@@ -373,9 +374,9 @@ namespace PolyPaint.Models.PixelModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected void OnDrewLine(object sender, List<Tuple<Point, string>> drawnPixels)
+        protected void OnDrewPixels(object sender, List<Tuple<Point, string>> drawnPixels)
         {
-            DrewLineEvent?.Invoke(sender, drawnPixels);
+            DrewPixelsEvent?.Invoke(sender, drawnPixels);
         }
 
         protected void OnSelectedRegion(Tuple<Point, Point> selectedRegionLimits)
@@ -407,15 +408,18 @@ namespace PolyPaint.Models.PixelModels
         {
             Color fillColor = (Color) ColorConverter.ConvertFromString(SelectedColor);
 
-            int oldColor = ToInt(WriteableBitmap.GetPixel((int) startPoint.X, (int) startPoint.Y));
+            int oldColorInt = ToInt(WriteableBitmap.GetPixel((int) startPoint.X, (int) startPoint.Y));
             int fillColorInt = ToInt(fillColor);
 
-            if (oldColor == fillColorInt)
+            if (oldColorInt == fillColorInt)
             {
                 return;
             }
 
             Stack<Point> pixels = new Stack<Point>();
+
+            List<Tuple<Point, string>> drawnPixels = new List<Tuple<Point, string>>();
+
             pixels.Push(startPoint);
             WriteableBitmap.Lock();
 
@@ -424,7 +428,7 @@ namespace PolyPaint.Models.PixelModels
                 Point currentPixel = pixels.Pop();
                 int currentY = (int) currentPixel.Y;
 
-                while (0 <= currentY && ToInt(WriteableBitmap.GetPixel((int) currentPixel.X, currentY)) == oldColor)
+                while (0 <= currentY && ToInt(WriteableBitmap.GetPixel((int) currentPixel.X, currentY)) == oldColorInt)
                 {
                     currentY--;
                 }
@@ -435,20 +439,21 @@ namespace PolyPaint.Models.PixelModels
                 bool spanRight = false;
 
                 while (0 <= currentY && currentY < maxHeight &&
-                       ToInt(WriteableBitmap.GetPixel((int) currentPixel.X, currentY)) == oldColor)
+                       ToInt(WriteableBitmap.GetPixel((int) currentPixel.X, currentY)) == oldColorInt)
                 {
                     WriteableBitmap.SetPixel((int) currentPixel.X, currentY, fillColor);
+                    drawnPixels.Add(new Tuple<Point, string>(new Point(currentPixel.X, currentY), SelectedColor));
 
                     if (1.0 < currentPixel.X)
                     {
                         int getColor = ToInt(WriteableBitmap.GetPixel((int) currentPixel.X - 1, currentY));
 
-                        if (!spanLeft && getColor == oldColor)
+                        if (!spanLeft && getColor == oldColorInt)
                         {
                             pixels.Push(new Point(currentPixel.X - 1.0, currentY));
                             spanLeft = true;
                         }
-                        else if (getColor != oldColor)
+                        else if (getColor != oldColorInt)
                         {
                             spanLeft = false;
                         }
@@ -458,12 +463,12 @@ namespace PolyPaint.Models.PixelModels
                     {
                         int getColor = ToInt(WriteableBitmap.GetPixel((int) currentPixel.X + 1, currentY));
 
-                        if (!spanRight && getColor == oldColor)
+                        if (!spanRight && getColor == oldColorInt)
                         {
                             pixels.Push(new Point(currentPixel.X + 1.0, currentY));
                             spanRight = true;
                         }
-                        else if (getColor != oldColor)
+                        else if (getColor != oldColorInt)
                         {
                             spanRight = false;
                         }
@@ -474,6 +479,8 @@ namespace PolyPaint.Models.PixelModels
             }
 
             WriteableBitmap.Unlock();
+
+            OnDrewPixels(this, drawnPixels);
         }
     }
 }
