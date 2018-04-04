@@ -22,11 +22,6 @@ namespace PolyPaint.Views
         {
             InitializeComponent();
             DataContext = new PixelEditorViewModel(DrawingSurface);
-
-            foreach (Control child in SelectedZoneCanvas.Children)
-            {
-                Selector.SetIsSelected(child, true);
-            }
         }
 
         private void GlisserCommence(object sender, DragStartedEventArgs e)
@@ -59,7 +54,7 @@ namespace PolyPaint.Views
             _oldPositionDrawing = e.GetPosition(DrawingSurface);
         }
 
-        private void DrawingSurfacePreviewMouseDown(object sender, MouseEventArgs e)
+    private void DrawingSurfacePreviewMouseDown(object sender, MouseEventArgs e)
         {
             _oldPositionDrawing = e.GetPosition(DrawingSurface);
 
@@ -72,7 +67,13 @@ namespace PolyPaint.Views
             if ((DataContext as PixelEditorViewModel)?.ToolSelected != "selector"
                 && (DataContext as PixelEditorViewModel)?.CropWriteableBitmap != null)
             {
-                (DataContext as PixelEditorViewModel)?.BlitZoneSelector(ContentControle);
+                (DataContext as PixelEditorViewModel)?.BlitZoneSelector(ContentControl);
+               
+                // Hide the selector and the adorners
+                foreach (Control child in SelectedZoneCanvas.Children)
+                {
+                    Selector.SetIsSelected(child, false);
+                }
                 SelectedZoneCanvas.Visibility = Visibility.Hidden;
             }
 
@@ -118,7 +119,7 @@ namespace PolyPaint.Views
 
                 if ((DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition)
                 {
-                    (DataContext as PixelEditorViewModel)?.BlitZoneSelector(ContentControle);
+                    (DataContext as PixelEditorViewModel)?.BlitZoneSelector(ContentControl);
                 }
             }
         }
@@ -145,13 +146,24 @@ namespace PolyPaint.Views
                 (DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition = false;
                 if (!_mouseDownPositionSelector.Equals(mouseUpPosition))
                 {
+                    // Show the selector and the adorners
                     SelectedZoneCanvas.Visibility = Visibility.Visible;
+                    foreach (Control child in SelectedZoneCanvas.Children)
+                    {
+                        Selector.SetIsSelected(child, true);
+                    }
+
                     // Fonction of the selection box
-                    (DataContext as PixelEditorViewModel)?.ZoneSelector(ContentControle, _mouseDownPositionSelector, mouseUpPosition);
+                    (DataContext as PixelEditorViewModel)?.ZoneSelector(ContentControl, _mouseDownPositionSelector, mouseUpPosition);
                 }
                 else
                 {
+                    // Hide the selector and the adorners
                     SelectedZoneCanvas.Visibility = Visibility.Hidden;
+                    foreach (Control child in SelectedZoneCanvas.Children)
+                    {
+                        Selector.SetIsSelected(child, false);
+                    }
                 }
             }
         }
@@ -194,18 +206,7 @@ namespace PolyPaint.Views
                     selectionBox.Height = _mouseDownPositionSelector.Y - mouseUpPosition.Y;
                 }
             }
-        }
-
-        private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
-        {
-            UIElement thumb = e.Source as UIElement;
-
-            Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
-            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
-
-            //  The cropWriteableBitmap on the selected zone is also moved
-            Point position = new Point(Canvas.GetLeft(thumb), Canvas.GetTop(thumb));
-            (DataContext as PixelEditorViewModel)?.ChangeCropWriteableBitmapPosition(position);
+      
         }
     }
 }

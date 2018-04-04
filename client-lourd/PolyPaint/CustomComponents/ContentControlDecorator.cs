@@ -19,6 +19,14 @@ namespace PolyPaint.CustomComponents
             set => SetValue(ShowDecoratorProperty, value);
         }
 
+        private void HideAdorner()
+        {
+            if (_adorner != null)
+            {
+                _adorner.Visibility = Visibility.Hidden;
+            }
+        }
+
         private void ShowAdorner()
         {
             if (_adorner == null)
@@ -55,6 +63,10 @@ namespace PolyPaint.CustomComponents
             if (showDecorator)
             {
                 decorator.ShowAdorner();
+            }
+            else
+            {
+                decorator.HideAdorner();
             }
         }
     }
