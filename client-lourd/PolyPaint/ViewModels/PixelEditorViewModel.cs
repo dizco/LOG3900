@@ -23,7 +23,7 @@ namespace PolyPaint.ViewModels
         {
             // On écoute pour des changements sur le modèle. Lorsqu'il y en a, DrawingPixelModelPropertyModified est appelée.
             _pixelEditor.DrawingName = DrawingName;
-            _pixelEditor.DrewLineEvent += PixelEditorDrewLineEventHandler;
+            _pixelEditor.DrewPixelsEvent += PixelEditorDrewPixelsEventHandler;
             _pixelEditor.PropertyChanged += (s, a) => PropertyModified(a.PropertyName);
             //_pixelEditor.SelectedRegionEvent
             _pixelEditor.BlitRegionEvent += PixelEditorOnBlitRegionEvent;
@@ -155,7 +155,7 @@ namespace PolyPaint.ViewModels
             context.ExecuteStrategy(_pixelEditor);
         }
 
-        private void PixelEditorDrewLineEventHandler(object o, List<Tuple<Point, string>> pixels)
+        private void PixelEditorDrewPixelsEventHandler(object o, List<Tuple<Point, string>> pixels)
         {
             SendNewPixels(pixels);
         }
