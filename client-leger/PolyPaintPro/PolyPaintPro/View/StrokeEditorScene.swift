@@ -84,11 +84,11 @@ class StrokeEditorScene: SKScene {
     }
 
     // MARK: - Functions for sending strokes
-    func sendEditorAction(actionId: Int, strokeUuid: String = "") {
+    func sendEditorAction(actionId: Int, strokeUuid: String = "", stroke: SKStroke? = nil) {
         // Only send if the socket is connected
         if SocketManager.sharedInstance.getConnectionStatus() {
             do {
-                let builtAction = BuildStrokeActionStrategyContext(scene: self, actionId: actionId, strokeUuid: strokeUuid)
+                let builtAction = BuildStrokeActionStrategyContext(scene: self, actionId: actionId, strokeUuid: strokeUuid, stroke: stroke)
                 let outgoingActionMessage = builtAction.getOutgoingMessage()
                 let encodedData = try JSONEncoder().encode(outgoingActionMessage)
                 SocketManager.sharedInstance.send(data: encodedData)
@@ -271,7 +271,7 @@ class StrokeEditorScene: SKScene {
         self.addChild(shapeNode)
 
         // Only send the stroke if the socket is connected
-        self.sendEditorAction(actionId: StrokeActionIdConstants.add.rawValue, strokeUuid: shapeNode.id)
+        self.sendEditorAction(actionId: StrokeActionIdConstants.add.rawValue, strokeUuid: shapeNode.id, stroke: shapeNode)
     }
 
     private func eraseByStroke(position: CGPoint) {
@@ -327,9 +327,19 @@ class StrokeEditorScene: SKScene {
     // removes the child from view and adds it to the stack
     func stack() {
         if !self.children.isEmpty {
-            let lastStroke = self.children.last as! SKStroke
-            self.strokesStack.push(lastStroke)
-            lastStroke.removeFromParent()
+            var localChildren: [SKStroke] = []
+            enumerateChildNodes(withName: self.COMPLETESTROKE, using: {node, stop in
+                let currentNode = node as! SKStroke
+                localChildren.append(currentNode)
+            })
+
+            if !localChildren.isEmpty {
+                let lastStroke = localChildren.last as! SKStroke
+                self.strokesStack.push(lastStroke)
+                lastStroke.removeFromParent()
+
+                self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: lastStroke.id)
+            }
         } else {
             // TO-DO : Disable the button
         }
@@ -340,6 +350,8 @@ class StrokeEditorScene: SKScene {
         if !self.strokesStack.isEmpty() {
             let stroke: SKStroke = self.strokesStack.pop()!
             self.addChild(stroke)
+
+            self.sendEditorAction(actionId: StrokeActionIdConstants.add.rawValue, strokeUuid: stroke.id, stroke: stroke)
         } else {
             // TO-DO : Disable the button
         }

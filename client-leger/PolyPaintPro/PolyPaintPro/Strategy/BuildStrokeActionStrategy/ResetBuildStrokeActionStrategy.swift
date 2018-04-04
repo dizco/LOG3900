@@ -9,7 +9,7 @@
 import Foundation
 
 final class ResetBuildStrokeActionStrategy: BuildStrokeActionStrategy {
-    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, strokeUuid: String) -> OutgoingActionMessage {
+    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, strokeUuid: String, stroke: SKStroke? = nil) -> OutgoingActionMessage {
         let delta: OutgoingDelta = OutgoingDelta()
 
         // Create the OutgoingActionMessage
