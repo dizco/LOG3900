@@ -140,18 +140,7 @@ namespace PolyPaint.Models
                 {
                     try
                     {
-                        JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
-                        List<Dictionary<string, object>> hints =
-                            content.GetValue("hints").ToObject<List<Dictionary<string, object>>>();
-                        string hintMessages = null;
-                        foreach (Dictionary<string, object> hint in hints)
-                        {
-                            hintMessages += hint["msg"];
-                            if (hint != hints.Last())
-                            {
-                                hintMessages += "\n";
-                            }
-                        }
+                        string hintMessages = await ServerErrorParser.ParseHints(response);
 
                         UserAlerts.ShowErrorMessage(hintMessages);
                     }

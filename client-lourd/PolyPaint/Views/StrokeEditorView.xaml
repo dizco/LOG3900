@@ -35,6 +35,7 @@
             </MenuItem>
             <MenuItem Header="_Dessin">
                 <MenuItem Header="Historique des modifications" Command="{Binding OpenHistoryCommand}" IsEnabled="{Binding IsConnectedToDrawing}"/>
+                <MenuItem Header="Publier ce dessin comme modèle" Command="{Binding PublishAsTemplateCommand}" IsEnabled="{Binding IsConnectedToDrawing}"/>
             </MenuItem>
             <MenuItem Header="_Accessibilité">
                 <MenuItem Header="{Binding LockUnlockDrawingMessage}" IsEnabled="{Binding AccessibilityToggleIsEnabled}" Command="{Binding TogglePasswordCommand}"/>

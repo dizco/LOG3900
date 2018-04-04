@@ -31,8 +31,6 @@ namespace PolyPaint.ViewModels
 
             ExportImageCommand = new RelayCommand<Canvas>(ExportImagePrompt);
 
-            OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
-
             //Pixel Rotate tool
             QuarterTurnClockwiseCommand = new RelayCommand<object>(_pixelEditor.QuarterTurnClockwise);
             QuarterTurnCounterClockwiseCommand = new RelayCommand<object>(_pixelEditor.QuarterTurnCounterClockwise);
@@ -62,8 +60,6 @@ namespace PolyPaint.ViewModels
         {
             Canvas = canvas;
         }
-
-        public bool IsConnectedToDrawing => (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
 
         public Visibility ChatDocked
         {
@@ -117,8 +113,6 @@ namespace PolyPaint.ViewModels
             set => _pixelEditor.PixelSize = value;
         }
 
-        public static HistoryWindowView HistoryWindow { get; set; }
-
         //Commands for choosing the tools
         public RelayCommand<string> ChooseTool { get; set; }
 
@@ -127,8 +121,6 @@ namespace PolyPaint.ViewModels
         //Command for managing the views
         public RelayCommand<object> OpenChatWindowCommand { get; set; }
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
-
-        public RelayCommand<object> OpenHistoryCommand { get; set; }
 
         //Pixel Rotate tool
         public RelayCommand<object> QuarterTurnClockwiseCommand { get; set; }
@@ -146,7 +138,6 @@ namespace PolyPaint.ViewModels
             base.Dispose();
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
-            HistoryWindow?.Close();
         }
 
         private void ProcessPixelEditorActionReceived(object sender, PixelEditorActionModel action)
@@ -237,20 +228,6 @@ namespace PolyPaint.ViewModels
         public void UnsubscribeDrawingRoom()
         {
             Messenger?.UnsubscribeToDrawing();
-        }
-
-        public void OpenHistory(object o)
-        {
-            if (HistoryWindow == null)
-            {
-                HistoryWindow = new HistoryWindowView();
-                HistoryWindow.Show();
-                HistoryWindow.Closing += (sender, args) => HistoryWindow = null;
-            }
-            else
-            {
-                HistoryWindow.Activate();
-            }
         }
 
         public void ExportImagePrompt(InkCanvas drawingSurface)

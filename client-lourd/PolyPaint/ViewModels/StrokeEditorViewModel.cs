@@ -15,7 +15,6 @@ using PolyPaint.Helpers.Communication;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Strategy.StrokeEditorActionStrategy;
-using PolyPaint.Views;
 
 namespace PolyPaint.ViewModels
 {
@@ -85,8 +84,6 @@ namespace PolyPaint.ViewModels
             HorizontalFlipCommand = new RelayCommand<InkCanvas>(_editor.HorizontalFlip);
 
             InsertTextCommand = new RelayCommand<InkCanvas>(InsertText);
-
-            OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
 
             if (Messenger?.IsConnected ?? false)
             {
@@ -177,8 +174,6 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        public static HistoryWindowView HistoryWindow { get; set; }
-
         public StrokeCollection StrokesCollection { get; set; }
         public ISet<string> LockedStrokes { get; set; }
         private List<string> LockedStrokesHeld { get; set; }
@@ -215,8 +210,6 @@ namespace PolyPaint.ViewModels
 
         public RelayCommand<InkCanvas> InsertTextCommand { get; set; }
 
-        public RelayCommand<object> OpenHistoryCommand { get; set; }
-
         internal bool IsErasingByPoint { get; set; }
         internal bool IsErasingByStroke { get; set; }
 
@@ -226,7 +219,6 @@ namespace PolyPaint.ViewModels
             StrokeEditorActionReceived -= ProcessReceivedStrokeEditorAction;
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
-            HistoryWindow?.Close();
         }
 
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
@@ -524,20 +516,6 @@ namespace PolyPaint.ViewModels
             }
 
             Messenger?.UnsubscribeToDrawing();
-        }
-
-        public void OpenHistory(object o)
-        {
-            if (HistoryWindow == null)
-            {
-                HistoryWindow = new HistoryWindowView();
-                HistoryWindow.Show();
-                HistoryWindow.Closing += (sender, args) => HistoryWindow = null;
-            }
-            else
-            {
-                HistoryWindow.Activate();
-            }
         }
 
         /// <summary>
