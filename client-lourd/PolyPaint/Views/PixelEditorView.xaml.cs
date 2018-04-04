@@ -73,7 +73,8 @@ namespace PolyPaint.Views
 
             if ((DataContext as PixelEditorViewModel)?.ToolSelected == "fill")
             {
-                (DataContext as PixelEditorViewModel)?.Fill(_oldPositionDrawing);
+                (DataContext as PixelEditorViewModel)?.Fill(_oldPositionDrawing,
+                                                            DrawingSurface.ActualWidth, DrawingSurface.ActualHeight);
             }
         }
 

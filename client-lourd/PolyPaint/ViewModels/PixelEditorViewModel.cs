@@ -205,9 +205,9 @@ namespace PolyPaint.ViewModels
             _pixelEditor.CurrentUsername = username;
         }
 
-        public void Fill(Point oldPoint)
+        public void Fill(Point startPoint, double maxWidth, double maxHeight)
         {
-            _pixelEditor.FloodFill(oldPoint);
+            _pixelEditor.FloodFill(startPoint, maxWidth, maxHeight);
         }
 
         public void OpenChatWindow(object o)
