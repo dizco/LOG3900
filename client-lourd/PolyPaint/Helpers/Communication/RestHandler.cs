@@ -200,5 +200,20 @@ namespace PolyPaint.Helpers.Communication
 
             return await Client.PostAsync($"{ServerUri}/templates", new FormUrlEncodedContent(content));
         }
+
+        public static async Task<HttpResponseMessage> GetTemplates(int page)
+        {
+            return await Client.GetAsync($"{ServerUri}/templates?page={page}");
+        }
+
+        public static async Task<HttpResponseMessage> GetTemplate(string templateId)
+        {
+            return await Client.GetAsync($"{ServerUri}/templates/{templateId}");
+        }
+
+        public static async Task<HttpResponseMessage> GetTemplateThumbnail(string templateId)
+        {
+            return await Client.GetAsync($"{ServerUri}/templates/{templateId}/thumbnail");
+        }
     }
 }
