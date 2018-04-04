@@ -90,6 +90,12 @@ namespace PolyPaint.ViewModels
             set => PropertyModified();
         }
 
+        public WriteableBitmap TempWriteableBitmap
+        {
+            get => _pixelEditor.TempWriteableBitmap;
+            set => PropertyModified();
+        }
+
         public bool IsWriteableBitmapOnEdition
         {
             get => _pixelEditor.IsWriteableBitmapOnEdition;
@@ -167,14 +173,20 @@ namespace PolyPaint.ViewModels
             _pixelEditor.PixelCursor(displayArea);
         }
 
-        public void ZoneSelector(ContentControl selectedZoneThumb, Point oldPoint, Point newPoint)
+        public void SelectZone(ContentControl selectedZoneContent, Point beginPosition, Point endPosition)
         {
-            _pixelEditor.SelectZone(selectedZoneThumb, oldPoint, newPoint);
+            _pixelEditor.SelectZone(selectedZoneContent, beginPosition, endPosition);
         }
 
-        public void BlitZoneSelector(ContentControl contentControl)
+        public void SelectTempZone(Point beginPosition, Point endPositon)
         {
-            _pixelEditor.BlitSelectedZone(contentControl);
+            _pixelEditor.SelectTempZone(beginPosition, endPositon);
+        }
+
+
+        public void BlitDraw(ContentControl contentControl, WriteableBitmap writeableBitmapSource, bool isSelectionOver)
+        {
+            _pixelEditor.BlitDraw(contentControl, writeableBitmapSource, isSelectionOver);
         }
 
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
