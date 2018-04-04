@@ -25,6 +25,8 @@ namespace PolyPaint.ViewModels
             _pixelEditor.DrawingName = DrawingName;
             _pixelEditor.DrewLineEvent += PixelEditorDrewLineEventHandler;
             _pixelEditor.PropertyChanged += (s, a) => PropertyModified(a.PropertyName);
+            //_pixelEditor.SelectedRegionEvent
+            _pixelEditor.BlitRegionEvent += PixelEditorOnBlitRegionEvent;
 
             // Pour les commandes suivantes, il est toujours possible des les activer.
             // Donc, aucune vérification de type Peut"Action" à faire.
@@ -155,6 +157,23 @@ namespace PolyPaint.ViewModels
 
         private void PixelEditorDrewLineEventHandler(object o, List<Tuple<Point, string>> pixels)
         {
+            SendNewPixels(pixels);
+        }
+
+        private void PixelEditorOnBlitRegionEvent(object sender, Rect rect)
+        {
+            List<Tuple<Point, string>> pixels = new List<Tuple<Point, string>>();
+
+            for (int i = (int)rect.TopLeft.X; i <= (int)rect.TopRight.X; i++)
+            {
+                for (int j = (int) rect.TopLeft.Y; j <= (int) rect.BottomLeft.Y; j++)
+                {
+                    string color = WriteableBitmap.GetPixel(i, j).ToString();
+
+                    pixels.Add(new Tuple<Point, string>(new Point(i,j), color));
+                }
+            }
+
             SendNewPixels(pixels);
         }
 
