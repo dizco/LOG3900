@@ -304,7 +304,7 @@ namespace PolyPaint.Models.PixelModels
                    (mediaColor.G << GreenShift) | mediaColor.B;
         }
 
-        public void FloodFill(Point startPoint, double maxWidth, double maxHeight)
+        public void FloodFill(Point startPoint)
         {
             Color fillColor = (Color)ColorConverter.ConvertFromString(SelectedColor);
 
@@ -316,6 +316,8 @@ namespace PolyPaint.Models.PixelModels
                 return;
             }
 
+            double maxWidth = WriteableBitmap.PixelWidth;
+            double maxHeight = WriteableBitmap.PixelHeight;
             Stack<Point> pixels = new Stack<Point>();
             pixels.Push(startPoint);
             WriteableBitmap.Lock();
