@@ -202,7 +202,7 @@
             </StackPanel>
         </Border>
         <Grid>
-            <Grid DockPanel.Dock="Left" Margin="0,1,0,0">
+            <Grid DockPanel.Dock="Left">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Name="colonne" Width="550" />
                     <ColumnDefinition Width="6" />
@@ -231,20 +231,21 @@
                         <Canvas x:Name="DrawingSurface"
                                 Background="White" ClipToBounds="True"  
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                MouseMove="DrawingSurfaceMouseMove" MouseEnter="DrawingSurfaceMouseEnter" PreviewMouseDown=" DrawingSurfacePreviewMouseDown">
-                            <Image x:Name="DrawnImage" 
+                                MouseMove="DrawingSurfaceMouseMove" MouseEnter="DrawingSurfaceMouseEnter"
+                                PreviewMouseDown=" DrawingSurfacePreviewMouseDown">
+                            <Image x:Name="DrawnImage"
                                   VerticalAlignment="Top" Source="{Binding WriteableBitmap}" />
 
                             <!-- This image contains another writeableBitmap that is blit to our principal writeableBitmap after his edition-->
-                            <Canvas x:Name="SelectedZoneCanvas"  Cursor="SizeAll">
-                                <ContentControl x:Name="ContentControle"
+                            <Canvas x:Name="SelectedZoneCanvas" Cursor="SizeAll" >
+                                <ContentControl x:Name="ContentControl" 
                                                 Canvas.Left="{Binding CropWriteableBitmapPosition.X}"
                                                 Canvas.Top="{Binding CropWriteableBitmapPosition.Y}"
                                                 Style="{StaticResource DesignerItemStyle}">
-                                        <Image x:Name="SelectedZoneImage" Stretch="Fill"  IsHitTestVisible="False"  Source="{Binding CropWriteableBitmap}"/>
+                                    <Image x:Name="SelectedZoneImage" Stretch="Fill"  IsHitTestVisible="False"  Source="{Binding CropWriteableBitmap}"/>
                                 </ContentControl>
                             </Canvas>
-                            </Canvas>
+                        </Canvas>
                         <Border.Effect>
                             <DropShadowEffect Opacity="0.3" BlurRadius="10" />
                         </Border.Effect>
