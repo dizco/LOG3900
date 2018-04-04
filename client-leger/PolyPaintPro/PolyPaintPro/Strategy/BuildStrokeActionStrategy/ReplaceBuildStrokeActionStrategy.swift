@@ -9,7 +9,7 @@
 import Foundation
 
 final class ReplaceBuildStrokeActionStrategy: BuildStrokeActionStrategy {
-    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, strokeUuid: String) -> OutgoingActionMessage {
+    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, strokeUuid: String, stroke: SKStroke? = nil) -> OutgoingActionMessage {
 
         // TO-DO: Differentiate between EraseByStroke and EraseByPoint
 
