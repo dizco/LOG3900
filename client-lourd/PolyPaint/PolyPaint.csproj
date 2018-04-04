@@ -124,6 +124,7 @@
     <Compile Include="CustomComponents\CustomStroke.cs" />
     <Compile Include="CustomComponents\FixedWidthGridViewColumn.cs" />
     <Compile Include="CustomComponents\HttpClientExtensions.cs" />
+    <Compile Include="Helpers\Communication\ServerErrorParser.cs" />
     <Compile Include="Helpers\Communication\StrokeHelper.cs" />
     <Compile Include="Helpers\UserAlerts.cs" />
     <Compile Include="Models\ApiModels\OnlineDrawingModel.cs" />

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -12,7 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using PolyPaint.Annotations;
 using PolyPaint.Constants;
 using PolyPaint.Helpers;
@@ -36,7 +34,11 @@ namespace PolyPaint.ViewModels
 
             ToggleVisibilityCommand = new RelayCommand<object>(ToggleVisibility);
             TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
+            PublishAsTemplateCommand = new RelayCommand<object>(PublishAsTemplate);
+            OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
         }
+
+        public static HistoryWindowView HistoryWindow { get; set; }
 
         protected object Canvas
         {
@@ -58,6 +60,8 @@ namespace PolyPaint.ViewModels
 
         public RelayCommand<object> ToggleVisibilityCommand { get; set; }
         public RelayCommand<object> TogglePasswordCommand { get; set; }
+        public RelayCommand<object> PublishAsTemplateCommand { get; set; }
+        public RelayCommand<object> OpenHistoryCommand { get; set; }
 
         public string LockUnlockDrawingMessage => IsPasswordProtected
                                                       ? "Retirer la protection du dessin"
@@ -70,12 +74,54 @@ namespace PolyPaint.ViewModels
                                                       ? "Retirer l'accès public de la galerie"
                                                       : "Rendre l'accès public de la galerie";
 
+        public bool IsConnectedToDrawing => (Messenger?.IsConnected ?? false) && DrawingRoomId != null;
+
         public void Dispose()
         {
             EditorPollRequestReceived -= OnEditorPollRequestReceived;
+            HistoryWindow?.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private async void PublishAsTemplate(object obj)
+        {
+            HttpResponseMessage response = await RestHandler.PublishDrawingAsTemplate(DrawingRoomId);
+
+            if (response.IsSuccessStatusCode)
+            {
+                UserAlerts.ShowInfoMessage("Le dessin actuel a été publié comme modèle");
+            }
+            else
+            {
+                string hintMessages;
+
+                try
+                {
+                    hintMessages = await ServerErrorParser.ParseHints(response);
+                }
+                catch (JsonReaderException)
+                {
+                    hintMessages = "Une erreur inconnue est survenue";
+                }
+
+                UserAlerts.ShowErrorMessage(hintMessages);
+            }
+        }
+
+        public void OpenHistory(object o)
+        {
+            if (HistoryWindow == null)
+            {
+                HistoryWindow = new HistoryWindowView();
+                HistoryWindow.Show();
+                HistoryWindow.Closing += (sender, args) => HistoryWindow = null;
+            }
+            else
+            {
+                HistoryWindow.Activate();
+            }
+        }
 
         private async void ToggleVisibility(object obj)
         {
@@ -113,18 +159,15 @@ namespace PolyPaint.ViewModels
                     }
                     else
                     {
-                        JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
-                        List<Dictionary<string, object>> hints =
-                            content.GetValue("hints").ToObject<List<Dictionary<string, object>>>();
+                        string hintMessages;
 
-                        string hintMessages = null;
-                        foreach (Dictionary<string, object> hint in hints)
+                        try
                         {
-                            hintMessages += hint["msg"];
-                            if (hint != hints.Last())
-                            {
-                                hintMessages += "\n";
-                            }
+                            hintMessages = await ServerErrorParser.ParseHints(response);
+                        }
+                        catch (JsonReaderException)
+                        {
+                            hintMessages = "Une erreur inconnue est survenue";
                         }
 
                         UserAlerts.ShowErrorMessage(hintMessages);

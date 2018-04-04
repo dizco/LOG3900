@@ -13,6 +13,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Annotations;
 using PolyPaint.Helpers;
@@ -223,18 +224,15 @@ namespace PolyPaint.ViewModels.Gallery
                     }
                     else
                     {
-                        JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
-                        List<Dictionary<string, object>> hints =
-                            content.GetValue("hints").ToObject<List<Dictionary<string, object>>>();
+                        string hintMessages;
 
-                        string hintMessages = null;
-                        foreach (Dictionary<string, object> hint in hints)
+                        try
                         {
-                            hintMessages += hint["msg"];
-                            if (hint != hints.Last())
-                            {
-                                hintMessages += "\n";
-                            }
+                            hintMessages = await ServerErrorParser.ParseHints(response);
+                        }
+                        catch (JsonReaderException)
+                        {
+                            hintMessages = "Une erreur inconnue est survenue";
                         }
 
                         UserAlerts.ShowErrorMessage(hintMessages);

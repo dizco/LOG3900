@@ -190,5 +190,15 @@ namespace PolyPaint.Helpers.Communication
         {
             return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}/thumbnail");
         }
+
+        public static async Task<HttpResponseMessage> PublishDrawingAsTemplate(string drawingId)
+        {
+            Dictionary<string, string> content = new Dictionary<string, string>
+            {
+                {"drawing-id", drawingId}
+            };
+
+            return await Client.PostAsync($"{ServerUri}/templates", new FormUrlEncodedContent(content));
+        }
     }
 }
