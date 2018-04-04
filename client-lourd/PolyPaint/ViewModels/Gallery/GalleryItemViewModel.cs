@@ -143,8 +143,8 @@ namespace PolyPaint.ViewModels.Gallery
 
         public void Dispose()
         {
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
