@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -133,13 +133,24 @@ namespace PolyPaint.ViewModels.Gallery
         {
             get
             {
+                ImageSource source = null;
                 if (Image != null)
                 {
-                    return Imaging.CreateBitmapSourceFromHBitmap(Image.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
-                                                                 BitmapSizeOptions.FromEmptyOptions());
+                    IntPtr imageHBitmap = Image.GetHbitmap();
+                    try
+                    {
+                        source = Imaging.CreateBitmapSourceFromHBitmap(imageHBitmap, IntPtr.Zero,
+                                                                       Int32Rect.Empty,
+                                                                       BitmapSizeOptions.FromEmptyOptions());
+                    }
+                    finally
+                    {
+                        DeleteObject(imageHBitmap);
+                    }
                 }
 
-                return new BitmapImage(new Uri("/PolyPaint;component/Resources/Misc/empty_drawing_placeholder.jpg",
+                return source ??
+                       new BitmapImage(new Uri("/PolyPaint;component/Resources/Misc/empty_drawing_placeholder.jpg",
                                                UriKind.RelativeOrAbsolute));
             }
         }
@@ -232,7 +243,8 @@ namespace PolyPaint.ViewModels.Gallery
                         }
                         catch (JsonReaderException)
                         {
-                            hintMessages = "Un message d\'erreur d\'un format inconnu a été reçu et n\'a pu être traité";
+                            hintMessages =
+                                "Un message d\'erreur d\'un format inconnu a été reçu et n\'a pu être traité";
                         }
 
                         UserAlerts.ShowErrorMessage(hintMessages);
@@ -380,5 +392,8 @@ namespace PolyPaint.ViewModels.Gallery
         {
             UserAlerts.ShowErrorMessage(error);
         }
+
+        [DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
     }
 }
