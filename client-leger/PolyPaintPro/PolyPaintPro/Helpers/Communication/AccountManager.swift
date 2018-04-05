@@ -11,67 +11,56 @@ import Alamofire
 
 class AccountManager {
     static let sharedInstance = AccountManager()
-    var username: String?
-    var usernameError: String?
-    var passwordError: String?
-    var registerError: String?
-    let passwordMinLength = 8
+    static let passwordMinLength = 8
+    var user: UserIdentifiers?
 
-    func isMyself(username: String) -> Bool {
-        return username == self.username
+    func isMyself(id: String) -> Bool {
+        return id == self.user!.id
     }
 
-    func saveUsername(username: String) -> Bool {
+    func saveUser(userId: String, username: String) -> AccountManagerResponse {
         if username.isEmpty {
-            self.usernameError = "Un nom d'usager est requis."
-            return false
+            return AccountManagerResponse(success: false, error: "Un nom d'usager est requis.")
         } else {
-            self.username = username.lowercased()
-            return true
+            self.user = UserIdentifiers(id: userId, username: username.lowercased())
+            return AccountManagerResponse(success: true)
         }
     }
 
-    func validateUsername(username: String) -> Bool {
+    static func validateUsername(username: String) -> AccountManagerResponse {
         let validRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
 
         let match = username.range(of: validRegex, options: .regularExpression)
 
         if username.isEmpty {
-            self.usernameError = "Un courriel est requis."
-            return false
-        } else if match != nil {
-            self.usernameError = ""
-            return self.saveUsername(username: username)
-        } else {
-            self.usernameError = "Le courriel est invalide."
-            return false
+            return AccountManagerResponse(success: false, error: "Un courriel est requis.")
+        } else if match == nil {
+            return AccountManagerResponse(success: false, error: "Le courriel est invalide.")
         }
+        return AccountManagerResponse(success: true)
     }
 
-    func validatePassword(password: String) -> Bool {
+    static func validatePassword(password: String) -> AccountManagerResponse {
         if password.isEmpty {
-            self.passwordError = "Un mot de passe est requis."
-            return false
-        } else if password.count < self.passwordMinLength {
-            self.passwordError = "Un mot de passe doit avoir un minimum de 8 caractères."
-            return false
-        } else {
-            self.passwordError = ""
-            return true
+            return AccountManagerResponse(success: false, error: "Un mot de passe est requis.")
+        } else if password.count < AccountManager.passwordMinLength {
+            return AccountManagerResponse(success: false,
+                                          error: "Un mot de passe doit avoir un minimum de 8 caractères.")
         }
+        return AccountManagerResponse(success: true)
     }
 
-    func validateRegister(username: String, password: String) -> Bool {
-        if !validateUsername(username: username) {
-            self.registerError = self.usernameError
-            return false
-        } else if !validatePassword(password: password) {
-            self.registerError = self.passwordError
-            return false
-        } else {
-            self.registerError = ""
-            return true
+    static func validateRegister(username: String, password: String) -> AccountManagerResponse {
+        let usernameValidation = self.validateUsername(username: username)
+        let passwordValidation = self.validatePassword(password: password)
+        var errorMessage = ""
+        if !usernameValidation.success {
+            errorMessage += usernameValidation.error + "\n"
+        } else if !passwordValidation.success {
+            errorMessage += passwordValidation.error
         }
+        return AccountManagerResponse(success: usernameValidation.success && passwordValidation.success,
+                                      error: errorMessage)
     }
 
     func saveCookies(response: DataResponse<Any>) {
@@ -91,6 +80,26 @@ class AccountManager {
             if let cookie = HTTPCookie(properties: cookieProperties) {
                 HTTPCookieStorage.shared.setCookie(cookie)
             }
+        }
+    }
+
+    public struct UserIdentifiers: Codable {
+        let id: String
+        let username: String
+
+        init(id: String, username: String) {
+            self.id = id
+            self.username = username
+        }
+    }
+
+    public struct AccountManagerResponse {
+        let success: Bool
+        let error: String
+
+        init(success: Bool, error: String = "") {
+            self.success = success
+            self.error = error
         }
     }
 }

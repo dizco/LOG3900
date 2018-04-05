@@ -20,6 +20,7 @@
 		274C035E200EF37A00DDAD8D /* PolyPaintProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */; };
 		274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */; };
 		2778DAB6205600D400690A65 /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2778DAB5205600D400690A65 /* ToolsView.swift */; };
+		277BC1382075EEF3002BE2B5 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 277BC1372075EEF2002BE2B5 /* iCarousel.m */; };
 		277EE1A0201280D900545404 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 277EE19F201280D900545404 /* assets */; };
 		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
 		27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */; };
@@ -110,6 +111,9 @@
 		274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyPaintProUITests.swift; sourceTree = "<group>"; };
 		274C036A200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2778DAB5205600D400690A65 /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
+		277BC1352075EEF0002BE2B5 /* PolyPaintPro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PolyPaintPro-Bridging-Header.h"; sourceTree = "<group>"; };
+		277BC1362075EEF2002BE2B5 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		277BC1372075EEF2002BE2B5 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		277EE19F201280D900545404 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27AD08C6202CF8FD00E7F74F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -295,6 +299,9 @@
 				274C034C200EF37900DDAD8D /* Main.storyboard */,
 				274C0354200EF37900DDAD8D /* Info.plist */,
 				278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */,
+				277BC1362075EEF2002BE2B5 /* iCarousel.h */,
+				277BC1372075EEF2002BE2B5 /* iCarousel.m */,
+				277BC1352075EEF0002BE2B5 /* PolyPaintPro-Bridging-Header.h */,
 			);
 			path = PolyPaintPro;
 			sourceTree = "<group>";
@@ -512,6 +519,7 @@
 				TargetAttributes = {
 					274C0344200EF37900DDAD8D = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					274C0358200EF37A00DDAD8D = {
@@ -792,6 +800,7 @@
 				BE919D5820740CC2009D5EDF /* ResetStrokeActionStrategy.swift in Sources */,
 				C067AF5F205A1A050078CF27 /* Timers.swift in Sources */,
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
+				277BC1382075EEF3002BE2B5 /* iCarousel.m in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
 				BEE8DBF4207421EC00161243 /* BuildStrokeActionStrategyContext.swift in Sources */,
 				BEB87159207BB22B00FA8406 /* PixelActionNameConstants.swift in Sources */,
@@ -960,6 +969,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XZX28227E3;
 				INFOPLIST_FILE = PolyPaintPro/Info.plist;
@@ -967,6 +977,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PolyPaintPro/PolyPaintPro-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -978,6 +990,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XZX28227E3;
 				INFOPLIST_FILE = PolyPaintPro/Info.plist;
@@ -985,6 +998,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.frederic.fruiter.PolyPaintPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PolyPaintPro/PolyPaintPro-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

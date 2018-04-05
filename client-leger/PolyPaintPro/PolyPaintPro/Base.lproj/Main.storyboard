@@ -1221,10 +1221,10 @@
             </objects>
             <point key="canvasLocation" x="1756.640625" y="278.90625"/>
         </scene>
-        <!--Rejoindre un dessin-->
+        <!--JoinDrawing ViewController-->
         <scene sceneID="8xz-7H-GXD">
             <objects>
-                <viewController id="adH-E4-mIa" customClass="JoinDrawingViewController" customModule="PolyPaintPro" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="adH-E4-mIa" userLabel="JoinDrawing ViewController" customClass="JoinDrawingViewController" customModule="PolyPaintPro" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pHq-Pq-1qe"/>
                         <viewControllerLayoutGuide type="bottom" id="Dqp-he-lAc"/>
@@ -1236,77 +1236,56 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_corrected" translatesAutoresizingMaskIntoConstraints="NO" id="udc-RX-5fn">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ea3-Xx-lCW">
-                                <rect key="frame" x="128" y="84" width="769" height="84"/>
-                                <color key="backgroundColor" red="0.50196078430000002" green="0.75686274509999996" blue="0.83137254900000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXW-tP-tDq" customClass="iCarousel">
+                                <rect key="frame" x="20" y="70" width="984" height="290"/>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="84" id="Zdd-8N-fzG"/>
+                                    <constraint firstAttribute="height" constant="290" id="uvf-P7-faj"/>
                                 </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="Mp9-Pk-KTk">
-                                <rect key="frame" x="452" y="28" width="120" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="61M-gE-aBX"/>
-                                    <constraint firstAttribute="width" constant="120" id="GiJ-3H-hdY"/>
-                                </constraints>
-                            </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qOa-C7-khn">
-                                <rect key="frame" x="128" y="166" width="769" height="535"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="DJq-bC-uYA" detailTextLabel="XsQ-bL-rVa" style="IBUITableViewCellStyleValue1" id="aRT-7O-25H">
-                                        <rect key="frame" x="0.0" y="28" width="769" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aRT-7O-25H" id="igl-nc-0Df">
-                                            <rect key="frame" x="0.0" y="0.0" width="769" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DJq-bC-uYA">
-                                                    <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XsQ-bL-rVa">
-                                                    <rect key="frame" x="710" y="12" width="44" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="adH-E4-mIa" id="wyA-nv-P04"/>
-                                    <outlet property="delegate" destination="adH-E4-mIa" id="A7J-89-hhi"/>
+                                    <outlet property="dataSource" destination="adH-E4-mIa" id="i76-Fs-viU"/>
+                                    <outlet property="delegate" destination="adH-E4-mIa" id="MnG-3J-7qz"/>
                                 </connections>
-                            </tableView>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="shO-aw-MMW" customClass="iCarousel">
+                                <rect key="frame" x="20" y="439" width="984" height="273"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="adH-E4-mIa" id="FgU-wJ-leL"/>
+                                    <outlet property="delegate" destination="adH-E4-mIa" id="CPS-D3-PIg"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mes dessins" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YzT-jk-uJp">
+                                <rect key="frame" x="20" y="71" width="95" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dessins publics" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z8y-bo-LGL">
+                                <rect key="frame" x="20" y="410" width="137" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="udc-RX-5fn" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leading" id="0Ck-pm-lf6"/>
                             <constraint firstItem="udc-RX-5fn" firstAttribute="top" secondItem="XnO-IR-9A9" secondAttribute="top" id="3Fs-Iu-wME"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="qOa-C7-khn" secondAttribute="trailing" constant="107" id="Cgs-6m-Yzb"/>
-                            <constraint firstItem="Mp9-Pk-KTk" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leadingMargin" constant="432" id="IwT-UO-Jaz"/>
-                            <constraint firstItem="qOa-C7-khn" firstAttribute="top" secondItem="Mp9-Pk-KTk" secondAttribute="bottom" constant="18" id="Scc-KO-UGS"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Mp9-Pk-KTk" secondAttribute="trailing" constant="432" id="T3w-rE-zjb"/>
                             <constraint firstAttribute="trailing" secondItem="udc-RX-5fn" secondAttribute="trailing" id="UUy-S9-nWg"/>
-                            <constraint firstItem="ea3-Xx-lCW" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leadingMargin" constant="108" id="Wok-K8-IAh"/>
+                            <constraint firstItem="WXW-tP-tDq" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leadingMargin" id="XSA-Vv-nzN"/>
+                            <constraint firstItem="WXW-tP-tDq" firstAttribute="trailing" secondItem="XnO-IR-9A9" secondAttribute="trailingMargin" id="Xn0-j7-opN"/>
                             <constraint firstItem="Dqp-he-lAc" firstAttribute="top" secondItem="udc-RX-5fn" secondAttribute="bottom" id="YSA-VS-gOx"/>
-                            <constraint firstItem="qOa-C7-khn" firstAttribute="leading" secondItem="XnO-IR-9A9" secondAttribute="leadingMargin" constant="108" id="Yel-4z-x1o"/>
-                            <constraint firstItem="Mp9-Pk-KTk" firstAttribute="top" secondItem="pHq-Pq-1qe" secondAttribute="bottom" constant="8" id="eKk-mN-tJn"/>
-                            <constraint firstItem="Dqp-he-lAc" firstAttribute="top" secondItem="qOa-C7-khn" secondAttribute="bottom" constant="67" id="lWb-1I-eno"/>
-                            <constraint firstItem="ea3-Xx-lCW" firstAttribute="top" secondItem="pHq-Pq-1qe" secondAttribute="bottom" constant="64" id="rh2-Qj-mMV"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ea3-Xx-lCW" secondAttribute="trailing" constant="107" id="yjH-7H-wpN"/>
-                            <constraint firstItem="ea3-Xx-lCW" firstAttribute="centerX" secondItem="Mp9-Pk-KTk" secondAttribute="centerX" id="zcf-ee-cv4"/>
+                            <constraint firstItem="WXW-tP-tDq" firstAttribute="top" secondItem="pHq-Pq-1qe" secondAttribute="bottom" constant="50" id="j5O-gV-5ix"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Rejoindre un dessin" id="Ypc-v2-PHy"/>
                     <connections>
-                        <outlet property="joinDrawingTableView" destination="qOa-C7-khn" id="txU-OF-wC8"/>
+                        <outlet property="carousel2View" destination="shO-aw-MMW" id="LN3-Q5-eIc"/>
+                        <outlet property="carouselView" destination="WXW-tP-tDq" id="tcB-RZ-7QA"/>
                         <segue destination="KwV-uG-opW" kind="show" identifier="JoinPixelDrawingSegue" id="Fwt-4B-rsB"/>
                         <segue destination="nF6-Tx-Hhl" kind="show" identifier="JoinStrokeDrawingSegue" id="yY8-vV-TGb"/>
                     </connections>
@@ -1976,9 +1955,9 @@
         <image name="verticalLine" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="n3S-PR-NxG"/>
+        <segue reference="yY8-vV-TGb"/>
         <segue reference="HCx-mM-CNV"/>
         <segue reference="as1-Pa-vvV"/>
-        <segue reference="ry0-7g-c8d"/>
+        <segue reference="Fwt-4B-rsB"/>
     </inferredMetricsTieBreakers>
 </document>

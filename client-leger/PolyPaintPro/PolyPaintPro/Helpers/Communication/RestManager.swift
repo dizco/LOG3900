@@ -14,7 +14,7 @@ class RestManager {
         return url
     }
 
-    static func loginToServer(username: String, password: String) -> Promise<AuthServerResponse<EmptyData>> {
+    static func loginToServer(username: String, password: String) -> Promise<AuthServerResponse<IdResponse>> {
         let headers = ["Content-Type": "application/x-www-form-urlencoded"]
         let parameters: [String: String] = [
             "email": username,
@@ -30,8 +30,9 @@ class RestManager {
                     do {
                         if let data = response.data,
                             let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                            let authServerResponse = AuthServerResponse<EmptyData>(json: json) {
+                            var authServerResponse = AuthServerResponse<IdResponse>(json: json) {
                             	if authServerResponse.success {
+                                    authServerResponse.data = IdResponse(id: json["objectId"] as! String)
                                     AccountManager.sharedInstance.saveCookies(response: response)
                                 }
                                 fulfill(authServerResponse)
@@ -108,10 +109,14 @@ class RestManager {
         return false
     }
 
+    public struct IdResponse: Codable {
+        let id: String
+    }
+
     public struct EmptyData: Codable {}
 
     public struct AuthServerResponse<T: Codable> {
-        let data: T?
+        var data: T?
         let success: Bool
         let error: String
 
