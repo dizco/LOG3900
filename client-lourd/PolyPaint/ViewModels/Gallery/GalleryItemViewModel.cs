@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -226,11 +227,11 @@ namespace PolyPaint.ViewModels.Gallery
 
                 passwordPrompt.PasswordEntered += async (sender, password) =>
                 {
-                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(DrawingRoomId, password);
+                    HttpResponseMessage response = await RestHandler.UpdateDrawingProtection(_drawingId, password);
                     if (response.IsSuccessStatusCode)
                     {
                         IsPasswordProtected = true;
-
+                        _drawingIsLocked = true;
                         passwordPrompt.Close();
                     }
                     else
@@ -272,11 +273,11 @@ namespace PolyPaint.ViewModels.Gallery
             PropertyModified(nameof(DrawingVisibilityStatus));
         }
 
-        internal async void JoinOnlineDrawing()
+        internal async void JoinOnlineDrawing(bool isRetryWithPassword = false)
         {
             HttpResponseMessage response;
 
-            if (!_isDrawingOwner && _drawingIsLocked)
+            if ((!_isDrawingOwner && _drawingIsLocked) || isRetryWithPassword)
             {
                 string drawingPassword = null;
 
@@ -344,7 +345,17 @@ namespace PolyPaint.ViewModels.Gallery
             }
             else
             {
-                HomeMenuModel.OnResponseError(await response?.Content.ReadAsStringAsync());
+                if (!isRetryWithPassword && response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    IsPasswordProtected = true;
+                    _drawingIsLocked = true;
+                    PropertyModified(nameof(DrawingLockStatus));
+                    JoinOnlineDrawing(true);
+                }
+                else
+                {
+                    HomeMenuModel.OnResponseError(await response?.Content.ReadAsStringAsync());
+                }
             }
         }
 
