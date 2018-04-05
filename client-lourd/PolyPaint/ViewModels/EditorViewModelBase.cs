@@ -102,7 +102,7 @@ namespace PolyPaint.ViewModels
                 }
                 catch (JsonReaderException)
                 {
-                    hintMessages = "Une erreur inconnue est survenue";
+                    hintMessages = "Un message d\'erreur d\'un format inconnu a été reçu et n\'a pu être traité";
                 }
 
                 UserAlerts.ShowErrorMessage(hintMessages);
@@ -167,7 +167,7 @@ namespace PolyPaint.ViewModels
                         }
                         catch (JsonReaderException)
                         {
-                            hintMessages = "Une erreur inconnue est survenue";
+                            hintMessages = "Un message d\'erreur d\'un format inconnu a été reçu et n\'a pu être traité";
                         }
 
                         UserAlerts.ShowErrorMessage(hintMessages);
