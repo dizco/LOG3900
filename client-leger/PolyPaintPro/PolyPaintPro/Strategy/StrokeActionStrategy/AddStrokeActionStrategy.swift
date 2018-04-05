@@ -11,7 +11,7 @@ import SpriteKit
 
 final class AddStrokeActionStrategy: StrokeActionStrategy {
     func applyReceived(scene: StrokeEditorScene, incomingAction: IncomingActionMessage) {
-        if !AccountManager.sharedInstance.isMyself(username: incomingAction.author.username) {
+        if !AccountManager.sharedInstance.isMyself(id: incomingAction.author.id) {
             for receivedStroke in incomingAction.delta.add {
                 self.drawReceived(scene: scene, stroke: receivedStroke)
             }

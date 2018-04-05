@@ -146,7 +146,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
             let timestamp = convertTime.getTimeFromServer(timestamp: incomingMessage.timestamp)
             let messageInfos = (incomingMessage.author.username, timestamp)
             chatView.displayMessage(message: incomingMessage.message, messageInfos: messageInfos)
-            if incomingMessage.author.username != AccountManager.sharedInstance.username {
+            if AccountManager.sharedInstance.isMyself(id: incomingMessage.author.id) {
                 self.notifyMessage(message: incomingMessage.message, messageInfos: messageInfos)
             }
         } catch let error {

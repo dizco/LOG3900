@@ -80,13 +80,16 @@ class LoginViewController: UIViewController {
 
     // MARK: - Buttons
     @IBAction func connexionButton(_ sender: UIButton) {
-        let username = loginUsernameField!.text!
-        let password = loginPasswordField!.text!
-        if AccountManager.sharedInstance.validateUsername(username: username) {
+        let username = "me@me.ca"
+        let password = "hahahaha"
+
+        let usernameValidation = AccountManager.validateUsername(username: username)
+
+        if usernameValidation.success {
             loginErrorTextField?.isHidden = true
             loginToServer(sender: sender, username: username, password: password)
         } else {
-            loginErrorTextField?.text = AccountManager.sharedInstance.usernameError
+            loginErrorTextField?.text = usernameValidation.error
             loginErrorTextField?.isHidden = false
         }
     }
@@ -99,11 +102,14 @@ class LoginViewController: UIViewController {
     @IBAction func registerButton(_ sender: UIButton) {
         let username = registerUsernameField!.text!
         let password = registerPasswordField!.text!
-        if AccountManager.sharedInstance.validateRegister(username: username, password: password) {
+
+        let registerValidation = AccountManager.validateRegister(username: username, password: password)
+
+        if registerValidation.success {
             registerErrorTextField?.isHidden = true
             registerAccount(sender: sender, username: username, password: password)
         } else {
-            registerErrorTextField?.text = AccountManager.sharedInstance.registerError
+            registerErrorTextField?.text = registerValidation.error
             registerErrorTextField?.isHidden = false
         }
     }
@@ -122,6 +128,7 @@ class LoginViewController: UIViewController {
 
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
         //attempt to connect to the server modify the connectionState and errorMessage
+        serverAddressField!.text = "192.168.50.9"
         let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
         serverAddressEntered(connectionState: isTrueIP)
     }
@@ -152,6 +159,7 @@ class LoginViewController: UIViewController {
         }.then { response -> Void in
             if response.success {
                 self.loginErrorTextField?.isHidden = true
+                AccountManager.sharedInstance.saveUser(userId: response.data!.id, username: username)
                 SocketManager.sharedInstance.establishConnection(ipAddress: ServerLookup.sharedInstance.address)
                 self.performSegue(withIdentifier: "welcome", sender: sender)
             } else {
