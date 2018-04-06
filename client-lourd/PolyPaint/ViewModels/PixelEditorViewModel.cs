@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
 using PolyPaint.Models.MessagingModels;
@@ -235,6 +236,23 @@ namespace PolyPaint.ViewModels
             // TODO: Validate exportation of empty drawing
 
             ExportImagePrompt(this);
+        }
+
+        /// <summary>
+        ///     Loads all pixels from the server
+        /// </summary>
+        /// <param name="pixels">List of pixels to rebuild</param>
+        internal void RebuildDrawing(List<PixelModel> pixels)
+        {
+            _pixelEditor.WriteableBitmap.Lock();
+
+            foreach (PixelModel pixel in pixels)
+            {
+                _pixelEditor.WriteableBitmap.SetPixel((int) pixel.X, (int) pixel.Y,
+                                                      (Color) ColorConverter.ConvertFromString(pixel.Color));
+            }
+
+            _pixelEditor.WriteableBitmap.Unlock();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -322,8 +323,8 @@ namespace PolyPaint.ViewModels
             OpenEditorWindow(drawingParams.Item3);
         }
 
-        private void OpenEditorWindow(EditingModeOption option = EditingModeOption.Trait,
-            List<StrokeModel> strokes = null)
+        private void OpenEditorWindow(EditingModeOption option,
+            [Optional] List<StrokeModel> strokes, [Optional] List<PixelModel> pixels)
         {
             if (option == EditingModeOption.Trait)
             {
@@ -348,8 +349,10 @@ namespace PolyPaint.ViewModels
                     StrokeEditor = null;
                     PixelEditor = new PixelEditorView();
                     PixelEditor.Show();
-                    // TODO: Modify this function once server saving protocol is established
-                    //(PixelEditor.DataContext as StrokeEditorViewModel)?.ReplayActions(strokes);
+                    if (pixels != null)
+                    {
+                        (PixelEditor.DataContext as PixelEditorViewModel)?.RebuildDrawing(pixels);
+                    }
                     PixelEditor.Closing += OnEditorClosedHandler;
                     OnClosingRequest();
                 }

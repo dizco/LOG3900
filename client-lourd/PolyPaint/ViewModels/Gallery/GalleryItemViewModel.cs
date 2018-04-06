@@ -277,7 +277,7 @@ namespace PolyPaint.ViewModels.Gallery
         {
             HttpResponseMessage response;
 
-            if ((!_isDrawingOwner && _drawingIsLocked) || isRetryWithPassword)
+            if (!_isDrawingOwner && _drawingIsLocked || isRetryWithPassword)
             {
                 string drawingPassword = null;
 
@@ -323,20 +323,25 @@ namespace PolyPaint.ViewModels.Gallery
                     }
 
                     List<StrokeModel> strokes = content.GetValue("strokes").ToObject<List<StrokeModel>>();
+                    List<PixelModel> pixels = content.GetValue("pixels").ToObject<List<PixelModel>>();
+
                     string drawingName = content.GetValue("name").ToString();
 
-                    EditingModeOption option = EditingModeOption.Trait;
-                    if (editingMode == "stroke")
+                    switch (editingMode)
                     {
-                        option = EditingModeOption.Trait;
+                        case "stroke":
+                            OnOnlineDrawingJoined(_drawingId, drawingName, EditingModeOption.Trait, strokes);
+                            break;
+                        case "pixel":
+                            OnOnlineDrawingJoined(_drawingId, drawingName, EditingModeOption.Pixel, pixels: pixels);
+                            break;
+                        default:
+                            throw new NotImplementedException("Le mode d'édition de ce dessin n'est pas supporté");
                     }
-                    else if (editingMode == "pixel")
-
-                    {
-                        option = EditingModeOption.Pixel;
-                    }
-
-                    OnOnlineDrawingJoined(_drawingId, drawingName, option, strokes);
+                }
+                catch (NotImplementedException e)
+                {
+                    UserAlerts.ShowErrorMessage(e.Message);
                 }
                 catch
                 {
@@ -360,7 +365,7 @@ namespace PolyPaint.ViewModels.Gallery
         }
 
         private void OnOnlineDrawingJoined(string drawingId, string drawingName, EditingModeOption option,
-            List<StrokeModel> strokes)
+            [Optional] List<StrokeModel> strokes, [Optional] List<PixelModel> pixels)
         {
             DrawingRoomId = drawingId;
             ViewModelBase.DrawingName = drawingName;
@@ -391,8 +396,11 @@ namespace PolyPaint.ViewModels.Gallery
                     StrokeEditor = null;
                     PixelEditor = new PixelEditorView();
                     PixelEditor.Show();
-                    // TODO: Modify this function once server saving protocol is established
-                    //(PixelEditor.DataContext as StrokeEditorViewModel)?.ReplayActions(strokes);
+                    if (pixels != null)
+                    {
+                        (PixelEditor.DataContext as PixelEditorViewModel)?.RebuildDrawing(pixels);
+                    }
+
                     PixelEditor.Closing += OnEditorClosedHandler;
                     OnClosingRequest();
                 }

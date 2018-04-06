@@ -333,6 +333,11 @@ namespace PolyPaint.Helpers.Communication
 
         internal string SendEditorActionNewPixels(List<Tuple<Point, string>> newPixels)
         {
+            if (newPixels.Count <= 1)
+            {
+                return string.Empty;
+            }
+
             PixelEditorActionModel outgoingNewPixels = BuildOutgoingPixelAction(PixelActionIds.NewPixels);
 
             outgoingNewPixels.Pixels = newPixels
