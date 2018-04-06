@@ -90,7 +90,7 @@
                                   RecentColorsHeader="Récemment utilisées"
                                   UsingAlphaChannel="True"
                                   AdvancedButtonHeader="Personnalisé" />
-                <Slider Width="100" Height="26" Minimum="1" Maximum="15"
+                <Slider Width="100" Height="26" Minimum="2" Maximum="15"
                         Value="{Binding Path=PixelSizeSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         Margin="12"
                         Foreground="Gray"
