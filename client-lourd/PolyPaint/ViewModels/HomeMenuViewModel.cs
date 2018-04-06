@@ -123,14 +123,18 @@ namespace PolyPaint.ViewModels
             ClosingRequest?.Invoke(this, EventArgs.Empty);
         }
 
-        private static void RefreshHomeMenuBindings(object sender, EventArgs a)
+        private void RefreshHomeMenuBindings(object sender, EventArgs a)
         {
+            OnPropertyChanged(nameof(VisibilityStatusString));
+            OnPropertyChanged(nameof(VisibilityColor));
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
         }
 
-        private static void RefreshHomeMenuBindings(object sender, int a)
+        private void RefreshHomeMenuBindings(object sender, int a)
         {
+            OnPropertyChanged(nameof(VisibilityStatusString));
+            OnPropertyChanged(nameof(VisibilityColor));
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
         }
