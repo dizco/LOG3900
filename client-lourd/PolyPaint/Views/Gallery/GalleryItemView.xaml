@@ -11,7 +11,7 @@
     <Grid>
         <StackPanel Background="#FFE4F0F2">
             <Image Source="{Binding ImageSource, Mode=OneWay}" Cursor="Hand" Stretch="Uniform" Height="150"
-                   Margin="5,5,5,0" ToolTip="Clickez pour rejoindre">
+                   Margin="5,5,5,0" ToolTip="Cliquez pour rejoindre">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDown">
                         <i:InvokeCommandAction Command="{Binding JoinDrawingCommand}" />
