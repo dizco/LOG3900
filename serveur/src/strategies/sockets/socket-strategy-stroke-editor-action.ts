@@ -9,6 +9,7 @@ import { InsertAllAtIndex } from "../../helpers/arrays";
 import { ProcessTimer } from "../../helpers/process-timer";
 import { Stroke } from "../../models/drawings/stroke";
 import { ServerStrokeEditorAction } from "../../models/sockets/server-editor-action";
+import { PromiseFactory } from "../../factories/promise-factory";
 
 const enum EditorAction {
     NewStroke = 1,
@@ -56,7 +57,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
 
     private static buildUpdateCommand(commandName: string, conditions: object, update: object): Command {
         return new Command("StrokeEditorAction: " + commandName, () => {
-            return new Promise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
+            return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
                 timer.start();
@@ -75,7 +76,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
 
     private static buildReplaceStrokeCommand(conditions: object, message: ServerStrokeEditorAction): Command {
         return new Command("StrokeEditorAction: ReplaceStroke", () => {
-            return new Promise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
+            return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
                 timer.start();
@@ -115,7 +116,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
 
     private static buildTransformCommand(conditions: object, message: ServerStrokeEditorAction): Command {
         return new Command("StrokeEditorAction: Transform", () => {
-            return new Promise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
+            return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
                 timer.start();

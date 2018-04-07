@@ -10,6 +10,7 @@ import { WebSocketDecorator } from "../../decorators/websocket-decorator";
 import { ServerEditorAction } from "../../models/sockets/server-editor-action";
 import { EditorActionDecorator } from "../../decorators/editor-action-decorator";
 import { default as Action } from "../../models/drawings/action";
+import { PromiseFactory } from "../../factories/promise-factory";
 
 export abstract class SocketStrategyEditorAction implements SocketStrategy {
     protected static queue: PriorityQueue<Command> = new PriorityQueue<Command>();
@@ -51,7 +52,7 @@ export abstract class SocketStrategyEditorAction implements SocketStrategy {
 
     private static buildActionCommand(message: ServerEditorAction): Command {
         return new Command("Update Drawing Actions: SaveAction", () => {
-            return new Promise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
+            return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
                 timer.start();
