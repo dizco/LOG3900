@@ -67,7 +67,7 @@ namespace PolyPaint.Views
             if ((DataContext as PixelEditorViewModel)?.ToolSelected != "selector"
                 && (DataContext as PixelEditorViewModel)?.CropWriteableBitmap != null)
             {
-                (DataContext as PixelEditorViewModel)?.BlitDraw(ContentControl,
+                (DataContext as PixelEditorViewModel)?.BlitOnDrawing(ContentControl,
                                                                         (DataContext as PixelEditorViewModel)
                                                                         ?.CropWriteableBitmap,
                                                                         true);
@@ -121,9 +121,9 @@ namespace PolyPaint.Views
                 // Make the drag selection box visible.           
                 selectionBox.Visibility = Visibility.Visible;
 
-                if ((DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition)
+                if (((PixelEditorViewModel) DataContext).IsWriteableBitmapOnEdition)
                 {
-                    (DataContext as PixelEditorViewModel)?.BlitDraw(ContentControl,
+                    ((PixelEditorViewModel) DataContext)?.BlitOnDrawing(ContentControl,
                                                                             (DataContext as PixelEditorViewModel)
                                                                             ?.CropWriteableBitmap, true);
                 }
@@ -150,10 +150,10 @@ namespace PolyPaint.Views
                                     : mouseUpPosition.Y;
 
             // The mouse has been released, select the pixel in this rectangle
-            if (!(DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition
-                && (DataContext as PixelEditorViewModel)?.ToolSelected == "selector")
+            if ((!(DataContext as PixelEditorViewModel)?.IsWriteableBitmapOnEdition ?? false)
+                && ((PixelEditorViewModel) DataContext)?.ToolSelected == "selector")
             {
-                (DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition = false;
+                ((PixelEditorViewModel) DataContext).IsWriteableBitmapOnEdition = false;
                 if (!_mouseDownPositionSelector.Equals(mouseUpPosition))
                 {
                     // Show the selector and the adorners
@@ -164,7 +164,7 @@ namespace PolyPaint.Views
                     }
 
                     // Fonction of the selection box
-                    (DataContext as PixelEditorViewModel)?.SelectZone(ContentControl, _mouseDownPositionSelector,
+                    ((PixelEditorViewModel) DataContext)?.SelectZone(ContentControl, _mouseDownPositionSelector,
                                                                       mouseUpPosition);
                 }
                 else
@@ -224,7 +224,7 @@ namespace PolyPaint.Views
 
         private void ContentControlOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if ((DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition)
+            if ((DataContext as PixelEditorViewModel)?.IsWriteableBitmapOnEdition ?? false)
             {
                 Point upperLeftCorner =
                     ContentControl.TransformToAncestor(SelectedZoneCanvas).Transform(new Point(0, 0));
@@ -232,7 +232,7 @@ namespace PolyPaint.Views
                                                    upperLeftCorner.Y + ContentControl.ActualHeight);
 
                 (DataContext as PixelEditorViewModel)?.SelectTempZone(lowerRightCorner, upperLeftCorner);
-                (DataContext as PixelEditorViewModel)?.BlitDraw(ContentControl,
+                (DataContext as PixelEditorViewModel)?.BlitOnDrawing(ContentControl,
                                                                 (DataContext as PixelEditorViewModel)
                                                                 ?.CropWriteableBitmap, false);
             }
@@ -240,10 +240,10 @@ namespace PolyPaint.Views
 
         private void ContentControlOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if ((DataContext as PixelEditorViewModel).IsWriteableBitmapOnEdition)
+            if ((DataContext as PixelEditorViewModel)?.IsWriteableBitmapOnEdition ?? false)
 
             {
-                (DataContext as PixelEditorViewModel)?.BlitDraw(ContentControl,
+                (DataContext as PixelEditorViewModel)?.BlitOnDrawing(ContentControl,
                                                                 (DataContext as PixelEditorViewModel)
                                                                 ?.TempWriteableBitmap, false);
             }

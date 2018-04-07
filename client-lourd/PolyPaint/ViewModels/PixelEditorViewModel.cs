@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -25,8 +26,7 @@ namespace PolyPaint.ViewModels
             _pixelEditor.DrawingName = DrawingName;
             _pixelEditor.DrewPixelsEvent += PixelEditorDrewPixelsEventHandler;
             _pixelEditor.PropertyChanged += (s, a) => PropertyModified(a.PropertyName);
-            //_pixelEditor.SelectedRegionEvent
-            _pixelEditor.BlitRegionEvent += PixelEditorOnBlitRegionEvent;
+            _pixelEditor.ModifiedRegionEvent += PixelEditorOnModifiedRegionEvent;
 
             // Pour les commandes suivantes, il est toujours possible des les activer.
             // Donc, aucune vérification de type Peut"Action" à faire.
@@ -160,20 +160,20 @@ namespace PolyPaint.ViewModels
             SendNewPixels(pixels);
         }
 
-        private void PixelEditorOnBlitRegionEvent(object sender, Rect rect)
+        private void PixelEditorOnModifiedRegionEvent(object sender, Rect region)
         {
             List<Tuple<Point, string>> pixels = new List<Tuple<Point, string>>();
 
-            for (int i = (int)rect.TopLeft.X; i <= (int)rect.TopRight.X; i++)
+            for (int i = (int)region.TopLeft.X; i <= (int)region.TopRight.X; i++)
             {
-                for (int j = (int) rect.TopLeft.Y; j <= (int) rect.BottomLeft.Y; j++)
+                for (int j = (int) region.TopLeft.Y; j <= (int) region.BottomLeft.Y; j++)
                 {
                     string color = WriteableBitmap.GetPixel(i, j).ToString();
 
                     pixels.Add(new Tuple<Point, string>(new Point(i,j), color));
                 }
             }
-
+            
             SendNewPixels(pixels);
         }
 
@@ -203,9 +203,9 @@ namespace PolyPaint.ViewModels
         }
 
 
-        public void BlitDraw(ContentControl contentControl, WriteableBitmap writeableBitmapSource, bool isSelectionOver)
+        public void BlitOnDrawing(ContentControl contentControl, WriteableBitmap writeableBitmapSource, bool isSelectionOver)
         {
-            _pixelEditor.BlitDraw(contentControl, writeableBitmapSource, isSelectionOver);
+            _pixelEditor.BlitOnDrawing(contentControl, writeableBitmapSource, isSelectionOver);
         }
 
         public void ReloadTempWriteableBitmap()
