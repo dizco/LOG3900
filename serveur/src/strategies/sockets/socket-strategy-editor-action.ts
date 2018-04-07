@@ -51,7 +51,7 @@ export abstract class SocketStrategyEditorAction implements SocketStrategy {
     }
 
     private static buildActionCommand(message: ServerEditorAction): Command {
-        return new Command("Update Drawing Actions: SaveAction", () => {
+        return new Command("Update Drawing Actions: SaveAction", message.drawing.id, () => {
             return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
