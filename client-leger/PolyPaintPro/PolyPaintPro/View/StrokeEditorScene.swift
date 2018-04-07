@@ -33,7 +33,7 @@ enum StrokeEditingMode {
 
 class StrokeEditorScene: SKScene {
     // MARK: - Constants
-    internal let INCOMPLETESTROKE = "line"
+    internal let PREVIEWSTROKE = "preview"
     internal let COMPLETESTROKE = "stroke"
     internal let RECEIVEDSTROKE = "receivedstroke"
 
@@ -121,7 +121,11 @@ class StrokeEditorScene: SKScene {
         case .select:
             print("Not implemented.")
         case .eraseByPoint:
-            print("Not implemented.")
+            if let touch = touches.first as? UITouch {
+                self.start = touch.location(in: self)
+                self.lastLocation = start
+                self.addPoint(point: self.lastLocation)
+            }
         case .eraseByStroke:
             if let touch = touches.first as? UITouch {
                 self.start = touch.location(in: self)
@@ -136,45 +140,50 @@ class StrokeEditorScene: SKScene {
             if let touch = touches.first as? UITouch {
                 let currentLocation = touch.location(in: self)
                 self.addPoint(point: currentLocation)
-                self.drawLines(start: self.lastLocation, end: currentLocation)
+                self.previewStroke(start: self.lastLocation, end: currentLocation)
                 self.lastLocation = currentLocation
             }
         case .select:
             print("Not implemented.")
         case .eraseByPoint:
-            print("Not implemented.")
+            if let touch = touches.first as? UITouch {
+                let currentLocation = touch.location(in: self)
+                self.addPoint(point: currentLocation)
+                self.lastLocation = currentLocation
+
+                self.eraseByPoint(position: currentLocation)
+            }
         case .eraseByStroke:
             if let touch = touches.first as? UITouch {
-                let currentPosition = touch.location(in: self)
-                self.eraseByStroke(position: currentPosition)
+                let currentLocation = touch.location(in: self)
+                self.eraseByStroke(position: currentLocation)
             }
         }
 
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.nStrokes += 1 // this is used to test currently, will be removed later
-
         print("touches ended")
         switch self.currentEditingMode {
         case .ink:
             if let touch = touches.first as? UITouch {
                 self.end = touch.location(in: self)
-                // we want to remove all the intermediate lines used to draw the stroke
-                enumerateChildNodes(withName: self.INCOMPLETESTROKE, using: {node, stop in
-                    node.removeFromParent()
-                })
+                self.clearPreview()
+
                 // we redraw the stroke using all the collected waypoints
                 self.drawStroke(start: self.start, end: self.end)
             }
         case .select:
             print("Not implemented.")
         case .eraseByPoint:
-            print("Not implemented.")
+            if let touch = touches.first as? UITouch {
+                let currentLocation = touch.location(in: self)
+                self.eraseByPoint(position: currentLocation)
+            }
         case .eraseByStroke:
             if let touch = touches.first as? UITouch {
-                let currentPosition = touch.location(in: self)
-                self.eraseByStroke(position: currentPosition)
+                let currentLocation = touch.location(in: self)
+                self.eraseByStroke(position: currentLocation)
             }
         }
 
@@ -191,7 +200,7 @@ class StrokeEditorScene: SKScene {
         case .select:
             print("Not implemented.")
         case .eraseByPoint:
-            print("Not implemented.")
+            self.eraseByPoint(position: self.start)
         case .eraseByStroke:
             self.eraseByStroke(position: self.start)
         }
@@ -201,8 +210,15 @@ class StrokeEditorScene: SKScene {
     }
 
     // MARK: - Class functions
+    private func clearPreview() {
+        // we want to remove all the intermediate lines used to draw the stroke
+        enumerateChildNodes(withName: self.PREVIEWSTROKE, using: {node, stop in
+            node.removeFromParent()
+        })
+    }
+
     private func clearWaypoints() {
-        wayPoints.removeAll(keepingCapacity: false)
+        self.wayPoints.removeAll(keepingCapacity: false)
     }
 
     private func resetStrokeValues() {
@@ -227,8 +243,7 @@ class StrokeEditorScene: SKScene {
         wayPoints.append(point)
     }
 
-    //this serves as a preview for the stroke that's currently drawn
-    private func drawLines(start: CGPoint, end: CGPoint) {
+    private func previewStroke(start: CGPoint, end: CGPoint) {
         let path = CGMutablePath()
 
         path.move(to: start)
@@ -236,7 +251,7 @@ class StrokeEditorScene: SKScene {
 
         let shapeNode = SKShapeNode()
         shapeNode.path = path
-        shapeNode.name = self.INCOMPLETESTROKE
+        shapeNode.name = self.PREVIEWSTROKE
         shapeNode.strokeColor = UIColor(red: self.red, green: self.green, blue: self.blue, alpha: self.alphaValue)
         shapeNode.lineWidth = self.width
         shapeNode.lineJoin = CGLineJoin.round
@@ -275,7 +290,7 @@ class StrokeEditorScene: SKScene {
     }
 
     private func eraseByStroke(position: CGPoint) {
-        // most recent stroke is returned as the first one
+        // we return all the strokes near the current position
         let strokesToBeErased = self.nodes(at: position) as? [SKStroke]
 
         if strokesToBeErased == nil {
@@ -313,15 +328,42 @@ class StrokeEditorScene: SKScene {
     }
 
     func eraseByPoint(position: CGPoint) {
-        let strokeToBeErased = self.nodes(at: position).first as? SKStroke
-        let pointsList = strokeToBeErased?.path?.getPathElementsPoints()
+        // we return all the strokes near the current position
+        let strokesToBeErased = self.nodes(at: position) as? [SKStroke]
 
-        // TO-DO : Add a function to preview the eraser's path.....
-        // TO-DO : Create a stroke with its initial starting point to the position where the eraser went
+        if strokesToBeErased == nil {
+            return
+        } else {
+            print(strokesToBeErased!)
+        }
 
-        // TO-DO : Create a stroke with the position where the eraser went to its initial ending point
+        // TO-DO : Put it in collab mode.
+        for stroke in strokesToBeErased! {
+            /* if it's a dot, erase it
+            *  3 is the value used here, because if there's a stroke with only 1 or 2 dot
+            *  it becomes impossible to erase...
+            */
+            if stroke.dots?.count == 3 {
+                //self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: stroke.id)
+                stroke.removeFromParent()
+            } else {
+                let newStrokes = stroke.splitSelf(position: position)
 
-        // TO-DO : Add them as children.
+                if !newStrokes.isEmpty {
+                    // this loop will always at max loop twice -> O(1) BOY
+                    for newStroke in newStrokes where newStroke.dots!.count >= 3 {
+                        self.addChild(newStroke)
+                    }
+                    stroke.removeFromParent()
+
+                    // remove the current stroke
+                    //self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: stroke.id)
+
+                    // TO-DO: add the new ones
+
+                }
+            }
+        }
     }
 
     // removes the child from view and adds it to the stack
