@@ -1,5 +1,5 @@
 export interface UserAttributes {
-    id: number | string;
+    id: string;
     username: string;
     url: string;
     avatar_url: string;
