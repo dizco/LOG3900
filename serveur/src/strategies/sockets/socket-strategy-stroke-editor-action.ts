@@ -4,14 +4,14 @@ import { SocketStrategyEditorAction } from "./socket-strategy-editor-action";
 import { StrokeEditorActionDecorator } from "../../decorators/stroke-editor-action-decorator";
 import { EditorActionDecorator } from "../../decorators/editor-action-decorator";
 import { Command } from "../../helpers/queue/command";
-import Drawing, { DrawingModel } from "../../models/drawings/drawing";
+import { default as Drawing, DrawingModel } from "../../models/drawings/drawing";
 import { InsertAllAtIndex } from "../../helpers/arrays";
 import { ProcessTimer } from "../../helpers/process-timer";
 import { Stroke } from "../../models/drawings/stroke";
 import { ServerStrokeEditorAction } from "../../models/sockets/server-editor-action";
 import { PromiseFactory } from "../../factories/promise-factory";
 
-const enum EditorAction {
+const enum StrokeEditorAction {
     NewStroke = 1,
     ReplaceStroke = 2,
     LockStrokes = 3,
@@ -35,17 +35,17 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
     protected saveVisualChanges(message: ServerStrokeEditorAction): void {
         const conditions = { _id: message.drawing.id };
         switch (message.action.id) {
-            case EditorAction.NewStroke:
+            case StrokeEditorAction.NewStroke:
                 SocketStrategyEditorAction.queue.enqueue(SocketStrategyStrokeEditorAction.buildUpdateCommand("NewStroke", conditions,
                     message.drawing.id, { $push: { strokes: { $each: message.delta.add } }}));
                 break;
-            case EditorAction.ReplaceStroke:
+            case StrokeEditorAction.ReplaceStroke:
                 SocketStrategyEditorAction.queue.enqueue(SocketStrategyStrokeEditorAction.buildReplaceStrokeCommand(conditions, message));
                 break;
-            case EditorAction.Transform:
+            case StrokeEditorAction.Transform:
                 SocketStrategyEditorAction.queue.enqueue(SocketStrategyStrokeEditorAction.buildTransformCommand(conditions, message));
                 break;
-            case EditorAction.Reset:
+            case StrokeEditorAction.Reset:
                 SocketStrategyEditorAction.queue.clear();
                 SocketStrategyEditorAction.queue.enqueue(SocketStrategyStrokeEditorAction.buildUpdateCommand("Reset", conditions,
                     message.drawing.id, { $set: { strokes: [] }}));

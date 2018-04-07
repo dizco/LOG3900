@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
 import { PaginateResult } from "mongoose";
-import Action, { ActionModel } from "../models/drawings/action";
+import { default as Action, ActionModel } from "../models/drawings/action";
+import { DrawingsCache } from "../helpers/cache/drawings-cache-singleton";
 
 const enum DrawingFields {
     Name = "name",
@@ -100,24 +101,22 @@ export let getDrawing = (req: Request, res: Response, next: NextFunction) => {
         return res.status(422).json({ status: "error", error: "Failed to validate drawing id.", hints: errors });
     }
 
-    const populateOptions = [
-        { path: "owner", select: "username" },
-    ];
-    Drawing.findOne({_id: req.params.id}, {thumbnail: 0}).populate(populateOptions).exec((err: any, drawing: DrawingModel) => {
-        if (err) {
-            return next(err);
-        }
-        if (!drawing) {
-            return res.status(404).json({ status: "error", error: "Drawing not found." });
-        }
+    DrawingsCache.getInstance().getById(req.params.id)
+        .then((drawing: DrawingModel) => {
+            if (!drawing) {
+                return res.status(404).json({ status: "error", error: "Drawing not found." });
+            }
 
-        if (drawing.protection.active) { //Password protected
-            return handlePasswordProtectedDrawing(drawing, req, res, next);
-        }
-        else { //Not password protected
-            return res.json(drawing.toObject({ versionKey: false }));
-        }
-    });
+            if (drawing.protection.active) { //Password protected
+                return handlePasswordProtectedDrawing(drawing, req, res, next);
+            }
+            else { //Not password protected
+                return res.json(drawing.toObject({ versionKey: false }));
+            }
+        })
+        .catch(err => {
+            return next(err);
+        });
 };
 
 function handlePasswordProtectedDrawing(drawing: any, req: Request, res: Response, next: NextFunction) {
