@@ -37,7 +37,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
         switch (message.action.id) {
             case EditorAction.NewStroke:
                 SocketStrategyEditorAction.queue.enqueue(SocketStrategyStrokeEditorAction.buildUpdateCommand("NewStroke", conditions,
-                    { $push: { strokes: { $each: message.delta.add } }}));
+                    message.drawing.id, { $push: { strokes: { $each: message.delta.add } }}));
                 break;
             case EditorAction.ReplaceStroke:
                 SocketStrategyEditorAction.queue.enqueue(SocketStrategyStrokeEditorAction.buildReplaceStrokeCommand(conditions, message));
@@ -48,15 +48,15 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
             case EditorAction.Reset:
                 SocketStrategyEditorAction.queue.clear();
                 SocketStrategyEditorAction.queue.enqueue(SocketStrategyStrokeEditorAction.buildUpdateCommand("Reset", conditions,
-                    { $set: { strokes: [] }}));
+                    message.drawing.id, { $set: { strokes: [] }}));
                 break;
             default:
                 console.log(`Editor Action (id ${message.action.id}, name ${message.action.name}) does not require strokes manipulation.`);
         }
     }
 
-    private static buildUpdateCommand(commandName: string, conditions: object, update: object): Command {
-        return new Command("StrokeEditorAction: " + commandName, () => {
+    private static buildUpdateCommand(commandName: string, conditions: object, drawingId: string, update: object): Command {
+        return new Command("StrokeEditorAction: " + commandName, drawingId, () => {
             return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
@@ -75,7 +75,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
     }
 
     private static buildReplaceStrokeCommand(conditions: object, message: ServerStrokeEditorAction): Command {
-        return new Command("StrokeEditorAction: ReplaceStroke", () => {
+        return new Command("StrokeEditorAction: ReplaceStroke", message.drawing.id, () => {
             return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
@@ -115,7 +115,7 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
     }
 
     private static buildTransformCommand(conditions: object, message: ServerStrokeEditorAction): Command {
-        return new Command("StrokeEditorAction: Transform", () => {
+        return new Command("StrokeEditorAction: Transform", message.drawing.id, () => {
             return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
