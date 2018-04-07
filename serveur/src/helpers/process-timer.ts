@@ -20,7 +20,10 @@ export class ProcessTimer {
      * @returns {string} elapsed time in ms
      */
     public getElapsedTime(precision: number = ProcessTimer.PRECISION): string {
-        return this.elapsedTime.toFixed(precision);
+        if (this.elapsedTime) {
+            return this.elapsedTime.toFixed(precision);
+        }
+        return (process.hrtime(this.startTime)[1] / 1000000).toFixed(precision);
     }
 
     /**
