@@ -50,7 +50,6 @@ class ToolsView: UIView {
         resetButtons(sender: sender, filename: "eraser")
         self.strokeDelegate?.updateEditingMode(mode: StrokeEditingMode.eraseByStroke)
         self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.select)
-        // TO-DO : We need an eraser for eraseByPoint...
     }
 
     @IBAction func byPointEraserButton(_ sender: UIButton) {

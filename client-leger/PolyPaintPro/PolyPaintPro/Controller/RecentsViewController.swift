@@ -28,7 +28,7 @@ class RecentsViewController: UIViewController {
             backToLoginButton.isHidden = true
         }
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "NewDrawingSegue" {
             let vc = segue.destination as! NewDrawingViewController
