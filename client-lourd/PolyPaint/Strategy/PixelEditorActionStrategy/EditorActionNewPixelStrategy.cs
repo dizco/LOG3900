@@ -26,8 +26,10 @@ namespace PolyPaint.Strategy.PixelEditorActionStrategy
                 editor.WriteableBitmap.Lock();
                 foreach (PixelModel pixel in _newPixelAction.Pixels)
                 {
-                        editor.DrawIncomingPixel((int) pixel.X, (int) pixel.Y, pixel.Color);
-                
+                    if (pixel.X > 0 && pixel.Y > 0)
+                    {
+                        editor.DrawIncomingPixel((int)pixel.X, (int)pixel.Y, pixel.Color);
+                    }
                 }
                 editor.WriteableBitmap.Unlock();
             });

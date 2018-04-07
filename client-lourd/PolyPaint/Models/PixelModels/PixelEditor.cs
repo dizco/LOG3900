@@ -151,8 +151,16 @@ namespace PolyPaint.Models.PixelModels
         }
 
         public event EventHandler<List<Tuple<Point, string>>> DrewPixelsEvent;
-        public event EventHandler<Tuple<Point, Point>> SelectedRegionEvent;
-        public event EventHandler<Rect> BlitRegionEvent;
+        /// <summary>
+        ///     Event is raised when a selected area is blitted onto the drawing area
+        /// </summary>
+        public event EventHandler<Rect> ModifiedRegionEvent;
+        /// <summary>
+        ///     Event is raised when a selected area is rotated
+        ///     First Rect (Item1) represents the old region occupied by the selection
+        ///     Second Rect (Item2) represents the new region occuped by the selection
+        /// </summary>
+        public event EventHandler<Tuple<Rect, Rect>> RotatedRegionEvent;
 
         /// <summary>
         ///     Draw on the writeableBitmap
@@ -214,8 +222,6 @@ namespace PolyPaint.Models.PixelModels
                                           (int) selectedRectangle.Item2.X, (int) selectedRectangle.Item2.Y,
                                           Colors.White);
 
-            OnSelectedRegion(new Tuple<Point, Point>(selectedRectangle.Item1, selectedRectangle.Item2));
-
             //We can then start our edition
             IsWriteableBitmapOnEdition = true;
         }
@@ -237,12 +243,12 @@ namespace PolyPaint.Models.PixelModels
 
         /// <summary>
         ///     Put the changes made by the user on the edited bitmap
-        ///     Merge the edited bitmap on the original bitmap (the draw)
+        ///     Merge the edited bitmap on the original bitmap (the drawing)
         /// </summary>
         /// <param name="selectionContentControl">Control of the zone Selected</param>
         /// <param name="writeableBitmapSource">Writeablebitmap source that is blit on the original draw</param>
         /// <param name="isSelectionOver">the selection ends if the value is set to True</param>
-        public void BlitDraw(ContentControl selectionContentControl, WriteableBitmap writeableBitmapSource, bool isSelectionOver)
+        public void BlitOnDrawing(ContentControl selectionContentControl, WriteableBitmap writeableBitmapSource, bool isSelectionOver)
         {
             if (IsWriteableBitmapOnEdition)
             {
@@ -262,7 +268,11 @@ namespace PolyPaint.Models.PixelModels
 
                 WriteableBitmap.Blit(destinationRectangle, writeableBitmapSource, sourceRectangle);
 
-                if (isSelectionOver)
+                if (!isSelectionOver)
+                {
+                    OnModifiedRegion(destinationRectangle);
+                }
+                else
                 {
                     writeableBitmapSource.Clear(Colors.Transparent);
                     TempWriteableBitmap.Clear(Colors.Transparent);
@@ -379,14 +389,14 @@ namespace PolyPaint.Models.PixelModels
             DrewPixelsEvent?.Invoke(sender, drawnPixels);
         }
 
-        protected void OnSelectedRegion(Tuple<Point, Point> selectedRegionLimits)
+        protected void OnModifiedRegion(Rect modifiedRegion)
         {
-            SelectedRegionEvent?.Invoke(this, selectedRegionLimits);
+            ModifiedRegionEvent?.Invoke(this, modifiedRegion);
         }
 
-        protected void OnBlitRegion(Rect blitRegion)
+        protected void OnRotatedRegion(Rect previousRegion, Rect newRegion)
         {
-            BlitRegionEvent?.Invoke(this, blitRegion);
+            RotatedRegionEvent?.Invoke(this, new Tuple<Rect, Rect>(previousRegion, newRegion));
         }
 
         /// <summary>

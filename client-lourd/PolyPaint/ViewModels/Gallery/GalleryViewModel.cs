@@ -204,12 +204,11 @@ namespace PolyPaint.ViewModels.Gallery
 
             foreach (string drawingId in _publicDrawingsId)
             {
-                GalleryItemView itemToRemove =
-                    PublicDrawings.First(item => (item.DataContext as GalleryItemViewModel)?.DrawingId ==
-                                                 drawingId);
-
                 (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(() =>
                 {
+                    GalleryItemView itemToRemove =
+                        PublicDrawings.First(item => (item.DataContext as GalleryItemViewModel)?.DrawingId ==
+                                                     drawingId);
                     PublicDrawings
                         .Remove(itemToRemove);
                 });
