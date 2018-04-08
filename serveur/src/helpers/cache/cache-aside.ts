@@ -10,10 +10,10 @@ export class CacheAside<T> extends ObserverSubject {
         this.notify();
     }
 
-    public async get(key: string, dataRetriever: () => Promise<T>): Promise<T> {
+    public get(key: string, dataRetriever: () => Promise<T>): Promise<T> {
         const cacheItem = this.cache[key];
         if (cacheItem !== undefined) {
-            return cacheItem.Item;
+            return Promise.resolve(cacheItem.Item);
         }
         const promise = dataRetriever();
         promise.then((retrievedItem: T) => {

@@ -30,7 +30,7 @@ export class DrawingsCache extends CacheAside<DrawingModel> {
      * @param {string} drawingId
      * @returns {Promise<DrawingModel>}
      */
-    public async getById(drawingId: string): Promise<DrawingModel> {
+    public getById(drawingId: string): Promise<DrawingModel> {
         const dataRetriever = () => {
             return new Promise<DrawingModel>((resolve: (value?: DrawingModel | PromiseLike<DrawingModel>) => void,
                                        reject: (reason?: any) => void) => {
