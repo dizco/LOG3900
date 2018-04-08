@@ -32,6 +32,8 @@ namespace PolyPaint.Models.PixelModels
 
         private bool _isWriteableBitmapOnEdition;
 
+        private Tuple<Rect, Rect> _savedBlitSizes;
+
         // Size of the pixel trace in our draw
         private int _pixelSize = 5;
 
@@ -251,15 +253,29 @@ namespace PolyPaint.Models.PixelModels
                 Rect sourceRectangle =
                     new Rect(0, 0, writeableBitmapSource.PixelWidth, writeableBitmapSource.PixelHeight);
 
-                WriteableBitmap.Blit(destinationRectangle, writeableBitmapSource, sourceRectangle);
+                _savedBlitSizes = new Tuple<Rect, Rect>(destinationRectangle, sourceRectangle);
 
+                WriteableBitmap.Blit(destinationRectangle, writeableBitmapSource, sourceRectangle);
 
                 if (isSelectionOver)
                 {
                     writeableBitmapSource.Clear(Colors.Transparent);
                     TempWriteableBitmap.Clear(Colors.Transparent);
+
                     IsWriteableBitmapOnEdition = false;
+
+                    _savedBlitSizes = null;
+                    selectionContentControl.Width = 0;
+                    selectionContentControl.Height = 0;
                 }
+            }
+        }
+
+        public void ReloadTempWriteableBitmap()
+        {
+            if (_savedBlitSizes != null)
+            {
+                WriteableBitmap.Blit(_savedBlitSizes.Item1, TempWriteableBitmap, _savedBlitSizes.Item2);
             }
         }
 
