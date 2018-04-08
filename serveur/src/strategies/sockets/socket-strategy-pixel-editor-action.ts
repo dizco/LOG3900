@@ -95,7 +95,7 @@ export class SocketStrategyPixelEditorAction extends SocketStrategyEditorAction 
                     })
                     .catch(err => {
                         console.log("NewPixels: An error occurred while fetching drawing", err);
-                        reject(err);
+                        return reject(err);
                     });
             });
         });
