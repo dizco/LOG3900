@@ -189,6 +189,11 @@ namespace PolyPaint.ViewModels
             _pixelEditor.BlitDraw(contentControl, writeableBitmapSource, isSelectionOver);
         }
 
+        public void ReloadTempWriteableBitmap()
+        {
+            _pixelEditor.ReloadTempWriteableBitmap();
+        }
+
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)
         {
             switch (e)

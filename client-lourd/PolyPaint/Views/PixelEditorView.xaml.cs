@@ -251,7 +251,11 @@ namespace PolyPaint.Views
 
         private void ContentControlOnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //Todo: Activate the event on a mouse Up only
+            //Todo: Blit the crop at the end of the resize to send it on collab
+            if (!e.PreviousSize.Equals(new Size(0,0)))
+            {
+                (DataContext as PixelEditorViewModel)?.ReloadTempWriteableBitmap();
+            }
         }
     }
 }
