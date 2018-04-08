@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -294,16 +293,21 @@ namespace PolyPaint.Models.PixelModels
             }
         }
 
-        public void QuarterTurnClockwise(ContentControl contentControl)
-        {            
+
+        internal void QuarterTurnClockwise(object obj)
+        {
+            FillRegionBeforeRotation();
             QuarterTurnObject(contentControl);
             CropWriteableBitmap = CropWriteableBitmap.Rotate(ClockwiseAngle);
+            UpdateModifiedRegion();
         }
 
         internal void QuarterTurnCounterClockwise(ContentControl contentControl)
         {
+            FillRegionBeforeRotation();
             QuarterTurnObject(contentControl);
             CropWriteableBitmap = CropWriteableBitmap.Rotate(CounterClockwiseAngle);
+            UpdateModifiedRegion();
         }
 
         internal void QuarterTurnObject(ContentControl contentControl)
@@ -320,30 +324,82 @@ namespace PolyPaint.Models.PixelModels
             contentControl.Height = temp;
         }
 
+        private void FillRegionBeforeRotation()
+        {
+            Point upperLeft = CropWriteableBitmapPosition;
+            Point bottomRight = new Point(CropWriteableBitmapPosition.X + CropWriteableBitmap.Width,
+                                          CropWriteableBitmapPosition.Y + CropWriteableBitmap.Height);
+
+            OnDrewPixels(this, FillRegionWhite(upperLeft, bottomRight));
+        }
+
+        private void UpdateModifiedRegion()
+        {
+            Point upperLeft = CropWriteableBitmapPosition;
+            Point bottomRight = new Point(CropWriteableBitmapPosition.X + CropWriteableBitmap.Width, CropWriteableBitmapPosition.Y + CropWriteableBitmap.Height);
+
+            OnDrewPixels(this, GetRegionPixels(upperLeft, bottomRight, (int) CropWriteableBitmapPosition.X, (int)CropWriteableBitmapPosition.Y));
+        }
+
+        private static List<Tuple<Point, string>> FillRegionWhite(Point upperLeft, Point bottomRight)
+        {
+            List<Tuple<Point, string>> whitePixels = new List<Tuple<Point, string>>();
+
+            for (int i = (int) upperLeft.X; i < bottomRight.X; i++)
+            {
+                for (int j = (int) upperLeft.Y; j < bottomRight.Y; j++)
+                {
+                    whitePixels.Add(new Tuple<Point, string>(new Point(i,j), Colors.White.ToString()));
+                }
+            }
+
+            return whitePixels;
+        }
+
+        private List<Tuple<Point, string>> GetRegionPixels(Point upperLeft, Point bottomRight, int xOffset, int yOffset)
+        {
+            List<Tuple<Point, string>> pixels = new List<Tuple<Point, string>>();
+
+            for (int i = (int)upperLeft.X; i < bottomRight.X; i++)
+            {
+                for (int j = (int)upperLeft.Y; j < bottomRight.Y; j++)
+                {
+                    pixels.Add(new Tuple<Point, string>(new Point(i, j), CropWriteableBitmap.GetPixel(i - xOffset, j - yOffset).ToString()));
+                }
+            }
+
+            return pixels;
+        }
+
         internal void VerticalFlip(object obj)
         {
             CropWriteableBitmap = CropWriteableBitmap.Flip(WriteableBitmapExtensions.FlipMode.Vertical);
+            UpdateModifiedRegion();
         }
 
         internal void HorizontalFlip(object obj)
         {
             CropWriteableBitmap = CropWriteableBitmap.Flip(WriteableBitmapExtensions.FlipMode.Horizontal);
+            UpdateModifiedRegion();
         }
 
         internal void GrayFilter(object obj)
         {
             CropWriteableBitmap = CropWriteableBitmap.Gray();
+            UpdateModifiedRegion();
         }
 
         internal void InvertFilter(object obj)
         {
             CropWriteableBitmap = CropWriteableBitmap.Invert();
+            UpdateModifiedRegion();
         }
 
         internal void GaussianBlurFilter(object obj)
         {
             int[,] kernel = WriteableBitmapExtensions.KernelGaussianBlur3x3;
             CropWriteableBitmap = CropWriteableBitmap.Convolute(kernel);
+            UpdateModifiedRegion();
         }
 
         /// <summary>
