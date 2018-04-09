@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,29 +19,27 @@ namespace PolyPaint.Models.PixelModels
         private const int RedShift = 16;
         private const int GreenShift = 8;
 
-        // original draw
-        private WriteableBitmap _writeableBitmap;
-
-        // writeableBitmap used on edition
+        // Bitmap containing current selection
         private WriteableBitmap _cropWriteableBitmap;
-
-        // temporay writeableBitmap used for a better collab
-        private WriteableBitmap _tempWriteableBitmap;
 
         private Point _cropWriteableBitmapPosition;
 
         private bool _isWriteableBitmapOnEdition;
 
-        private Tuple<Rect, Rect> _savedBlitSizes;
-
-        // Size of the pixel trace in our draw
         private int _pixelSize = 5;
 
-        // Pixel color drawn by the pencil
+        private Tuple<Rect, Rect> _savedBlitSizes;
+
         private string _selectedColor = "Black";
 
-        // Actif tool of the editor
+        // Active tool of the editor
         private string _selectedTool = "pencil";
+
+        // Buffer containing what is behind current selection
+        private WriteableBitmap _tempWriteableBitmap;
+
+        // Original drawing
+        private WriteableBitmap _writeableBitmap;
 
         public PixelEditor()
         {
@@ -106,8 +104,6 @@ namespace PolyPaint.Models.PixelModels
 
         public string DrawingName { get; set; }
 
-        public ObservableCollection<string> RecentAutosaves { get; } = new ObservableCollection<string>();
-
         public string SelectedTool
         {
             get => _selectedTool;
@@ -144,22 +140,17 @@ namespace PolyPaint.Models.PixelModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void ChangeCropWriteableBitmapPosition(Point position)
-        {
-            CropWriteableBitmapPosition = position;
-        }
-
         public event EventHandler<List<Tuple<Point, string>>> DrewPixelsEvent;
+
         /// <summary>
         ///     Event is raised when a selected area is blitted onto the drawing area
         /// </summary>
         public event EventHandler<Rect> ModifiedRegionEvent;
-        /// <summary>
-        ///     Event is raised when a selected area is rotated
-        ///     First Rect (Item1) represents the old region occupied by the selection
-        ///     Second Rect (Item2) represents the new region occuped by the selection
-        /// </summary>
-        public event EventHandler<Tuple<Rect, Rect>> RotatedRegionEvent;
+
+        public void ChangeCropWriteableBitmapPosition(Point position)
+        {
+            CropWriteableBitmapPosition = position;
+        }
 
         /// <summary>
         ///     Draw on the writeableBitmap
@@ -233,7 +224,6 @@ namespace PolyPaint.Models.PixelModels
             //The second point returns the uppe-right coordinates
             Tuple<Point, Point> selectedRectangle = tools.SelectCropZone();
 
-
             //We crop the WriteableBitmap destinaton
             Rect rect = new Rect(selectedRectangle.Item1, selectedRectangle.Item2);
 
@@ -245,14 +235,17 @@ namespace PolyPaint.Models.PixelModels
         ///     Merge the edited bitmap on the original bitmap (the drawing)
         /// </summary>
         /// <param name="selectionContentControl">Control of the zone Selected</param>
-        /// <param name="writeableBitmapSource">Writeablebitmap source that is blit on the original draw</param>
+        /// <param name="writeableBitmapSource">Writeablebitmap source that is blit on the original drawing</param>
         /// <param name="isSelectionOver">the selection ends if the value is set to True</param>
-        public void BlitOnDrawing(ContentControl selectionContentControl, WriteableBitmap writeableBitmapSource, bool isSelectionOver)
+        public void BlitOnDrawing(ContentControl selectionContentControl, WriteableBitmap writeableBitmapSource,
+            bool isSelectionOver, [Optional] Rect regionBeforeResize)
         {
             if (IsWriteableBitmapOnEdition)
             {
-                writeableBitmapSource = writeableBitmapSource.Resize((int)selectionContentControl.Width, (int)selectionContentControl.Height,
-                                                                     WriteableBitmapExtensions.Interpolation.NearestNeighbor);
+                writeableBitmapSource = writeableBitmapSource.Resize((int) selectionContentControl.Width,
+                                                                     (int) selectionContentControl.Height,
+                                                                     WriteableBitmapExtensions
+                                                                         .Interpolation.NearestNeighbor);
 
                 Point position = new Point(Canvas.GetLeft(selectionContentControl),
                                            Canvas.GetTop(selectionContentControl));
@@ -269,6 +262,21 @@ namespace PolyPaint.Models.PixelModels
 
                 if (!isSelectionOver)
                 {
+                    if (!regionBeforeResize.IsEmpty)
+                    {
+                        double top = regionBeforeResize.Top < position.Y ? regionBeforeResize.Top : position.Y;
+                        double left = regionBeforeResize.Left < position.X ? regionBeforeResize.Left : position.X;
+
+                        double bottom = regionBeforeResize.Bottom > position.Y + writeableBitmapSource.PixelHeight
+                                            ? regionBeforeResize.Bottom
+                                            : position.Y + writeableBitmapSource.PixelHeight;
+                        double right = regionBeforeResize.Right > position.X + writeableBitmapSource.PixelWidth
+                                           ? regionBeforeResize.Right
+                                           : position.X + writeableBitmapSource.PixelWidth;
+                        destinationRectangle =
+                            new Rect(new Point((int) left, (int) top), new Point((int) right, (int) bottom));
+                    }
+
                     OnModifiedRegion(destinationRectangle);
                 }
                 else
@@ -293,8 +301,7 @@ namespace PolyPaint.Models.PixelModels
             }
         }
 
-
-        internal void QuarterTurnClockwise(object obj)
+        internal void QuarterTurnClockwise(ContentControl contentControl)
         {
             FillRegionBeforeRotation();
             QuarterTurnObject(contentControl);
@@ -313,7 +320,8 @@ namespace PolyPaint.Models.PixelModels
         internal void QuarterTurnObject(ContentControl contentControl)
         {
             Point relativePoint = new Point(Canvas.GetLeft(contentControl), Canvas.GetTop(contentControl));
-            Point middlePoint = new Point(relativePoint.X + contentControl.ActualWidth / 2, relativePoint.Y + contentControl.ActualHeight / 2);
+            Point middlePoint = new Point(relativePoint.X + contentControl.ActualWidth / 2,
+                                          relativePoint.Y + contentControl.ActualHeight / 2);
             Point delta = new Point(middlePoint.X - relativePoint.X, middlePoint.Y - relativePoint.Y);
 
             Canvas.SetLeft(contentControl, middlePoint.X - delta.Y);
@@ -324,6 +332,9 @@ namespace PolyPaint.Models.PixelModels
             contentControl.Height = temp;
         }
 
+        /// <summary>
+        ///     Sends the currently selected region as white pixels to the server before sending the rotated pixels
+        /// </summary>
         private void FillRegionBeforeRotation()
         {
             Point upperLeft = CropWriteableBitmapPosition;
@@ -333,14 +344,26 @@ namespace PolyPaint.Models.PixelModels
             OnDrewPixels(this, FillRegionWhite(upperLeft, bottomRight));
         }
 
+        /// <summary>
+        ///     Sends updated content of currently selected region
+        /// </summary>
         private void UpdateModifiedRegion()
         {
             Point upperLeft = CropWriteableBitmapPosition;
-            Point bottomRight = new Point(CropWriteableBitmapPosition.X + CropWriteableBitmap.Width, CropWriteableBitmapPosition.Y + CropWriteableBitmap.Height);
+            Point bottomRight = new Point(CropWriteableBitmapPosition.X + CropWriteableBitmap.Width,
+                                          CropWriteableBitmapPosition.Y + CropWriteableBitmap.Height);
 
-            OnDrewPixels(this, GetRegionPixels(upperLeft, bottomRight, (int) CropWriteableBitmapPosition.X, (int)CropWriteableBitmapPosition.Y));
+            OnDrewPixels(this,
+                         GetRegionPixels(upperLeft, bottomRight, (int) CropWriteableBitmapPosition.X,
+                                         (int) CropWriteableBitmapPosition.Y));
         }
 
+        /// <summary>
+        ///     Generates white pixels for the region delimited by the two points
+        /// </summary>
+        /// <param name="upperLeft">Upper left limit</param>
+        /// <param name="bottomRight">Bottom right limit</param>
+        /// <returns></returns>
         private static List<Tuple<Point, string>> FillRegionWhite(Point upperLeft, Point bottomRight)
         {
             List<Tuple<Point, string>> whitePixels = new List<Tuple<Point, string>>();
@@ -349,22 +372,32 @@ namespace PolyPaint.Models.PixelModels
             {
                 for (int j = (int) upperLeft.Y; j < bottomRight.Y; j++)
                 {
-                    whitePixels.Add(new Tuple<Point, string>(new Point(i,j), Colors.White.ToString()));
+                    whitePixels.Add(new Tuple<Point, string>(new Point(i, j), Colors.White.ToString()));
                 }
             }
 
             return whitePixels;
         }
 
+        /// <summary>
+        ///     Gets the actual pixels of delimited region
+        /// </summary>
+        /// <param name="upperLeft">Upper left limit</param>
+        /// <param name="bottomRight">Bottom left limit</param>
+        /// <param name="xOffset">CropWriteableBitmap X-Offset (X position)</param>
+        /// <param name="yOffset">CropWriteableBitmap Y-Offset (Y position)</param>
+        /// <returns></returns>
         private List<Tuple<Point, string>> GetRegionPixels(Point upperLeft, Point bottomRight, int xOffset, int yOffset)
         {
             List<Tuple<Point, string>> pixels = new List<Tuple<Point, string>>();
 
-            for (int i = (int)upperLeft.X; i < bottomRight.X; i++)
+            for (int i = (int) upperLeft.X; i < bottomRight.X; i++)
             {
-                for (int j = (int)upperLeft.Y; j < bottomRight.Y; j++)
+                for (int j = (int) upperLeft.Y; j < bottomRight.Y; j++)
                 {
-                    pixels.Add(new Tuple<Point, string>(new Point(i, j), CropWriteableBitmap.GetPixel(i - xOffset, j - yOffset).ToString()));
+                    pixels.Add(new Tuple<Point, string>(new Point(i, j),
+                                                        CropWriteableBitmap
+                                                            .GetPixel(i - xOffset, j - yOffset).ToString()));
                 }
             }
 
@@ -448,11 +481,6 @@ namespace PolyPaint.Models.PixelModels
         protected void OnModifiedRegion(Rect modifiedRegion)
         {
             ModifiedRegionEvent?.Invoke(this, modifiedRegion);
-        }
-
-        protected void OnRotatedRegion(Rect previousRegion, Rect newRegion)
-        {
-            RotatedRegionEvent?.Invoke(this, new Tuple<Rect, Rect>(previousRegion, newRegion));
         }
 
         /// <summary>

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
@@ -36,7 +35,8 @@ namespace PolyPaint.ViewModels
 
             //Pixel Rotate tool
             QuarterTurnClockwiseCommand = new RelayCommand<ContentControl>(_pixelEditor.QuarterTurnClockwise);
-            QuarterTurnCounterClockwiseCommand = new RelayCommand<ContentControl>(_pixelEditor.QuarterTurnCounterClockwise);
+            QuarterTurnCounterClockwiseCommand =
+                new RelayCommand<ContentControl>(_pixelEditor.QuarterTurnCounterClockwise);
             VerticalFlipCommand = new RelayCommand<object>(_pixelEditor.VerticalFlip);
             HorizontalFlipCommand = new RelayCommand<object>(_pixelEditor.HorizontalFlip);
 
@@ -164,16 +164,16 @@ namespace PolyPaint.ViewModels
         {
             List<Tuple<Point, string>> pixels = new List<Tuple<Point, string>>();
 
-            for (int i = (int)region.TopLeft.X; i <= (int)region.TopRight.X; i++)
+            for (int i = (int) region.TopLeft.X; i <= (int) region.TopRight.X; i++)
             {
                 for (int j = (int) region.TopLeft.Y; j <= (int) region.BottomLeft.Y; j++)
                 {
                     string color = WriteableBitmap.GetPixel(i, j).ToString();
 
-                    pixels.Add(new Tuple<Point, string>(new Point(i,j), color));
+                    pixels.Add(new Tuple<Point, string>(new Point(i, j), color));
                 }
             }
-            
+
             SendNewPixels(pixels);
         }
 
@@ -202,10 +202,10 @@ namespace PolyPaint.ViewModels
             _pixelEditor.SelectTempZone(beginPosition, endPositon);
         }
 
-
-        public void BlitOnDrawing(ContentControl contentControl, WriteableBitmap writeableBitmapSource, bool isSelectionOver)
+        public void BlitOnDrawing(ContentControl contentControl, WriteableBitmap writeableBitmapSource,
+            bool isSelectionOver, [Optional] Rect regionBeforeResize)
         {
-            _pixelEditor.BlitOnDrawing(contentControl, writeableBitmapSource, isSelectionOver);
+            _pixelEditor.BlitOnDrawing(contentControl, writeableBitmapSource, isSelectionOver, regionBeforeResize);
         }
 
         public void ReloadTempWriteableBitmap()
