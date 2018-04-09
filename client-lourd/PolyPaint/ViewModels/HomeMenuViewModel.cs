@@ -62,8 +62,11 @@ namespace PolyPaint.ViewModels
         public Visibility JoinDrawingVisibility { get; set; } = Visibility.Collapsed;
         public Visibility LoginButtonVisibility { get; set; } = Visibility.Hidden;
         public Visibility LocalDrawingVisibility { get; set; } = Visibility.Hidden;
+
         public string SelectedEditingMode { get; set; }
         public Array EditingModes => Enum.GetValues(typeof(EditingModeOption));
+        public string SelectedTemplate { get; set; }
+        public ObservableCollection<Tuple<string,string>> Templates { get; set; }
 
         public ObservableCollection<string> AutosavedDrawings { get; set; }
 
