@@ -1,6 +1,7 @@
 import { ObserverSubject } from "../observer/observer-subject";
 import { Queue } from "./queue";
 import { StandardQueue } from "./standard-queue";
+import { TaggedObject } from "./tagged-object";
 
 export const enum QueueElementPriority {
     High = 0,
@@ -10,7 +11,7 @@ export const enum QueueElementPriority {
 
 //See https://basarat.gitbooks.io/algorithms/content/docs/datastructures/queue.html
 //See http://code.iamkate.com/javascript/queues/
-export class PriorityQueue<T> extends ObserverSubject implements Queue<T> {
+export class PriorityQueue<T extends TaggedObject> extends ObserverSubject implements Queue<T> {
     private queues: Queue<T>[] = [];
 
     public constructor() {
@@ -59,7 +60,7 @@ export class PriorityQueue<T> extends ObserverSubject implements Queue<T> {
         return size;
     }
 
-    public clear(): void {
-        this.queues.forEach(queue => queue.clear());
+    public clear(tag?: string): void {
+        this.queues.forEach(queue => queue.clear(tag));
     }
 }

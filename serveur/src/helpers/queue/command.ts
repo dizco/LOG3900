@@ -1,17 +1,13 @@
 import * as BluebirdPromise from "bluebird";
+import { TaggedObject } from "./tagged-object";
 
-export class Command {
+export class Command implements TaggedObject {
     private static MAX_TRIES = 2;
-    private static TIMEOUT = 5000;
-    private description: string;
-    private tag: string;
     private tries: number;
-    private command: () => BluebirdPromise<boolean>;
 
-    public constructor(description: string, tag = "", command: () => BluebirdPromise<boolean>) {
-        this.description = description;
+    public constructor(private description: string, private tag: string,
+                       private command: () => BluebirdPromise<boolean>) {
         this.tries = 0;
-        this.command = command;
     }
 
     public getDescription(): string {
