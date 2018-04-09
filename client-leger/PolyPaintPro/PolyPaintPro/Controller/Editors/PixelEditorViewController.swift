@@ -1,12 +1,11 @@
 import UIKit
 import Starscream
-import SpriteKit
 
 enum PixelEditingMode {
     case ink, select, eraseByPoint
 }
 
-class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
+class PixelEditorViewController: EditorViewController, ActionSocketManagerDelegate, PixelToolsViewDelegate {
     internal var lastPoint = CGPoint.zero //last drawn point on the canvas
     internal var fisrtPointSelection = CGPoint.zero
     internal var lastPointSelection = CGPoint.zero
@@ -25,6 +24,7 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         toolsView.pixelDelegate = self
+        SocketManager.sharedInstance.actionDelegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -93,7 +93,7 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
     }
 
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
+        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
         red = CGFloat(drawingSettingsView.redValue)
         green = CGFloat(drawingSettingsView.greenValue)
         blue = CGFloat(drawingSettingsView.blueValue)
@@ -133,5 +133,21 @@ class PixelEditorViewController: EditorViewController, PixelToolsViewDelegate {
         imageView.image = UIGraphicsGetImageFromCurrentImageContext()
         imageView.alpha = opacity
         UIGraphicsEndImageContext()
+    }
+
+    private func applyReceived(incomingAction: IncomingPixelActionMessage) {
+        _ = PixelActionStrategyContext(viewController: self, incomingAction: incomingAction)
+    }
+
+    // MARK: - ActionSocketManagerDelegate
+    func managerDidReceiveAction(data: Data) {
+        do {
+            print("Action data received.")
+            let decoder = JSONDecoder()
+            let incomingAction = try decoder.decode(IncomingPixelActionMessage.self, from: data)
+            self.applyReceived(incomingAction: incomingAction)
+        } catch let error {
+            print(error)
+        }
     }
 }
