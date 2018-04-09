@@ -45,7 +45,9 @@ struct Action: Codable {
     }
 }
 
-// MARK: - IncomingActionMessage
+// MARK: - FOR STROKE EDITOR
+
+// MARK: - IncomingActionMessage - Stroke
 struct IncomingActionMessage: ActionMessage, Codable {
     let type: String
     let action: Action
@@ -105,7 +107,7 @@ struct IncomingDots: Codable {
     // swiftlint:enable identifier_name
 }
 
-// MARK: - OutgoingActionMessage
+// MARK: - OutgoingActionMessage - Stroke
 struct OutgoingActionMessage: ActionMessage, Codable {
     let type: String
     let action: Action
@@ -160,6 +162,35 @@ struct OutgoingStrokeAttributes: Codable {
 }
 
 struct OutgoingDots: Codable {
+    // swiftlint:disable identifier_name
+    let x: Double
+    let y: Double
+    init(x: Double, y: Double) {
+        self.x = x
+        self.y = y
+    }
+    // swiftlint:enable identifier_name
+}
+
+// MARK: - FOR PIXEL EDITOR
+
+struct IncomingPixelActionMessage: ActionMessage, Codable {
+    let type: String
+    let action: Action
+    let drawing: IncomingDrawing
+    let author: Author
+    let pixels: [IncomingPixels]
+}
+
+struct IncomingPixels: Codable {
+    // swiftlint:disable identifier_name
+    let x: Double
+    let y: Double
+    // swiftlint:enable identifier_name
+    let color: String
+}
+
+struct OutgoingPixels: Codable {
     // swiftlint:disable identifier_name
     let x: Double
     let y: Double

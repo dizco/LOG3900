@@ -84,6 +84,8 @@ class SocketManager {
                     self.actionDelegate?.managerDidReceiveAction(data: data)
                 } else if socketMessageType.type == IncomingMessageConstants.chat.rawValue {
                     self.chatDelegate?.managerDidReceiveChat(data: data)
+                } else if socketMessageType.type == IncomingMessageConstants.pixelAction.rawValue {
+                    self.actionDelegate?.managerDidReceiveAction(data: data)
                 }
             } catch let error {
                 print(error)

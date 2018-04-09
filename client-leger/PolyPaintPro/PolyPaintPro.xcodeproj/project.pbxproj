@@ -45,6 +45,11 @@
 		BE919D5820740CC2009D5EDF /* ResetStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE919D5720740CC2009D5EDF /* ResetStrokeActionStrategy.swift */; };
 		BEAC9A52207432C500A02BDB /* ReplaceStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAC9A51207432C500A02BDB /* ReplaceStrokeActionStrategy.swift */; };
 		BEAC9A5420743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAC9A5320743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift */; };
+		BEB87159207BB22B00FA8406 /* PixelActionNameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB87158207BB22B00FA8406 /* PixelActionNameConstants.swift */; };
+		BEB8715B207BB31800FA8406 /* PixelActionIdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB8715A207BB31800FA8406 /* PixelActionIdConstants.swift */; };
+		BEB8715E207BB64D00FA8406 /* PixelActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB8715D207BB64D00FA8406 /* PixelActionStrategy.swift */; };
+		BEB87160207BB66200FA8406 /* AddPixelActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB8715F207BB66200FA8406 /* AddPixelActionStrategy.swift */; };
+		BEB87162207BB67700FA8406 /* PixelActionStrategyContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB87161207BB67700FA8406 /* PixelActionStrategyContext.swift */; };
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
 		BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* EditorDataModels.swift */; };
@@ -130,6 +135,11 @@
 		BE919D5720740CC2009D5EDF /* ResetStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BEAC9A51207432C500A02BDB /* ReplaceStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BEAC9A5320743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaceBuildStrokeActionStrategy.swift; sourceTree = "<group>"; };
+		BEB87158207BB22B00FA8406 /* PixelActionNameConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelActionNameConstants.swift; sourceTree = "<group>"; };
+		BEB8715A207BB31800FA8406 /* PixelActionIdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelActionIdConstants.swift; sourceTree = "<group>"; };
+		BEB8715D207BB64D00FA8406 /* PixelActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelActionStrategy.swift; sourceTree = "<group>"; };
+		BEB8715F207BB66200FA8406 /* AddPixelActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPixelActionStrategy.swift; sourceTree = "<group>"; };
+		BEB87161207BB67700FA8406 /* PixelActionStrategyContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelActionStrategyContext.swift; sourceTree = "<group>"; };
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
 		BECC087820619D4D0040EB4B /* EditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorDataModels.swift; sourceTree = "<group>"; };
@@ -330,6 +340,16 @@
 			path = StrokeActionStrategy;
 			sourceTree = "<group>";
 		};
+		BEB8715C207BB63B00FA8406 /* PixelActionStrategy */ = {
+			isa = PBXGroup;
+			children = (
+				BEB8715D207BB64D00FA8406 /* PixelActionStrategy.swift */,
+				BEB8715F207BB66200FA8406 /* AddPixelActionStrategy.swift */,
+				BEB87161207BB67700FA8406 /* PixelActionStrategyContext.swift */,
+			);
+			path = PixelActionStrategy;
+			sourceTree = "<group>";
+		};
 		BEE8DBEE20741FF600161243 /* BuildStrokeActionStrategy */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +370,8 @@
 				274956052058236D0053DAD4 /* DrawingTypes.swift */,
 				BEE8DBF52074226800161243 /* StrokeActionIdConstants.swift */,
 				BEE8DBF9207427A600161243 /* StrokeActionNameConstants.swift */,
+				BEB87158207BB22B00FA8406 /* PixelActionNameConstants.swift */,
+				BEB8715A207BB31800FA8406 /* PixelActionIdConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -357,6 +379,7 @@
 		C08EB116206C40FC00468D80 /* Strategy */ = {
 			isa = PBXGroup;
 			children = (
+				BEB8715C207BB63B00FA8406 /* PixelActionStrategy */,
 				BEE8DBEE20741FF600161243 /* BuildStrokeActionStrategy */,
 				BE67C532206BF52400C2EA77 /* StrokeActionStrategy */,
 			);
@@ -713,6 +736,7 @@
 				27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */,
 				BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */,
 				C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */,
+				BEB8715E207BB64D00FA8406 /* PixelActionStrategy.swift in Sources */,
 				274C034B200EF37900DDAD8D /* PixelEditorViewController.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				BEE8DBED20741BDC00161243 /* CGPathExtension.swift in Sources */,
@@ -725,10 +749,13 @@
 				2778DAB6205600D400690A65 /* ToolsView.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
 				BEE8DBF62074226800161243 /* StrokeActionIdConstants.swift in Sources */,
+				BEB87162207BB67700FA8406 /* PixelActionStrategyContext.swift in Sources */,
 				BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */,
 				27F2FE2920576591006090B5 /* JoinDrawingViewController.swift in Sources */,
 				BE2C90DE202A39B7003C8F1E /* ServerLookup.swift in Sources */,
+				BEB8715B207BB31800FA8406 /* PixelActionIdConstants.swift in Sources */,
 				27C07AA62050D319006BB8EB /* RecentsViewController.swift in Sources */,
+				BEB87160207BB66200FA8406 /* AddPixelActionStrategy.swift in Sources */,
 				BE67C534206BF55B00C2EA77 /* AddStrokeActionStrategy.swift in Sources */,
 				C08BE4012056D1E200525038 /* Rest.swift in Sources */,
 				BEE8DBFA207427A600161243 /* StrokeActionNameConstants.swift in Sources */,
@@ -743,6 +770,7 @@
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
 				BEE8DBF4207421EC00161243 /* BuildStrokeActionStrategyContext.swift in Sources */,
+				BEB87159207BB22B00FA8406 /* PixelActionNameConstants.swift in Sources */,
 				BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */,
 				27AD08C7202CF8FD00E7F74F /* LoginViewController.swift in Sources */,
 				274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */,
