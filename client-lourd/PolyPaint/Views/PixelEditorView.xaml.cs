@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -10,6 +11,8 @@ namespace PolyPaint.Views
 {
     public partial class PixelEditorView : Window
     {
+        private bool _controlResized;
+
         // Selector Attributes
         private bool _isMouseDownSelector; // Set to 'true' when mouse is held down.
         private Point _mouseDownPositionSelector; // The point where the mouse button was clicked down.
@@ -18,10 +21,36 @@ namespace PolyPaint.Views
         private Point _newPositionDrawing;
         private Point _oldPositionDrawing;
 
+        private Rect _regionBeforeResize = Rect.Empty;
+
         public PixelEditorView()
         {
             InitializeComponent();
             DataContext = new PixelEditorViewModel(DrawingSurface);
+            PreviewMouseUp += OnGlobalMouseUp;
+        }
+
+        private void OnGlobalMouseUp(object sender, MouseButtonEventArgs args)
+        {
+            if (_controlResized)
+            {
+                if (DataContext is PixelEditorViewModel vm)
+                {
+                    Point upperLeftCorner =
+                        ContentControl.TransformToAncestor(SelectedZoneCanvas).Transform(new Point(0, 0));
+                    Point lowerRightCorner = new Point(upperLeftCorner.X + ContentControl.ActualWidth,
+                                                       upperLeftCorner.Y + ContentControl.ActualHeight);
+
+                    vm.SelectTempZone(lowerRightCorner, upperLeftCorner);
+                    if (!_regionBeforeResize.IsEmpty)
+                    {
+                        vm.BlitOnDrawing(ContentControl, vm.CropWriteableBitmap, false, _regionBeforeResize);
+                        _regionBeforeResize = Rect.Empty;
+                    }
+                }
+
+                _controlResized = false;
+            }
         }
 
         private void GlisserCommence(object sender, DragStartedEventArgs e)
@@ -67,10 +96,10 @@ namespace PolyPaint.Views
             if ((DataContext as PixelEditorViewModel)?.ToolSelected != "selector"
                 && (DataContext as PixelEditorViewModel)?.CropWriteableBitmap != null)
             {
-                (DataContext as PixelEditorViewModel)?.BlitOnDrawing(ContentControl,
-                                                                        (DataContext as PixelEditorViewModel)
-                                                                        ?.CropWriteableBitmap,
-                                                                        true);
+                ((PixelEditorViewModel) DataContext)?.BlitOnDrawing(ContentControl,
+                                                                    ((PixelEditorViewModel) DataContext)
+                                                                    ?.CropWriteableBitmap,
+                                                                    true);
 
                 // Hide the selector and the adorners
                 foreach (Control child in SelectedZoneCanvas.Children)
@@ -83,8 +112,8 @@ namespace PolyPaint.Views
 
             if ((DataContext as PixelEditorViewModel)?.ToolSelected == "fill")
             {
-                (DataContext as PixelEditorViewModel)?.Fill(_oldPositionDrawing,
-                                                            DrawingSurface.ActualWidth, DrawingSurface.ActualHeight);
+                ((PixelEditorViewModel) DataContext)?.Fill(_oldPositionDrawing,
+                                                           DrawingSurface.ActualWidth, DrawingSurface.ActualHeight);
             }
         }
 
@@ -124,8 +153,8 @@ namespace PolyPaint.Views
                 if (((PixelEditorViewModel) DataContext).IsWriteableBitmapOnEdition)
                 {
                     ((PixelEditorViewModel) DataContext)?.BlitOnDrawing(ContentControl,
-                                                                            (DataContext as PixelEditorViewModel)
-                                                                            ?.CropWriteableBitmap, true);
+                                                                        ((PixelEditorViewModel) DataContext)
+                                                                        ?.CropWriteableBitmap, true);
                 }
             }
         }
@@ -165,7 +194,7 @@ namespace PolyPaint.Views
 
                     // Fonction of the selection box
                     ((PixelEditorViewModel) DataContext)?.SelectZone(ContentControl, _mouseDownPositionSelector,
-                                                                      mouseUpPosition);
+                                                                     mouseUpPosition);
                 }
                 else
                 {
@@ -231,10 +260,10 @@ namespace PolyPaint.Views
                 Point lowerRightCorner = new Point(upperLeftCorner.X + ContentControl.ActualWidth,
                                                    upperLeftCorner.Y + ContentControl.ActualHeight);
 
-                (DataContext as PixelEditorViewModel)?.SelectTempZone(lowerRightCorner, upperLeftCorner);
-                (DataContext as PixelEditorViewModel)?.BlitOnDrawing(ContentControl,
-                                                                (DataContext as PixelEditorViewModel)
-                                                                ?.CropWriteableBitmap, false);
+                ((PixelEditorViewModel) DataContext)?.SelectTempZone(lowerRightCorner, upperLeftCorner);
+                ((PixelEditorViewModel) DataContext)?.BlitOnDrawing(ContentControl,
+                                                                    ((PixelEditorViewModel) DataContext)
+                                                                    ?.CropWriteableBitmap, false);
             }
         }
 
@@ -243,16 +272,30 @@ namespace PolyPaint.Views
             if ((DataContext as PixelEditorViewModel)?.IsWriteableBitmapOnEdition ?? false)
 
             {
-                (DataContext as PixelEditorViewModel)?.BlitOnDrawing(ContentControl,
-                                                                (DataContext as PixelEditorViewModel)
-                                                                ?.TempWriteableBitmap, false);
+                ((PixelEditorViewModel) DataContext)?.BlitOnDrawing(ContentControl,
+                                                                    ((PixelEditorViewModel) DataContext)
+                                                                    ?.TempWriteableBitmap, false);
             }
         }
 
         private void ContentControlOnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //Todo: Blit the crop at the end of the resize to send it on collab
-            if (!e.PreviousSize.Equals(new Size(0,0)))
+            _controlResized = !e.PreviousSize.Equals(new Size(0, 0));
+
+            if (e.PreviousSize.Equals(new Size(0, 0)) || _regionBeforeResize.IsEmpty)
+            {
+                if (DataContext is PixelEditorViewModel vm)
+                {
+                    Point upperLeft = vm.CropWriteableBitmapPosition;
+                    Point bottomRight = new Point(upperLeft.X + vm.CropWriteableBitmap.Width,
+                                                  upperLeft.Y + vm.CropWriteableBitmap.Height);
+
+                    Debug.WriteLine("Saving initial size");
+                    _regionBeforeResize = new Rect(upperLeft, bottomRight);
+                }
+            }
+
+            if (!e.PreviousSize.Equals(new Size(0, 0)))
             {
                 (DataContext as PixelEditorViewModel)?.ReloadTempWriteableBitmap();
             }
