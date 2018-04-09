@@ -279,15 +279,30 @@ namespace PolyPaint.Models.PixelModels
             }
         }
 
-
-        internal void QuarterTurnClockwise(object obj)
-        {
+        public void QuarterTurnClockwise(ContentControl contentControl)
+        {            
+            QuarterTurnObject(contentControl);
             CropWriteableBitmap = CropWriteableBitmap.Rotate(ClockwiseAngle);
         }
 
-        internal void QuarterTurnCounterClockwise(object obj)
+        internal void QuarterTurnCounterClockwise(ContentControl contentControl)
         {
+            QuarterTurnObject(contentControl);
             CropWriteableBitmap = CropWriteableBitmap.Rotate(CounterClockwiseAngle);
+        }
+
+        internal void QuarterTurnObject(ContentControl contentControl)
+        {
+            Point relativePoint = new Point(Canvas.GetLeft(contentControl), Canvas.GetTop(contentControl));
+            Point middlePoint = new Point(relativePoint.X + contentControl.ActualWidth / 2, relativePoint.Y + contentControl.ActualHeight / 2);
+            Point delta = new Point(middlePoint.X - relativePoint.X, middlePoint.Y - relativePoint.Y);
+
+            Canvas.SetLeft(contentControl, middlePoint.X - delta.Y);
+            Canvas.SetTop(contentControl, middlePoint.Y - delta.X);
+
+            double temp = contentControl.Width;
+            contentControl.Width = contentControl.Height;
+            contentControl.Height = temp;
         }
 
         internal void VerticalFlip(object obj)

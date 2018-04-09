@@ -109,7 +109,8 @@
                             HorizontalContentAlignment="Left"
                             BorderBrush="Transparent"
                             Background="Transparent"
-                            Command="{Binding QuarterTurnClockwiseCommand}">
+                            Command="{Binding QuarterTurnClockwiseCommand}"
+                            CommandParameter="{Binding ElementName=ContentControl}">
                         <StackPanel>
                             <Image Source="/Resources/rotate_right.png" />
                         </StackPanel>
@@ -118,7 +119,8 @@
                             HorizontalContentAlignment="Left"
                             BorderBrush="Transparent"
                             Background="Transparent"
-                            Command="{Binding QuarterTurnCounterClockwiseCommand}">
+                            Command="{Binding QuarterTurnCounterClockwiseCommand}"
+                            CommandParameter="{Binding ElementName=ContentControl}">
                         <StackPanel>
                             <Image Source="/Resources/rotate_left.png" />
                         </StackPanel>

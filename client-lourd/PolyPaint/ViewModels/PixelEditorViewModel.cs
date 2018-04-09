@@ -33,8 +33,8 @@ namespace PolyPaint.ViewModels
             ExportImageCommand = new RelayCommand<Canvas>(ExportImagePrompt);
 
             //Pixel Rotate tool
-            QuarterTurnClockwiseCommand = new RelayCommand<object>(_pixelEditor.QuarterTurnClockwise);
-            QuarterTurnCounterClockwiseCommand = new RelayCommand<object>(_pixelEditor.QuarterTurnCounterClockwise);
+            QuarterTurnClockwiseCommand = new RelayCommand<ContentControl>(_pixelEditor.QuarterTurnClockwise);
+            QuarterTurnCounterClockwiseCommand = new RelayCommand<ContentControl>(_pixelEditor.QuarterTurnCounterClockwise);
             VerticalFlipCommand = new RelayCommand<object>(_pixelEditor.VerticalFlip);
             HorizontalFlipCommand = new RelayCommand<object>(_pixelEditor.HorizontalFlip);
 
@@ -130,8 +130,8 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> ShowChatWindowCommand { get; set; }
 
         //Pixel Rotate tool
-        public RelayCommand<object> QuarterTurnClockwiseCommand { get; set; }
-        public RelayCommand<object> QuarterTurnCounterClockwiseCommand { get; set; }
+        public RelayCommand<ContentControl> QuarterTurnClockwiseCommand { get; set; }
+        public RelayCommand<ContentControl> QuarterTurnCounterClockwiseCommand { get; set; }
         public RelayCommand<object> VerticalFlipCommand { get; set; }
         public RelayCommand<object> HorizontalFlipCommand { get; set; }
 
