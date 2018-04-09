@@ -18,8 +18,7 @@ $(document).ready(function() {
                     window.location.replace('./index.html');
                 })
                 .fail(function( jqXHR, textStatus, errorThrown) {
-                    alert("L'adresse spécifiée n'est pas valide. L'adresse du serveur doit être de la forme : XXX.XXX.XXX.XXX:5025");
-                    console.log("Failed to login", textStatus, errorThrown);
+                    alert("Identifiant, mot de passe ou adresse de serveur invalide. Assurez vous que l'adresse du serveur soit de la forme : XXX.XXX.XXX.XXX:5025");
                 });
         }
         else {
