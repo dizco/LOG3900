@@ -1,8 +1,9 @@
 import { Queue } from "./queue";
+import { TaggedObject } from "./tagged-object";
 
-export class StandardQueue<T> implements Queue<T> {
+export class StandardQueue<T extends TaggedObject> implements Queue<T> {
     private queue: T[] = [];
-    private offset = 0;
+    private offset = 0; //Delimits number of empty spaces in the beginning of the array
 
     public enqueue(val: T): void {
         this.queue.push(val);
@@ -37,8 +38,15 @@ export class StandardQueue<T> implements Queue<T> {
         return this.queue.length - this.offset;
     }
 
-    public clear(): void {
-        this.queue = [];
+    public clear(tag?: string): void {
+        if (tag) {
+            this.queue = this.queue.filter((item: T) => {
+                return item.getTag() !== tag; //Remove items that have given tag
+            });
+        }
+        else {
+            this.queue = [];
+        }
         this.offset = 0;
     }
 }
