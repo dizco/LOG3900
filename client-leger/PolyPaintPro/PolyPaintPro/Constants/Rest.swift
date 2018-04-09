@@ -21,6 +21,7 @@ struct Rest {
 
         // MARK: - Drawings routes
         static let Drawings = "/drawings"
+        static let Thumbnail = "/thumbnail"
 
         // MARK: - Ping routes
         static let Ping = "/ping"

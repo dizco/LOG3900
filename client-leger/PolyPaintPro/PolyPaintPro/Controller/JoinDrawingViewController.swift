@@ -12,8 +12,8 @@ import PromiseKit
 
 class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselDataSource {
     internal var connectionStatus = true
-    var myDrawingsList: [OnlineDrawingModel] = []
-    var publicDrawingsList: [OnlineDrawingModel] = []
+    private var myDrawingsList: [ExtendedDrawingModel] = []
+    private var publicDrawingsList: [ExtendedDrawingModel] = []
 
     @IBOutlet var carouselView: iCarousel!
     @IBOutlet var carousel2View: iCarousel!
@@ -59,17 +59,18 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         return cardsView
     }
 
-    func createCarouselSubview(list: [OnlineDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel, protectionButton: UIButton, visibilityLabel: UILabel, cardsView: UIView, index: Int ) {
+    func createCarouselSubview(list: [ExtendedDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel, protectionButton: UIButton, visibilityLabel: UILabel, cardsView: UIView, index: Int ) {
         thumbnailView.image = UIImage(named: "background")
-        nameLabel.text = list[index].name
+        nameLabel.text = list[index].properties.name
         protectionButton.setTitle("🔒", for: .normal)
-        protectionButton.addTarget(self, action: "toggleProtection", for: .touchUpInside)
-        if (list[index] as OnlineDrawingModel).protection.active {
+        protectionButton.tag = index
+        protectionButton.addTarget(self, action: #selector(protectionToggle), for: .touchUpInside)
+        if (list[index] as ExtendedDrawingModel).properties.protection.active {
             protectionButton.setTitle("🔒", for: .normal)
         } else {
             protectionButton.setTitle("🔓", for: .normal)
         }
-        if (list[index] as OnlineDrawingModel).visibility == "public" {
+        if (list[index] as ExtendedDrawingModel).properties.visibility == "public" {
             visibilityLabel.text = "🙉"
         } else {
             visibilityLabel.text = "🙈"
@@ -102,18 +103,18 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
 
     func openMySelectedDrawing(index: Int) {
-        if myDrawingsList[index].mode == "stroke" {
+        if myDrawingsList[index].properties.mode == "stroke" {
             performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: nil)
-        } else if myDrawingsList[index].mode == "pixel" {
+        } else if myDrawingsList[index].properties.mode == "pixel" {
             performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: nil)
         }
     }
 
     func openPublicSelectedDrawing(index: Int) {
-        if !publicDrawingsList[index].protection.active {
-            if publicDrawingsList[index].mode == "stroke" {
+        if !publicDrawingsList[index].properties.protection.active {
+            if publicDrawingsList[index].properties.mode == "stroke" {
                 performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: nil)
-            } else if publicDrawingsList[index].mode == "pixel" {
+            } else if publicDrawingsList[index].properties.mode == "pixel" {
                 performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: nil)
             }
         } else {
@@ -122,19 +123,77 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         }
     }
 
-    func toggleProtectionMode(_ sender: UIButton) {
-        print("toggle protection mode for" )
-        //continuer ici avec les alertes de protection
+    @objc func protectionToggle(sender:UIButton) {
+        let index = sender.tag
+        if myDrawingsList[index].properties.protection.active { //protection is active, we want to disable it
+            toggleProtectionAlert(index: index)
+        } else { //protection is not active, we want to enable it
+            toggleProtectionAlert(index: index)
+        }
     }
 
-    func insertNewDrawing(drawing: OnlineDrawingModel) {
+    func toggleProtectionAlert(index: Int) {
+          var alert = UIAlertController()
+        if !myDrawingsList[index].properties.protection.active {
+            alert = UIAlertController(title: "Image non protégée",
+                                      message: "Entrez le mot de passe que vous voulez à l'image",
+                                          preferredStyle: .alert)
+        } else if myDrawingsList[index].properties.protection.active {
+            alert = UIAlertController(title: "Image protégée",
+                                          message: "Entrez le mot de passe pour enlever la protection sur l'image",
+                                          preferredStyle: .alert)
+        }
+        // Submit button
+        let submitAction = UIAlertAction(title: "Soumettre", style: .default, handler: { _ -> Void in
+            // Get 1st TextField's text
+            let inputPassword = alert.textFields![0]
+            print(inputPassword.text!)
+            if self.validatePassword(inputPassword: inputPassword.text!) {
+               //actions de validation complétée
+                self.togglePadlock(index: index, password: inputPassword.text!)
+
+            } else if !self.validatePassword(inputPassword: inputPassword.text!) {
+                inputPassword.text! = ""
+            }
+        })
+        // Cancel button
+        let cancel = UIAlertAction(title: "Annuler", style: .destructive, handler: { _ -> Void in })
+        alert.addTextField { (textField: UITextField) in
+            textField.keyboardAppearance = .dark
+            textField.keyboardType = .default
+            textField.autocorrectionType = .default
+            textField.placeholder = "Mot de passe"
+            textField.clearButtonMode = .whileEditing
+            textField.isSecureTextEntry = true
+        }
+        // Add action buttons and present the Alert
+        alert.addAction(submitAction)
+        alert.addAction(cancel)
+        present(alert, animated: true, completion: nil)
+
+    }
+
+    func togglePadlock(index:Int, password: String) { //here is where we change the protection status of a drawing
+        if myDrawingsList[index].properties.protection.active {
+            //we remove the protection here
+            carouselView.reloadData()
+        } else {
+            //we set the protection status here
+            //we can use the parameter password to set the password to the drawing
+            carouselView.reloadData()
+        }
+    }
+
+    private func insertNewOwnerDrawing(drawing: ExtendedDrawingModel) {
         myDrawingsList.append(drawing)
         carouselView.reloadData()
     }
 
-    func insertNewPublicDrawing(drawing: OnlineDrawingModel) {
-        publicDrawingsList.append(drawing)
-        carousel2View.reloadData()
+    private func insertNewPublicDrawing(drawing: ExtendedDrawingModel) {
+        if !AccountManager.sharedInstance.isMyself(id: drawing.properties.owner.id) { //Avoid duplicates with owner list
+            publicDrawingsList.append(drawing)
+            carousel2View.reloadData()
+        }
     }
 
     func validatePassword(inputPassword: String) -> Bool {
@@ -147,14 +206,14 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
                                       message: "Entrez le mot de passe pour accéder à l'image",
                                       preferredStyle: .alert)
         // Submit button
-        let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { _ -> Void in
+        let submitAction = UIAlertAction(title: "Soumettre", style: .default, handler: { _ -> Void in
             // Get 1st TextField's text
             let inputPassword = alert.textFields![0]
             print(inputPassword.text!)
             if self.validatePassword(inputPassword: inputPassword.text!) {
-                if (self.myDrawingsList[index] as OnlineDrawingModel).mode == DrawingTypes.Pixel {
+                if (self.myDrawingsList[index] as ExtendedDrawingModel).properties.mode == DrawingTypes.Pixel {
                     self.performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
-                } else if (self.myDrawingsList[index] as OnlineDrawingModel).mode == DrawingTypes.Stroke {
+                } else if (self.myDrawingsList[index] as ExtendedDrawingModel).properties.mode == DrawingTypes.Stroke {
                     self.performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
                 }
             } else if !self.validatePassword(inputPassword: inputPassword.text!) {
@@ -162,7 +221,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
             }
         })
         // Cancel button
-        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { _ -> Void in })
+        let cancel = UIAlertAction(title: "Annuler", style: .destructive, handler: { _ -> Void in })
         alert.addTextField { (textField: UITextField) in
             textField.keyboardAppearance = .dark
             textField.keyboardType = .default
@@ -177,43 +236,84 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         present(alert, animated: true, completion: nil)
     }
 
+    private func loadDrawingThumbnail(drawing: OnlineDrawingModel) -> Promise<String> {
+        return RestManager.getDrawingThumbnail(drawingId: drawing.id)
+            .then { response -> String in
+                return (response.success) ? response.data! : ""
+        }
+    }
+
+    private func loadOwnerDrawing(drawing: OnlineDrawingModel) {
+        var extendedDrawing = ExtendedDrawingModel(drawing: drawing)
+        self.loadDrawingThumbnail(drawing: drawing).then { response -> Void in
+            extendedDrawing.thumbnail = response
+            self.insertNewOwnerDrawing(drawing: extendedDrawing)
+        }
+    }
+
+    private func loadPublicDrawing(drawing: OnlineDrawingModel) {
+        var extendedDrawing = ExtendedDrawingModel(drawing: drawing)
+        self.loadDrawingThumbnail(drawing: drawing).then { response -> Void in
+            extendedDrawing.thumbnail = response
+            self.insertNewPublicDrawing(drawing: extendedDrawing)
+        }
+    }
+
     private func loadOnlineDrawings() {
-        firstly {
-            RestManager.getDrawingsListPage(page: 1)
-        }.then { response -> Void in
-            if response.success {
-                for drawing in (response.data?.docs)! {
-                    self.insertNewDrawing(drawing: drawing)
-                    self.insertNewPublicDrawing(drawing: drawing)
+        self.loadOnlineDrawings(callback: self.loadOwnerDrawing,
+                                userId: AccountManager.sharedInstance.user?.id)
+        self.loadOnlineDrawings(callback: self.loadPublicDrawing, visibility: "public")
+    }
+
+    private func loadOnlineDrawings(callback: @escaping (OnlineDrawingModel) -> Void,
+                                    userId: String? = nil, visibility: String? = nil) {
+        RestManager.getDrawingsListPage(page: 1, userId: userId, visibility: visibility)
+            .then { response -> Void in
+                if response.success {
+                    for drawing in (response.data?.docs)! {
+                        callback(drawing)
+                    }
+                    if (response.data?.pages)! > 1 {
+                        //Load all other pages (other than page 1)
+                        self.loadOnlineDrawingsPages(from: 2, to: (response.data?.pages)!,
+                                                     callback: callback, userId: userId,
+                                                     visibility: visibility)
+                    }
+                } else {
+                    print("Failed to get drawings page: 1")
                 }
-                if (response.data?.pages)! > 1 {
-                    //Load all other pages (other than page 1)
-                    self.loadOnlineDrawingsPages(from: 2, to: (response.data?.pages)!)
-                }
-            } else {
-                print("Failed to get drawings page: 1")
-            }
-        }.catch { error in
-            print("Unexpected error during get drawings: \(error). At page: 1")
+            }.catch { error in
+                print("Unexpected error during get drawings: \(error). At page: 1")
         }
     }
 
     // swiftlint:disable identifier_name
-    private func loadOnlineDrawingsPages(from: Int, to: Int) {
+    private func loadOnlineDrawingsPages(from: Int, to: Int,
+                                         callback: @escaping (OnlineDrawingModel) -> Void,
+                                         userId: String? = nil, visibility: String? = nil) {
         for index in from...to {
-            RestManager.getDrawingsListPage(page: index).then { response -> Void in
-                if response.success {
-                    for drawing in (response.data?.docs)! {
-                        self.insertNewDrawing(drawing: drawing)
-                        self.insertNewPublicDrawing(drawing: drawing)
+            RestManager.getDrawingsListPage(page: index, userId: userId, visibility: visibility)
+                .then { response -> Void in
+                    if response.success {
+                        for drawing in (response.data?.docs)! {
+                            callback(drawing)
+                        }
+                    } else {
+                        print("Failed to get drawings page: \(index)")
                     }
-                } else {
-                    print("Failed to get drawings page: \(index)")
-                }
-            }.catch { error in
-                print("Unexpected error during get drawings: \(error). At page: \(index)")
+                }.catch { error in
+                    print("Unexpected error during get drawings: \(error). At page: \(index)")
             }
         }
     }
     // swiftlint:enable identifier_name
+
+    internal struct ExtendedDrawingModel {
+        var properties: OnlineDrawingModel
+        var thumbnail: String = ""
+
+        init(drawing: OnlineDrawingModel) {
+            self.properties = drawing
+        }
+    }
 }

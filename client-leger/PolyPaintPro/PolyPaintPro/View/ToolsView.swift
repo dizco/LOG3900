@@ -60,23 +60,22 @@ class ToolsView: UIView {
     }
 
     @IBAction func pasteButton(_ sender: UIButton) {
-        resetButtons(sender: sender, filename: "duplicate")
     }
 
     @IBAction func resetButton(_ sender: UIButton) {
-        resetButtons(sender: sender, filename: "reset")
+        //resetButtons(sender: sender, filename: "reset")
         self.strokeDelegate?.resetCanvas()
     }
 
     @IBAction func stackButton(_ sender: UIButton) {
-        resetButtons(sender: sender, filename: "")
-        sender.setTitleColor(.white, for: .normal)
+        //resetButtons(sender: sender, filename: "")
+        //sender.setTitleColor(.white, for: .normal)
         self.strokeDelegate?.stack()
     }
 
     @IBAction func unstackButton(_ sender: UIButton) {
-        resetButtons(sender: sender, filename: "")
-        sender.setTitleColor(.white, for: .normal)
+        //resetButtons(sender: sender, filename: "")
+        //sender.setTitleColor(.white, for: .normal)
         self.strokeDelegate?.unstack()
     }
 
