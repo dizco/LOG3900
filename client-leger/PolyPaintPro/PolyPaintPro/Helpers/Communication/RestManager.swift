@@ -3,13 +3,18 @@ import Alamofire
 import PromiseKit
 
 class RestManager {
-    private class func buildUrl(endpoint: String, page: Int? = nil) -> String {
+    private class func buildUrl(endpoint: String,
+                                parameters: [String: String]? = nil) -> String {
         var url = Rest.Connection.HttpProtocol
             + ServerLookup.sharedInstance.address
             + Rest.Connection.DefaultPort
             + endpoint
-        if let pageNumber = page {
-            url += "?page=" + String(pageNumber)
+        if let parameters = parameters {
+            url += "?"
+            for (parameterName, parameterValue) in parameters {
+                url += String(parameterName) + "=" + String(parameterValue) + "&"
+            }
+            url.remove(at: url.index(before: url.endIndex)) //Remove last character
         }
         return url
     }
@@ -83,15 +88,44 @@ class RestManager {
             }
     }
 
-    static func getDrawingsListPage(page: Int = 1) -> Promise<AuthServerResponse<PaginatedDrawingsResponse>> {
+    static func getDrawingsListPage(page: Int = 1, userId: String? = nil,
+                                    visibility: String? = nil) -> Promise<AuthServerResponse<PaginatedDrawingsResponse>> {
+
+        var parameters: [String: String] = ["page": String(page)]
+        if let userId = userId {
+            parameters["owner"] = userId
+        }
+        if let visibility = visibility {
+            parameters["visibility"] = visibility
+        }
         return Promise<AuthServerResponse> { fulfill, reject in
-            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings, page: page))
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings, parameters: parameters))
                 .responseJSON { response in
                     do {
                         if let data = response.data {
                             let paginatedResponse = try JSONDecoder().decode(PaginatedDrawingsResponse.self, from: data)
-                            let authServerResponse = AuthServerResponse<PaginatedDrawingsResponse>(data: paginatedResponse)
+                            let authServerResponse =
+                                AuthServerResponse<PaginatedDrawingsResponse>(data: paginatedResponse)
                             fulfill(authServerResponse!)
+                        } else {
+                            fulfill(AuthServerResponse(success: false))
+                        }
+                    } catch let error {
+                        reject(error)
+                    }
+            }
+        }
+    }
+
+    static func getDrawingThumbnail(drawingId: String) -> Promise<AuthServerResponse<String>> {
+        return Promise<AuthServerResponse> { fulfill, reject in
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings + "/" + drawingId + Rest.Routes.Thumbnail))
+                .responseJSON { response in
+                    do {
+                        if let data = response.data,
+                            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                            let authServerResponse = AuthServerResponse<String>(data: json["thumbnail"] as? String) {
+                            fulfill(authServerResponse)
                         } else {
                             fulfill(AuthServerResponse(success: false))
                         }

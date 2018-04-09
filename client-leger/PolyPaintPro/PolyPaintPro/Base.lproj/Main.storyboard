@@ -857,6 +857,7 @@
                                     <constraint firstItem="OYV-tt-sia" firstAttribute="top" secondItem="8ER-3K-E37" secondAttribute="bottom" constant="8" id="Df3-JN-8mN"/>
                                     <constraint firstItem="2dV-YF-BCM" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="E0w-EQ-Pu4"/>
                                     <constraint firstItem="Xwi-WU-7GZ" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="EtR-fU-4vL"/>
+                                    <constraint firstItem="hwV-9L-yEa" firstAttribute="top" secondItem="OYV-tt-sia" secondAttribute="bottom" constant="43" id="GMu-eW-Rxv"/>
                                     <constraint firstItem="8ER-3K-E37" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="Gpj-cp-nS9"/>
                                     <constraint firstAttribute="trailing" secondItem="EGC-wv-nF6" secondAttribute="trailing" constant="10" id="Kem-FW-TLg"/>
                                     <constraint firstAttribute="trailing" secondItem="Ih2-5F-A0e" secondAttribute="trailing" constant="10" id="LUr-M2-m6Q"/>
@@ -867,6 +868,7 @@
                                     <constraint firstItem="Ih2-5F-A0e" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="cWS-8o-82B"/>
                                     <constraint firstItem="OYV-tt-sia" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="d4b-ON-WUy"/>
                                     <constraint firstAttribute="width" constant="50" id="ggI-Uu-0ZJ"/>
+                                    <constraint firstItem="hwV-9L-yEa" firstAttribute="top" secondItem="OYV-tt-sia" secondAttribute="bottom" constant="43" id="h8H-mZ-hJv"/>
                                     <constraint firstAttribute="trailing" secondItem="1qG-cl-27P" secondAttribute="trailing" constant="10" id="may-SH-vdI"/>
                                     <constraint firstAttribute="bottom" secondItem="Xwi-WU-7GZ" secondAttribute="bottom" constant="8" id="mf9-Ea-Lau"/>
                                     <constraint firstAttribute="trailing" secondItem="Xwi-WU-7GZ" secondAttribute="trailing" constant="10" id="msT-5M-anl"/>
@@ -876,6 +878,11 @@
                                     <constraint firstItem="Ih2-5F-A0e" firstAttribute="top" secondItem="wqH-w6-eOY" secondAttribute="top" constant="8" id="s3N-ju-nF2"/>
                                     <constraint firstAttribute="trailing" secondItem="2dV-YF-BCM" secondAttribute="trailing" constant="10" id="zJd-my-nXq"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="1qG-cl-27P"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="pasteButton" destination="1qG-cl-27P" id="eyf-Qe-Rk2"/>
                                     <outlet property="penButton" destination="Ih2-5F-A0e" id="4iH-Zg-vMk"/>
@@ -1846,10 +1853,12 @@
                                     <constraint firstItem="h7Q-eg-YF6" firstAttribute="top" secondItem="5hs-cc-hF4" secondAttribute="bottom" constant="8" id="4m7-uS-snp"/>
                                     <constraint firstItem="vFa-Lz-Cu7" firstAttribute="leading" secondItem="hDU-do-IRe" secondAttribute="leading" constant="10" id="5GJ-aQ-DyG"/>
                                     <constraint firstItem="77Q-0h-Sdk" firstAttribute="top" secondItem="vFa-Lz-Cu7" secondAttribute="bottom" constant="8" id="7Lx-4a-gd8"/>
+                                    <constraint firstItem="5hs-cc-hF4" firstAttribute="top" secondItem="77Q-0h-Sdk" secondAttribute="bottom" constant="43" id="7sc-WY-vLi"/>
                                     <constraint firstItem="Ck1-KA-kpl" firstAttribute="leading" secondItem="hDU-do-IRe" secondAttribute="leading" constant="10" id="AVT-H1-akP"/>
                                     <constraint firstItem="mN5-dm-UBk" firstAttribute="leading" secondItem="hDU-do-IRe" secondAttribute="leading" constant="10" id="Auf-fN-07A"/>
                                     <constraint firstItem="5hs-cc-hF4" firstAttribute="leading" secondItem="hDU-do-IRe" secondAttribute="leading" constant="10" id="L0X-ka-BnT"/>
                                     <constraint firstItem="5hs-cc-hF4" firstAttribute="top" secondItem="z4c-5Y-Rfv" secondAttribute="bottom" constant="8" id="NQX-dx-sQu"/>
+                                    <constraint firstItem="5hs-cc-hF4" firstAttribute="top" secondItem="77Q-0h-Sdk" secondAttribute="bottom" constant="43" id="OvB-lY-mKd"/>
                                     <constraint firstItem="Ck1-KA-kpl" firstAttribute="top" secondItem="mN5-dm-UBk" secondAttribute="bottom" constant="8" id="RKW-7T-5a3"/>
                                     <constraint firstItem="69y-11-593" firstAttribute="top" secondItem="hDU-do-IRe" secondAttribute="top" constant="8" id="UTA-OP-qCg"/>
                                     <constraint firstAttribute="width" constant="50" id="YXw-xU-BFU"/>
@@ -1874,6 +1883,11 @@
                                     <constraint firstItem="z4c-5Y-Rfv" firstAttribute="top" secondItem="77Q-0h-Sdk" secondAttribute="bottom" constant="8" id="tvj-nK-QiM"/>
                                     <constraint firstItem="77Q-0h-Sdk" firstAttribute="leading" secondItem="hDU-do-IRe" secondAttribute="leading" constant="10" id="yhV-2J-tJf"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="z4c-5Y-Rfv"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="pasteButton" destination="z4c-5Y-Rfv" id="EHR-ah-Zc3"/>
                                     <outlet property="penButton" destination="69y-11-593" id="nD9-T8-zji"/>
