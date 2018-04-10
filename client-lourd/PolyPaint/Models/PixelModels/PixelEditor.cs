@@ -368,9 +368,15 @@ namespace PolyPaint.Models.PixelModels
         {
             List<Tuple<Point, string>> whitePixels = new List<Tuple<Point, string>>();
 
-            for (int i = (int) upperLeft.X; i < bottomRight.X; i++)
+            int upperLeftX = (int) upperLeft.X > 0 ? (int) upperLeft.X : 0;
+            int upperLeftY = (int) upperLeft.Y > 0 ? (int) upperLeft.Y : 0;
+
+            int bottomRightX = (int) bottomRight.X > 0 ? (int) bottomRight.X : 0;
+            int bottomRightY = (int) bottomRight.Y > 0 ? (int) bottomRight.Y : 0;
+
+            for (int i = upperLeftX; i < bottomRightX; i++)
             {
-                for (int j = (int) upperLeft.Y; j < bottomRight.Y; j++)
+                for (int j = upperLeftY; j < bottomRightY; j++)
                 {
                     whitePixels.Add(new Tuple<Point, string>(new Point(i, j), Colors.White.ToString()));
                 }
@@ -391,9 +397,15 @@ namespace PolyPaint.Models.PixelModels
         {
             List<Tuple<Point, string>> pixels = new List<Tuple<Point, string>>();
 
-            for (int i = (int) upperLeft.X; i < bottomRight.X; i++)
+            int upperLeftX = (int) upperLeft.X > 0 ? (int) upperLeft.X : 0;
+            int upperLeftY = (int) upperLeft.Y > 0 ? (int) upperLeft.Y : 0;
+
+            int bottomRightX = (int) bottomRight.X > 0 ? (int) bottomRight.X : 0;
+            int bottomRightY = (int) bottomRight.Y > 0 ? (int) bottomRight.Y : 0;
+
+            for (int i = upperLeftX; i < bottomRightX; i++)
             {
-                for (int j = (int) upperLeft.Y; j < bottomRight.Y; j++)
+                for (int j = upperLeftY; j < bottomRightY; j++)
                 {
                     pixels.Add(new Tuple<Point, string>(new Point(i, j),
                                                         CropWriteableBitmap

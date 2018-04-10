@@ -164,9 +164,15 @@ namespace PolyPaint.ViewModels
         {
             List<Tuple<Point, string>> pixels = new List<Tuple<Point, string>>();
 
-            for (int i = (int) region.TopLeft.X; i <= (int) region.TopRight.X; i++)
+            int upperLeftX = (int)region.TopLeft.X > 0 ? (int)region.TopLeft.X : 0;
+            int upperLeftY = (int)region.TopLeft.Y > 0 ? (int)region.TopLeft.Y : 0;
+
+            int bottomRightX = (int)region.BottomRight.X > 0 ? (int)region.BottomRight.X : 0;
+            int bottomRightY = (int)region.BottomRight.Y > 0 ? (int)region.BottomRight.Y : 0;
+
+            for (int i = upperLeftX; i <= (int) bottomRightX; i++)
             {
-                for (int j = (int) region.TopLeft.Y; j <= (int) region.BottomLeft.Y; j++)
+                for (int j = upperLeftY; j <= bottomRightY; j++)
                 {
                     string color = WriteableBitmap.GetPixel(i, j).ToString();
 
