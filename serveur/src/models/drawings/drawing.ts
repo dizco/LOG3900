@@ -37,7 +37,7 @@ const drawingSchema = new mongoose.Schema({
     }],
     pixels: [{ _id: false, x: Number, y: Number, color: String }],
     thumbnail: { type: String, default: "" },
-}, { timestamps: true });
+}, { timestamps: true, usePushEach: true });
 drawingSchema.plugin(mongoosePaginate);
 
 /**
