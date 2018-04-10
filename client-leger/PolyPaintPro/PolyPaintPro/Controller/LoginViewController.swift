@@ -80,8 +80,8 @@ class LoginViewController: UIViewController {
 
     // MARK: - Buttons
     @IBAction func connexionButton(_ sender: UIButton) {
-        let username = "me@me.ca"
-        let password = "hahahaha"
+        let username = loginUsernameField!.text!
+        let password = loginPasswordField!.text!
 
         let usernameValidation = AccountManager.validateUsername(username: username)
 
@@ -128,7 +128,6 @@ class LoginViewController: UIViewController {
 
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
         //attempt to connect to the server modify the connectionState and errorMessage
-        serverAddressField!.text = "192.168.50.9"
         let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
         serverAddressEntered(connectionState: isTrueIP)
     }
