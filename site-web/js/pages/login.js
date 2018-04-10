@@ -1,6 +1,6 @@
-String.prototype.isEmpty = function() {
-    return (this.length === 0 || !this.trim());
-};
+if (POLYPAINTPRO.login.isLoggedIn()) {
+    window.location.replace('./index.html');
+}
 
 $(document).ready(function() {
     $("#login-form").submit(function(e){
@@ -15,8 +15,8 @@ $(document).ready(function() {
         if (!email.isEmpty() && !password.isEmpty() && !serverAddress.isEmpty()) {
             $.post(endpoint, {email: email, password: password})
                 .done(function(data, textStatus, jqXHR) {
-                    localStorage.setItem("serverIp", "http://" + serverAddress);
-                    localStorage.setItem("userId", data.objectId);
+                    POLYPAINTPRO.login.saveServer("http://" + serverAddress);
+                    POLYPAINTPRO.login.saveUser(data.objectId, email);
                     window.location.replace('./index.html');
                 })
                 .fail(function( jqXHR, textStatus, errorThrown) {
