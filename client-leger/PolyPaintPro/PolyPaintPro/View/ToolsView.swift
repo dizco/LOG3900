@@ -63,19 +63,14 @@ class ToolsView: UIView {
     }
 
     @IBAction func resetButton(_ sender: UIButton) {
-        //resetButtons(sender: sender, filename: "reset")
-        self.strokeDelegate?.resetCanvas()
+       self.strokeDelegate?.resetCanvas()
     }
 
     @IBAction func stackButton(_ sender: UIButton) {
-        //resetButtons(sender: sender, filename: "")
-        //sender.setTitleColor(.white, for: .normal)
         self.strokeDelegate?.stack()
     }
 
     @IBAction func unstackButton(_ sender: UIButton) {
-        //resetButtons(sender: sender, filename: "")
-        //sender.setTitleColor(.white, for: .normal)
         self.strokeDelegate?.unstack()
     }
 

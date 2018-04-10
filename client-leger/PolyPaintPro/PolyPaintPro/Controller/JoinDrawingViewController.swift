@@ -51,16 +51,16 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         visibilityLabel.font = visibilityLabel.font.withSize(25)
 
         if carousel == self.carouselView {
-            createCarouselSubview(list: myDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityLabel: visibilityLabel, cardsView: cardsView, index: index)
+            createCarouselSubview(list: myDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityLabel: visibilityLabel, cardsView: cardsView, index: index, protectionButtonStatus: true)
         }
 
         if carousel == self.carousel2View {
-            createCarouselSubview(list: publicDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityLabel: visibilityLabel, cardsView: cardsView, index: index)
+            createCarouselSubview(list: publicDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityLabel: visibilityLabel, cardsView: cardsView, index: index, protectionButtonStatus: false)
         }
         return cardsView
     }
 
-    func createCarouselSubview(list: [ExtendedDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel, protectionButton: UIButton, visibilityLabel: UILabel, cardsView: UIView, index: Int ) {
+    func createCarouselSubview(list: [ExtendedDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel, protectionButton: UIButton, visibilityLabel: UILabel, cardsView: UIView, index: Int, protectionButtonStatus: Bool ) {
         var thumbnail = UIImage()
 
         if list[index].thumbnail != "" {
@@ -83,6 +83,10 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
             visibilityLabel.text = "🙉"
         } else {
             visibilityLabel.text = "🙈"
+        }
+
+        if !protectionButtonStatus {
+            protectionButton.isEnabled = false
         }
         cardsView.addSubview(thumbnailView)
         cardsView.addSubview(nameLabel)
@@ -126,18 +130,14 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
                 performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: nil)
             }
         } else {
-            print("alerte")
             showAlert(index: index)
         }
     }
 
     @objc func protectionToggle(sender:UIButton) {
         let index = sender.tag
-        if myDrawingsList[index].properties.protection.active {
             toggleProtectionAlert(index: index)
-        } else {
-            toggleProtectionAlert(index: index)
-        }
+
     }
 
     func toggleProtectionAlert(index: Int) {
