@@ -128,13 +128,18 @@ class LoginViewController: UIViewController {
 
     @IBAction func serverAddressEnteredButton(_ sender: UIButton) {
         //attempt to connect to the server modify the connectionState and errorMessage
-        let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: serverAddressField!.text!)
-        serverAddressEntered(connectionState: isTrueIP)
+         let isTrueIP = ServerLookup.sharedInstance.saveServerAddress(withIPAddress: self.serverAddressField!.text!)
+        firstly {
+            RestManager.testServerConnection()
+            }.then { response -> Void in
+                if response.success {
+                    self.serverAddressEntered(connectionState: isTrueIP)
+                }
+        }
     }
 
     // MARK: - Functions
     private func registerAccount(sender: UIButton, username: String, password: String) {
-        print("try to register")
         firstly {
             RestManager.registerToServer(username: username, password: password)
         }.then { response -> Void in
@@ -152,7 +157,6 @@ class LoginViewController: UIViewController {
     }
 
     private func loginToServer(sender: UIButton, username: String, password: String) {
-        print("try to login")
         firstly {
             RestManager.loginToServer(username: username, password: password)
         }.then { response -> Void in
