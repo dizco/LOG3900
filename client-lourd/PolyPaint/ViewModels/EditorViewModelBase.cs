@@ -167,7 +167,8 @@ namespace PolyPaint.ViewModels
                         }
                         catch (JsonReaderException)
                         {
-                            hintMessages = "Un message d\'erreur d\'un format inconnu a été reçu et n\'a pu être traité";
+                            hintMessages =
+                                "Un message d\'erreur d\'un format inconnu a été reçu et n\'a pu être traité";
                         }
 
                         UserAlerts.ShowErrorMessage(hintMessages);
@@ -236,21 +237,10 @@ namespace PolyPaint.ViewModels
                 canvasObject = _currentInkCanvas;
             }
 
-            int imageHeight;
-            int imageWidth;
-
-            if (sender is StrokeEditorViewModel || sender is PixelEditorViewModel)
-            {
-                imageHeight = (int) ((canvasObject as Canvas)?.ActualHeight ??
-                                     (canvasObject as InkCanvas)?.ActualHeight ?? 0);
-                imageWidth =
-                    (int) ((canvasObject as Canvas)?.ActualWidth ?? (canvasObject as InkCanvas)?.ActualWidth ?? 0);
-            }
-            else
-            {
-                imageHeight = ImageHeight;
-                imageWidth = ImageWidth;
-            }
+            int imageHeight = (int) ((canvasObject as Canvas)?.ActualHeight ??
+                                     (canvasObject as InkCanvas)?.ActualHeight ?? ImageHeight);
+            int imageWidth = (int) ((canvasObject as Canvas)?.ActualWidth ??
+                                    (canvasObject as InkCanvas)?.ActualWidth ?? ImageWidth);
 
             RenderTargetBitmap imageRender = new RenderTargetBitmap(imageWidth, imageHeight,
                                                                     ImageManipulationConstants.DotsPerInch,
