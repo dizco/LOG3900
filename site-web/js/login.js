@@ -15,6 +15,8 @@ $(document).ready(function() {
         if (!email.isEmpty() && !password.isEmpty() && !serverAddress.isEmpty()) {
             $.post(endpoint, {email: email, password: password})
                 .done(function(data, textStatus, jqXHR) {
+                    localStorage.setItem("serverIp", "http://" + serverAddress);
+                    localStorage.setItem("userId", data.objectId);
                     window.location.replace('./index.html');
                 })
                 .fail(function( jqXHR, textStatus, errorThrown) {
