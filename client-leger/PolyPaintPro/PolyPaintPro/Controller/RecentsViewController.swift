@@ -39,7 +39,7 @@ class RecentsViewController: UIViewController {
         } else if segue.identifier == "JoinDrawingSegue" {
             let vc = segue.destination as! JoinDrawingViewController
         } else if segue.identifier == "OpenGallerySegue" {
-            let vc = segue.destination as! JoinGalleryViewController
+         
         } else if segue.identifier == "BackToLoginSegue" {
             let vc = segue.destination as! LoginViewController
         }
