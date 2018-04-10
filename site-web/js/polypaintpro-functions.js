@@ -16,7 +16,15 @@ var POLYPAINTPRO = POLYPAINTPRO || {};
 
     POLYPAINTPRO.initialize = {
         init: function () {
+            $.ajaxSetup({
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+            });
+
             POLYPAINTPRO.portfolio.initialize();
+            POLYPAINTPRO.login.initialize();
         }
     };
 
@@ -134,6 +142,12 @@ var POLYPAINTPRO = POLYPAINTPRO || {};
     };
 
     POLYPAINTPRO.login = {
+        initialize: function() {
+            $(".disconnect-button").click(function() {
+                POLYPAINTPRO.login.logout();
+            });
+        },
+
         isLoggedIn: function() {
             return !!localStorage.getItem("user");
         },
@@ -152,6 +166,20 @@ var POLYPAINTPRO = POLYPAINTPRO || {};
 
         getUser: function() {
             return JSON.parse(localStorage.getItem("user"));
+        },
+
+        logout: function() {
+            $.post(POLYPAINTPRO.login.getServer() + "/logout")
+                .done(function(data, textStatus, jqXHR) {
+                    localStorage.clear();
+                    window.location.replace('./login.html');
+                })
+                .fail(function( jqXHR, textStatus, errorThrown) {
+                    console.log("Logout error.", textStatus, errorThrown);
+                    alert("Une erreur est survenue lors de la déconnexion avec le serveur.");
+                    localStorage.clear();
+                    window.location.replace('./login.html'); //Still redirect to avoid being stuck
+                });
         }
     };
 
