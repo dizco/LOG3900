@@ -67,6 +67,7 @@ namespace PolyPaint.ViewModels
             ResetDrawingCommand = new RelayCommand<object>(ResetDrawing);
             OpenFileCommand = new RelayCommand<object>(_editor.OpenDrawingPrompt);
             SaveFileCommand = new RelayCommand<object>(_editor.SaveDrawingPrompt);
+            InsertImageCommand = new RelayCommand<InkCanvas>(_editor.InsertImage);
             AutosaveFileCommand = new RelayCommand<object>(AutosaveFile);
             LoadAutosaved = new RelayCommand<string>(_editor.OpenAutosave);
 
@@ -191,6 +192,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> OpenFileCommand { get; set; }
         public RelayCommand<object> SaveFileCommand { get; set; }
         public RelayCommand<object> AutosaveFileCommand { get; set; }
+        public RelayCommand<InkCanvas> InsertImageCommand { get; set; }
         public RelayCommand<string> LoadAutosaved { get; set; }
 
         public RelayCommand<InkCanvas> ExportImageCommand { get; set; }

@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Ink;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using PolyPaint.Constants;
 using PolyPaint.CustomComponents;
@@ -679,6 +680,38 @@ namespace PolyPaint.Models
 
             SelectedTool = "lasso";
             return textToInsert;
+        }
+
+        public void InsertImage(InkCanvas drawingSurface)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Insérer une image",
+                Filter = FileExtensionConstants.ExportImageFilter
+            };
+            try
+            {
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    SelectedTool = "crayon";
+                    BitmapImage bitmap = new BitmapImage(new Uri(openFileDialog.FileName, UriKind.Absolute));
+                    Image[] Image = new Image[5];
+
+                    for (int i = 0; i < Image.Length; i++)
+                    {
+                        Image[i] = new Image();
+                        Image[i].Source = bitmap;
+                        Image[i].Width = bitmap.Width;
+                        Image[i].Height = bitmap.Height;
+                        drawingSurface.Children.Add(Image[i]);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                UserAlerts
+                    .ShowErrorMessage($"Une erreur est survenue.\n{e.Message}\nCode:{e.HResult & ((1 << 16) - 1)}");
+            }
         }
 
         // Drawable Shapes
