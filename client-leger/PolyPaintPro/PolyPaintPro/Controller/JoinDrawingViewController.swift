@@ -27,7 +27,6 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     func numberOfItems(in carousel: iCarousel) -> Int {
@@ -43,11 +42,13 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         let cardsView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 250))
         cardsView.backgroundColor = UIColor.white
-        let thumbnailView = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 225))
-        let nameLabel = UILabel(frame: CGRect(x: 0, y: 225, width: 225, height: 25))
-        let protectionButton = UIButton(frame: CGRect(x: 225, y: 225, width: 37, height: 25))
-        //let protectionLabel = UILabel(frame: CGRect(x: 225, y: 225, width: 37, height: 25))
-        let visibilityLabel = UILabel(frame: CGRect(x: 262, y: 225, width: 37, height: 25))
+        let thumbnailView = UIImageView(frame: CGRect(x: 0, y: 0, width: 300, height: 220))
+        let nameLabel = UILabel(frame: CGRect(x: 0, y: 220, width: 200, height: 30))
+        nameLabel.font = nameLabel.font.withSize(25)
+        let protectionButton = UIButton(frame: CGRect(x: 200, y: 220, width: 50, height: 30))
+        protectionButton.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+        let visibilityLabel = UILabel(frame: CGRect(x: 250, y: 220, width: 50, height: 30))
+        visibilityLabel.font = visibilityLabel.font.withSize(25)
 
         if carousel == self.carouselView {
             createCarouselSubview(list: myDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityLabel: visibilityLabel, cardsView: cardsView, index: index)
@@ -60,7 +61,15 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
 
     func createCarouselSubview(list: [ExtendedDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel, protectionButton: UIButton, visibilityLabel: UILabel, cardsView: UIView, index: Int ) {
-        thumbnailView.image = UIImage(named: "background")
+        var thumbnail = UIImage()
+
+        if list[index].thumbnail != "" {
+            if let decodedData = Data(base64Encoded: list[index].thumbnail, options: .ignoreUnknownCharacters) {
+                thumbnail = UIImage(data: decodedData)!
+            }
+        }
+
+        thumbnailView.image = thumbnail
         nameLabel.text = list[index].properties.name
         protectionButton.setTitle("🔒", for: .normal)
         protectionButton.tag = index
@@ -99,7 +108,6 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        //here is where we get the drawings names and we should also get the protection and visibility status
     }
 
     func openMySelectedDrawing(index: Int) {
@@ -125,9 +133,9 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     @objc func protectionToggle(sender:UIButton) {
         let index = sender.tag
-        if myDrawingsList[index].properties.protection.active { //protection is active, we want to disable it
+        if myDrawingsList[index].properties.protection.active {
             toggleProtectionAlert(index: index)
-        } else { //protection is not active, we want to enable it
+        } else {
             toggleProtectionAlert(index: index)
         }
     }
