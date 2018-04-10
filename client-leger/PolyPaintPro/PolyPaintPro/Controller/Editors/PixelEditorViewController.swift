@@ -94,26 +94,36 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
-        red = CGFloat(drawingSettingsView.redValue)
-        green = CGFloat(drawingSettingsView.greenValue)
-        blue = CGFloat(drawingSettingsView.blueValue)
-        opacity = CGFloat(drawingSettingsView.alphaValue)
-        brushWidth = CGFloat (drawingSettingsView.widthValue)
-        imageView.image?.draw(in: view.bounds)
+        self.red = CGFloat(drawingSettingsView.redValue / 255)
+        self.green = CGFloat(drawingSettingsView.greenValue / 255)
+        self.blue = CGFloat(drawingSettingsView.blueValue / 255)
+        self.opacity = CGFloat(drawingSettingsView.alphaValue / 100)
+        self.brushWidth = CGFloat(drawingSettingsView.widthValue)
+        self.imageView.image?.draw(in: view.bounds)
         let context = UIGraphicsGetCurrentContext()
 
         context?.move(to: fromPoint)
         context?.addLine(to: toPoint)
 
         context?.setLineCap(CGLineCap.round)
-        context?.setLineWidth(brushWidth)
-        context?.setStrokeColor(red: red/255, green: green/255, blue: blue/255, alpha: opacity/100)
+        context?.setLineWidth(self.brushWidth)
+        context?.setAlpha(self.opacity)
+        // Because we set the overall alpha earlier, the stroke color's alpha must be at 1.0
+        // Else, both values interact with each other.
+        context?.setStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: 1.0)
         context?.setBlendMode(CGBlendMode.normal)
         context?.strokePath()
 
-        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
-        imageView.alpha = opacity
+        self.imageView.image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+
+        // Send the pixel online
+        if SocketManager.sharedInstance.getConnectionStatus() {
+            let color = SKStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
+            let pixel1 = UIPixel(point: fromPoint, color: color)
+            let pixel2 = UIPixel(point: toPoint, color: color)
+            self.sendEditorAction(actionId: PixelActionIdConstants.add.rawValue, fromPixel: pixel1, toPixel: pixel2)
+        }
     }
 
     func selectArea(fromPoint: CGPoint, toPoint: CGPoint) {
@@ -135,6 +145,22 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         UIGraphicsEndImageContext()
     }
 
+    // MARK: - Functions for sending pixels
+    func sendEditorAction(actionId: Int, fromPixel: UIPixel, toPixel: UIPixel) {
+        // Only send if the socket is connected
+        if SocketManager.sharedInstance.getConnectionStatus() {
+            do {
+                let builtAction = BuildPixelActionStrategyContext(viewController: self, actionId: actionId, fromPixel: fromPixel, toPixel: toPixel)
+                let outgoingActionMessage = builtAction.getOutgoingMessage()
+                let encodedData = try JSONEncoder().encode(outgoingActionMessage)
+                SocketManager.sharedInstance.send(data: encodedData)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+
+    // MARK: - Functions for receiving pixels
     private func applyReceived(incomingAction: IncomingPixelActionMessage) {
         _ = PixelActionStrategyContext(viewController: self, incomingAction: incomingAction)
     }

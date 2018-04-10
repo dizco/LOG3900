@@ -50,6 +50,10 @@
 		BEB8715E207BB64D00FA8406 /* PixelActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB8715D207BB64D00FA8406 /* PixelActionStrategy.swift */; };
 		BEB87160207BB66200FA8406 /* AddPixelActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB8715F207BB66200FA8406 /* AddPixelActionStrategy.swift */; };
 		BEB87162207BB67700FA8406 /* PixelActionStrategyContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB87161207BB67700FA8406 /* PixelActionStrategyContext.swift */; };
+		BEB8716A207BC91400FA8406 /* BuildPixelActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB87169207BC91400FA8406 /* BuildPixelActionStrategy.swift */; };
+		BEB8716C207BC91F00FA8406 /* BuildPixelActionStrategyContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB8716B207BC91F00FA8406 /* BuildPixelActionStrategyContext.swift */; };
+		BEB8716E207BC92900FA8406 /* AddBuildPixelActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB8716D207BC92900FA8406 /* AddBuildPixelActionStrategy.swift */; };
+		BEB87170207C2AEA00FA8406 /* UIPixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB8716F207C2AEA00FA8406 /* UIPixel.swift */; };
 		BEC3E8A22053159C009639FB /* StrokeEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */; };
 		BEC3E8A4205317DE009639FB /* StrokeEditorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */; };
 		BECC087920619D4D0040EB4B /* EditorDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECC087820619D4D0040EB4B /* EditorDataModels.swift */; };
@@ -140,6 +144,10 @@
 		BEB8715D207BB64D00FA8406 /* PixelActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelActionStrategy.swift; sourceTree = "<group>"; };
 		BEB8715F207BB66200FA8406 /* AddPixelActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPixelActionStrategy.swift; sourceTree = "<group>"; };
 		BEB87161207BB67700FA8406 /* PixelActionStrategyContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelActionStrategyContext.swift; sourceTree = "<group>"; };
+		BEB87169207BC91400FA8406 /* BuildPixelActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildPixelActionStrategy.swift; sourceTree = "<group>"; };
+		BEB8716B207BC91F00FA8406 /* BuildPixelActionStrategyContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildPixelActionStrategyContext.swift; sourceTree = "<group>"; };
+		BEB8716D207BC92900FA8406 /* AddBuildPixelActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBuildPixelActionStrategy.swift; sourceTree = "<group>"; };
+		BEB8716F207C2AEA00FA8406 /* UIPixel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPixel.swift; sourceTree = "<group>"; };
 		BEC3E8A12053159C009639FB /* StrokeEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorViewController.swift; sourceTree = "<group>"; };
 		BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeEditorScene.swift; sourceTree = "<group>"; };
 		BECC087820619D4D0040EB4B /* EditorDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorDataModels.swift; sourceTree = "<group>"; };
@@ -244,6 +252,7 @@
 				BE426A2020215E3C00FD1C50 /* ChatMessageModels.swift */,
 				BECC087820619D4D0040EB4B /* EditorDataModels.swift */,
 				270EC6ED206575630018A2A6 /* DrawingModels.swift */,
+				BEB8716F207C2AEA00FA8406 /* UIPixel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -350,6 +359,16 @@
 			path = PixelActionStrategy;
 			sourceTree = "<group>";
 		};
+		BEB87168207BC8EE00FA8406 /* BuildPixelActionStrategy */ = {
+			isa = PBXGroup;
+			children = (
+				BEB87169207BC91400FA8406 /* BuildPixelActionStrategy.swift */,
+				BEB8716B207BC91F00FA8406 /* BuildPixelActionStrategyContext.swift */,
+				BEB8716D207BC92900FA8406 /* AddBuildPixelActionStrategy.swift */,
+			);
+			path = BuildPixelActionStrategy;
+			sourceTree = "<group>";
+		};
 		BEE8DBEE20741FF600161243 /* BuildStrokeActionStrategy */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +398,7 @@
 		C08EB116206C40FC00468D80 /* Strategy */ = {
 			isa = PBXGroup;
 			children = (
+				BEB87168207BC8EE00FA8406 /* BuildPixelActionStrategy */,
 				BEB8715C207BB63B00FA8406 /* PixelActionStrategy */,
 				BEE8DBEE20741FF600161243 /* BuildStrokeActionStrategy */,
 				BE67C532206BF52400C2EA77 /* StrokeActionStrategy */,
@@ -735,6 +755,7 @@
 				BE1FCAF02061E40900C57F02 /* SKStroke.swift in Sources */,
 				27F2FE2B205765BE006090B5 /* JoinGalleryViewController.swift in Sources */,
 				BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */,
+				BEB87170207C2AEA00FA8406 /* UIPixel.swift in Sources */,
 				C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */,
 				BEB8715E207BB64D00FA8406 /* PixelActionStrategy.swift in Sources */,
 				274C034B200EF37900DDAD8D /* PixelEditorViewController.swift in Sources */,
@@ -749,6 +770,7 @@
 				2778DAB6205600D400690A65 /* ToolsView.swift in Sources */,
 				BE426A1F202102CD00FD1C50 /* SocketManager.swift in Sources */,
 				BEE8DBF62074226800161243 /* StrokeActionIdConstants.swift in Sources */,
+				BEB8716C207BC91F00FA8406 /* BuildPixelActionStrategyContext.swift in Sources */,
 				BEB87162207BB67700FA8406 /* PixelActionStrategyContext.swift in Sources */,
 				BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */,
 				27F2FE2920576591006090B5 /* JoinDrawingViewController.swift in Sources */,
@@ -761,6 +783,8 @@
 				BEE8DBFA207427A600161243 /* StrokeActionNameConstants.swift in Sources */,
 				BE23A18B202D2DC800342007 /* RestManager.swift in Sources */,
 				27080CFD2026528E0071FDC0 /* ChatView.swift in Sources */,
+				BEB8716A207BC91400FA8406 /* BuildPixelActionStrategy.swift in Sources */,
+				BEB8716E207BC92900FA8406 /* AddBuildPixelActionStrategy.swift in Sources */,
 				BEAC9A52207432C500A02BDB /* ReplaceStrokeActionStrategy.swift in Sources */,
 				271E38F720572CFC0067BD16 /* NewDrawingViewController.swift in Sources */,
 				27F2FE272057656C006090B5 /* OpenLocalDrawingViewController.swift in Sources */,

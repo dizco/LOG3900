@@ -190,13 +190,29 @@ struct IncomingPixels: Codable {
     let color: String
 }
 
+struct OutgoingPixelActionMessage: ActionMessage, Codable {
+    let type: String
+    let action: Action
+    let drawing: OutgoingDrawing
+    let pixels: [OutgoingPixels]
+
+    init(actionId: Int, actionName: String, pixels: [OutgoingPixels]) {
+        self.type = OutgoingMessageConstants.pixelAction.rawValue
+        self.action = Action(id: actionId, name: actionName)
+        self.drawing = OutgoingDrawing(id: "5ab91791ae6a83a7d8e4fa60") // TO-DO : fetch the good id from AccountManager after subscription
+        self.pixels = pixels
+    }
+}
+
 struct OutgoingPixels: Codable {
     // swiftlint:disable identifier_name
     let x: Double
     let y: Double
-    init(x: Double, y: Double) {
+    let color: String
+    init(x: Double, y: Double, color: String) {
         self.x = x
         self.y = y
+        self.color = color
     }
     // swiftlint:enable identifier_name
 }
