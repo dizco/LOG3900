@@ -24,6 +24,7 @@
         <KeyBinding Key="E" Modifiers="Control" Command="{Binding ExportImageCommand}"
                     CommandParameter="{Binding ElementName=DrawingSurface}" />
         <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveFileCommand}" />
+        <KeyBinding Key="I" Modifiers="Control" Command="{Binding InsertImageCommand}"  CommandParameter="{Binding ElementName=DrawingSurface}"/>
     </Window.InputBindings>
     <DockPanel>
         <Menu IsMainMenu="True" DockPanel.Dock="Top">
@@ -32,6 +33,8 @@
                 <MenuItem Header="Enregistrer _sous" InputGestureText="Ctrl+s" Command="{Binding SaveFileCommand}" />
                 <MenuItem Header="_Exporter le dessin" InputGestureText="Ctrl+e" Command="{Binding ExportImageCommand}"
                           CommandParameter="{Binding ElementName=DrawingSurface}" />
+                <MenuItem Header="Insertion _Image" InputGestureText="Ctrl+i" Command="{Binding InsertImageCommand}"
+                          CommandParameter="{Binding ElementName=DrawingSurface}"/>
             </MenuItem>
             <MenuItem Header="_Dessin">
                 <MenuItem Header="Historique des modifications" Command="{Binding OpenHistoryCommand}" IsEnabled="{Binding IsConnectedToDrawing}"/>
