@@ -36,9 +36,11 @@ namespace PolyPaint.ViewModels
             TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
             PublishAsTemplateCommand = new RelayCommand<object>(PublishAsTemplate);
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
+            OpenTutorialCommand = new RelayCommand<object>(OpenTutorial);
         }
 
         public static HistoryWindowView HistoryWindow { get; set; }
+        public static TutorialWindowView TutorialWindow { get; set; }
 
         protected object Canvas
         {
@@ -62,6 +64,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> TogglePasswordCommand { get; set; }
         public RelayCommand<object> PublishAsTemplateCommand { get; set; }
         public RelayCommand<object> OpenHistoryCommand { get; set; }
+        public RelayCommand<object> OpenTutorialCommand { get; set; }
 
         public string LockUnlockDrawingMessage => IsPasswordProtected
                                                       ? "Retirer la protection du dessin"
@@ -80,6 +83,7 @@ namespace PolyPaint.ViewModels
         {
             EditorPollRequestReceived -= OnEditorPollRequestReceived;
             HistoryWindow?.Close();
+            TutorialWindow?.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -120,6 +124,21 @@ namespace PolyPaint.ViewModels
             else
             {
                 HistoryWindow.Activate();
+            }
+        }
+
+        private static void OpenTutorial(object o)
+        {
+            if (TutorialWindow == null)
+            {
+                TutorialWindow = new TutorialWindowView();
+                TutorialWindow.Show();
+
+                TutorialWindow.Closing += (sender, args) => TutorialWindow = null;
+            }
+            else
+            {
+                TutorialWindow.Activate();
             }
         }
 

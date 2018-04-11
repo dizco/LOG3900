@@ -153,7 +153,7 @@ namespace PolyPaint.ViewModels
                 PropertyModified();
             }
         }
-
+        
         public StrokeEditor.DrawableShapes ShapeSelected
         {
             get => _editor.SelectedShape;
@@ -194,7 +194,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> AutosaveFileCommand { get; set; }
         public RelayCommand<InkCanvas> InsertImageCommand { get; set; }
         public RelayCommand<string> LoadAutosaved { get; set; }
-
+        
         public RelayCommand<InkCanvas> ExportImageCommand { get; set; }
 
         //Command for managing the views

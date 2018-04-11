@@ -153,6 +153,7 @@
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionTransformStrokesStrategy.cs" />
     <Compile Include="Strategy\StrokeEditorActionStrategy\EditorActionUnlockStrokesStrategy.cs" />
     <Compile Include="ViewModels\HomeMenuViewModel.cs" />
+    <Compile Include="ViewModels\TutorialWindowViewModel.cs" />
     <Compile Include="Views\ChatView.xaml.cs">
       <DependentUpon>ChatView.xaml</DependentUpon>
     </Compile>
@@ -201,6 +202,9 @@
     </Compile>
     <Compile Include="Views\PasswordPrompt.xaml.cs">
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TutorialWindowView.xaml.cs">
+      <DependentUpon>TutorialWindowView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Designs\ContentControl.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -254,6 +258,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PasswordPrompt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TutorialWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -398,6 +406,13 @@
   <ItemGroup>
     <!-- from http://www.rw-designer.com/cursor-detail/97776 -->
     <Resource Include="Resources\Cursors\filler.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Tutorial\strokeStep1.png" />
+    <Resource Include="Resources\Tutorial\strokeStep2.png" />
+    <Resource Include="Resources\Tutorial\strokeStep3.png" />
+    <Resource Include="Resources\Tutorial\strokeStep4.png" />
+    <Resource Include="Resources\Tutorial\strokeStep5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

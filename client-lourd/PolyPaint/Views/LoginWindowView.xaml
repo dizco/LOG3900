@@ -44,7 +44,7 @@
 
         <!--Sign Up Canvas-->
         <Canvas x:Name="CanvasSignup" Panel.ZIndex="0" Margin="100,134,100,59" Background="#FFE4F0F2">
-            <StackPanel Margin="75,0,75,0" Width="269.2" Height="510">
+            <StackPanel Margin="75,0,75,0" Width="270" Height="510">
                 <!-- toggles to log In -->
                 <StackPanel Height="26" Margin="0,19,0,0" Orientation="Horizontal">
                     <Button x:Name="LoginToggleSignup" Click="SwitchToLogin" Content="Connexion" Margin="16.5,0,0,0" MinWidth="100" FontWeight="Bold" Foreground="Black"/>
