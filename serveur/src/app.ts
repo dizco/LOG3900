@@ -66,7 +66,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
-app.use(cors());
+app.use(cors({credentials: true}));
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", req.get("origin"));
+    next();
+});
 app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
