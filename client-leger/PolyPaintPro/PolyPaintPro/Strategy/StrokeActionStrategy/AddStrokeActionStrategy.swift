@@ -33,6 +33,7 @@ final class AddStrokeActionStrategy: StrokeActionStrategy {
         shapeNode.lineJoin = CGLineJoin.round
         shapeNode.lineCap = CGLineCap.round
 
+        shapeNode.generateDotsFromPath()
         scene.addChild(shapeNode)
     }
 
