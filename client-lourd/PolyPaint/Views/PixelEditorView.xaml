@@ -132,7 +132,7 @@
                             HorizontalContentAlignment="Left"
                             BorderBrush="Transparent"
                             Background="Transparent"
-                            Command="{Binding VerticalFlipCommand}">
+                            Command="{Binding HorizontalFlipCommand}">
                         <StackPanel>
                             <Image Source="/Resources/flip_vertically.png" />
                         </StackPanel>
@@ -141,7 +141,7 @@
                             HorizontalContentAlignment="Left"
                             BorderBrush="Transparent"
                             Background="Transparent"
-                            Command="{Binding HorizontalFlipCommand}">
+                            Command="{Binding VerticalFlipCommand}">
                         <StackPanel>
                             <Image Source="/Resources/flip_horizontally.png" />
                         </StackPanel>
