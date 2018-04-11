@@ -82,7 +82,7 @@ app.use((req, res, next) => {
 app.post("/login", userController.postLogin);
 app.post("/logout", passportConfig.isAuthenticated, userController.logout);
 app.post("/register", userController.postRegister);
-//app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
+app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
 //app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
 
 /**
