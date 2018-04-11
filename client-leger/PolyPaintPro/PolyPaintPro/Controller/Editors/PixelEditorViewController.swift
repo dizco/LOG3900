@@ -17,6 +17,29 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
     internal var swiped = false //if the brush stroke is continuous
     internal var currentEditingMode = PixelEditingMode.ink // will be used to switch editing modes
 
+/////////////////////////////////////////////////////// filter
+
+    @IBOutlet var filtersToolsView: FilterToolsView!
+    @IBOutlet var filtersToolsViewConstraint: NSLayoutConstraint!
+    var filtersToolsShowing = false
+
+    func toggleFiltersToolsView () {
+        let filtersViewWidth = self.filtersToolsView.frame.width
+        if !toolsShowing {
+            filtersToolsViewConstraint.constant = -filtersViewWidth
+        } else {
+            filtersToolsViewConstraint.constant = 0
+            //toolsView.setDefault()
+        }
+        UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
+        toolsShowing = !toolsShowing
+    }
+
+
+
+    /////////////////////////////////////// filters
+
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -25,6 +48,8 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         super.viewDidLoad()
         toolsView.pixelDelegate = self
         SocketManager.sharedInstance.actionDelegate = self
+        filtersToolsView.layer.cornerRadius = 10
+        filtersToolsViewConstraint.constant = -self.filtersToolsView.frame.width
     }
 
     override func viewDidAppear(_ animated: Bool) {

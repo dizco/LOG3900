@@ -17,6 +17,7 @@ protocol StrokeToolsViewDelegate: class {
 
 protocol PixelToolsViewDelegate: class {
     func updateEditingMode(mode: PixelEditingMode)
+    func toggleFiltersToolsView()
 }
 
 class ToolsView: UIView {
@@ -76,6 +77,7 @@ class ToolsView: UIView {
 
     @IBAction func filtersButton(_ sender: UIButton) {
         self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.filter)
+        self.pixelDelegate?.toggleFiltersToolsView()
     }
 
     @IBAction func settingsButton(_ sender: UIButton) {
