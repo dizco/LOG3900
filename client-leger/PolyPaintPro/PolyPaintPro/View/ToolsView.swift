@@ -74,6 +74,10 @@ class ToolsView: UIView {
         self.strokeDelegate?.unstack()
     }
 
+    @IBAction func filtersButton(_ sender: UIButton) {
+        self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.filter)
+    }
+
     @IBAction func settingsButton(_ sender: UIButton) {
     }
 

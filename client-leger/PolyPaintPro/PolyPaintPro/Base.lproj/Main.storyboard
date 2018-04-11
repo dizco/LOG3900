@@ -789,6 +789,8 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
+                                            <action selector="filtersButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="De3-UJ-W34"/>
+                                            <action selector="filtersButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="kyj-zE-wSB"/>
                                             <action selector="unstackButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="7Gi-Ri-Qvg"/>
                                             <action selector="unstackButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="ReO-eo-lqB"/>
                                         </connections>
@@ -1887,7 +1889,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="yY8-vV-TGb"/>
         <segue reference="HCx-mM-CNV"/>
-        <segue reference="as1-Pa-vvV"/>
+        <segue reference="91R-2N-Qfd"/>
         <segue reference="Fwt-4B-rsB"/>
     </inferredMetricsTieBreakers>
 </document>

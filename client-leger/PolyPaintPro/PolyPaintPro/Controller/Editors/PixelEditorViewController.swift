@@ -2,7 +2,7 @@ import UIKit
 import Starscream
 
 enum PixelEditingMode {
-    case ink, select, eraseByPoint
+    case ink, select, eraseByPoint, filter
 }
 
 class PixelEditorViewController: EditorViewController, ActionSocketManagerDelegate, PixelToolsViewDelegate {
@@ -46,6 +46,8 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             }
         case .eraseByPoint:
             print("erase point")
+        case .filter:
+            print("filter seleected")
         }
     }
 
@@ -67,6 +69,9 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             }
         case .eraseByPoint:
             print("erase point")
+        case .filter:
+            print("filter seleected")
+
         }
     }
 
@@ -85,6 +90,9 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             drawSelectionRectangle(fromPoint: fisrtPointSelection, toPoint: lastPointSelection)
         case .eraseByPoint:
             print("erase point")
+        case .filter:
+            print("filter seleected")
+
         }
     }
 
