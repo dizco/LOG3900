@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
+<html dir="ltr" lang="fr-CA">
 <head>
 
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="author" content="SemiColonWeb" />
+	<meta name="author" content="" />
 
 	<!-- Stylesheets
 	============================================= -->
@@ -20,7 +20,7 @@
 
 	<!-- Document Title
 	============================================= -->
-	<title>Profile | Canvas</title>
+	<title>Profil utilisateur</title>
 
 </head>
 
@@ -89,7 +89,7 @@
 							<img src="images/icons/avatar.jpg" class="alignleft img-circle img-thumbnail notopmargin nobottommargin" alt="Avatar" style="max-width: 84px;">
 
 							<div class="heading-block noborder">
-								<h3>me@me.ca</h3>
+								<h3 id="profile-title-name">Chargement...</h3>
 								<span>Votre profil</span>
 							</div>
 
@@ -102,20 +102,46 @@
 									<div class="tabs tabs-alt clearfix" id="tabs-profile">
 
 										<ul class="tab-nav clearfix">
-											<li><a href="#tab-informations"><i class="icon-user"></i> Informations</a></li>
+											<!--<li><a href="#tab-informations"><i class="icon-user"></i> Informations</a></li>-->
 											<li><a href="#tab-modify"><i class="icon-pencil2"></i> Modifier</a></li>
 										</ul>
 
 										<div class="tab-container">
 
-											<div class="tab-content clearfix" id="tab-informations">
+											<!--<div class="tab-content clearfix" id="tab-informations">
 
 												<p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium harum ea quo! Nulla fugiat earum, sed corporis amet iste non, id facilis dolorum, suscipit, deleniti ea. Nobis, temporibus magnam doloribus. Reprehenderit necessitatibus esse dolor tempora ea unde, itaque odit. Quos.</p>
 
-											</div>
+											</div>-->
 											<div class="tab-content clearfix" id="tab-modify">
 
-                                                <p class="">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium harum ea quo! Nulla fugiat earum, sed corporis amet iste non, id facilis dolorum, suscipit, deleniti ea. Nobis, temporibus magnam doloribus. Reprehenderit necessitatibus esse dolor tempora ea unde, itaque odit. Quos.</p>
+												<div class="col_half">
+													<div id="password-reset-result"></div>
+													<form id="password-reset-form" name="password-reset-form" class="nobottommargin">
+														<h3>Modifiez votre mot de passe</h3>
+
+														<div class="col_full">
+															<label for="old-form-password">Ancien mot de passe:</label>
+															<input type="password" id="old-form-password" name="login-form-password" value="" class="form-control not-dark" />
+														</div>
+
+														<div class="col_full">
+															<label for="new-form-password1">Nouveau mot de passe:</label>
+															<input type="password" id="new-form-password1" name="login-form-password" value="" class="form-control not-dark" />
+														</div>
+
+														<div class="col_full">
+															<label for="new-form-password2">Confirmez le nouveau mot de passe:</label>
+															<input type="password" id="new-form-password2" name="login-form-password" value="" class="form-control not-dark" />
+														</div>
+
+														<div class="line line-sm"></div>
+
+														<div class="col_full nobottommargin">
+															<button class="button button-border button-rounded nomargin" id="login-form-submit" name="login-form-submit" value="login">Soumettre</button>
+														</div>
+													</form>
+												</div>
 
 											</div>
 
@@ -206,6 +232,7 @@
 	============================================= -->
 	<script src="js/functions.js"></script>
 	<script src="js/polypaintpro-functions.js"></script>
+	<script src="js/pages/profile.js"></script>
 
 	<script>
 		jQuery( "#tabs-profile" ).on( "tabsactivate", function( event, ui ) {
