@@ -241,7 +241,6 @@
 				BE2C90DD202A39B7003C8F1E /* ServerLookup.swift */,
 				BE2C90D92028AEB0003C8F1E /* Timestamp.swift */,
 				C067AF5E205A1A050078CF27 /* Timers.swift */,
-				BE1FCAEF2061E40900C57F02 /* SKStroke.swift */,
 				BEE8DBEC20741BDC00161243 /* CGPathExtension.swift */,
 			);
 			path = Helpers;
@@ -250,6 +249,7 @@
 		27080CFB202650D50071FDC0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BE1FCAEF2061E40900C57F02 /* SKStroke.swift */,
 				BE426A2020215E3C00FD1C50 /* ChatMessageModels.swift */,
 				BECC087820619D4D0040EB4B /* EditorDataModels.swift */,
 				270EC6ED206575630018A2A6 /* DrawingModels.swift */,
