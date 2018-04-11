@@ -1,5 +1,5 @@
 //
-//  LockStrokeActionStrategy.swift
+//  UnlockStrokeActionStrategy.swift
 //  PolyPaintPro
 //
 //  Created by Kenny Nguyen on 2018-04-11.
@@ -8,21 +8,21 @@
 
 import Foundation
 
-final class LockStrokeActionStrategy: StrokeActionStrategy {
+final class UnlockStrokeActionStrategy: StrokeActionStrategy {
     func applyReceived(scene: StrokeEditorScene, incomingAction: IncomingActionMessage) {
         for strokeUuid in incomingAction.delta.remove {
-            self.lockStrokeWith(scene: scene, strokeUuid: strokeUuid)
+            self.unlockStrokeWith(scene: scene, strokeUuid: strokeUuid)
         }
     }
 
-    private func lockStrokeWith(scene: StrokeEditorScene, strokeUuid: String) {
-        // We're looking for the right stroke to change to lock...
+    private func unlockStrokeWith(scene: StrokeEditorScene, strokeUuid: String) {
+        // We're looking for the right stroke to change to unlock...
 
         // ... in our local strokes list ...
         scene.enumerateChildNodes(withName: scene.COMPLETESTROKE, using: {node, stop in
             let currentNode = node as! SKStroke
             if currentNode.id == strokeUuid {
-                currentNode.lock()
+                currentNode.unlock()
             }
         })
 
@@ -30,7 +30,7 @@ final class LockStrokeActionStrategy: StrokeActionStrategy {
         scene.enumerateChildNodes(withName: scene.RECEIVEDSTROKE, using: {node, stop in
             let currentNode = node as! SKStroke
             if currentNode.id == strokeUuid {
-                currentNode.lock()
+                currentNode.unlock()
             }
         })
     }

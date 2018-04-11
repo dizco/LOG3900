@@ -282,6 +282,7 @@ class StrokeEditorScene: SKScene {
         let strokeColor = SKStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: self.alphaValue)
         let strokeDots = SKStrokeDots(wayPoints: self.wayPoints, start: start, end: end)
         shapeNode.saveParameters(color: strokeColor, dots: strokeDots, width: self.width)
+        shapeNode.generateDotsFromPath()
 
         self.addChild(shapeNode)
 

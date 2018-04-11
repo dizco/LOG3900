@@ -36,6 +36,7 @@ struct SKStrokeDots: Codable {
 }
 
 class SKStroke: SKShapeNode {
+    // MARK: - Stroke creation parameters
     var wayPoints: [CGPoint] = []
     var start: CGPoint = CGPoint.zero
     var end: CGPoint = CGPoint.zero
@@ -49,8 +50,13 @@ class SKStroke: SKShapeNode {
 
     var id: String = UUID().uuidString.lowercased()
 
+    // MARK: - Parameter used for EraseByPoint
     var dots: [CGPoint]?
 
+    // MARK: - Parameter used for Lock/Unlock Stroke action
+    var isLocked: Bool = false
+
+    // MARK: - Class functions
     func saveParameters(color: SKStrokeColor, dots: SKStrokeDots, width: CGFloat) {
         self.red = color.red
         self.green = color.green
@@ -62,8 +68,13 @@ class SKStroke: SKShapeNode {
         self.end = dots.end
 
         self.width = width
+    }
 
-        self.dots = self.path?.getPathElementsPoints()
+    // Function used to add precision to EraseByPoint
+    func generateDotsFromPath() {
+        if self.dots == nil {
+            self.dots = self.path?.getPathElementsPoints()
+        }
     }
 
     func setReceivedUuid(uuid: String) {
@@ -71,6 +82,11 @@ class SKStroke: SKShapeNode {
     }
 
     func isCloseTo(position: CGPoint) -> Bool {
+        // Related to EraseByStroke
+        if self.isLocked {
+            return false
+        }
+
         let padding: CGFloat = 10.0 + self.width
 
         let lowerBoundX: CGFloat = position.x - padding
@@ -90,6 +106,13 @@ class SKStroke: SKShapeNode {
     }
 
     func splitSelf(position: CGPoint) -> [SKStroke] {
+        var newStrokes: [SKStroke] = []
+
+        // Related to EraseByPoint
+        if self.isLocked {
+            return newStrokes
+        }
+        
         // This padding value works very well
         let padding: CGFloat = self.width / 1.5
 
@@ -98,8 +121,6 @@ class SKStroke: SKShapeNode {
 
         let lowerBoundY: CGFloat = position.y - padding
         let upperBoundY: CGFloat = position.y + padding
-
-        var newStrokes: [SKStroke] = []
 
         for (index, point) in self.dots!.enumerated() {
             if lowerBoundX <= point.x && point.x <= upperBoundX && lowerBoundY <= point.y && point.y <= upperBoundY {
@@ -160,7 +181,16 @@ class SKStroke: SKShapeNode {
         let strokeColor = SKStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: self.alphaValue)
         let strokeDots = SKStrokeDots(wayPoints: wayPoints, start: wayPoints.first!, end: wayPoints.last!)
         shapeNode.saveParameters(color: strokeColor, dots: strokeDots, width: self.width)
+        shapeNode.generateDotsFromPath()
 
         return shapeNode
+    }
+
+    func lock() {
+        self.isLocked = true
+    }
+
+    func unlock() {
+        self.isLocked = false
     }
 }
