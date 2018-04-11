@@ -7,6 +7,8 @@ import { WriteError } from "mongodb";
 const enum LoginFields {
     Username = "email",
     Password = "password",
+    OldPassword = "old-password",
+    ConfirmPassword = "confirm-password",
 }
 
 /**
@@ -95,31 +97,43 @@ export let postRegister = (req: Request, res: Response, next: NextFunction) => {
  * POST /account/password
  * Update current password.
  */
-/*export let postUpdatePassword = (req: Request, res: Response, next: NextFunction) => {
-    req.assert("password", "Password must be at least 4 characters long").len({ min: 4 });
-    req.assert("confirmPassword", "Passwords do not match").equals(req.body.password);
+export let postUpdatePassword = (req: Request, res: Response, next: NextFunction) => {
+    req.checkBody(LoginFields.OldPassword, "Current password must be set").exists();
+    req.checkBody(LoginFields.Password, "Password must be at least 8 characters long").len({ min: 8 });
+    req.checkBody(LoginFields.ConfirmPassword, "Passwords do not match").equals(req.body[LoginFields.Password]);
+    req.checkBody(LoginFields.Password, "New password must be different than old password").not().equals(req.body[LoginFields.OldPassword]);
 
     const errors = req.validationErrors();
 
     if (errors) {
-        req.flash("errors", errors);
-        return res.redirect("/account");
+        return res.status(422).json({status: "error", error: "Validation errors.", hints: errors});
     }
 
     User.findById(req.user.id, (err, user: UserModel) => {
         if (err) {
             return next(err);
         }
-        user.password = req.body.password;
-        user.save((err: WriteError) => {
+
+        user.comparePassword(req.body[LoginFields.OldPassword], (err: Error, isMatch: boolean) => {
             if (err) {
-                return next(err);
+                next(err);
+                return; //Necessary for the comparePassword callback to work
             }
-            req.flash("success", { msg: "Password has been changed." });
-            res.redirect("/account");
+            if (isMatch) {
+                user.password = req.body[LoginFields.Password];
+                user.save((err: WriteError) => {
+                    if (err) {
+                        return next(err);
+                    }
+                    return res.json({ status: "success", objectId: user.id });
+                });
+            }
+            else {
+                return res.status(401).json({ status: "error", error: "Unauthorized." });
+            }
         });
     });
-};*/
+};
 
 /**
  * POST /account/delete
