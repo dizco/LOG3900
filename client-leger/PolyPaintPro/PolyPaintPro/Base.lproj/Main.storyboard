@@ -243,7 +243,7 @@
                                                 <rect key="frame" x="127" y="207" width="769" height="49"/>
                                                 <subviews>
                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4Zi-Yh-qfz">
-                                                        <rect key="frame" x="269" y="10" width="233" height="29"/>
+                                                        <rect key="frame" x="268" y="10" width="233" height="29"/>
                                                         <segments>
                                                             <segment title="Connexion"/>
                                                             <segment title="Creer un compte"/>
@@ -1331,14 +1331,6 @@
                                     <action selector="joinDrawingButton:" destination="NfL-mq-pCc" eventType="touchUpInside" id="cHg-OC-AjD"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5c6-3w-VhG">
-                                <rect key="frame" x="20" y="186" width="134" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Rejoindre la galerie"/>
-                                <connections>
-                                    <action selector="joinGallerybutton:" destination="NfL-mq-pCc" eventType="touchUpInside" id="6rd-2z-71w"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1354,7 +1346,6 @@
                     <connections>
                         <outlet property="backToLoginButton" destination="TS9-Sa-AVh" id="KcT-rz-4n4"/>
                         <outlet property="joinDrawingButton" destination="A12-2F-hee" id="PmM-ZF-zLZ"/>
-                        <outlet property="joinGalleryButton" destination="5c6-3w-VhG" id="4Z2-LQ-21e"/>
                         <outlet property="newDrawingbutton" destination="dOy-18-Mf9" id="LaP-dQ-Bxu"/>
                         <outlet property="openLocalDrawingButton" destination="uEK-6N-qKy" id="qEQ-JC-3Yo"/>
                         <segue destination="6fs-n7-ZOE" kind="show" identifier="NewDrawingSegue" id="gnA-5P-Sr6"/>
@@ -1929,6 +1920,7 @@
         <image name="verticalLine" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="fRa-i0-Yo6"/>
         <segue reference="yY8-vV-TGb"/>
         <segue reference="HCx-mM-CNV"/>
         <segue reference="as1-Pa-vvV"/>

@@ -47,20 +47,21 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         nameLabel.font = nameLabel.font.withSize(25)
         let protectionButton = UIButton(frame: CGRect(x: 200, y: 220, width: 50, height: 30))
         protectionButton.titleLabel?.font = UIFont.systemFont(ofSize: 25)
-        let visibilityLabel = UILabel(frame: CGRect(x: 250, y: 220, width: 50, height: 30))
-        visibilityLabel.font = visibilityLabel.font.withSize(25)
+        let visibilityButton = UIButton(frame: CGRect(x: 250, y: 220, width: 50, height: 30))
+        visibilityButton.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+
 
         if carousel == self.carouselView {
-            createCarouselSubview(list: myDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityLabel: visibilityLabel, cardsView: cardsView, index: index, protectionButtonStatus: true)
+            createCarouselSubview(list: myDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityButton: visibilityButton, cardsView: cardsView, index: index, buttonStatus: true)
         }
 
         if carousel == self.carousel2View {
-            createCarouselSubview(list: publicDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityLabel: visibilityLabel, cardsView: cardsView, index: index, protectionButtonStatus: false)
+            createCarouselSubview(list: publicDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityButton: visibilityButton, cardsView: cardsView, index: index, buttonStatus: false)
         }
         return cardsView
     }
 
-    func createCarouselSubview(list: [ExtendedDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel, protectionButton: UIButton, visibilityLabel: UILabel, cardsView: UIView, index: Int, protectionButtonStatus: Bool ) {
+    func createCarouselSubview(list: [ExtendedDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel, protectionButton: UIButton, visibilityButton: UIButton, cardsView: UIView, index: Int, buttonStatus: Bool ) {
         var thumbnail = UIImage()
 
         if list[index].thumbnail != "" {
@@ -74,24 +75,27 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         protectionButton.setTitle("🔒", for: .normal)
         protectionButton.tag = index
         protectionButton.addTarget(self, action: #selector(protectionToggle), for: .touchUpInside)
+        visibilityButton.tag = index
+        visibilityButton.addTarget(self, action: #selector(visibilityToggle), for: .touchUpInside)
         if (list[index] as ExtendedDrawingModel).properties.protection.active {
             protectionButton.setTitle("🔒", for: .normal)
         } else {
             protectionButton.setTitle("🔓", for: .normal)
         }
         if (list[index] as ExtendedDrawingModel).properties.visibility == "public" {
-            visibilityLabel.text = "🙉"
+            visibilityButton.setTitle("🙉", for: .normal)
         } else {
-            visibilityLabel.text = "🙈"
+            visibilityButton.setTitle("🙈", for: .normal)
         }
 
-        if !protectionButtonStatus {
+        if !buttonStatus {
             protectionButton.isEnabled = false
+            visibilityButton.isEnabled = false
         }
         cardsView.addSubview(thumbnailView)
         cardsView.addSubview(nameLabel)
         cardsView.addSubview(protectionButton)
-        cardsView.addSubview(visibilityLabel)
+        cardsView.addSubview(visibilityButton)
     }
 
     func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
@@ -140,6 +144,10 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     }
 
+    @objc func visibilityToggle(sender: UIButton) {
+        toggleVisibilityAlert()
+    }
+
     func toggleProtectionAlert(index: Int) {
           var alert = UIAlertController()
         if !myDrawingsList[index].properties.protection.active {
@@ -183,13 +191,25 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     func togglePadlock(index:Int, password: String) { //here is where we change the protection status of a drawing
         if myDrawingsList[index].properties.protection.active {
-            //we remove the protection here
+            //TODO: we remove the protection here
             carouselView.reloadData()
         } else {
-            //we set the protection status here
+            //TODO: we set the protection status here
             //we can use the parameter password to set the password to the drawing
             carouselView.reloadData()
         }
+    }
+
+    func toggleVisibilityAlert() {
+        let alert = UIAlertController(title: "Modification de la visibilité du dessin", message: "Vous voues apprêtez à changer la visiblité du dessin, voulez-vous vraiment continuer?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Oui", style: .default, handler: {(action:UIAlertAction!) in
+            print("you have pressed the ok button")
+            //TODO: here is where we change the visibility of the button
+            self.carouselView.reloadData()
+            self.carousel2View.reloadData()
+        }))
+        alert.addAction(UIAlertAction(title: "Non", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
 
     private func insertNewOwnerDrawing(drawing: ExtendedDrawingModel) {
