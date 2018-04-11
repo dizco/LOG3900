@@ -27,6 +27,21 @@ namespace PolyPaint.Models.ApiModels
         public bool Active { get; set; }
     }
 
+    internal class TemplateModel
+    {
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
+
+        [JsonProperty(PropertyName = "_id")]
+        public string Id { get; set; }
+
+        [JsonProperty(PropertyName = "owner")]
+        public AuthorModel Owner { get; set; }
+
+        [JsonProperty(PropertyName = "likes")]
+        public LikesModel Likes { get; set; }
+    }
+
     public enum EditingModeOption
     {
         Trait,
