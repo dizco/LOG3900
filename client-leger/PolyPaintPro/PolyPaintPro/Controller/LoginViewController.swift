@@ -136,9 +136,7 @@ class LoginViewController: UIViewController {
                     self.serverAddressEntered(connectionState: isTrueIP)
                 } else {
                     let alert = UIAlertController(title: "Erreur de format de l'adresse IP", message: "Vous devez entrer une adresse IP du format  XXX.XXX.XXX.XXX", preferredStyle: .alert)
-
                     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-
                     self.present(alert, animated: true)
                 }
         }
