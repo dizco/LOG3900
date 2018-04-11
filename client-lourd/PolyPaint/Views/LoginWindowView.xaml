@@ -27,7 +27,7 @@
                     <Button x:Name="SignUpToggle" Click="SwitchToSignup" Content="Créer un compte" Margin="33,0,20,0" FontWeight="Bold" Foreground="Black" MinWidth="100"/>
                 </StackPanel>
                 <!-- user info log in section -->
-                <StackPanel MinWidth="200" MinHeight="300">
+                <StackPanel Width="270" Height="300">
                     <Label Content="Courriel" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
                     <xctk:WatermarkTextBox Watermark="utilisateur@exemple.com" Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
 
@@ -51,7 +51,7 @@
                     <Button x:Name="SignUpToggleSignup" Content="Créer un compte" MinWidth="100" Margin="33,0,0,0" Background="#FF357FFF" FontWeight="Bold" Foreground="White"/>
                 </StackPanel>
                 <!-- sign up info section -->
-                <StackPanel MinWidth="200" MinHeight="300">
+                <StackPanel Width="270" Height="300">
                     <Label Content="Courriel" Margin="0,23.4,0,0" FontWeight="Bold" FontSize="18"/>
                     <xctk:WatermarkTextBox Watermark="utilisateur@exemple.com" Text="{Binding UserEmail, Mode=TwoWay}" FontSize="18"/>
                     
