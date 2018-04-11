@@ -11,5 +11,8 @@ import Foundation
 enum StrokeActionNameConstants: String {
     case addActionName = "NewStroke"
     case resetActionName = "Reset"
+    case lockActionName = "LockStrokes"
+    case unlockActionName = "UnlockStrokes"
+    case transformActionName = "Transform"
     case replaceActionName = "ReplaceStroke"
 }

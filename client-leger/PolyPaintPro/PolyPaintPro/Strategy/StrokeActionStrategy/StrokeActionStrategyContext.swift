@@ -16,6 +16,12 @@ final class StrokeActionStrategyContext {
             AddStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
         } else if actionName == StrokeActionNameConstants.resetActionName.rawValue {
             ResetStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+        } else if actionName == StrokeActionNameConstants.lockActionName.rawValue {
+            print("TODO: LOCK")
+        } else if actionName == StrokeActionNameConstants.unlockActionName.rawValue {
+            print("TODO: UNLOCK")
+        } else if actionName == StrokeActionNameConstants.transformActionName.rawValue {
+            TransformStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
         } else if actionName == StrokeActionNameConstants.replaceActionName.rawValue {
             ReplaceStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
         }

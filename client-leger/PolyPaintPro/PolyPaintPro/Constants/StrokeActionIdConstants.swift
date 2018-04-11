@@ -11,5 +11,8 @@ import Foundation
 enum StrokeActionIdConstants: Int {
     case add = 1
     case replace = 2
+    case lock = 3
+    case unlock = 4
+    case transform = 5
     case reset = 6
 }
