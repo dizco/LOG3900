@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -36,6 +37,7 @@ namespace PolyPaint.ViewModels
             _homeMenu = new HomeMenuModel();
             _homeMenu.NewDrawingCreated += DrawingLoadedHandler;
             AutosavedDrawings = _homeMenu.AutosavedDrawings;
+            TemplateList = _homeMenu.TemplateList;
             GoToNewDrawingSubMenuCommand = new RelayCommand<object>(OpenNewDrawingSubMenu);
             StartNewDrawing = new RelayCommand<object>(CreateNewDrawing);
             GoToLocalDrawingSubMenuCommand = new RelayCommand<object>(OpenLocalDrawingSubMenu);
@@ -65,9 +67,8 @@ namespace PolyPaint.ViewModels
 
         public string SelectedEditingMode { get; set; }
         public Array EditingModes => Enum.GetValues(typeof(EditingModeOption));
-        public string SelectedTemplate { get; set; }
-        public ObservableCollection<Tuple<string,string>> Templates { get; set; }
-
+        public TemplateModel SelectedTemplate { get; set; }
+        public ObservableCollection<TemplateModel> TemplateList { get; set; }
         public ObservableCollection<string> AutosavedDrawings { get; set; }
 
         public string NewDrawingName { get; set; }
@@ -244,6 +245,8 @@ namespace PolyPaint.ViewModels
 
         private void OpenNewDrawingSubMenu(object obj)
         {
+            _homeMenu.LoadTemplateList();
+            TemplateList = _homeMenu.TemplateList;
             MainMenuVisibility = Visibility.Collapsed;
             NewDrawingVisibility = Visibility.Visible;
             JoinDrawingVisibility = Visibility.Collapsed;
@@ -296,6 +299,8 @@ namespace PolyPaint.ViewModels
 
         private void OpenMenu(object obj)
         {
+            //TODO: Is it the good place?
+            _homeMenu.LoadTemplateList();
             MainMenuVisibility = Visibility.Visible;
             NewDrawingVisibility = Visibility.Collapsed;
             JoinDrawingVisibility = Visibility.Collapsed;

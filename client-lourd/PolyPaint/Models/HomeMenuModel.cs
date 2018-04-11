@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -22,6 +23,8 @@ namespace PolyPaint.Models
             new ObservableCollection<OnlineDrawingModel>();
 
         public ObservableCollection<string> AutosavedDrawings { get; set; } = new ObservableCollection<string>();
+
+        public ObservableCollection<TemplateModel> TemplateList { get; set; } = new ObservableCollection<TemplateModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -85,6 +88,51 @@ namespace PolyPaint.Models
             AutosavedDrawings.Clear();
             StrokeEditor.FetchAutosavedDrawings()?.ToList()
                         .ForEach(drawing => AutosavedDrawings.Add(StrokeEditor.AutosaveFileNameToString(drawing)));
+        }
+
+        internal async void LoadTemplateList()
+        {
+            TemplateList.Clear();
+
+            int currentPage = 1;
+            int maxPages = 0;
+            int retryCount = 0;
+            int maxRetries = 3;
+            do
+            {
+                HttpResponseMessage response = await RestHandler.GetTemplates(currentPage);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    retryCount++;
+                    continue;
+                }
+
+                try
+                {
+                    JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+                    maxPages = content.GetValue("pages").ToObject<int>();
+                    TemplateModel[] templateArray = content.GetValue("docs").ToObject<TemplateModel[]>();
+
+                    foreach (TemplateModel template in templateArray)
+                    {
+                        TemplateList.Add(template);
+                    }
+                }
+                catch
+                {
+                    retryCount++;
+                    continue;
+                }
+
+                currentPage++;
+                retryCount = 0;
+            } while (currentPage <= maxPages && retryCount < maxRetries);
+
+            if (retryCount >= maxRetries)
+            {
+                return;
+            }
         }
 
         internal void SearchTextChangedHandlers(string keyword)

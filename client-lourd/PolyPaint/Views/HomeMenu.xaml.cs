@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
 using PolyPaint.ViewModels;
 
 namespace PolyPaint.Views
@@ -17,6 +19,12 @@ namespace PolyPaint.Views
                 ((HomeMenuViewModel) DataContext).Dispose();
                 Close();
             };
+        }
+
+        private void TemplateSelection_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Debug.WriteLine(((HomeMenuViewModel)DataContext).SelectedTemplate.Id);
+                
         }
     }
 }
