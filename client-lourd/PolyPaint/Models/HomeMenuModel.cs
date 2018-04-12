@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models.ApiModels;
+using PolyPaint.Models.MessagingModels;
 
 namespace PolyPaint.Models
 {
@@ -33,6 +34,9 @@ namespace PolyPaint.Models
         /// </summary>
         public event EventHandler<Tuple<string, string, EditingModeOption>> NewDrawingCreated;
 
+        public event EventHandler<Tuple<string, string, EditingModeOption, List<StrokeModel>, List<PixelModel>>>
+            NewDrawingTemplate;
+
         internal async void LoadOnlineDrawingsList()
         {
             OnlineDrawingList.Clear();
@@ -42,9 +46,11 @@ namespace PolyPaint.Models
             int maxPages = 0;
             const int maxRetries = 3;
             int retryCount = 0;
+
+            HttpResponseMessage response = null;
             do
             {
-                HttpResponseMessage response = await RestHandler.GetOnlineDrawingsForPage(currentPage);
+                response = await RestHandler.GetOnlineDrawingsForPage(currentPage);
                 if (!response.IsSuccessStatusCode)
                 {
                     retryCount++;
@@ -92,46 +98,75 @@ namespace PolyPaint.Models
 
         internal async void LoadTemplateList()
         {
-            TemplateList.Clear();
-
-            int currentPage = 1;
-            int maxPages = 0;
-            int retryCount = 0;
-            int maxRetries = 3;
-            do
+            if (await RestHandler.ValidateServerUri())
             {
-                HttpResponseMessage response = await RestHandler.GetTemplates(currentPage);
 
-                if (!response.IsSuccessStatusCode)
+                TemplateList.Clear();
+
+                int currentPage = 1;
+                int maxPages = 0;
+                int retryCount = 0;
+                int maxRetries = 3;
+                do
                 {
-                    retryCount++;
-                    continue;
-                }
+                    HttpResponseMessage response = await RestHandler.GetTemplates(currentPage);
 
-                try
-                {
-                    JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
-                    maxPages = content.GetValue("pages").ToObject<int>();
-                    TemplateModel[] templateArray = content.GetValue("docs").ToObject<TemplateModel[]>();
-
-                    foreach (TemplateModel template in templateArray)
+                    if (!response.IsSuccessStatusCode)
                     {
-                        TemplateList.Add(template);
+                        retryCount++;
+                        continue;
                     }
-                }
-                catch
+
+                    try
+                    {
+                        JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+                        maxPages = content.GetValue("pages").ToObject<int>();
+                        TemplateModel[] templateArray = content.GetValue("docs").ToObject<TemplateModel[]>();
+
+                        TemplateModel emptyTemplate = new TemplateModel
+                        {
+                            Name = "< Vide >"
+                        };
+                        TemplateList.Add(emptyTemplate);
+
+                        foreach (TemplateModel template in templateArray)
+                        {
+                            TemplateList.Add(template);
+                        }
+                    }
+                    catch
+                    {
+                        retryCount++;
+                        continue;
+                    }
+
+                    currentPage++;
+                    retryCount = 0;
+                } while (currentPage <= maxPages && retryCount < maxRetries);
+
+                if (retryCount >= maxRetries)
                 {
-                    retryCount++;
-                    continue;
+                    return;
                 }
+            }
+        }
 
-                currentPage++;
-                retryCount = 0;
-            } while (currentPage <= maxPages && retryCount < maxRetries);
-
-            if (retryCount >= maxRetries)
+        internal async void LoadTemplate(string templateId)
+        {
+            if (await RestHandler.ValidateServerUri())
             {
-                return;
+                HttpResponseMessage response = await RestHandler.GetTemplate(templateId);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    HttpContent content = response.Content;
+                    JObject contentJson = JObject.Parse(await content.ReadAsStringAsync());
+                    var strokes = contentJson["strokes"].ToObject<List<StrokeModel>>();
+                    var pixels = contentJson["pixels"].ToObject<List<PixelModel>>();
+                }
+                //TODO: deal with the empty case (id == null)
+                //TODO: deal with edit mode
+
             }
         }
 

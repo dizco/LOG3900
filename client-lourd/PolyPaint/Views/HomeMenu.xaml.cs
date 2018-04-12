@@ -23,7 +23,7 @@ namespace PolyPaint.Views
 
         private void TemplateSelection_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Debug.WriteLine(((HomeMenuViewModel)DataContext).SelectedTemplate.Id);
+            //Debug.WriteLine(((HomeMenuViewModel)DataContext).SelectedTemplate.Id);
                 
         }
     }

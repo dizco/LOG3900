@@ -299,8 +299,6 @@ namespace PolyPaint.ViewModels
 
         private void OpenMenu(object obj)
         {
-            //TODO: Is it the good place?
-            _homeMenu.LoadTemplateList();
             MainMenuVisibility = Visibility.Visible;
             NewDrawingVisibility = Visibility.Collapsed;
             JoinDrawingVisibility = Visibility.Collapsed;
@@ -310,6 +308,7 @@ namespace PolyPaint.ViewModels
 
         private void OpenLocalDrawingSubMenu(object obj)
         {
+            _homeMenu.LoadTemplateList();
             _homeMenu.LoadAutosavedDrawingsList();
             MainMenuVisibility = Visibility.Collapsed;
             NewDrawingVisibility = Visibility.Collapsed;

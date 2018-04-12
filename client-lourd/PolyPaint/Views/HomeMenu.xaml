@@ -45,7 +45,7 @@
             <Label Content="Mode &#xD;&#xA;d'édition" Margin="68,0,196,362" FontWeight="Bold" FontSize="18" Height="70" VerticalAlignment="Bottom"/>
             <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="68,0,64,362" FontSize="18" Height="39" VerticalAlignment="Bottom"/>
             <Label Content="Modèle de dessin" Margin="68,0,64,324" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
-            <ComboBox  SelectionChanged="TemplateSelection_OnSelectionChanged" x:Name="TemplateSelection" ItemsSource="{Binding TemplateList}" SelectedItem="{Binding SelectedTemplate}"  Margin="68,0,64,285" FontSize="18" Height="39" VerticalAlignment="Bottom">
+            <ComboBox SelectedIndex="0" SelectionChanged="TemplateSelection_OnSelectionChanged" x:Name="TemplateSelection" ItemsSource="{Binding TemplateList}" SelectedItem="{Binding SelectedTemplate}" Margin="68,0,64,285" FontSize="18" Height="39" VerticalAlignment="Bottom">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
