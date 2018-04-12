@@ -1920,7 +1920,6 @@
         <image name="verticalLine" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fRa-i0-Yo6"/>
         <segue reference="yY8-vV-TGb"/>
         <segue reference="HCx-mM-CNV"/>
         <segue reference="as1-Pa-vvV"/>
