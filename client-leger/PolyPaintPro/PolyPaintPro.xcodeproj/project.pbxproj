@@ -20,6 +20,7 @@
 		274C035E200EF37A00DDAD8D /* PolyPaintProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C035D200EF37A00DDAD8D /* PolyPaintProTests.swift */; };
 		274C0369200EF37A00DDAD8D /* PolyPaintProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */; };
 		2778DAB6205600D400690A65 /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2778DAB5205600D400690A65 /* ToolsView.swift */; };
+		2779026A207F173F00758304 /* FiltersToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27790269207F173F00758304 /* FiltersToolsView.swift */; };
 		277BC1382075EEF3002BE2B5 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 277BC1372075EEF2002BE2B5 /* iCarousel.m */; };
 		277EE1A0201280D900545404 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 277EE19F201280D900545404 /* assets */; };
 		278BEF82200FB79A001CF963 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 278BEF81200FB79A001CF963 /* LaunchScreen.storyboard */; };
@@ -113,6 +114,7 @@
 		274C0368200EF37A00DDAD8D /* PolyPaintProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolyPaintProUITests.swift; sourceTree = "<group>"; };
 		274C036A200EF37A00DDAD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2778DAB5205600D400690A65 /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
+		27790269207F173F00758304 /* FiltersToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersToolsView.swift; sourceTree = "<group>"; };
 		277BC1352075EEF0002BE2B5 /* PolyPaintPro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PolyPaintPro-Bridging-Header.h"; sourceTree = "<group>"; };
 		277BC1362075EEF2002BE2B5 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		277BC1372075EEF2002BE2B5 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 			children = (
 				27080CFC2026528E0071FDC0 /* ChatView.swift */,
 				271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */,
+				27790269207F173F00758304 /* FiltersToolsView.swift */,
 				BEC3E8A3205317DE009639FB /* StrokeEditorScene.swift */,
 				2778DAB5205600D400690A65 /* ToolsView.swift */,
 			);
@@ -807,6 +810,7 @@
 				BE919D5820740CC2009D5EDF /* ResetStrokeActionStrategy.swift in Sources */,
 				BE7CEC2C207E4EA00052B92A /* TransformStrokeActionStrategy.swift in Sources */,
 				C067AF5F205A1A050078CF27 /* Timers.swift in Sources */,
+				2779026A207F173F00758304 /* FiltersToolsView.swift in Sources */,
 				BE23A18A202D2DC800342007 /* AccountManager.swift in Sources */,
 				277BC1382075EEF3002BE2B5 /* iCarousel.m in Sources */,
 				BE2C90DA2028AEB0003C8F1E /* Timestamp.swift in Sources */,
