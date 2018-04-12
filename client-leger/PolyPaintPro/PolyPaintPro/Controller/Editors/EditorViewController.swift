@@ -10,14 +10,16 @@ import Foundation
 import SpriteKit
 import AVFoundation
 
-class EditorViewController: UIViewController, ChatSocketManagerDelegate {
+class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorViewControllerDelegate {
+
+
     private var colorsValidator: TextFieldValidator!
     private var alphaValidator: TextFieldValidator!
     private var sizeValidator: TextFieldValidator!
     private var timer: Timer!
     internal var chatShowing = false
-    internal var toolsShowing = false
-    internal var drawingSettingsShowing = false
+    var toolsShowing = false
+    var drawingSettingsShowing = false
     internal var connectionStatus = true
 
     @IBOutlet weak var drawView: UIView!
@@ -37,6 +39,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        toolsView.editorDelegate = self
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
         toolsView.layer.cornerRadius = 10
@@ -63,6 +66,14 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+
+    func getToolsShowing() -> Bool {
+        return toolsShowing
+    }
+
+    func getDrawingSettingsShowing() -> Bool {
+        return drawingSettingsShowing
     }
 
     @IBAction func editDrawingSettings(_ sender: Any) {
@@ -152,6 +163,8 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
         } catch let error {
             print(error)
         }
+
+
     }
 
     // MARK: - Text field validators

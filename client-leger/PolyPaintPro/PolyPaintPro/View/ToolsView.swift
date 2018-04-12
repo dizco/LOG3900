@@ -18,11 +18,21 @@ protocol StrokeToolsViewDelegate: class {
 protocol PixelToolsViewDelegate: class {
     func updateEditingMode(mode: PixelEditingMode)
     func toggleFiltersToolsView()
+
+}
+
+protocol EditorViewControllerDelegate: class {
+    func drawingSettingsFn()
+    func toolsToggleFn()
+    func getToolsShowing() -> Bool
+    func getDrawingSettingsShowing() -> Bool
+
 }
 
 class ToolsView: UIView {
     weak var strokeDelegate: StrokeToolsViewDelegate?
     weak var pixelDelegate: PixelToolsViewDelegate?
+    weak var editorDelegate: EditorViewControllerDelegate?
 
     @IBOutlet weak var penButton: UIButton!
     @IBOutlet weak var strokeEraseButton: UIButton!
@@ -77,7 +87,14 @@ class ToolsView: UIView {
 
     @IBAction func filtersButton(_ sender: UIButton) {
         self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.filter)
-        self.pixelDelegate?.toggleFiltersToolsView()
+        if (self.editorDelegate?.getDrawingSettingsShowing())! {
+            self.editorDelegate?.drawingSettingsFn()
+            self.pixelDelegate?.toggleFiltersToolsView()
+        } else {
+            self.pixelDelegate?.toggleFiltersToolsView()
+        }
+
+
     }
 
     @IBAction func settingsButton(_ sender: UIButton) {
