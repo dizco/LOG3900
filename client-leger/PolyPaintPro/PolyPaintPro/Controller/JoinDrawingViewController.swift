@@ -202,7 +202,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
 
     func toggleVisibilityAlert(index: Int) {
-        var drawing = myDrawingsList[index]
+        let drawing = myDrawingsList[index]
         let alert = UIAlertController(title: "Modification de la visibilité du dessin", message: "Vous vous apprêtez à changer la visiblité du dessin, voulez-vous vraiment continuer?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Oui", style: .default, handler: {(action:UIAlertAction!) in
             print("you have pressed the ok button")
@@ -213,9 +213,8 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
             RestManager.patchDrawing(drawingId: drawing.properties.id, visibility: newVisibility)
                 .then { response -> Void in
                     if response.success {
-                        drawing.properties.visibility = newVisibility
+                        self.myDrawingsList[index].properties.visibility = newVisibility
                         self.carouselView.reloadData()
-                        self.carousel2View.reloadData()
                     } else {
                         print("Failed to patch drawing.")
                     }
