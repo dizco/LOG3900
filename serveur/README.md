@@ -55,6 +55,18 @@ The NodeJS server supports a REST api as well as a WebSocket endpoint. It uses a
 
 Refer to the [Typescript Node Starter](https://github.com/Microsoft/TypeScript-Node-Starter) for framework issues.
 
+## Disclaimer
+
+There are certain levels of security issues with this project, as it was not considered an absolute priority for our proof-of-concept.
+
+Here is a non-exhaustive list of potential vulnerabilities :
+
+- Drawing password is asked only on `GET /drawings`, but should also be asked on `PATCH /drawings/id` and `PUT /drawings/:id/thumbnail`.
+- Editor action and chat message broadcasts don't validate the authorization of the user before being executed.
+- If there is a validation error on `POST /login`, `POST /register`, or `POST /account/password`, the password entered by the user will be visible in the response body.
+- Sessions don't have an expiration and are never cleaned.
+- XSS Injection might be possible as no input is escaped before inserting to database or sending to user.
+
 ## Projects
 
 [:arrow_heading_up: Root](../README.md)
