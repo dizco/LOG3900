@@ -136,6 +136,34 @@ class RestManager {
         }
     }
 
+    static func patchDrawing(drawingId: String,
+                             visibility: String) -> Promise<AuthServerResponse<String>> {
+        let headers = ["Content-Type": "application/x-www-form-urlencoded"]
+        let parameters: [String: String] = [
+            "visibility": visibility
+        ]
+        return Promise<AuthServerResponse> { fulfill, reject in
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings + "/" + drawingId),
+                              method: .patch,
+                              parameters: parameters,
+                              encoding: URLEncoding.default,
+                              headers: headers)
+                .responseJSON { response in
+                    do {
+                        if let data = response.data,
+                            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                            let authServerResponse = AuthServerResponse<String>(json: json) {
+                            fulfill(authServerResponse)
+                        } else {
+                            fulfill(AuthServerResponse(success: false))
+                        }
+                    } catch let error {
+                        reject(error)
+                    }
+            }
+        }
+    }
+
     private static func isValidResponse(response: DataResponse<Any>) -> Bool {
         if let resp = response.response {
             return resp.statusCode >= 200 && resp.statusCode <= 299

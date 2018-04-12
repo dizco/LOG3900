@@ -29,7 +29,7 @@ struct OnlineDrawingModel: Codable {
     let mode: String
     let owner: IncomingOwner
     let protection: IncomingProtection
-    let visibility: String
+    var visibility: String
     let users: IncomingUsers
 
     enum CodingKeys: String, CodingKey {
