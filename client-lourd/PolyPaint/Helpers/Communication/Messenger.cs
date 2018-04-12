@@ -346,7 +346,7 @@ namespace PolyPaint.Helpers.Communication
                                            X = pixel.Item1.X,
                                            Y = pixel.Item1.Y,
                                            Color = pixel.Item2
-                                       }).ToArray();
+                                       }).Where(pixel => pixel.X >= 0 && pixel.Y >= 0).ToArray();
 
             string actionSerialized = JsonConvert.SerializeObject(outgoingNewPixels);
 
