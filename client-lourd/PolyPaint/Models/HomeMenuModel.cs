@@ -96,13 +96,13 @@ namespace PolyPaint.Models
                         .ForEach(drawing => AutosavedDrawings.Add(StrokeEditor.AutosaveFileNameToString(drawing)));
         }
 
-        internal async void LoadTemplateList()
+        internal async void LoadTemplateList(string selectedEditingMode)
         {
             if (await RestHandler.ValidateServerUri())
             {
-
                 TemplateList.Clear();
 
+                selectedEditingMode = selectedEditingMode.Equals("Trait") ? "stroke" : "pixel";
                 int currentPage = 1;
                 int maxPages = 0;
                 int retryCount = 0;
@@ -131,7 +131,10 @@ namespace PolyPaint.Models
 
                         foreach (TemplateModel template in templateArray)
                         {
-                            TemplateList.Add(template);
+                            if ((template.Mode.Equals(selectedEditingMode)))
+                            {  
+                                TemplateList.Add(template);
+                            }
                         }
                     }
                     catch

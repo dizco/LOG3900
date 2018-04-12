@@ -46,6 +46,7 @@ namespace PolyPaint.ViewModels
             GalleryCommand = new RelayCommand<object>(OpenGallery, IsOnline);
             GoToMenuCommand = new RelayCommand<object>(OpenMenu);
             BackToLogin = new RelayCommand<object>(OpenLogin);
+            RefreshTemplateCommand = new RelayCommand<object>(RefreshTemplate);
 
             ToggleNewDrawingProtection = new RelayCommand<object>(ToggleProtection);
             ToggleNewDrawingVisibility = new RelayCommand<object>(ToggleDrawingVisibility);
@@ -105,6 +106,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> BackToLogin { get; set; }
         public RelayCommand<object> ToggleNewDrawingProtection { get; set; }
         public RelayCommand<object> ToggleNewDrawingVisibility { get; set; }
+        public RelayCommand<object> RefreshTemplateCommand { get; set; }
 
         public void Dispose()
         {
@@ -162,6 +164,12 @@ namespace PolyPaint.ViewModels
         private bool IsOnline(object obj)
         {
             return Messenger?.IsConnected ?? false;
+        }
+
+        private void RefreshTemplate(object obj)
+        {
+            _homeMenu.LoadTemplateList(SelectedEditingMode);
+            TemplateList = _homeMenu.TemplateList;
         }
 
         private void OpenGallery(object obj)
@@ -245,8 +253,6 @@ namespace PolyPaint.ViewModels
 
         private void OpenNewDrawingSubMenu(object obj)
         {
-            _homeMenu.LoadTemplateList();
-            TemplateList = _homeMenu.TemplateList;
             MainMenuVisibility = Visibility.Collapsed;
             NewDrawingVisibility = Visibility.Visible;
             JoinDrawingVisibility = Visibility.Collapsed;
@@ -308,8 +314,6 @@ namespace PolyPaint.ViewModels
 
         private void OpenLocalDrawingSubMenu(object obj)
         {
-            _homeMenu.LoadTemplateList();
-            _homeMenu.LoadAutosavedDrawingsList();
             MainMenuVisibility = Visibility.Collapsed;
             NewDrawingVisibility = Visibility.Collapsed;
             JoinDrawingVisibility = Visibility.Collapsed;
