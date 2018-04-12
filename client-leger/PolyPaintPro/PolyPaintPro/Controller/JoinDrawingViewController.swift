@@ -140,12 +140,13 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     @objc func protectionToggle(sender:UIButton) {
         let index = sender.tag
-            toggleProtectionAlert(index: index)
+        toggleProtectionAlert(index: index)
 
     }
 
     @objc func visibilityToggle(sender: UIButton) {
-        toggleVisibilityAlert()
+        let index = sender.tag
+        toggleVisibilityAlert(index: index)
     }
 
     func toggleProtectionAlert(index: Int) {
@@ -200,13 +201,27 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         }
     }
 
-    func toggleVisibilityAlert() {
-        let alert = UIAlertController(title: "Modification de la visibilité du dessin", message: "Vous voues apprêtez à changer la visiblité du dessin, voulez-vous vraiment continuer?", preferredStyle: .alert)
+    func toggleVisibilityAlert(index: Int) {
+        var drawing = myDrawingsList[index]
+        let alert = UIAlertController(title: "Modification de la visibilité du dessin", message: "Vous vous apprêtez à changer la visiblité du dessin, voulez-vous vraiment continuer?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Oui", style: .default, handler: {(action:UIAlertAction!) in
             print("you have pressed the ok button")
-            //TODO: here is where we change the visibility of the button
-            self.carouselView.reloadData()
-            self.carousel2View.reloadData()
+            var newVisibility = "private"
+            if drawing.properties.visibility == "private" {
+                newVisibility = "public"
+            }
+            RestManager.patchDrawing(drawingId: drawing.properties.id, visibility: newVisibility)
+                .then { response -> Void in
+                    if response.success {
+                        drawing.properties.visibility = newVisibility
+                        self.carouselView.reloadData()
+                        self.carousel2View.reloadData()
+                    } else {
+                        print("Failed to patch drawing.")
+                    }
+                }.catch { error in
+                    print("Unexpected error during patch drawing: \(error).")
+            }
         }))
         alert.addAction(UIAlertAction(title: "Non", style: .cancel, handler: nil))
         self.present(alert, animated: true)
