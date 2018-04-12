@@ -35,6 +35,9 @@ namespace PolyPaint.Models.ApiModels
         [JsonProperty(PropertyName = "_id")]
         public string Id { get; set; }
 
+        [JsonProperty(PropertyName = "mode")]
+        public string Mode { get; set; }
+
         [JsonProperty(PropertyName = "owner")]
         public AuthorModel Owner { get; set; }
 

@@ -9,6 +9,7 @@
         Title="PolyPaintPro" Height="754" Width="616.336"
         MinHeight="700" MinWidth="350"
         xmlns:vm="clr-namespace:PolyPaint.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         d:DataContext="{d:DesignInstance vm:HomeMenuViewModel}">
 
     <Window.Resources>
@@ -43,16 +44,16 @@
             <TextBox Text="{Binding NewDrawingName, Mode=OneWayToSource}" Margin="68,0,64,437" FontSize="18" Height="38" VerticalAlignment="Bottom"/>
             <Button Command="{Binding StartNewDrawing}" CommandParameter="{Binding ElementName=DrawingPasswordBox}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="68,410,64,55" Width="284"/>
             <Label Content="Mode &#xD;&#xA;d'édition" Margin="68,0,196,362" FontWeight="Bold" FontSize="18" Height="70" VerticalAlignment="Bottom"/>
-            <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="68,0,64,362" FontSize="18" Height="39" VerticalAlignment="Bottom"/>
-            <Label Content="Modèle de dessin" Margin="68,0,64,324" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
-            <ComboBox SelectedIndex="0" SelectionChanged="TemplateSelection_OnSelectionChanged" x:Name="TemplateSelection" ItemsSource="{Binding TemplateList}" SelectedItem="{Binding SelectedTemplate}" Margin="68,0,64,285" FontSize="18" Height="39" VerticalAlignment="Bottom">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
+            <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="68,0,64,362" FontSize="18" Height="39" VerticalAlignment="Bottom">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding RefreshTemplateCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </ComboBox>
-            <Label Content="Protection" Margin="68,0,64,247" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
+            <Label Content="Modèle de dessin" Margin="68,0,64,324" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
+            <ComboBox SelectedIndex="0" x:Name="TemplateSelection" DisplayMemberPath="Name" ItemsSource="{Binding TemplateList}" SelectedItem="{Binding SelectedTemplate}" Margin="68,0,64,285" FontSize="18" Height="39" VerticalAlignment="Bottom"/>
+                <Label Content="Protection" Margin="68,0,64,247" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
             <Button Command="{Binding ToggleNewDrawingProtection}" Content="{Binding ProtectionStatusString}" HorizontalAlignment="Center" Background="{Binding LockColor}" FontWeight="Bold" Foreground="White" FontSize="18" Margin="68,286,308,209" Width="40" RenderTransformOrigin="0.6,2.132"/>
             <PasswordBox x:Name="DrawingPasswordBox" FontSize="18" Margin="113,286,64,209" IsEnabled="{Binding CreatePasswordProtectedDrawing}"/>
             <Label Content="Visibilité" Margin="68,0,64,176" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
