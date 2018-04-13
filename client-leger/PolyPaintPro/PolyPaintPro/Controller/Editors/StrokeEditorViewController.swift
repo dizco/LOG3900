@@ -34,6 +34,8 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        self.rebuildDrawing(drawing: super.drawing!)
     }
 
     // MARK: - ActionSocketManagerDelegate
@@ -79,4 +81,7 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
         self.scene.unstack()
     }
 
+    private func rebuildDrawing(drawing: IncomingDrawing) {
+        AddStrokeActionStrategy().buildDrawing(scene: self.scene, strokes: drawing.strokes)
+    }
 }

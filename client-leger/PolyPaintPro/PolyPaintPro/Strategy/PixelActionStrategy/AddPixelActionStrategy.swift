@@ -16,6 +16,12 @@ final class AddPixelActionStrategy: PixelActionStrategy {
         }
     }
 
+    func buildDrawing(viewController: PixelEditorViewController, pixels: [IncomingPixels]) {
+        if !pixels.isEmpty {
+            self.drawReceived(viewController: viewController, incomingPixels: pixels)
+        }
+    }
+
     private func drawReceived(viewController: PixelEditorViewController, incomingPixels: [IncomingPixels]) {
         UIGraphicsBeginImageContextWithOptions(viewController.view.bounds.size, false, 0)
         viewController.imageView.image?.draw(in: viewController.view.bounds)

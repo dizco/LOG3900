@@ -22,7 +22,7 @@ final class TransformStrokeActionStrategy: StrokeActionStrategy {
     }
 
     // code copied from AddStrokeActionStrategy
-    private func drawReceived(scene: StrokeEditorScene, stroke: IncomingAdd) {
+    private func drawReceived(scene: StrokeEditorScene, stroke: IncomingStroke) {
         let path = self.createReceivedPathWith(scene: scene, dotsArray: stroke.dots)
         let color = self.convertHexToUIColor(hex: stroke.strokeAttributes.color)!
 

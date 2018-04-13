@@ -164,6 +164,67 @@ class RestManager {
         }
     }
 
+    static func postDrawing(name: String, mode: String, visibility: String, protectionActive: Bool,
+                            protectionPassword: String = "") -> Promise<AuthServerResponse<IdResponse>> {
+        let headers = ["Content-Type": "application/x-www-form-urlencoded"]
+        let parameters: [String: String] = [
+            "name": name,
+            "mode": mode,
+            "visibility": visibility
+        ]
+        return Promise<AuthServerResponse> { fulfill, reject in
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings),
+                              method: .post,
+                              parameters: parameters,
+                              encoding: URLEncoding.default,
+                              headers: headers)
+                .responseJSON { response in
+                    do {
+                        if let data = response.data,
+                            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                            var authServerResponse = AuthServerResponse<IdResponse>(json: json) {
+                            if authServerResponse.success {
+                                authServerResponse.data = IdResponse(id: json["objectId"] as! String)
+                            }
+                            fulfill(authServerResponse)
+                        } else {
+                            fulfill(AuthServerResponse(success: false))
+                        }
+                    } catch let error {
+                        reject(error)
+                    }
+            }
+        }
+    }
+
+    static func getDrawing(id: String,
+                           protectionPassword: String = "") -> Promise<AuthServerResponse<IncomingDrawing>> {
+        var headers: [String: String] = [:]
+        if !protectionPassword.isEmpty {
+            headers["protection-password"] = protectionPassword
+        }
+        return Promise<AuthServerResponse> { fulfill, reject in
+            Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings + "/" + id),
+                              method: .get,
+                              encoding: URLEncoding.default,
+                              headers: headers)
+                .responseJSON { response in
+                    do {
+                        if let data = response.data {
+                            let paginatedResponse = try JSONDecoder().decode(IncomingDrawing.self, from: data)
+                            let authServerResponse =
+                                AuthServerResponse<IncomingDrawing>(data: paginatedResponse)
+                            fulfill(authServerResponse!)
+                        } else {
+                            fulfill(AuthServerResponse(success: false))
+                        }
+                    } catch let error {
+                        reject(error)
+                    }
+            }
+        }
+    }
+
     private static func isValidResponse(response: DataResponse<Any>) -> Bool {
         if let resp = response.response {
             return resp.statusCode >= 200 && resp.statusCode <= 299

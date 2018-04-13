@@ -29,6 +29,7 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.rebuildDrawing(drawing: super.drawing!)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -175,5 +176,9 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         } catch let error {
             print(error)
         }
+    }
+
+    private func rebuildDrawing(drawing: IncomingDrawing) {
+        AddPixelActionStrategy().buildDrawing(viewController: self, pixels: drawing.pixels)
     }
 }
