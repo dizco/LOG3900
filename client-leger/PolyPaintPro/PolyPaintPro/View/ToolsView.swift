@@ -94,7 +94,6 @@ class ToolsView: UIView {
             self.pixelDelegate?.toggleFiltersToolsView()
         }
 
-
     }
 
     @IBAction func settingsButton(_ sender: UIButton) {

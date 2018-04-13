@@ -11,8 +11,6 @@ import SpriteKit
 import AVFoundation
 
 class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorViewControllerDelegate {
-
-
     private var colorsValidator: TextFieldValidator!
     private var alphaValidator: TextFieldValidator!
     private var sizeValidator: TextFieldValidator!
@@ -21,6 +19,8 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorV
     var toolsShowing = false
     var drawingSettingsShowing = false
     internal var connectionStatus = true
+
+    let pixel = PixelEditorViewController()
 
     @IBOutlet weak var drawView: UIView!
     @IBOutlet weak var chatView: ChatView!
@@ -88,6 +88,11 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorV
         if drawingSettingsShowing {
             drawingSettingsFn()
         }
+        pixel.toggleFiltersToolsView()
+    }
+
+    func toggleFiltersToolsView () {
+
     }
 
     func toolsToggleFn() {

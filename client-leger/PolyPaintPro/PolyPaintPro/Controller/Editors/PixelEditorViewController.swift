@@ -23,7 +23,7 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
     @IBOutlet var filtersToolsViewConstraint: NSLayoutConstraint!
     var filtersToolsShowing = false
 
-    func toggleFiltersToolsView () {
+    override func toggleFiltersToolsView () {
         let filtersViewWidth = self.filtersToolsView.frame.width
         if !toolsShowing {
             filtersToolsViewConstraint.constant = -filtersViewWidth
