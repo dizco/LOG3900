@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -86,6 +85,11 @@ namespace PolyPaint.ViewModels
             private set => _createPasswordProtectedDrawing = value;
         }
 
+        public bool IsUserOnline
+        {
+            get => IsOnline(this);
+        }
+
         public bool CreatePubliclyVisibleDrawing
         {
             get => _createPubliclyVisibleDrawing && IsOnline(this);
@@ -167,9 +171,11 @@ namespace PolyPaint.ViewModels
         }
 
         private void RefreshTemplate(object obj)
-        {
+        { 
             _homeMenu.LoadTemplateList(SelectedEditingMode);
             TemplateList = _homeMenu.TemplateList;
+            if(TemplateList.Count > 0)
+            SelectedTemplate = TemplateList[0];
         }
 
         private void OpenGallery(object obj)
@@ -273,6 +279,11 @@ namespace PolyPaint.ViewModels
                 return;
             }
 
+            if (SelectedTemplate == null)
+            {
+                SelectedTemplate = new TemplateModel();
+            }
+
             switch (selectedMode)
             {
                 case EditingModeOption.Trait: break;
@@ -284,7 +295,7 @@ namespace PolyPaint.ViewModels
             {
                 if (obj is PasswordBox password && !string.IsNullOrWhiteSpace(password.Password))
                 {
-                    _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, password.Password,
+                    _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, SelectedTemplate.Id, password.Password,
                                                CreatePubliclyVisibleDrawing);
                     IsPasswordProtected = true;
                 }
@@ -295,7 +306,7 @@ namespace PolyPaint.ViewModels
             }
             else
             {
-                _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode,
+                _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, SelectedTemplate.Id,
                                            visibilityPublic: CreatePubliclyVisibleDrawing);
                 IsPasswordProtected = false;
             }
@@ -331,11 +342,11 @@ namespace PolyPaint.ViewModels
             OnPropertyChanged("LocalDrawingVisibility");
         }
 
-        private void DrawingLoadedHandler(object sender, Tuple<string, string, EditingModeOption> drawingParams)
+        private void DrawingLoadedHandler(object sender, Tuple<string, string, EditingModeOption, List<StrokeModel>, List<PixelModel>> drawingParams)
         {
             DrawingRoomId = drawingParams.Item1;
             DrawingName = drawingParams.Item2;
-            OpenEditorWindow(drawingParams.Item3);
+            OpenEditorWindow(drawingParams.Item3, drawingParams.Item4, drawingParams.Item5);
         }
 
         private void OpenEditorWindow(EditingModeOption option,

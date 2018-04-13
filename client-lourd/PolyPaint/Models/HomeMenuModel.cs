@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
@@ -20,22 +21,28 @@ namespace PolyPaint.Models
         private List<OnlineDrawingModel> OnlineDrawingList { get; } =
             new List<OnlineDrawingModel>();
 
+        private List<StrokeModel> LoadedStrokeTemplate { get; set; } =
+            new List<StrokeModel>();
+
+        private List<PixelModel> LoadedPixelTemplate { get; set; } =
+            new List<PixelModel>();
+
         public ObservableCollection<OnlineDrawingModel> FilteredDrawings { get; } =
             new ObservableCollection<OnlineDrawingModel>();
 
         public ObservableCollection<string> AutosavedDrawings { get; set; } = new ObservableCollection<string>();
 
-        public ObservableCollection<TemplateModel> TemplateList { get; set; } = new ObservableCollection<TemplateModel>();
+        public ObservableCollection<TemplateModel> TemplateList { get; set; } =
+            new ObservableCollection<TemplateModel>();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        ///     Tuple contains DrawingId, DrawingName and EditingModeOption (Stroke/Pixel)
+        ///     Tuple contains DrawingId, DrawingName, EditingModeOption (Stroke/Pixel), StrokeList (StrokeModel), PixelList (PixelModel)
         /// </summary>
-        public event EventHandler<Tuple<string, string, EditingModeOption>> NewDrawingCreated;
 
         public event EventHandler<Tuple<string, string, EditingModeOption, List<StrokeModel>, List<PixelModel>>>
-            NewDrawingTemplate;
+            NewDrawingCreated;
 
         internal async void LoadOnlineDrawingsList()
         {
@@ -154,23 +161,42 @@ namespace PolyPaint.Models
             }
         }
 
-        internal async void LoadTemplate(string templateId)
+        private async Task<List<StrokeModel>> StrokeTemplateGetAsync(string templateId)
         {
-            if (await RestHandler.ValidateServerUri())
+            if (templateId != null)
             {
                 HttpResponseMessage response = await RestHandler.GetTemplate(templateId);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    HttpContent content = response.Content;
-                    JObject contentJson = JObject.Parse(await content.ReadAsStringAsync());
-                    var strokes = contentJson["strokes"].ToObject<List<StrokeModel>>();
-                    var pixels = contentJson["pixels"].ToObject<List<PixelModel>>();
-                }
-                //TODO: deal with the empty case (id == null)
-                //TODO: deal with edit mode
-
+                HttpContent content = response.Content;
+                JObject contentJson = JObject.Parse(await content.ReadAsStringAsync());
+                LoadedStrokeTemplate = contentJson["strokes"].ToObject<List<StrokeModel>>();
             }
+            else
+            {
+                LoadedStrokeTemplate = new List<StrokeModel>();
+            }
+
+            List<StrokeModel> result = await Task.Run(() => LoadedStrokeTemplate);
+
+            return result;
+        }
+
+        private async Task<List<PixelModel>> PixelTemplateGetAsync(string templateId)
+        {
+            if (templateId != null)
+            {
+                HttpResponseMessage response = await RestHandler.GetTemplate(templateId);
+                HttpContent content = response.Content;
+                JObject contentJson = JObject.Parse(await content.ReadAsStringAsync());
+                LoadedPixelTemplate = contentJson["strokes"].ToObject<List<PixelModel>>();
+            }
+            else
+            {
+                LoadedPixelTemplate = new List<PixelModel>();
+            }
+
+            List<PixelModel> result = await Task.Run(() => LoadedPixelTemplate);
+
+            return result;
         }
 
         internal void SearchTextChangedHandlers(string keyword)
@@ -192,8 +218,7 @@ namespace PolyPaint.Models
             }
         }
 
-        internal async void CreateNewDrawing(string drawingName, EditingModeOption option, [Optional] string password,
-            bool visibilityPublic = true)
+        internal async void CreateNewDrawing(string drawingName, EditingModeOption option, [Optional] string templateId, [Optional] string password, bool visibilityPublic = true)
         {
             if (await RestHandler.ValidateServerUri())
             {
@@ -213,13 +238,15 @@ namespace PolyPaint.Models
                     {
                         JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
                         string drawingId = content.GetValue("objectId").ToString();
-                        OnNewDrawingCreated(new Tuple<string, string, EditingModeOption>(drawingId, drawingName,
-                                                                                         option));
+                        LoadedStrokeTemplate = await StrokeTemplateGetAsync(templateId);
+                        LoadedPixelTemplate = await PixelTemplateGetAsync(templateId);
+                        await OnNewDrawingCreatedAsync(new Tuple<string, string, EditingModeOption, List<StrokeModel>, List<PixelModel>>(drawingId, drawingName,
+                                                                  option, LoadedStrokeTemplate, LoadedPixelTemplate));
                     }
                     catch
                     {
                         UserAlerts.ShowInfoMessage("Le dessin sera créé en mode hors ligne");
-                        CreateNewOfflineDrawing(drawingName, option);
+                        CreateNewOfflineDrawingAsync(drawingName, option);
                     }
                 }
                 else if (response.StatusCode == (HttpStatusCode) 422)
@@ -233,30 +260,32 @@ namespace PolyPaint.Models
                     catch (Exception e)
                     {
                         UserAlerts.ShowErrorMessage("Le dessin sera créé en mode hors ligne" + "\n" + e.Message);
-                        CreateNewOfflineDrawing(drawingName, option);
+                        CreateNewOfflineDrawingAsync(drawingName, option);
                     }
                 }
                 else
                 {
                     UserAlerts.ShowInfoMessage("Le dessin sera créé en mode hors ligne");
-                    CreateNewOfflineDrawing(drawingName, option);
+                    CreateNewOfflineDrawingAsync(drawingName, option);
                 }
             }
             else
             {
                 UserAlerts.ShowInfoMessage("Le dessin sera créé en mode hors ligne");
-                CreateNewOfflineDrawing(drawingName, option);
+                CreateNewOfflineDrawingAsync(drawingName, option);
             }
         }
 
-        private void OnNewDrawingCreated(Tuple<string, string, EditingModeOption> drawingParams)
+        private async Task OnNewDrawingCreatedAsync(Tuple<string, string, EditingModeOption, List<StrokeModel>, List<PixelModel>> drawingParams)
         {
             NewDrawingCreated?.Invoke(this, drawingParams);
         }
 
-        private void CreateNewOfflineDrawing(string drawingName, EditingModeOption option)
+        private async void CreateNewOfflineDrawingAsync(string drawingName, EditingModeOption option)
         {
-            OnNewDrawingCreated(new Tuple<string, string, EditingModeOption>(string.Empty, drawingName, option));
+            await OnNewDrawingCreatedAsync(new Tuple<string, string, EditingModeOption, List<StrokeModel>, List<PixelModel>
+                                     >(string.Empty, drawingName, option, LoadedStrokeTemplate
+                                       , LoadedPixelTemplate));
         }
 
         /// <summary>
