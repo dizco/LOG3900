@@ -30,6 +30,11 @@ namespace PolyPaint.Views
             PreviewMouseUp += OnGlobalMouseUp;
         }
 
+        private void PixelEditorActivated(object sender, EventArgs e)
+        {
+            (DataContext as PixelEditorViewModel)?.OpenFirstTimeTutorial("pixelStep");
+        }
+
         private void OnGlobalMouseUp(object sender, MouseButtonEventArgs args)
         {
             if (_controlResized)

@@ -9,7 +9,8 @@
         Title="PolyPaint" Height="700" Width="900" Background="#CBD4E4" MinWidth="627" MinHeight="200"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:PolyPaint.ViewModels"
-        d:DataContext="{d:DesignInstance vm:PixelEditorViewModel}">
+        d:DataContext="{d:DesignInstance vm:PixelEditorViewModel}"
+        Activated="PixelEditorActivated">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -35,7 +36,7 @@
                 <MenuItem Header="{Binding DrawingVisibilityMessage}" IsEnabled="{Binding AccessibilityToggleIsEnabled}" Command="{Binding ToggleVisibilityCommand}"/>
             </MenuItem>
             <MenuItem Header="A_ide">
-                <MenuItem Header="Ouvrir le Tutoriel" Command="{Binding OpenTutorialCommand}"></MenuItem>
+                <MenuItem Header="Ouvrir le Tutoriel" Command="{Binding OpenTutorialCommand}" CommandParameter="pixelStep"></MenuItem>
             </MenuItem>
         </Menu>
         <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0.5" BorderBrush="#77000000">

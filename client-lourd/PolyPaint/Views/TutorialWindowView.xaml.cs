@@ -8,10 +8,10 @@ namespace PolyPaint.Views
     /// </summary>
     public partial class TutorialWindowView : Window
     {
-        public TutorialWindowView()
+        public TutorialWindowView(string tutorialMode)
         {
             InitializeComponent();
-            DataContext = new TutorialWindowViewModel();
+            DataContext = new TutorialWindowViewModel(tutorialMode);
         }
     }
 }

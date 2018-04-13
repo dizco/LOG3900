@@ -13,7 +13,8 @@
     mc:Ignorable="d"
     Title="Poly Paint" Height="700" Width="970" Background="#CBD4E4" MinWidth="885" MinHeight="300"
     xmlns:vm="clr-namespace:PolyPaint.ViewModels"
-    d:DataContext="{d:DesignInstance vm:StrokeEditorViewModel}">
+    d:DataContext="{d:DesignInstance vm:StrokeEditorViewModel}"
+    Activated="StrokeEditorActivated">
 
     <Window.Resources>
         <converters:BorderConverter x:Key="BorderConverter" />
@@ -45,7 +46,7 @@
                 <MenuItem Header="{Binding DrawingVisibilityMessage}" IsEnabled="{Binding AccessibilityToggleIsEnabled}" Command="{Binding ToggleVisibilityCommand}"/>
             </MenuItem>
             <MenuItem Header="A_ide">
-                <MenuItem Header="Ouvrir le Tutoriel" Command="{Binding OpenTutorialCommand}"></MenuItem>
+                <MenuItem Header="Ouvrir le Tutoriel" Command="{Binding OpenTutorialCommand}" CommandParameter="strokeStep"></MenuItem>
             </MenuItem>
         </Menu>
         <Border DockPanel.Dock="Top" BorderThickness="0,0,0,0.5" BorderBrush="#77000000">
