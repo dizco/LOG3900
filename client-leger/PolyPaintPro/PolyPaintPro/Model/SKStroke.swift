@@ -193,4 +193,8 @@ class SKStroke: SKShapeNode {
     func unlock() {
         self.isLocked = false
     }
+
+    func isSelected(position: CGPoint) {
+        
+    }
 }

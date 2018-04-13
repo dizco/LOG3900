@@ -36,6 +36,7 @@ class StrokeEditorScene: SKScene {
     internal let PREVIEWSTROKE = "preview"
     internal let COMPLETESTROKE = "stroke"
     internal let RECEIVEDSTROKE = "receivedstroke"
+    internal let SELECTRECT = "selection"
 
     // MARK: - View Size
     var skViewSize = CGSize.zero
@@ -54,6 +55,10 @@ class StrokeEditorScene: SKScene {
     internal var start = CGPoint.zero
     internal var end = CGPoint.zero
     internal var lastLocation = CGPoint.zero
+
+    // MARK: - Select mode parameters
+    internal var startSelectLocation = CGPoint.zero
+    internal var endSelectLocation = CGPoint.zero
 
     // MARK: - Editing mode
     internal var currentEditingMode = StrokeEditingMode.ink // will be used to switch editing modes
@@ -119,7 +124,10 @@ class StrokeEditorScene: SKScene {
                 self.addPoint(point: self.lastLocation)
             }
         case .select:
-            print("Not implemented.")
+            if let touch = touches.first {
+                self.startSelectLocation = touch.location(in: self)
+                print(self.startSelectLocation)
+            }
         case .eraseByPoint:
             if let touch = touches.first as? UITouch {
                 self.start = touch.location(in: self)
@@ -144,7 +152,13 @@ class StrokeEditorScene: SKScene {
                 self.lastLocation = currentLocation
             }
         case .select:
-            print("Not implemented.")
+            if let touch = touches.first {
+                let currentLocation = touch.location(in: self)
+                self.clearPreview()
+
+                self.selectArea(fromPoint: self.startSelectLocation, toPoint: currentLocation, isPreview: true)
+                self.endSelectLocation = currentLocation
+            }
         case .eraseByPoint:
             if let touch = touches.first as? UITouch {
                 let currentLocation = touch.location(in: self)
@@ -174,7 +188,12 @@ class StrokeEditorScene: SKScene {
                 self.drawStroke(start: self.start, end: self.end)
             }
         case .select:
-            print("Not implemented.")
+            if let touch = touches.first {
+                self.endSelectLocation = touch.location(in: self)
+                self.clearPreview()
+
+                self.selectArea(fromPoint: self.startSelectLocation, toPoint: self.endSelectLocation, isPreview: false)
+            }
         case .eraseByPoint:
             if let touch = touches.first as? UITouch {
                 let currentLocation = touch.location(in: self)
@@ -228,6 +247,11 @@ class StrokeEditorScene: SKScene {
         self.lastLocation = CGPoint.zero
     }
 
+    private func resetSelectValues() {
+        self.startSelectLocation = CGPoint.zero
+        self.endSelectLocation = CGPoint.zero
+    }
+
     func resetCanvas() {
         enumerateChildNodes(withName: self.COMPLETESTROKE, using: {node, stop in
             node.removeFromParent()
@@ -237,6 +261,7 @@ class StrokeEditorScene: SKScene {
         })
         self.nStrokes = 0
         self.resetStrokeValues()
+        self.resetSelectValues()
     }
 
     private func addPoint(point: CGPoint) {
@@ -398,5 +423,48 @@ class StrokeEditorScene: SKScene {
         } else {
             // TO-DO : Disable the button
         }
+    }
+
+    func selectArea(fromPoint: CGPoint, toPoint: CGPoint, isPreview: Bool) {
+        self.drawSelect(fromPoint: fromPoint, toPoint: toPoint, isPreview: isPreview)
+    }
+
+    private func drawSelect(fromPoint: CGPoint, toPoint: CGPoint, isPreview: Bool) {
+        var width: CGFloat = 0.0
+        var height: CGFloat = 0.0
+
+        // set width
+        if toPoint.x > fromPoint.x {
+            width = toPoint.x - fromPoint.x
+        } else {
+            width = fromPoint.x - toPoint.x
+        }
+
+        // set height
+        if toPoint.y > fromPoint.y {
+            height = toPoint.y - fromPoint.y
+        } else {
+            height = fromPoint.y - toPoint.y
+        }
+
+        // create the dashed pattern
+        let rectangle = SKStroke(rectOf: CGSize(width: width, height: height))
+        let pattern: [CGFloat] = [2.0, 2.0]
+        let dashed = rectangle.path?.copy(dashingWithPhase: 0, lengths: pattern)
+
+        let shapeNode = SKStroke(path: dashed!)
+        if isPreview {
+            shapeNode.name = self.PREVIEWSTROKE
+        } else {
+            shapeNode.name = self.SELECTRECT
+        }
+        shapeNode.strokeColor = UIColor.black
+        shapeNode.position = fromPoint
+        self.addChild(shapeNode)
+
+        /*
+        let size = CGSize(width: toPoint.x - fromPoint.x, height: toPoint.y - fromPoint.y)
+        var region = SKRegion(size: size)
+ */
     }
 }

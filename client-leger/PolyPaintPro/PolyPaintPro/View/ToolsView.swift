@@ -55,7 +55,8 @@ class ToolsView: UIView {
     @IBAction func byPointEraserButton(_ sender: UIButton) {
         //TO-DO : remplacer limage et le nom ici par les bonnes images
        resetButtons(sender: sender, filename: "eraser2")
-        self.strokeDelegate?.updateEditingMode(mode: StrokeEditingMode.eraseByPoint)
+        //self.strokeDelegate?.updateEditingMode(mode: StrokeEditingMode.eraseByPoint)
+        self.strokeDelegate?.updateEditingMode(mode: StrokeEditingMode.select)
         self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.eraseByPoint)
     }
 
