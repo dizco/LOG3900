@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using PolyPaint.Helpers;
 using PolyPaint.Models.MessagingModels;
 using PolyPaint.Models.PixelModels;
+using PolyPaint.Properties;
 using PolyPaint.Strategy.PixelEditorActionStrategy;
 using PolyPaint.Views;
 
@@ -147,6 +148,14 @@ namespace PolyPaint.ViewModels
             base.Dispose();
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
+        }
+
+        public void OpenFirstTimeTutorial(string tutorialMode)
+        {
+            int nSessions = Settings.Default.nPixelSessions;
+            Settings.Default.nPixelSessions = CalculateFirstTutorial(nSessions, tutorialMode);
+            Settings.Default.nPixelSessions++;
+            Settings.Default.Save();
         }
 
         private void ProcessPixelEditorActionReceived(object sender, PixelEditorActionModel action)

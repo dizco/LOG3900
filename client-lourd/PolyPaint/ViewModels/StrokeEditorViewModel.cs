@@ -14,6 +14,7 @@ using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
 using PolyPaint.Models;
 using PolyPaint.Models.MessagingModels;
+using PolyPaint.Properties;
 using PolyPaint.Strategy.StrokeEditorActionStrategy;
 
 namespace PolyPaint.ViewModels
@@ -221,6 +222,14 @@ namespace PolyPaint.ViewModels
             StrokeEditorActionReceived -= ProcessReceivedStrokeEditorAction;
             LoginStatusChanged -= ProcessLoginStatusChange;
             ChangeEditorChatDisplayState -= ChatDisplayStateChanged;
+        }
+
+        public void OpenFirstTimeTutorial(string tutorialMode)
+        {
+            int nSessions = Settings.Default.nStrokeSessions;
+            Settings.Default.nStrokeSessions = CalculateFirstTutorial(nSessions, tutorialMode);
+            Settings.Default.nStrokeSessions++;
+            Settings.Default.Save();
         }
 
         private void ChatDisplayStateChanged(object sender, EditorChatDisplayOptions e)

@@ -414,5 +414,21 @@
     <Resource Include="Resources\Tutorial\strokeStep4.png" />
     <Resource Include="Resources\Tutorial\strokeStep5.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Tutorial\strokeStep10.png" />
+    <Resource Include="Resources\Tutorial\strokeStep11.png" />
+    <Resource Include="Resources\Tutorial\strokeStep6.png" />
+    <Resource Include="Resources\Tutorial\strokeStep7.png" />
+    <Resource Include="Resources\Tutorial\strokeStep8.png" />
+    <Resource Include="Resources\Tutorial\strokeStep9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Tutorial\pixelStep1.png" />
+    <Resource Include="Resources\Tutorial\pixelStep2.png" />
+    <Resource Include="Resources\Tutorial\pixelStep3.png" />
+    <Resource Include="Resources\Tutorial\pixelStep4.png" />
+    <Resource Include="Resources\Tutorial\pixelStep5.png" />
+    <Resource Include="Resources\Tutorial\pixelStep6.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

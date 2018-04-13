@@ -28,6 +28,10 @@ namespace PolyPaint.Views
             ((StrokeEditorViewModel) DataContext).LockedStrokesSelectedEvent += OnLockedStrokesSelectedEventHandler;
         }
 
+        private void StrokeEditorActivated(object sender, EventArgs e)
+        {
+            (DataContext as StrokeEditorViewModel)?.OpenFirstTimeTutorial("strokeStep");
+        }
 
         private void OnLockedStrokesSelectedEventHandler(object sender, StrokeCollection lockedStrokes)
         {

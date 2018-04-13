@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,7 @@ using PolyPaint.Annotations;
 using PolyPaint.Constants;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
+using PolyPaint.Properties;
 using PolyPaint.Views;
 using Application = System.Windows.Application;
 
@@ -36,11 +38,10 @@ namespace PolyPaint.ViewModels
             TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
             PublishAsTemplateCommand = new RelayCommand<object>(PublishAsTemplate);
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
-            OpenTutorialCommand = new RelayCommand<object>(OpenTutorial);
+            OpenTutorialCommand = new RelayCommand<string>(OpenTutorial);
         }
 
         public static HistoryWindowView HistoryWindow { get; set; }
-        public static TutorialWindowView TutorialWindow { get; set; }
 
         protected object Canvas
         {
@@ -64,7 +65,7 @@ namespace PolyPaint.ViewModels
         public RelayCommand<object> TogglePasswordCommand { get; set; }
         public RelayCommand<object> PublishAsTemplateCommand { get; set; }
         public RelayCommand<object> OpenHistoryCommand { get; set; }
-        public RelayCommand<object> OpenTutorialCommand { get; set; }
+        public RelayCommand<string> OpenTutorialCommand { get; set; }
 
         public string LockUnlockDrawingMessage => IsPasswordProtected
                                                       ? "Retirer la protection du dessin"
@@ -83,7 +84,6 @@ namespace PolyPaint.ViewModels
         {
             EditorPollRequestReceived -= OnEditorPollRequestReceived;
             HistoryWindow?.Close();
-            TutorialWindow?.Close();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -127,19 +127,23 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        private static void OpenTutorial(object o)
+        public int CalculateFirstTutorial(int nSessions, string tutorialMode)
         {
-            if (TutorialWindow == null)
+            if (nSessions == 0)
             {
-                TutorialWindow = new TutorialWindowView();
-                TutorialWindow.Show();
+                OpenTutorial(tutorialMode);
+            }
 
-                TutorialWindow.Closing += (sender, args) => TutorialWindow = null;
-            }
-            else
-            {
-                TutorialWindow.Activate();
-            }
+            int newNSessions = nSessions + 1;
+            return newNSessions;
+        }
+
+        public void OpenTutorial(string tutorialMode)
+        {
+            Debug.WriteLine("MODE");
+            Debug.WriteLine(tutorialMode);
+            TutorialWindowView tutorialWindow = new TutorialWindowView(tutorialMode);
+            tutorialWindow.ShowDialog();
         }
 
         private async void ToggleVisibility(object obj)
@@ -341,6 +345,11 @@ namespace PolyPaint.ViewModels
 
         [NotifyPropertyChangedInvocator]
         protected void PropertyModified([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void EditorReady([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
