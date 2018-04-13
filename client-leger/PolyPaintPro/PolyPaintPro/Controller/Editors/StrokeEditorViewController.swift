@@ -67,6 +67,8 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
 
         // Special case: Preventing the reset infinite loop.
         self.scene.sendEditorAction(actionId: StrokeActionIdConstants.reset.rawValue)
+
+        self.scene.playActionSound()
     }
 
     func stack() {
