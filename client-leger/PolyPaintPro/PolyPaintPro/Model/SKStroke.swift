@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import AVFoundation
 
 struct SKStrokeColor: Codable {
     let red: CGFloat
@@ -84,6 +85,7 @@ class SKStroke: SKShapeNode {
     func isCloseTo(position: CGPoint) -> Bool {
         // Related to EraseByStroke
         if self.isLocked {
+            self.playFeedbackIfLocked()
             return false
         }
 
@@ -110,9 +112,10 @@ class SKStroke: SKShapeNode {
 
         // Related to EraseByPoint
         if self.isLocked {
+            self.playFeedbackIfLocked()
             return newStrokes
         }
-        
+
         // This padding value works very well
         let padding: CGFloat = self.width / 1.5
 
@@ -192,5 +195,17 @@ class SKStroke: SKShapeNode {
 
     func unlock() {
         self.isLocked = false
+    }
+
+    private func playFeedbackIfLocked() {
+        let systemSoundID: SystemSoundID = 1107
+        AudioServicesPlaySystemSound(systemSoundID)
+
+        // Animate the stroke that is locked
+        let fadeOut = SKAction.fadeOut(withDuration: 0.1)
+        let fadeIn = SKAction.fadeIn(withDuration: 0.1)
+        let blink = SKAction.sequence([fadeOut, fadeIn])
+        let blinkAction = SKAction.repeat(blink, count: 2)
+        self.run(blinkAction)
     }
 }

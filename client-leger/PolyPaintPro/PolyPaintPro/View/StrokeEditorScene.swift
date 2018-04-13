@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import AVFoundation
 
 internal struct Stack {
     fileprivate var array: [SKStroke] = []
@@ -63,7 +64,11 @@ class StrokeEditorScene: SKScene {
     }
 
     func setEditingMode(mode: StrokeEditingMode) {
-        self.currentEditingMode = mode
+        if !(self.currentEditingMode == mode) {
+            let systemSoundID: SystemSoundID = 1104
+            AudioServicesPlaySystemSound(systemSoundID)
+            self.currentEditingMode = mode
+        }
     }
 
     // MARK: - Get the view size
@@ -284,7 +289,11 @@ class StrokeEditorScene: SKScene {
         shapeNode.saveParameters(color: strokeColor, dots: strokeDots, width: self.width)
         shapeNode.generateDotsFromPath()
 
+        // Add the stroke
         self.addChild(shapeNode)
+
+        // Animate the stroke
+        self.animateStrokeWhenAdded(using: shapeNode)
 
         // Only send the stroke if the socket is connected
         self.sendEditorAction(actionId: StrokeActionIdConstants.add.rawValue, strokeUuid: shapeNode.id, stroke: shapeNode)
@@ -302,8 +311,9 @@ class StrokeEditorScene: SKScene {
 
         for stroke in strokesToBeErased! {
             if stroke.isCloseTo(position: position) {
+                self.animateStrokeWhenErased(using: stroke)
+
                 self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: stroke.id)
-                stroke.removeFromParent()
             }
         }
     }
@@ -376,7 +386,7 @@ class StrokeEditorScene: SKScene {
             if !localChildren.isEmpty {
                 let lastStroke = localChildren.last as! SKStroke
                 self.strokesStack.push(lastStroke)
-                lastStroke.removeFromParent()
+                self.animateStrokeWhenErased(using: lastStroke)
 
                 self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: lastStroke.id)
             }
@@ -391,9 +401,40 @@ class StrokeEditorScene: SKScene {
             let stroke: SKStroke = self.strokesStack.pop()!
             self.addChild(stroke)
 
+            self.animateStrokeWhenAdded(using: stroke)
+
             self.sendEditorAction(actionId: StrokeActionIdConstants.add.rawValue, strokeUuid: stroke.id, stroke: stroke)
         } else {
             // TO-DO : Disable the button
         }
+    }
+
+    // MARK: - Animation functions
+    private func animateStrokeWhenAdded(using: SKStroke) {
+        // Play system sound when added
+        self.playActionSound()
+
+        // Animate when added
+        let fadeOut = SKAction.fadeOut(withDuration: 0.1)
+        let fadeIn = SKAction.fadeIn(withDuration: 0.1)
+        let blink = SKAction.sequence([fadeOut, fadeIn])
+        let action = SKAction.repeat(blink, count: 2)
+        using.run(action)
+    }
+
+    private func animateStrokeWhenErased(using: SKStroke) {
+        // Play system sound when erased
+        self.playActionSound()
+
+        // Animate when erased
+        let fadeAway = SKAction.fadeOut(withDuration: 0.25)
+        let remove = SKAction.removeFromParent()
+        let action = SKAction.sequence([fadeAway, remove])
+        using.run(action)
+    }
+
+    func playActionSound() {
+        let systemSoundID: SystemSoundID = 1114
+        AudioServicesPlaySystemSound(systemSoundID)
     }
 }
