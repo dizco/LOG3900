@@ -15,6 +15,11 @@ final class ReplaceStrokeActionStrategy: StrokeActionStrategy {
             for strokeToBeRemoved in incomingAction.delta.remove {
                 scene.eraseByStrokeWith(strokeUuid: strokeToBeRemoved)
             }
+        } else { // EraseByPoint
+            AddStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+            for strokeToBeRemoved in incomingAction.delta.remove {
+                scene.eraseByStrokeWith(strokeUuid: strokeToBeRemoved)
+            }
         }
     }
 }
