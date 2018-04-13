@@ -12,9 +12,11 @@ final class BuildPixelActionStrategyContext {
     let outgoingActionMessage: OutgoingPixelActionMessage?
 
     init(viewController: PixelEditorViewController, actionId: Int, fromPixel: UIPixel, toPixel: UIPixel) {
-        if actionId == PixelActionIdConstants.add.rawValue {
+        switch actionId {
+        case PixelActionIdConstants.add.rawValue:
             self.outgoingActionMessage = AddBuildPixelActionStrategy().buildOutgoingAction(viewController: viewController, actionId: actionId, fromPixel: fromPixel, toPixel: toPixel)
-        } else {
+
+        default:
             self.outgoingActionMessage = nil
         }
     }
