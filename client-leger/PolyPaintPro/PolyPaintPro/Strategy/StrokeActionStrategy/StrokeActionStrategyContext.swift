@@ -12,18 +12,27 @@ final class StrokeActionStrategyContext {
     init(scene: StrokeEditorScene, incomingAction: IncomingActionMessage) {
         let actionName = incomingAction.action.name
 
-        if actionName == StrokeActionNameConstants.addActionName.rawValue {
+        switch actionName {
+        case StrokeActionNameConstants.addActionName.rawValue:
             AddStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
-        } else if actionName == StrokeActionNameConstants.resetActionName.rawValue {
+
+        case StrokeActionNameConstants.resetActionName.rawValue:
             ResetStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
-        } else if actionName == StrokeActionNameConstants.lockActionName.rawValue {
+
+        case StrokeActionNameConstants.lockActionName.rawValue:
             LockStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
-        } else if actionName == StrokeActionNameConstants.unlockActionName.rawValue {
+
+        case StrokeActionNameConstants.unlockActionName.rawValue:
             UnlockStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
-        } else if actionName == StrokeActionNameConstants.transformActionName.rawValue {
+
+        case StrokeActionNameConstants.transformActionName.rawValue:
             TransformStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
-        } else if actionName == StrokeActionNameConstants.replaceActionName.rawValue {
+
+        case StrokeActionNameConstants.replaceActionName.rawValue:
             ReplaceStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+
+        default:
+            print("Unknown IncomingStrokeAction.")
         }
     }
 }

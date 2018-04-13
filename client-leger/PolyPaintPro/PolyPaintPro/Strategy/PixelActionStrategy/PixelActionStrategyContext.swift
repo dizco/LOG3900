@@ -12,8 +12,11 @@ final class PixelActionStrategyContext {
     init(viewController: PixelEditorViewController, incomingAction: IncomingPixelActionMessage) {
         let actionName = incomingAction.action.name
 
-        if actionName == PixelActionNameConstants.addActionName.rawValue {
+        switch actionName {
+        case PixelActionNameConstants.addActionName.rawValue:
             AddPixelActionStrategy().applyReceived(viewController: viewController, incomingAction: incomingAction)
+        default:
+            print("Unknown IncomingPixelAction.")
         }
     }
 }
