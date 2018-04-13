@@ -338,14 +338,13 @@ class StrokeEditorScene: SKScene {
             print(strokesToBeErased!)
         }
 
-        // TO-DO : Put it in collab mode.
         for stroke in strokesToBeErased! {
             /* if it's a dot, erase it
             *  3 is the value used here, because if there's a stroke with only 1 or 2 dot
             *  it becomes impossible to erase...
             */
             if stroke.dots?.count == 3 {
-                //self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: stroke.id)
+                self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: stroke.id)
                 stroke.removeFromParent()
             } else {
                 let newStrokes = stroke.splitSelf(position: position)
@@ -353,15 +352,13 @@ class StrokeEditorScene: SKScene {
                 if !newStrokes.isEmpty {
                     // this loop will always at max loop twice -> O(1) BOY
                     for newStroke in newStrokes where newStroke.dots!.count >= 3 {
+                        // Add the new ones
+                        self.sendEditorAction(actionId: StrokeActionIdConstants.add.rawValue, strokeUuid: newStroke.id, stroke: newStroke)
                         self.addChild(newStroke)
                     }
-                    stroke.removeFromParent()
-
                     // remove the current stroke
-                    //self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: stroke.id)
-
-                    // TO-DO: add the new ones
-
+                    self.sendEditorAction(actionId: StrokeActionIdConstants.replace.rawValue, strokeUuid: stroke.id)
+                    stroke.removeFromParent()
                 }
             }
         }
