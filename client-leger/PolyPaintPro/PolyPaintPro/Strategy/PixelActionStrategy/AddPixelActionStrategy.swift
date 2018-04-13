@@ -11,36 +11,33 @@ import UIKit
 
 final class AddPixelActionStrategy: PixelActionStrategy {
     func applyReceived(viewController: PixelEditorViewController, incomingAction: IncomingPixelActionMessage) {
-        self.drawReceived(viewController: viewController, incomingPixels: incomingAction.pixels)
+        if !AccountManager.sharedInstance.isMyself(id: incomingAction.author.id) {
+            self.drawReceived(viewController: viewController, incomingPixels: incomingAction.pixels)
+        }
     }
 
     private func drawReceived(viewController: PixelEditorViewController, incomingPixels: [IncomingPixels]) {
-        //UIGraphicsBeginImageContextWithOptions(viewController.view.bounds.size, false, 0)
-        UIGraphicsBeginImageContext(viewController.view.bounds.size)
+        UIGraphicsBeginImageContextWithOptions(viewController.view.bounds.size, false, 0)
+        viewController.imageView.image?.draw(in: viewController.view.bounds)
+        let context = UIGraphicsGetCurrentContext()
+
         for pixel in incomingPixels {
-            self.drawPixel(viewController: viewController, pixel: pixel)
+            let point = CGPoint(x: pixel.x, y: pixel.y)
+
+            context?.move(to: point)
+            context?.addLine(to: point)
         }
 
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        viewController.imageView.image = image
-    }
-
-    private func drawPixel(viewController: PixelEditorViewController, pixel: IncomingPixels) {
-        viewController.imageView.image?.draw(in: viewController.view.bounds)
-
-        let context = UIGraphicsGetCurrentContext()
-        let point = CGPoint(x: pixel.x, y: pixel.y)
-
-        context?.move(to: point)
-        context?.addLine(to: point)
-
         context?.setLineCap(CGLineCap.round)
-        let color = self.convertHexToUIColor(hex: pixel.color)
+        let color = self.convertHexToUIColor(hex: incomingPixels.first!.color)
         context?.setStrokeColor(color!.cgColor)
-        context?.setBlendMode(CGBlendMode.normal)
+        context?.setBlendMode(CGBlendMode.copy)
         context?.strokePath()
+
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+
+        UIGraphicsEndImageContext()
+        viewController.imageView.image = image
     }
 
     private func convertHexToUIColor(hex: String) -> UIColor? {
