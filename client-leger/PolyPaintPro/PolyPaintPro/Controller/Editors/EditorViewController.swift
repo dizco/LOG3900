@@ -10,6 +10,11 @@ import Foundation
 import SpriteKit
 import AVFoundation
 
+protocol PixelEditorDelegate: class {
+    func toggleFiltersToolsView ()
+    func getFiltersToolsShowing() -> Bool
+}
+
 class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorViewControllerDelegate {
     private var colorsValidator: TextFieldValidator!
     private var alphaValidator: TextFieldValidator!
@@ -20,7 +25,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorV
     var drawingSettingsShowing = false
     internal var connectionStatus = true
 
-    let pixel = PixelEditorViewController()
+    weak var pixelEditorDelegate: PixelEditorDelegate?
 
     @IBOutlet weak var drawView: UIView!
     @IBOutlet weak var chatView: ChatView!
@@ -88,11 +93,9 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorV
         if drawingSettingsShowing {
             drawingSettingsFn()
         }
-        pixel.toggleFiltersToolsView()
-    }
-
-    func toggleFiltersToolsView () {
-
+        if (pixelEditorDelegate?.getFiltersToolsShowing())! {
+            pixelEditorDelegate?.toggleFiltersToolsView()
+        }
     }
 
     func toolsToggleFn() {
@@ -168,8 +171,6 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorV
         } catch let error {
             print(error)
         }
-
-
     }
 
     // MARK: - Text field validators
@@ -187,11 +188,18 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorV
     // MARK: - Gestures
     @objc func leftEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         if recognizer.state == .recognized {
-            if (!toolsShowing && !drawingSettingsShowing) || (toolsShowing && drawingSettingsShowing) {
+            if toolsShowing && (pixelEditorDelegate?.getFiltersToolsShowing())! {
                 toolsToggleFn()
-                drawingSettingsFn()
-            } else if toolsShowing && !drawingSettingsShowing {
-                drawingSettingsFn()
+                pixelEditorDelegate?.toggleFiltersToolsView()
+            } else if (pixelEditorDelegate?.getFiltersToolsShowing())! {
+                pixelEditorDelegate?.toggleFiltersToolsView()
+            } else {
+                if (!toolsShowing && !drawingSettingsShowing) || (toolsShowing && drawingSettingsShowing) {
+                    toolsToggleFn()
+                    drawingSettingsFn()
+                } else if toolsShowing && !drawingSettingsShowing {
+                    drawingSettingsFn()
+                }
             }
         }
     }
@@ -203,4 +211,5 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, EditorV
             }
         }
     }
+   
 }

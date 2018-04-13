@@ -5,7 +5,7 @@ enum PixelEditingMode {
     case ink, select, eraseByPoint, filter
 }
 
-class PixelEditorViewController: EditorViewController, ActionSocketManagerDelegate, PixelToolsViewDelegate {
+class PixelEditorViewController: EditorViewController, ActionSocketManagerDelegate, PixelToolsViewDelegate, PixelEditorDelegate {
     internal var lastPoint = CGPoint.zero //last drawn point on the canvas
     internal var fisrtPointSelection = CGPoint.zero
     internal var lastPointSelection = CGPoint.zero
@@ -16,14 +16,15 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
     internal var opacity: CGFloat = 1.0
     internal var swiped = false //if the brush stroke is continuous
     internal var currentEditingMode = PixelEditingMode.ink // will be used to switch editing modes
+    var filtersToolsShowing = false
 
 /////////////////////////////////////////////////////// filter
 
     @IBOutlet var filtersToolsView: FilterToolsView!
     @IBOutlet var filtersToolsViewConstraint: NSLayoutConstraint!
-    var filtersToolsShowing = false
 
-    override func toggleFiltersToolsView () {
+
+    func toggleFiltersToolsView () {
         let filtersViewWidth = self.filtersToolsView.frame.width
         if !toolsShowing {
             filtersToolsViewConstraint.constant = -filtersViewWidth
@@ -32,9 +33,13 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             //toolsView.setDefault()
         }
         UIView.animate(withDuration: 0.3, animations: {self.view.layoutIfNeeded()})
-        toolsShowing = !toolsShowing
+        filtersToolsShowing = !filtersToolsShowing
     }
 
+    func getFiltersToolsShowing() -> Bool {
+        print(filtersToolsShowing)
+        return filtersToolsShowing
+    }
 
 
     /////////////////////////////////////// filters
@@ -48,6 +53,7 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         super.viewDidLoad()
         toolsView.pixelDelegate = self
         SocketManager.sharedInstance.actionDelegate = self
+        pixelEditorDelegate = self
         filtersToolsView.layer.cornerRadius = 10
         filtersToolsViewConstraint.constant = -self.filtersToolsView.frame.width
     }
@@ -208,5 +214,8 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         } catch let error {
             print(error)
         }
+    }
+    func pixelReset() {
+        imageView.image = nil
     }
 }

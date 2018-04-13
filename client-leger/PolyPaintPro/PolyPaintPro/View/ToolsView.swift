@@ -18,7 +18,7 @@ protocol StrokeToolsViewDelegate: class {
 protocol PixelToolsViewDelegate: class {
     func updateEditingMode(mode: PixelEditingMode)
     func toggleFiltersToolsView()
-
+    func pixelReset()
 }
 
 protocol EditorViewControllerDelegate: class {
@@ -26,7 +26,6 @@ protocol EditorViewControllerDelegate: class {
     func toolsToggleFn()
     func getToolsShowing() -> Bool
     func getDrawingSettingsShowing() -> Bool
-
 }
 
 class ToolsView: UIView {
@@ -75,6 +74,8 @@ class ToolsView: UIView {
 
     @IBAction func resetButton(_ sender: UIButton) {
        self.strokeDelegate?.resetCanvas()
+        self.pixelDelegate?.pixelReset()
+
     }
 
     @IBAction func stackButton(_ sender: UIButton) {
@@ -89,11 +90,8 @@ class ToolsView: UIView {
         self.pixelDelegate?.updateEditingMode(mode: PixelEditingMode.filter)
         if (self.editorDelegate?.getDrawingSettingsShowing())! {
             self.editorDelegate?.drawingSettingsFn()
-            self.pixelDelegate?.toggleFiltersToolsView()
-        } else {
-            self.pixelDelegate?.toggleFiltersToolsView()
         }
-
+        self.pixelDelegate?.toggleFiltersToolsView()
     }
 
     @IBAction func settingsButton(_ sender: UIButton) {
