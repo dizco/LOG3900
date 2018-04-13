@@ -19,6 +19,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
     internal var toolsShowing = false
     internal var drawingSettingsShowing = false
     internal var connectionStatus = true
+    internal var drawing: IncomingDrawing?
 
     @IBOutlet weak var drawView: UIView!
     @IBOutlet weak var chatView: ChatView!

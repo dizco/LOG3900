@@ -45,49 +45,58 @@ struct Action: Codable {
     }
 }
 
+// MARK: - FOR BOTH EDITORS
+
+struct IncomingDrawing: Codable {
+    let id: String
+    let name: String
+    let mode: String
+    let owner: IncomingOwner
+    let protection: IncomingProtection
+    var visibility: String
+    let users: IncomingUsers
+    let strokes: [IncomingStroke]
+    let pixels: [IncomingPixels]
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case name
+        case mode
+        case owner
+        case protection
+        case visibility
+        case users
+        case strokes
+        case pixels
+    }
+}
+
 // MARK: - FOR STROKE EDITOR
 
 // MARK: - IncomingActionMessage - Stroke
 struct IncomingActionMessage: ActionMessage, Codable {
     let type: String
     let action: Action
-    let drawing: IncomingDrawing
+    let drawing: IncomingDrawingId
     let author: Author
     let delta: Delta
     let timestamp: Double
 }
 
-struct IncomingDrawing: Codable {
+struct IncomingDrawingId: Codable {
     let id: String
-    //let name: String
-    //let protection: IncomingProtection
-    //let owner: IncomingOwner
 }
 
 struct IncomingProtection: Codable {
     let active: Bool
 }
 
-// Will delete here, once I have confirmation that this is not used anymore.
-
-/*struct IncomingOwner: Codable {
-    let username: String
-    let url: String
-    let avatarUrl: String
-
-    enum CodingKeys: String, CodingKey {
-        case username
-        case url
-        case avatarUrl = "avatar_url"
-    }
-}*/
-
 struct Delta: Codable {
-    let add: [IncomingAdd]
+    let add: [IncomingStroke]
     let remove: [String]
 }
 
-struct IncomingAdd: Codable {
+struct IncomingStroke: Codable {
     let strokeUuid: String
     let strokeAttributes: IncomingStrokeAttributes
     let dots: [IncomingDots]
@@ -177,7 +186,7 @@ struct OutgoingDots: Codable {
 struct IncomingPixelActionMessage: ActionMessage, Codable {
     let type: String
     let action: Action
-    let drawing: IncomingDrawing
+    let drawing: IncomingDrawingId
     let author: Author
     let pixels: [IncomingPixels]
 }

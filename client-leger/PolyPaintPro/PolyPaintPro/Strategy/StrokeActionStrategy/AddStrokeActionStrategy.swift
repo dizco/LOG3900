@@ -18,7 +18,13 @@ final class AddStrokeActionStrategy: StrokeActionStrategy {
         }
     }
 
-    private func drawReceived(scene: StrokeEditorScene, stroke: IncomingAdd) {
+    func buildDrawing(scene: StrokeEditorScene, strokes: [IncomingStroke]) {
+        for stroke in strokes {
+            self.drawReceived(scene: scene, stroke: stroke)
+        }
+    }
+
+    private func drawReceived(scene: StrokeEditorScene, stroke: IncomingStroke) {
         let path = self.createReceivedPathWith(scene: scene, dotsArray: stroke.dots)
         let color = self.convertHexToUIColor(hex: stroke.strokeAttributes.color)!
 

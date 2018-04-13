@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 
 class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    private var drawing: IncomingDrawing?
     internal var connectionStatus = true
-    internal var selectedDrawingType: String = DrawingTypes.Types[0] //type of drawing the user selected
-    internal var visibility = true //visibility var for the drawing to be created
-    internal var protection = false //protection variable for the drawing to be created
+    internal var selectedDrawingType: String = DrawingTypes.Types[0]
+    internal var isPublic = true
+    internal var isProtected = false
 
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet weak var drawingNameTextField: UITextField!
@@ -28,7 +29,7 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
         drawingTypePickerview.dataSource = self
         self.hideKeyboard()
         self.observeKeyboardNotification()
-        passwordProtectionTextField.isUserInteractionEnabled = protection
+        passwordProtectionTextField.isUserInteractionEnabled = isProtected
     }
 
     override func viewDidLayoutSubviews() {
@@ -44,42 +45,94 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! EditorViewController
         vc.connectionStatus = connectionStatus
+        vc.drawing = self.drawing!
     }
 
     @IBAction func createDrawingButton(_ sender: UIButton) {
-        if (protection && passwordProtectionTextField.text!.count >= 5 && !drawingNameTextField.text!.isEmpty) || (!protection && !drawingNameTextField.text!.isEmpty) {
-            if selectedDrawingType == DrawingTypes.Types[0] {
-                performSegue(withIdentifier: "StrokeEditorSegue", sender: self)
-                // TO-DO : Correctly send a drawing subscription the server
-                /*
-                if SocketManager.sharedInstance.getConnectionStatus() {
-                    do {
-                        let outgoingMessage = DrawingSubscription()
-                        let encodedData = try JSONEncoder().encode(outgoingMessage)
-                        SocketManager.sharedInstance.send(data: encodedData)
-                    } catch let error {
-                        print(error)
+        if (self.connectionStatus) {
+            self.createOnlineDrawing()
+        }
+        else {
+            self.createOfflineDrawing()
+        }
+    }
+
+    private func createOnlineDrawing() {
+        if (isProtected && passwordProtectionTextField.text!.count >= 5 && !drawingNameTextField.text!.isEmpty)
+            || (!isProtected && !drawingNameTextField.text!.isEmpty) {
+            RestManager.postDrawing(name: drawingNameTextField.text!,
+                                    mode: (selectedDrawingType == DrawingTypes.Types[0])
+                                        ? DrawingTypes.Stroke : DrawingTypes.Pixel,
+                                    visibility: (isPublic) ? "public" : "private",
+                                    protectionActive: isProtected)
+                .then { response -> Void in
+                    RestManager.getDrawing(id: (response.data?.id)!)
+                        .then { getResponse -> Void in
+                            if getResponse.success {
+                                if let active = getResponse.data?.users.active,
+                                    let limit = getResponse.data?.users.limit,
+                                    active < limit {
+                                    self.drawing = getResponse.data
+                                    self.transition()
+                                } else {
+                                    self.showAlert(message: "Le dessin est plein et ne peut pas accueillir un éditeur supplémentaire")
+                                }
+                            } else {
+                                self.showAlert(message: "Le dessin a été créé avec succès, mais il a été impossible de le récupérer")
+                            }
+                        }.catch { error in
+                            print("Error during get drawing: \(error)")
+                            self.showAlert(message: "Le dessin a été créé avec succès, mais il a été impossible de le récupérer")
                     }
-                }*/
-            } else if selectedDrawingType == DrawingTypes.Types[1] {
-                performSegue(withIdentifier: "PixelEditorSegue", sender: self)
+                }.catch { error in
+                    print("Error during post drawing: \(error)")
+                    self.showAlert(message: "Une erreur est survenue lors de la création du dessin")
             }
         } else {
-            let alert = UIAlertController(title: "Attention", message: "Vous devez nommer votre dessin et définir un mot de passe de 5 caractères s'il est protégé", preferredStyle: .alert)
+            self.showAlert(message: "Vous devez nommer votre dessin et définir un mot de passe de 5 caractères s'il est protégé")
+        }
+    }
 
-            alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+    private func createOfflineDrawing() {
+        if !drawingNameTextField.text!.isEmpty {
+            self.drawing = IncomingDrawing(id: "",
+                                           name: drawingNameTextField.text!,
+                                           mode: (selectedDrawingType == DrawingTypes.Types[0])
+                                            ? DrawingTypes.Stroke : DrawingTypes.Pixel,
+                                           owner: IncomingOwner(id: "", username: ""),
+                                           protection: IncomingProtection(active: false),
+                                           visibility: "",
+                                           users: IncomingUsers(active: 1, limit: 1),
+                                           strokes: [], pixels: [])
+            self.transition()
+        } else {
+            self.showAlert(message: "Vous devez nommer votre dessin")
+        }
+    }
 
-            self.present(alert, animated: true)
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "Attention",
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+
+    private func transition() {
+        if self.selectedDrawingType == DrawingTypes.Types[0] {
+            performSegue(withIdentifier: "StrokeEditorSegue", sender: self)
+        } else if self.selectedDrawingType == DrawingTypes.Types[1] {
+            performSegue(withIdentifier: "PixelEditorSegue", sender: self)
         }
     }
 
     @IBAction func visibilityChanged(_ sender: Any) {
-        self.visibility = visibilitySegmentedControl.selectedSegmentIndex == 0 //toggles the visibility mode
+        self.isPublic = visibilitySegmentedControl.selectedSegmentIndex == 0 //toggles the visibility mode
     }
 
     @IBAction func protectionChanged(_ sender: UISwitch) {
-        protection = !protection
-        passwordProtectionTextField.isUserInteractionEnabled = protection
+        isProtected = !isProtected
+        passwordProtectionTextField.isUserInteractionEnabled = isProtected
     }
 
     // MARK: - UIPickerView

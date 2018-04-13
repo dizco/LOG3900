@@ -14,6 +14,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
     internal var connectionStatus = true
     private var myDrawingsList: [ExtendedDrawingModel] = []
     private var publicDrawingsList: [ExtendedDrawingModel] = []
+    private var selectedDrawing: IncomingDrawing?
 
     @IBOutlet var carouselView: iCarousel!
     @IBOutlet var carousel2View: iCarousel!
@@ -50,29 +51,31 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         let visibilityButton = UIButton(frame: CGRect(x: 250, y: 220, width: 50, height: 30))
         visibilityButton.titleLabel?.font = UIFont.systemFont(ofSize: 25)
 
-
-        if carousel == self.carouselView {
-            createCarouselSubview(list: myDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityButton: visibilityButton, cardsView: cardsView, index: index, buttonStatus: true)
+        var drawingsList = myDrawingsList
+        var buttonStatus = true
+        if carousel != self.carouselView { //Public drawings
+            drawingsList = publicDrawingsList
+            buttonStatus = false
         }
 
-        if carousel == self.carousel2View {
-            createCarouselSubview(list: publicDrawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityButton: visibilityButton, cardsView: cardsView, index: index, buttonStatus: false)
-        }
+        createCarouselSubview(list: drawingsList, thumbnailView: thumbnailView, nameLabel: nameLabel, protectionButton: protectionButton, visibilityButton: visibilityButton, cardsView: cardsView, index: index, buttonStatus: buttonStatus)
         return cardsView
     }
 
-    func createCarouselSubview(list: [ExtendedDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel, protectionButton: UIButton, visibilityButton: UIButton, cardsView: UIView, index: Int, buttonStatus: Bool ) {
+    func createCarouselSubview(list: [ExtendedDrawingModel], thumbnailView: UIImageView, nameLabel: UILabel,
+                               protectionButton: UIButton, visibilityButton: UIButton, cardsView: UIView,
+                               index: Int, buttonStatus: Bool ) {
         var thumbnail = UIImage()
 
         if list[index].thumbnail != "" {
-            if let decodedData = Data(base64Encoded: list[index].thumbnail, options: .ignoreUnknownCharacters) {
+            if let decodedData = Data(base64Encoded: list[index].thumbnail,
+                                      options: .ignoreUnknownCharacters) {
                 thumbnail = UIImage(data: decodedData)!
             }
         }
 
         thumbnailView.image = thumbnail
         nameLabel.text = list[index].properties.name
-        protectionButton.setTitle("🔒", for: .normal)
         protectionButton.tag = index
         protectionButton.addTarget(self, action: #selector(protectionToggle), for: .touchUpInside)
         visibilityButton.tag = index
@@ -118,30 +121,27 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         super.awakeFromNib()
     }
 
-    func openMySelectedDrawing(index: Int) {
-        if myDrawingsList[index].properties.mode == "stroke" {
-            performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: nil)
-        } else if myDrawingsList[index].properties.mode == "pixel" {
-            performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: nil)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? EditorViewController {
+            vc.drawing = self.selectedDrawing!
         }
+    }
+
+    func openMySelectedDrawing(index: Int) {
+        self.loadDrawing(drawing: myDrawingsList[index])
     }
 
     func openPublicSelectedDrawing(index: Int) {
         if !publicDrawingsList[index].properties.protection.active {
-            if publicDrawingsList[index].properties.mode == "stroke" {
-                performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: nil)
-            } else if publicDrawingsList[index].properties.mode == "pixel" {
-                performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: nil)
-            }
+            self.loadDrawing(drawing: myDrawingsList[index])
         } else {
             showAlert(index: index)
         }
     }
 
-    @objc func protectionToggle(sender:UIButton) {
+    @objc func protectionToggle(sender: UIButton) {
         let index = sender.tag
         toggleProtectionAlert(index: index)
-
     }
 
     @objc func visibilityToggle(sender: UIButton) {
@@ -154,24 +154,17 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         if !myDrawingsList[index].properties.protection.active {
             alert = UIAlertController(title: "Image non protégée",
                                       message: "Entrez le mot de passe que vous voulez à l'image",
-                                          preferredStyle: .alert)
+                                      preferredStyle: .alert)
         } else if myDrawingsList[index].properties.protection.active {
             alert = UIAlertController(title: "Image protégée",
-                                          message: "Entrez le mot de passe pour enlever la protection sur l'image",
-                                          preferredStyle: .alert)
+                                      message: "Entrez le mot de passe pour enlever la protection sur l'image",
+                                      preferredStyle: .alert)
         }
         // Submit button
         let submitAction = UIAlertAction(title: "Soumettre", style: .default, handler: { _ -> Void in
             // Get 1st TextField's text
             let inputPassword = alert.textFields![0]
-            print(inputPassword.text!)
-            if self.validatePassword(inputPassword: inputPassword.text!) {
-               //actions de validation complétée
-                self.togglePadlock(index: index, password: inputPassword.text!)
-
-            } else if !self.validatePassword(inputPassword: inputPassword.text!) {
-                inputPassword.text! = ""
-            }
+            self.togglePadlock(index: index, password: inputPassword.text!)
         })
         // Cancel button
         let cancel = UIAlertAction(title: "Annuler", style: .destructive, handler: { _ -> Void in })
@@ -187,15 +180,15 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         alert.addAction(submitAction)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
-
     }
 
-    func togglePadlock(index:Int, password: String) { //here is where we change the protection status of a drawing
+    func togglePadlock(index:Int, password: String) {
+        //Change the protection status of a drawing
         if myDrawingsList[index].properties.protection.active {
-            //TODO: we remove the protection here
+            //TODO: remove the protection here
             carouselView.reloadData()
         } else {
-            //TODO: we set the protection status here
+            //TODO: set the protection status here
             //we can use the parameter password to set the password to the drawing
             carouselView.reloadData()
         }
@@ -203,8 +196,10 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     func toggleVisibilityAlert(index: Int) {
         let drawing = myDrawingsList[index]
-        let alert = UIAlertController(title: "Modification de la visibilité du dessin", message: "Vous vous apprêtez à changer la visiblité du dessin, voulez-vous vraiment continuer?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Oui", style: .default, handler: {(action:UIAlertAction!) in
+        let alert = UIAlertController(title: "Modification de la visibilité du dessin",
+                                      message: "Vous vous apprêtez à changer la visiblité du dessin, voulez-vous vraiment continuer?",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Oui", style: .default, handler: { (_: UIAlertAction!) in
             print("you have pressed the ok button")
             var newVisibility = "private"
             if drawing.properties.visibility == "private" {
@@ -238,12 +233,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         }
     }
 
-    func validatePassword(inputPassword: String) -> Bool {
-        // MARK: - insert logic for pwd validation here
-        return true
-    }
-
-    func showAlert(index: Int) {
+    private func showAlert(index: Int) {
         let alert = UIAlertController(title: "Image protégée",
                                       message: "Entrez le mot de passe pour accéder à l'image",
                                       preferredStyle: .alert)
@@ -251,16 +241,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         let submitAction = UIAlertAction(title: "Soumettre", style: .default, handler: { _ -> Void in
             // Get 1st TextField's text
             let inputPassword = alert.textFields![0]
-            print(inputPassword.text!)
-            if self.validatePassword(inputPassword: inputPassword.text!) {
-                if (self.myDrawingsList[index] as ExtendedDrawingModel).properties.mode == DrawingTypes.Pixel {
-                    self.performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
-                } else if (self.myDrawingsList[index] as ExtendedDrawingModel).properties.mode == DrawingTypes.Stroke {
-                    self.performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
-                }
-            } else if !self.validatePassword(inputPassword: inputPassword.text!) {
-                inputPassword.text! = ""
-            }
+            self.loadDrawing(drawing: self.myDrawingsList[index] as ExtendedDrawingModel, protectionPassword: inputPassword.text!)
         })
         // Cancel button
         let cancel = UIAlertAction(title: "Annuler", style: .destructive, handler: { _ -> Void in })
@@ -276,6 +257,30 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         alert.addAction(submitAction)
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
+    }
+
+    private func loadDrawing(drawing: ExtendedDrawingModel, protectionPassword: String? = nil) {
+        RestManager.getDrawing(id: drawing.properties.id)
+            .then { getResponse -> Void in
+                if getResponse.success {
+                    self.selectedDrawing = getResponse.data
+                    self.transition()
+                } else {
+                    //self.showAlert(message: "Le dessin a été créé avec succès, mais il a été impossible de le récupérer")
+                }
+            }.catch { error in
+                print("Error during get drawing: \(error)")
+                //self.showAlert(message: "Le dessin a été créé avec succès, mais il a été impossible de le récupérer")
+        }
+
+    }
+
+    private func transition() {
+        if self.selectedDrawing?.mode == DrawingTypes.Pixel {
+            self.performSegue(withIdentifier: "JoinPixelDrawingSegue", sender: self)
+        } else if self.selectedDrawing?.mode == DrawingTypes.Stroke {
+            self.performSegue(withIdentifier: "JoinStrokeDrawingSegue", sender: self)
+        }
     }
 
     private func loadDrawingThumbnail(drawing: OnlineDrawingModel) -> Promise<String> {
