@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 import AVFoundation
 
-class EditorViewController: UIViewController, ChatSocketManagerDelegate {
+class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarouselDataSource, iCarouselDelegate {
     private var colorsValidator: TextFieldValidator!
     private var alphaValidator: TextFieldValidator!
     private var sizeValidator: TextFieldValidator!
@@ -31,6 +31,10 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
     @IBOutlet weak var chatViewConstraint: NSLayoutConstraint! //constraint to modify to show/hide the
     @IBOutlet weak var toolsViewConstraint: NSLayoutConstraint! //constraint to show/hide the tools view
     @IBOutlet weak var drawingSettingsContraint: NSLayoutConstraint! //constraint to show/hide drawing tools
+    @IBOutlet var tutorialCarousel: iCarousel!
+    var tutorialImages = [Int]()
+    var stroketutorialImages = [String]()
+    var pixelTutorialImages = [String]()
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -38,6 +42,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tutorialCarousel.type = .coverFlow2
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
         toolsView.layer.cornerRadius = 10
@@ -65,6 +70,9 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.subscribeToSocketActions()
+        if let x = UserDefaults.standard.object(forKey: "tutorialStatus") {
+            endTutorial()
+        }
     }
 
     @IBAction func editDrawingSettings(_ sender: Any) {
@@ -94,6 +102,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
     }
 
     func chatToggleFn() { //function called to toggle the chat view
+        print(self.drawView.frame.width)
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
         if chatShowing {
@@ -213,4 +222,93 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
             }
         }
     }
+
+    ///=============================================================== carousel
+    func numberOfItems(in carousel: iCarousel) -> Int {
+        return stroketutorialImages.count
+    } 
+
+    func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
+        let tempView = UIView(frame: CGRect(x: 0, y: 0, width: 784, height: 628))
+        tempView.layer.cornerRadius = 10
+
+        var tutorialImages = UIImageView(frame: CGRect(x: 0, y: 0, width: 784, height: 588))
+        tutorialImages.image = UIImage(named: stroketutorialImages[index])!
+        tutorialImages.layer.cornerRadius = 10
+        tutorialImages.clipsToBounds = true
+
+        let nextButton = UIButton(frame: CGRect(x: 714, y: 588, width: 70, height: 40))
+        nextButton.tag = index
+        nextButton.layer.cornerRadius = 10
+        nextButton.backgroundColor = UIColor.blue
+        nextButton.setTitle("Suivant", for: .normal)
+        nextButton.setTitleColor(UIColor.black, for: .normal)
+        nextButton.addTarget(self, action: #selector(nextTutorialSlide), for: .touchUpInside)
+
+        let previousButton = UIButton(frame: CGRect(x: 0, y: 588, width: 95, height: 40))
+        previousButton.tag = index
+        previousButton.layer.cornerRadius = 10
+        previousButton.backgroundColor = UIColor.blue
+        previousButton.setTitle("Précédent", for: .normal)
+        previousButton.setTitleColor(UIColor.black, for: .normal)
+        previousButton.addTarget(self, action: #selector(previousTutorialSlide), for: .touchUpInside)
+
+        let endTutorialButton = UIButton(frame: CGRect(x: 607, y: 588, width: 87, height: 40))
+        endTutorialButton.layer.cornerRadius = 10
+        endTutorialButton.backgroundColor = UIColor.blue
+        endTutorialButton.setTitle("Terminer", for: .normal)
+        endTutorialButton.setTitleColor(UIColor.black, for: .normal)
+        endTutorialButton.addTarget(self, action: #selector(endTutorial), for: .touchUpInside)
+
+        tempView.addSubview(tutorialImages)
+        tempView.addSubview(endTutorialButton)
+        tempView.addSubview(nextButton)
+        tempView.addSubview(previousButton)
+        return tempView
+    }
+
+    func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+        if option == iCarouselOption.spacing {
+            return value * 1.2
+        }
+        return value
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        tutorialImages = [1, 2,3,4,5,6]
+        stroketutorialImages = ["welcomeImage", "strokeChatTutorial"]
+    }
+
+    @objc func nextTutorialSlide (sender: UIButton) {
+        if sender.tag == tutorialImages.count - 1 {
+            endTutorial()
+            UserDefaults.standard.set(true, forKey: "tutorialStatus")
+            print("saved un userdefaults")
+
+        } else {
+            tutorialCarousel.scrollToItem(at: sender.tag + 1, animated: true)
+        }
+    }
+    @objc func previousTutorialSlide (sender: UIButton) {
+            tutorialCarousel.scrollToItem(at: sender.tag - 1, animated: true)
+    }
+
+    @objc func endTutorial () {
+        print("tutorial ended")
+        tutorialCarousel.isHidden = true
+    }
+
+    @IBAction func showTutorialButton(_ sender: UIButton) {
+        if toolsShowing {
+            toolsToggleFn()
+        }
+        if drawingSettingsShowing {
+            drawingSettingsFn()
+        }
+        tutorialCarousel.scrollToItem(at:0, animated: true)
+        tutorialCarousel.isHidden = false
+
+    }
+
 }
