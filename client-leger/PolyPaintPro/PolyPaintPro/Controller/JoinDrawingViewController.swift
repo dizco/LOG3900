@@ -133,9 +133,9 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     func openPublicSelectedDrawing(index: Int) {
         if !publicDrawingsList[index].properties.protection.active {
-            self.loadDrawing(drawing: myDrawingsList[index])
+            self.loadDrawing(drawing: publicDrawingsList[index])
         } else {
-            showAlert(index: index)
+            self.showAlert(drawing: publicDrawingsList[index])
         }
     }
 
@@ -233,7 +233,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         }
     }
 
-    private func showAlert(index: Int) {
+    private func showAlert(drawing: ExtendedDrawingModel) {
         let alert = UIAlertController(title: "Image protégée",
                                       message: "Entrez le mot de passe pour accéder à l'image",
                                       preferredStyle: .alert)
@@ -241,7 +241,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         let submitAction = UIAlertAction(title: "Soumettre", style: .default, handler: { _ -> Void in
             // Get 1st TextField's text
             let inputPassword = alert.textFields![0]
-            self.loadDrawing(drawing: self.myDrawingsList[index] as ExtendedDrawingModel, protectionPassword: inputPassword.text!)
+            self.loadDrawing(drawing: drawing, protectionPassword: inputPassword.text!)
         })
         // Cancel button
         let cancel = UIAlertAction(title: "Annuler", style: .destructive, handler: { _ -> Void in })
@@ -266,13 +266,20 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
                     self.selectedDrawing = getResponse.data
                     self.transition()
                 } else {
-                    //self.showAlert(message: "Le dessin a été créé avec succès, mais il a été impossible de le récupérer")
+                    self.showWarningAlert(message: "Impossible de charger le dessin")
                 }
             }.catch { error in
                 print("Error during get drawing: \(error)")
-                //self.showAlert(message: "Le dessin a été créé avec succès, mais il a été impossible de le récupérer")
+                self.showWarningAlert(message: "Impossible de charger le dessin. \(error)")
         }
+    }
 
+    private func showWarningAlert(message: String) {
+        let alert = UIAlertController(title: "Attention",
+                                      message: message,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
 
     private func transition() {
