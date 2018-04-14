@@ -21,7 +21,7 @@ final class ReplaceBuildStrokeActionStrategy: BuildStrokeActionStrategy {
         let delta: OutgoingDelta = OutgoingDelta(remove: remove)
 
         // 3. Create the OutgoingActionMessage
-        return OutgoingActionMessage(actionId: actionId, actionName: StrokeActionNameConstants.addActionName.rawValue,
+        return OutgoingActionMessage(actionId: actionId, actionName: StrokeActionNameConstants.replaceActionName.rawValue,
                                      drawingId: drawingId, delta: delta)
     }
 }

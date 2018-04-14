@@ -441,9 +441,9 @@ class StrokeEditorScene: SKScene {
         self.playActionSound()
 
         // Animate when erased
-        let fadeAway = SKAction.fadeOut(withDuration: 0.25)
+        let fadeOut = SKAction.fadeOut(withDuration: 0.3)
         let remove = SKAction.removeFromParent()
-        let action = SKAction.sequence([fadeAway, remove])
+        let action = SKAction.sequence([fadeOut, remove])
         using.run(action)
     }
 

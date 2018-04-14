@@ -57,6 +57,9 @@ class SKStroke: SKShapeNode {
     // MARK: - Parameter used for Lock/Unlock Stroke action
     var isLocked: Bool = false
 
+    // MARK: - Parameter used as a band-aid fix for not erasing the same stroke twice
+    var isErased: Bool = false
+
     // MARK: - Class functions
     func saveParameters(color: SKStrokeColor, dots: SKStrokeDots, width: CGFloat) {
         self.red = color.red
@@ -89,6 +92,13 @@ class SKStroke: SKShapeNode {
             return false
         }
 
+        if self.isErased {
+            // it's already erased so we don't want to repeat the action
+            // related to the bug where audio feedback plays more than once when we go over the stroke
+            // also related to the bug where we send the stroke to be erased twice or more
+            return false
+        }
+
         let padding: CGFloat = 10.0 + self.width
 
         let lowerBoundX: CGFloat = position.x - padding
@@ -101,6 +111,7 @@ class SKStroke: SKShapeNode {
 
         for point in pointsList! {
             if lowerBoundX <= point.x && point.x <= upperBoundX && lowerBoundY <= point.y && point.y <= upperBoundY {
+                self.isErased = true
                 return true
             }
         }
