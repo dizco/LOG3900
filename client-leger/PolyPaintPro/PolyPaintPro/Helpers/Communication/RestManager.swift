@@ -201,10 +201,10 @@ class RestManager {
     }
 
     static func getDrawing(id: String,
-                           protectionPassword: String = "") -> Promise<AuthServerResponse<IncomingDrawing>> {
+                           protectionPassword: String? = nil) -> Promise<AuthServerResponse<IncomingDrawing>> {
         var headers: [String: String] = [:]
-        if !protectionPassword.isEmpty {
-            headers["protection-password"] = protectionPassword
+        if !(protectionPassword?.isEmpty)! {
+            headers["protection-password"] = protectionPassword!
         }
         return Promise<AuthServerResponse> { fulfill, reject in
             Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings + "/" + id),
@@ -214,10 +214,17 @@ class RestManager {
                 .responseJSON { response in
                     do {
                         if let data = response.data {
-                            let paginatedResponse = try JSONDecoder().decode(IncomingDrawing.self, from: data)
-                            let authServerResponse =
-                                AuthServerResponse<IncomingDrawing>(data: paginatedResponse)
-                            fulfill(authServerResponse!)
+                            if RestManager.isValidResponse(response: response) {
+                                let paginatedResponse = try JSONDecoder().decode(IncomingDrawing.self, from: data)
+                                let authServerResponse =
+                                    AuthServerResponse<IncomingDrawing>(data: paginatedResponse)
+                                fulfill(authServerResponse!)
+                            } else {
+                                let errorResponse = try JSONDecoder().decode(ErrorResponse.self, from: data)
+                                let authServerResponse =
+                                    AuthServerResponse<IncomingDrawing>(success: false, error: RestManager.buildErrorMessage(error: errorResponse))
+                                fulfill(authServerResponse)
+                            }
                         } else {
                             fulfill(AuthServerResponse(success: false))
                         }
@@ -235,8 +242,36 @@ class RestManager {
         return false
     }
 
+    private static func buildErrorMessage(error: ErrorResponse) -> String {
+        var errorMessage = error.error + " "
+        if let hints = error.hints {
+            for hint in hints {
+                errorMessage += hint.message + " "
+            }
+        }
+        return errorMessage
+    }
+
     public struct IdResponse: Codable {
         let id: String
+    }
+
+    public struct ErrorResponse: Codable {
+        let status: String
+        let error: String
+        let hints: [Hint]?
+    }
+
+    public struct Hint: Codable {
+        let location: String
+        let parameter: String
+        let message: String
+
+        enum CodingKeys: String, CodingKey {
+            case location
+            case parameter = "param"
+            case message = "msg"
+        }
     }
 
     public struct EmptyData: Codable {}
