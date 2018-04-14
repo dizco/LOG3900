@@ -81,11 +81,14 @@ class RestManager {
 
     static func testServerConnection() -> Promise<AuthServerResponse<EmptyData>> {
         return Promise<AuthServerResponse> { fulfill, _ in
+            after(seconds: 3).then {
+                fulfill(AuthServerResponse(success: false)) //Took too long, reject
+            }
             Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Ping))
                 .responseJSON { (response) -> Void in
                     fulfill(AuthServerResponse(success: self.isValidResponse(response: response)))
-                }
             }
+        }
     }
 
     static func getDrawingsListPage(page: Int = 1, userId: String? = nil,
