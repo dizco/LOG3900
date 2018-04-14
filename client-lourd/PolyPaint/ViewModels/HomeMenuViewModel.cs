@@ -137,6 +137,7 @@ namespace PolyPaint.ViewModels
         {
             OnPropertyChanged(nameof(VisibilityStatusString));
             OnPropertyChanged(nameof(VisibilityColor));
+            OnPropertyChanged(nameof(IsUserOnline));
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
         }
@@ -145,6 +146,7 @@ namespace PolyPaint.ViewModels
         {
             OnPropertyChanged(nameof(VisibilityStatusString));
             OnPropertyChanged(nameof(VisibilityColor));
+            OnPropertyChanged(nameof(IsUserOnline));
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
         }

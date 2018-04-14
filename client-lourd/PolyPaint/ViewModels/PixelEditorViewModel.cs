@@ -284,16 +284,24 @@ namespace PolyPaint.ViewModels
         ///     Loads all pixels from the server
         /// </summary>
         /// <param name="pixels">List of pixels to rebuild</param>
-        internal void RebuildDrawing(List<PixelModel> pixels)
+        /// <param name="isTemplate">Specifies if drawing being reconstructed is a template</param>
+        internal void RebuildDrawing(List<PixelModel> pixels, bool isTemplate = false)
         {
             _pixelEditor.WriteableBitmap.Lock();
 
+            List<Tuple<Point, string>> templatePixels = new List<Tuple<Point, string>>();
             foreach (PixelModel pixel in pixels)
             {
-                _pixelEditor.WriteableBitmap.SetPixel((int) pixel.X, (int) pixel.Y,
-                                                      (Color) ColorConverter.ConvertFromString(pixel.Color));
+                _pixelEditor.WriteableBitmap.SetPixel((int)pixel.X, (int)pixel.Y,
+                                                      (Color)ColorConverter.ConvertFromString(pixel.Color));
+                templatePixels.Add(new Tuple<Point, string>(new Point(pixel.X, pixel.Y), pixel.Color));
             }
 
+            if (isTemplate)
+            {
+                SendNewPixels(templatePixels);
+            }
+            
             _pixelEditor.WriteableBitmap.Unlock();
         }
     }
