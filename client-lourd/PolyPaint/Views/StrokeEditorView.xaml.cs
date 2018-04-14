@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using PolyPaint.CustomComponents;
 using PolyPaint.ViewModels;
 
 namespace PolyPaint.Views
@@ -112,10 +114,30 @@ namespace PolyPaint.Views
         {
             DrawingSurface.CopySelection();
             DrawingSurface.Paste();
+
+            StrokeCollection newStrokes = DrawingSurface.GetSelectedStrokes();
+            StrokeCollection newCustomStrokes = new StrokeCollection();
+            List<string> newLockedStrokes = new List<string>();
+            foreach (Stroke stroke in newStrokes)
+            {
+                CustomStroke newStroke = new CustomStroke(stroke.StylusPoints, stroke.DrawingAttributes);
+
+                DrawingSurface.Strokes.Remove(stroke);
+                DrawingSurface.Strokes.Add(newStroke);
+                newCustomStrokes.Add(newStroke);
+
+                (DataContext as StrokeEditorViewModel)?.OnStrokeCollectedHandler(this, newStroke);
+                newLockedStrokes.Add(newStroke.Uuid.ToString());
+            }
+
+            DrawingSurface.Select(newCustomStrokes);
+
+            (DataContext as StrokeEditorViewModel)?.SendLockStrokes(newLockedStrokes);
         }
 
         private void SupprimerSelection(object sender, RoutedEventArgs e)
         {
+            (DataContext as StrokeEditorViewModel)?.OnStrokeErasingHandler(this, DrawingSurface.GetSelectedStrokes());
             DrawingSurface.CutSelection();
         }
 
