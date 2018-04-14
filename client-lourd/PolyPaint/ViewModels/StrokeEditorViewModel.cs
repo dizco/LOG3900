@@ -313,12 +313,17 @@ namespace PolyPaint.ViewModels
         ///     Loads all strokes from the server
         /// </summary>
         /// <param name="strokes">List of strokes to rebuild</param>
-        internal void RebuildDrawing(List<StrokeModel> strokes)
+        /// <param name="isTemplate">Specifies if the drawing being rebuilt is a template</param>
+        internal void RebuildDrawing(List<StrokeModel> strokes, bool isTemplate = false)
         {
             foreach (StrokeModel stroke in strokes)
             {
                 CustomStroke newStroke = StrokeHelper.BuildIncomingStroke(stroke, string.Empty);
                 _editor.StrokesCollection.Add(newStroke);
+                if (isTemplate)
+                {
+                    SendNewStrokes(strokes);
+                }
             }
         }
 
@@ -492,6 +497,11 @@ namespace PolyPaint.ViewModels
         private void SendNewStroke(CustomStroke stroke)
         {
             Messenger?.SendEditorActionNewStroke(stroke);
+        }
+
+        private void SendNewStrokes(List<StrokeModel> strokes)
+        {
+            Messenger?.SendEditorActionNewStrokes(strokes);
         }
 
         /// <summary>

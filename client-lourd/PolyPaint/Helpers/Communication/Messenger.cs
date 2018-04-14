@@ -200,6 +200,30 @@ namespace PolyPaint.Helpers.Communication
             return string.Empty;
         }
 
+        internal string SendEditorActionNewStrokes(List<StrokeModel> strokes)
+        {
+            if (strokes.Any())
+            {
+
+                StrokeEditorActionModel outgoingNewStrokeAction = BuildOutgoingStrokeAction(StrokeActionIds.NewStroke);
+                outgoingNewStrokeAction.Delta = new DeltaModel
+                {
+                    Add = strokes.ToArray()
+                };
+
+                string actionSerialized = JsonConvert.SerializeObject(outgoingNewStrokeAction);
+
+                bool isSent = SendDrawingAction(actionSerialized);
+
+                if (isSent)
+                {
+                    return actionSerialized;
+                }
+            }
+
+            return string.Empty;
+        }
+
         /// <summary>
         ///     Builds an StrokeEditorActionModel for a stroke that was stacked by the current user and sends the strokeAction to
         ///     the server
