@@ -260,13 +260,13 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
 
     private func loadDrawing(drawing: ExtendedDrawingModel, protectionPassword: String? = nil) {
-        RestManager.getDrawing(id: drawing.properties.id)
+        RestManager.getDrawing(id: drawing.properties.id, protectionPassword: protectionPassword)
             .then { getResponse -> Void in
                 if getResponse.success {
                     self.selectedDrawing = getResponse.data
                     self.transition()
                 } else {
-                    self.showWarningAlert(message: "Impossible de charger le dessin")
+                    self.showWarningAlert(message: "Impossible de charger le dessin. \(getResponse.error)")
                 }
             }.catch { error in
                 print("Error during get drawing: \(error)")
