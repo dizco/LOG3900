@@ -408,6 +408,11 @@ namespace PolyPaint.ViewModels
             IsErasingByStroke = (sender as CustomRenderingInkCanvas)?.EditingMode == InkCanvasEditingMode.EraseByStroke;
         }
 
+        public void OnStrokeErasingHandler(object sender, StrokeCollection strokes)
+        {
+            SendRemoveStroke(strokes.Select(s => (s as CustomStroke)?.Uuid.ToString()).ToArray());
+        }
+
         internal void OnSelectionChangedHandler(StrokeCollection strokes)
         {
             if (strokes.Count > 0)
@@ -432,7 +437,7 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        private void SendLockStrokes(List<string> lockedStrokesHeld)
+        internal void SendLockStrokes(List<string> lockedStrokesHeld)
         {
             Messenger?.SendEditorActionLockStrokes(lockedStrokesHeld);
         }
