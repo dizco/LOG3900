@@ -33,13 +33,26 @@ struct ActionSubscription: Codable {
 protocol ActionMessage {
     var type: String { get }
     var action: Action { get }
+}
 
+protocol StringIdActionMessage {
+    var type: String { get }
+    var action: StringIdAction { get }
 }
 
 struct Action: Codable {
     let id: Int
     let name: String
     init(id: Int, name: String) {
+        self.id = id
+        self.name = name
+    }
+}
+
+struct StringIdAction: Codable {
+    let id: String
+    let name: String
+    init(id: String, name: String) {
         self.id = id
         self.name = name
     }
@@ -68,6 +81,18 @@ struct IncomingDrawing: Codable {
         case users
         case strokes
         case pixels
+    }
+}
+
+struct SubscriptionMessage: StringIdActionMessage, Codable {
+    let type: String
+    let action: StringIdAction
+    let drawing: IncomingDrawingId
+
+    init(actionId: String, actionName: String, drawingId: String) {
+        self.type = OutgoingMessageConstants.subscription.rawValue
+        self.action = StringIdAction(id: actionId, name: actionName)
+        self.drawing = IncomingDrawingId(id: drawingId)
     }
 }
 
@@ -123,10 +148,10 @@ struct OutgoingActionMessage: ActionMessage, Codable {
     let drawing: OutgoingDrawing
     let delta: OutgoingDelta
 
-    init(actionId: Int, actionName: String, delta: OutgoingDelta) {
+    init(actionId: Int, actionName: String, drawingId: String, delta: OutgoingDelta) {
         self.type = OutgoingMessageConstants.strokeAction.rawValue
         self.action = Action(id: actionId, name: actionName)
-        self.drawing = OutgoingDrawing(id: "5ab91791ae6a83a7d8e4fa60") // TO-DO : fetch the good id from AccountManager after subscription
+        self.drawing = OutgoingDrawing(id: drawingId)
         self.delta = delta
     }
 }
@@ -205,10 +230,10 @@ struct OutgoingPixelActionMessage: ActionMessage, Codable {
     let drawing: OutgoingDrawing
     let pixels: [OutgoingPixels]
 
-    init(actionId: Int, actionName: String, pixels: [OutgoingPixels]) {
+    init(actionId: Int, actionName: String, drawingId: String, pixels: [OutgoingPixels]) {
         self.type = OutgoingMessageConstants.pixelAction.rawValue
         self.action = Action(id: actionId, name: actionName)
-        self.drawing = OutgoingDrawing(id: "5ab91791ae6a83a7d8e4fa60") // TO-DO : fetch the good id from AccountManager after subscription
+        self.drawing = OutgoingDrawing(id: drawingId)
         self.pixels = pixels
     }
 }

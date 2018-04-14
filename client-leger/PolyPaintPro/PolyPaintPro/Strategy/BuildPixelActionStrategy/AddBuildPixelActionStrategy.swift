@@ -21,7 +21,8 @@ final class AddBuildPixelActionStrategy: BuildPixelActionStrategy {
             outgoingPixels.append(pixelToBeSent2)
         }
 
-        return OutgoingPixelActionMessage(actionId: actionId, actionName: PixelActionNameConstants.addActionName.rawValue, pixels: outgoingPixels)
+        return OutgoingPixelActionMessage(actionId: actionId, actionName: PixelActionNameConstants.addActionName.rawValue,
+                                          drawingId: viewController.drawing!.id, pixels: outgoingPixels)
     }
 
     private func convertUIColorToHex(color: SKStrokeColor, withAlpha: Bool = true) -> String? {

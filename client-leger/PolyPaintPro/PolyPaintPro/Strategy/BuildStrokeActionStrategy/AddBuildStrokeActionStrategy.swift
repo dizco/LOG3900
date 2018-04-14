@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 final class AddBuildStrokeActionStrategy: BuildStrokeActionStrategy {
-    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, strokeUuid: String, stroke: SKStroke?) -> OutgoingActionMessage {
+    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, drawingId: String, strokeUuid: String, stroke: SKStroke?) -> OutgoingActionMessage {
 
         // 1. Convert the waypoints into dots
         let dots: [OutgoingDots] = convertWaypointsToDots(scene: scene, stroke: stroke!)
@@ -25,7 +25,8 @@ final class AddBuildStrokeActionStrategy: BuildStrokeActionStrategy {
         let delta: OutgoingDelta = OutgoingDelta(add: add)
 
         // 5. Create the OutgoingActionMessage
-        return OutgoingActionMessage(actionId: actionId, actionName: StrokeActionNameConstants.addActionName.rawValue, delta: delta)
+        return OutgoingActionMessage(actionId: actionId, actionName: StrokeActionNameConstants.addActionName.rawValue,
+                                     drawingId: drawingId, delta: delta)
     }
 
     private func buildStrokeAttributes(stroke: SKStroke) -> OutgoingStrokeAttributes {

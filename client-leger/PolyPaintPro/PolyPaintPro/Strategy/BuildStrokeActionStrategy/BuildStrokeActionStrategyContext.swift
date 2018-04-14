@@ -11,16 +11,16 @@ import Foundation
 final class BuildStrokeActionStrategyContext {
     let outgoingActionMessage: OutgoingActionMessage?
 
-    init(scene: StrokeEditorScene, actionId: Int, strokeUuid: String, stroke: SKStroke? = nil) {
+    init(scene: StrokeEditorScene, actionId: Int, drawingId: String, strokeUuid: String, stroke: SKStroke? = nil) {
         switch actionId {
         case StrokeActionIdConstants.add.rawValue:
-            self.outgoingActionMessage = AddBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, strokeUuid: strokeUuid, stroke: stroke)
+            self.outgoingActionMessage = AddBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, drawingId: drawingId, strokeUuid: strokeUuid, stroke: stroke)
 
         case StrokeActionIdConstants.reset.rawValue:
-            self.outgoingActionMessage = ResetBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, strokeUuid: strokeUuid)
+            self.outgoingActionMessage = ResetBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, drawingId: drawingId, strokeUuid: strokeUuid)
 
         case StrokeActionIdConstants.replace.rawValue:
-            self.outgoingActionMessage = ReplaceBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, strokeUuid: strokeUuid)
+            self.outgoingActionMessage = ReplaceBuildStrokeActionStrategy().buildOutgoingAction(scene: scene, actionId: actionId, drawingId: drawingId, strokeUuid: strokeUuid)
 
         default:
             self.outgoingActionMessage = nil

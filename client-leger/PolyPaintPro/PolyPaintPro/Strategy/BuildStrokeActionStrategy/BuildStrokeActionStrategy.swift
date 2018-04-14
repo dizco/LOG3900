@@ -9,5 +9,5 @@
 import Foundation
 
 protocol BuildStrokeActionStrategy {
-    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, strokeUuid: String, stroke: SKStroke?) -> OutgoingActionMessage
+    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, drawingId: String, strokeUuid: String, stroke: SKStroke?) -> OutgoingActionMessage
 }

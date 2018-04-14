@@ -9,10 +9,11 @@
 import Foundation
 
 final class ResetBuildStrokeActionStrategy: BuildStrokeActionStrategy {
-    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, strokeUuid: String, stroke: SKStroke? = nil) -> OutgoingActionMessage {
+    func buildOutgoingAction(scene: StrokeEditorScene, actionId: Int, drawingId: String, strokeUuid: String, stroke: SKStroke? = nil) -> OutgoingActionMessage {
         let delta: OutgoingDelta = OutgoingDelta()
 
         // Create the OutgoingActionMessage
-        return OutgoingActionMessage(actionId: actionId, actionName: StrokeActionNameConstants.resetActionName.rawValue, delta: delta)
+        return OutgoingActionMessage(actionId: actionId, actionName: StrokeActionNameConstants.resetActionName.rawValue,
+                                     drawingId: drawingId, delta: delta)
     }
 }

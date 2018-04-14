@@ -178,6 +178,10 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         }
     }
 
+    func leaveDrawing() {
+        super.unsubscribeFromSocketActions()
+    }
+
     private func rebuildDrawing(drawing: IncomingDrawing) {
         AddPixelActionStrategy().buildDrawing(viewController: self, pixels: drawing.pixels)
     }

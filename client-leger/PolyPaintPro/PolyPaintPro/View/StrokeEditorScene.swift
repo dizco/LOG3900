@@ -33,6 +33,8 @@ enum StrokeEditingMode {
 }
 
 class StrokeEditorScene: SKScene {
+    private var drawingId: String
+
     // MARK: - Constants
     internal let PREVIEWSTROKE = "preview"
     internal let COMPLETESTROKE = "stroke"
@@ -61,6 +63,16 @@ class StrokeEditorScene: SKScene {
 
     override func didMove(to view: SKView) {
         self.backgroundColor = SKColor.white
+    }
+
+    public init(size: CGSize, drawingId: String) {
+        self.drawingId = drawingId
+        super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.drawingId = ""
+        super.init(coder: aDecoder)
     }
 
     func setEditingMode(mode: StrokeEditingMode) {
@@ -93,7 +105,9 @@ class StrokeEditorScene: SKScene {
         // Only send if the socket is connected
         if SocketManager.sharedInstance.getConnectionStatus() {
             do {
-                let builtAction = BuildStrokeActionStrategyContext(scene: self, actionId: actionId, strokeUuid: strokeUuid, stroke: stroke)
+                let builtAction = BuildStrokeActionStrategyContext(scene: self, actionId: actionId,
+                                                                   drawingId: self.drawingId, strokeUuid: strokeUuid,
+                                                                   stroke: stroke)
                 let outgoingActionMessage = builtAction.getOutgoingMessage()
                 let encodedData = try JSONEncoder().encode(outgoingActionMessage)
                 SocketManager.sharedInstance.send(data: encodedData)
