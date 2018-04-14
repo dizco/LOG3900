@@ -25,6 +25,9 @@ import * as drawingsController from "./controllers/drawings";
 import * as templatesController from "./controllers/templates";
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
+import { NextFunction } from "express";
+import { Request } from "express";
+import { Response } from "express";
 
 
 // Create Express server
@@ -76,6 +79,13 @@ app.use((req, res, next) => {
     next();
 });
 
+const noCache = (req: Request, res: Response, next: NextFunction) => {
+    res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
+    res.header("Expires", "-1");
+    res.header("Pragma", "no-cache");
+    return next();
+};
+
 /**
  * Primary app routes.
  */
@@ -90,7 +100,7 @@ app.post("/account/password", passportConfig.isAuthenticated, userController.pos
  */
 app.get("/drawings", drawingsController.getDrawings);
 app.post("/drawings", passportConfig.isAuthenticated, drawingsController.postDrawing);
-app.get("/drawings/:id", passportConfig.isAuthenticated, drawingsController.getDrawing);
+app.get("/drawings/:id", [passportConfig.isAuthenticated, noCache], drawingsController.getDrawing);
 app.get("/drawings/:id/thumbnail", drawingsController.getDrawingThumbnail);
 app.get("/drawings/:id/actions", passportConfig.isAuthenticated, drawingsController.getDrawingActions);
 app.patch("/drawings/:id", passportConfig.isAuthenticated, drawingsController.patchDrawing);
