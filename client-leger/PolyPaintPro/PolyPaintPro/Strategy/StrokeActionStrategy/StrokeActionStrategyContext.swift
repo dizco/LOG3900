@@ -10,29 +10,31 @@ import Foundation
 
 final class StrokeActionStrategyContext {
     init(scene: StrokeEditorScene, incomingAction: IncomingActionMessage) {
-        let actionName = incomingAction.action.name
+        if !AccountManager.sharedInstance.isMyself(id: incomingAction.author.id) {
+            let actionName = incomingAction.action.name
 
-        switch actionName {
-        case StrokeActionNameConstants.addActionName.rawValue:
-            AddStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+            switch actionName {
+            case StrokeActionNameConstants.addActionName.rawValue:
+                AddStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
 
-        case StrokeActionNameConstants.resetActionName.rawValue:
-            ResetStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+            case StrokeActionNameConstants.resetActionName.rawValue:
+                ResetStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
 
-        case StrokeActionNameConstants.lockActionName.rawValue:
-            LockStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+            case StrokeActionNameConstants.lockActionName.rawValue:
+                LockStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
 
-        case StrokeActionNameConstants.unlockActionName.rawValue:
-            UnlockStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+            case StrokeActionNameConstants.unlockActionName.rawValue:
+                UnlockStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
 
-        case StrokeActionNameConstants.transformActionName.rawValue:
-            TransformStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+            case StrokeActionNameConstants.transformActionName.rawValue:
+                TransformStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
 
-        case StrokeActionNameConstants.replaceActionName.rawValue:
-            ReplaceStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
+            case StrokeActionNameConstants.replaceActionName.rawValue:
+                ReplaceStrokeActionStrategy().applyReceived(scene: scene, incomingAction: incomingAction)
 
-        default:
-            print("Unknown IncomingStrokeAction.")
+            default:
+                print("Unknown IncomingStrokeAction.")
+            }
         }
     }
 }

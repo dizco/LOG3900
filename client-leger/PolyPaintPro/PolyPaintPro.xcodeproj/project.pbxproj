@@ -40,7 +40,6 @@
 		BE67C52F206559CF00C2EA77 /* MessageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C52E206559CF00C2EA77 /* MessageConstants.swift */; };
 		BE67C531206BD89B00C2EA77 /* StrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */; };
 		BE67C534206BF55B00C2EA77 /* AddStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */; };
-		BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */; };
 		BE7CEC2C207E4EA00052B92A /* TransformStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CEC2B207E4EA00052B92A /* TransformStrokeActionStrategy.swift */; };
 		BE7CEC2E207E4F0B0052B92A /* LockStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CEC2D207E4F0B0052B92A /* LockStrokeActionStrategy.swift */; };
 		BE7CEC30207E5B8D0052B92A /* UnlockStrokeActionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7CEC2F207E5B8D0052B92A /* UnlockStrokeActionStrategy.swift */; };
@@ -139,7 +138,6 @@
 		BE67C52E206559CF00C2EA77 /* MessageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageConstants.swift; sourceTree = "<group>"; };
 		BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStrokeActionStrategy.swift; sourceTree = "<group>"; };
-		BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BE7CEC2B207E4EA00052B92A /* TransformStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BE7CEC2D207E4F0B0052B92A /* LockStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockStrokeActionStrategy.swift; sourceTree = "<group>"; };
 		BE7CEC2F207E5B8D0052B92A /* UnlockStrokeActionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockStrokeActionStrategy.swift; sourceTree = "<group>"; };
@@ -351,7 +349,6 @@
 			children = (
 				BE67C530206BD89B00C2EA77 /* StrokeActionStrategy.swift */,
 				BE67C533206BF55B00C2EA77 /* AddStrokeActionStrategy.swift */,
-				BE67C536206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift */,
 				BE919D5520740864009D5EDF /* StrokeActionStrategyContext.swift */,
 				BE919D5720740CC2009D5EDF /* ResetStrokeActionStrategy.swift */,
 				BEAC9A51207432C500A02BDB /* ReplaceStrokeActionStrategy.swift */,
@@ -767,7 +764,6 @@
 				BEAC9A5420743BD900A02BDB /* ReplaceBuildStrokeActionStrategy.swift in Sources */,
 				BEE8DBF8207426D100161243 /* ResetBuildStrokeActionStrategy.swift in Sources */,
 				BE1FCAF02061E40900C57F02 /* SKStroke.swift in Sources */,
-				BE67C537206BF5FB00C2EA77 /* RemoveStrokeActionStrategy.swift in Sources */,
 				BE7CEC30207E5B8D0052B92A /* UnlockStrokeActionStrategy.swift in Sources */,
 				BEB87170207C2AEA00FA8406 /* UIPixel.swift in Sources */,
 				C067AF582059C9990078CF27 /* EditorViewController.swift in Sources */,
