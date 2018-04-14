@@ -64,6 +64,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.subscribeToSocketActions()
     }
 
     @IBAction func editDrawingSettings(_ sender: Any) {
@@ -183,6 +184,32 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate {
         if recognizer.state == .recognized {
             if connectionStatus {
                 chatToggleFn()
+            }
+        }
+    }
+
+    internal func unsubscribeFromSocketActions() {
+        if SocketManager.sharedInstance.getConnectionStatus() {
+            do {
+                let outgoingSubscription = SubscriptionMessage(actionId: "leave", actionName: "",
+                                                               drawingId: (self.drawing?.id)!)
+                let encodedData = try JSONEncoder().encode(outgoingSubscription)
+                SocketManager.sharedInstance.send(data: encodedData)
+            } catch let error {
+                print(error)
+            }
+        }
+    }
+
+    private func subscribeToSocketActions() {
+        if SocketManager.sharedInstance.getConnectionStatus() {
+            do {
+                let outgoingSubscription = SubscriptionMessage(actionId: "join", actionName: "",
+                                                               drawingId: (self.drawing?.id)!)
+                let encodedData = try JSONEncoder().encode(outgoingSubscription)
+                SocketManager.sharedInstance.send(data: encodedData)
+            } catch let error {
+                print(error)
             }
         }
     }

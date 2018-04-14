@@ -9,6 +9,7 @@
 import UIKit
 
 protocol StrokeToolsViewDelegate: class {
+    func leaveDrawing()
     func updateEditingMode(mode: StrokeEditingMode)
     func resetCanvas()
     func stack()
@@ -16,6 +17,7 @@ protocol StrokeToolsViewDelegate: class {
 }
 
 protocol PixelToolsViewDelegate: class {
+    func leaveDrawing()
     func updateEditingMode(mode: PixelEditingMode)
 }
 
@@ -78,7 +80,8 @@ class ToolsView: UIView {
     }
 
     @IBAction func exitEditorButton(_ sender: Any) {
-       //ibaction that is executed when the exit button is pressed in both editor view controllers
+        self.strokeDelegate?.leaveDrawing()
+        self.pixelDelegate?.leaveDrawing()
     }
 
     func setDefault() {

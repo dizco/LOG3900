@@ -28,4 +28,7 @@ enum OutgoingMessageConstants: String {
 
     // MARK: - Outgoing Chat constants
     case chat = "client.chat.message"
+
+    // MARK: - Outgoing Editor constants
+    case subscription = "client.editor.subscription"
 }

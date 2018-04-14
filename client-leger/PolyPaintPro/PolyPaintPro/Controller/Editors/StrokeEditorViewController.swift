@@ -12,7 +12,7 @@ import SpriteKit
 
 class StrokeEditorViewController: EditorViewController, ActionSocketManagerDelegate, DrawingToolsViewDelegate, StrokeToolsViewDelegate {
     // MARK: - Scene
-    private var scene = StrokeEditorScene()
+    private var scene: StrokeEditorScene?
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -26,9 +26,9 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
         drawingSettingsView.delegate = self
         toolsView.strokeDelegate = self
 
-        self.scene = StrokeEditorScene(size: view.frame.size)
+        self.scene = StrokeEditorScene(size: view.frame.size, drawingId: super.drawing!.id)
         let skView = view as? SKView
-        self.scene.scaleMode = .fill
+        self.scene?.scaleMode = .fill
         skView!.presentScene(self.scene)
     }
 
@@ -44,7 +44,7 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
             print("Action data received.")
             let decoder = JSONDecoder()
             let incomingAction = try decoder.decode(IncomingActionMessage.self, from: data)
-            self.scene.applyReceived(incomingAction: incomingAction)
+            self.scene?.applyReceived(incomingAction: incomingAction)
         } catch let error {
             print(error)
         }
@@ -52,36 +52,40 @@ class StrokeEditorViewController: EditorViewController, ActionSocketManagerDeleg
 
     // MARK: - DrawingToolsViewDelegate
     func updateColorValues(red: Int, green: Int, blue: Int, alpha: Int) {
-        self.scene.updateColorValues(red: red, green: green, blue: blue, alpha: alpha)
+        self.scene?.updateColorValues(red: red, green: green, blue: blue, alpha: alpha)
     }
 
     func updateBrushSize(size: Int) {
-        self.scene.updateBrushSize(size: size)
+        self.scene?.updateBrushSize(size: size)
     }
 
     // MARK: - ToolsViewDelegate
     func updateEditingMode(mode: StrokeEditingMode) {
-        self.scene.setEditingMode(mode: mode)
+        self.scene?.setEditingMode(mode: mode)
     }
 
     func resetCanvas() {
-        self.scene.resetCanvas()
+        self.scene?.resetCanvas()
 
         // Special case: Preventing the reset infinite loop.
-        self.scene.sendEditorAction(actionId: StrokeActionIdConstants.reset.rawValue)
+        self.scene?.sendEditorAction(actionId: StrokeActionIdConstants.reset.rawValue)
 
-        self.scene.playActionSound()
+        self.scene?.playActionSound()
     }
 
     func stack() {
-        self.scene.stack()
+        self.scene?.stack()
     }
 
     func unstack() {
-        self.scene.unstack()
+        self.scene?.unstack()
+    }
+
+    func leaveDrawing() {
+        super.unsubscribeFromSocketActions()
     }
 
     private func rebuildDrawing(drawing: IncomingDrawing) {
-        AddStrokeActionStrategy().buildDrawing(scene: self.scene, strokes: drawing.strokes)
+        AddStrokeActionStrategy().buildDrawing(scene: self.scene!, strokes: drawing.strokes)
     }
 }
