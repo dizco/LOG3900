@@ -20,15 +20,18 @@ $(document).ready(function() {
         if (!oldPassword.isEmpty() && !password.isEmpty() && !passwordConfirmation.isEmpty()) {
             disableForm($form);
 
-            $.post(endpoint, {"old-password": oldPassword, "password": password, "confirm-password": passwordConfirmation})
-                .done(function(data, textStatus, jqXHR) {
+            $.ajax({
+                url: endpoint,
+                type: "put",
+                data: {"old-password": oldPassword, "password": password, "confirm-password": passwordConfirmation},
+                success: function(data, textStatus, jqXHR) {
                     resetForm($form);
                     $resultElement.attr("data-notify-type", "success")
                         .attr("data-notify-msg", "Mot de passe changé avec succès.")
                         .html("");
                     SEMICOLON.widget.notifications($resultElement);
-                })
-                .fail(function( jqXHR, textStatus, errorThrown) {
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
                     console.log("Failed to reset password", jqXHR.responseText, textStatus, errorThrown);
                     enableForm($form);
 
@@ -45,7 +48,8 @@ $(document).ready(function() {
                         .attr("data-notify-timeout", 10000)
                         .html("");
                     SEMICOLON.widget.notifications($resultElement);
-                });
+                }
+            });
         }
         else {
             $resultElement.attr("data-notify-type", "error")
