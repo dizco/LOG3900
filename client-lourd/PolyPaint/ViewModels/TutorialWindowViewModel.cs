@@ -12,8 +12,8 @@ namespace PolyPaint.ViewModels
             SetTutorialMode(tutorialMode);
             StepUri = $"/Resources/Tutorial/{_tutorialMode}{CurrentStep}.png";
 
-            LoadNextStepCommand = new RelayCommand<object>(LoadNextStep);
-            LoadPreviousStepCommand = new RelayCommand<object>(LoadPreviousStep);
+            LoadNextStepCommand = new RelayCommand<object>(LoadNextStep, CanLoadNext);
+            LoadPreviousStepCommand = new RelayCommand<object>(LoadPreviousStep, CanLoadPrevious);
             IgnoreTutorialCommand = new RelayCommand<Window>(IgnoreTutorial);
         }
 
@@ -57,8 +57,8 @@ namespace PolyPaint.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool CanLoadPrevious() => 1 < CurrentStep;
-        private bool CanLoadNext() => CurrentStep < _maxSteps;
+        private bool CanLoadPrevious(object o) => 1 < CurrentStep;
+        private bool CanLoadNext(object o) => CurrentStep < _maxSteps;
 
         private void SetTutorialMode(string tutorialMode)
         {
@@ -76,21 +76,14 @@ namespace PolyPaint.ViewModels
 
         private void LoadPreviousStep(object obj)
         {
-            if (CanLoadPrevious())
-            {
-                CurrentStep--;
-                StepUri = $"/Resources/Tutorial/{_tutorialMode}{CurrentStep}.png";
-            }
-            
+            CurrentStep--;
+            StepUri = $"/Resources/Tutorial/{_tutorialMode}{CurrentStep}.png";
         }
 
         private void LoadNextStep(object obj)
         {
-            if (CanLoadNext())
-            {
-                CurrentStep++;
-                StepUri = $"/Resources/Tutorial/{_tutorialMode}{CurrentStep}.png";
-            }
+            CurrentStep++;
+            StepUri = $"/Resources/Tutorial/{_tutorialMode}{CurrentStep}.png";
         }
 
         private static void IgnoreTutorial(Window tutorial)

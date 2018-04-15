@@ -152,8 +152,7 @@ namespace PolyPaint.ViewModels
 
         public void OpenFirstTimeTutorial(string tutorialMode)
         {
-            int nSessions = Settings.Default.nPixelSessions;
-            Settings.Default.nPixelSessions = CalculateFirstTutorial(nSessions, tutorialMode);
+            OpenTutorial(Settings.Default.nPixelSessions, tutorialMode);
             Settings.Default.nPixelSessions++;
             Settings.Default.Save();
         }

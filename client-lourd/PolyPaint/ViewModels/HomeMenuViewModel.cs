@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -18,7 +17,6 @@ using PolyPaint.Helpers;
 using PolyPaint.Models;
 using PolyPaint.Models.ApiModels;
 using PolyPaint.Models.MessagingModels;
-using PolyPaint.Properties;
 using PolyPaint.ViewModels.Gallery;
 using PolyPaint.Views;
 using PolyPaint.Views.Gallery;

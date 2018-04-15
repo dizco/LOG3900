@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -16,7 +15,6 @@ using PolyPaint.Annotations;
 using PolyPaint.Constants;
 using PolyPaint.Helpers;
 using PolyPaint.Helpers.Communication;
-using PolyPaint.Properties;
 using PolyPaint.Views;
 using Application = System.Windows.Application;
 
@@ -38,7 +36,7 @@ namespace PolyPaint.ViewModels
             TogglePasswordCommand = new RelayCommand<object>(TogglePasswordProtection);
             PublishAsTemplateCommand = new RelayCommand<object>(PublishAsTemplate);
             OpenHistoryCommand = new RelayCommand<object>(OpenHistory);
-            OpenTutorialCommand = new RelayCommand<string>(OpenTutorial);
+            OpenTutorialCommand = new RelayCommand<string>(OpenTutorialWindow);
         }
 
         public static HistoryWindowView HistoryWindow { get; set; }
@@ -127,21 +125,16 @@ namespace PolyPaint.ViewModels
             }
         }
 
-        public int CalculateFirstTutorial(int nSessions, string tutorialMode)
+        public void OpenTutorial(int nSessions, string tutorialMode)
         {
             if (nSessions == 0)
             {
-                OpenTutorial(tutorialMode);
+                OpenTutorialWindow(tutorialMode);
             }
-
-            int newNSessions = nSessions + 1;
-            return newNSessions;
         }
 
-        public void OpenTutorial(string tutorialMode)
+        public void OpenTutorialWindow(string tutorialMode)
         {
-            Debug.WriteLine("MODE");
-            Debug.WriteLine(tutorialMode);
             TutorialWindowView tutorialWindow = new TutorialWindowView(tutorialMode);
             tutorialWindow.ShowDialog();
         }
@@ -345,11 +338,6 @@ namespace PolyPaint.ViewModels
 
         [NotifyPropertyChangedInvocator]
         protected void PropertyModified([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected void EditorReady([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
