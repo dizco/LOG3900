@@ -115,8 +115,8 @@ class ToolsView: UIView {
 
         let resetOrigImage = UIImage(named: "reset")
         let resetTintedImage = resetOrigImage?.withRenderingMode(.alwaysTemplate)
-        resetButton.setImage(resetTintedImage, for: .normal)
-        resetButton.tintColor = .black
+        resetButton?.setImage(resetTintedImage, for: .normal)
+        resetButton?.tintColor = .black
 
         let origImage = UIImage(named: filename)
         let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
@@ -126,7 +126,7 @@ class ToolsView: UIView {
     }
 
     private func resetUnicode() {
-        stackButton.setTitleColor(.black, for: .normal)
-        unstackButton.setTitleColor(.black, for: .normal)
+        stackButton?.setTitleColor(.black, for: .normal)
+        unstackButton?.setTitleColor(.black, for: .normal)
     }
 }
