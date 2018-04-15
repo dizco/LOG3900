@@ -106,10 +106,10 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
-        self.red = CGFloat(Float(drawingSettingsView.redValue) / 255)
-        self.green = CGFloat(Float(drawingSettingsView.greenValue) / 255)
-        self.blue = CGFloat(Float(drawingSettingsView.blueValue) / 255)
-        self.opacity = CGFloat(Float(drawingSettingsView.alphaValue) / 100)
+        self.red = CGFloat(drawingSettingsView.redValue) / 255.0
+        self.green = CGFloat(drawingSettingsView.greenValue) / 255.0
+        self.blue = CGFloat(drawingSettingsView.blueValue) / 255.0
+        self.opacity = CGFloat(drawingSettingsView.alphaValue) / 100.0
         self.brushWidth = CGFloat(drawingSettingsView.widthValue)
         self.imageView.image?.draw(in: view.bounds)
         let context = UIGraphicsGetCurrentContext()
@@ -138,12 +138,12 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         }
     }
 
-    func erasePoints(fromPoint: CGPoint, toPoint:CGPoint) {
+    func erasePoints(fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
-        self.red = 1
-        self.green = 1
-        self.blue = 1
-        self.opacity = CGFloat(drawingSettingsView.alphaValue / 100)
+        self.red = 1.0
+        self.green = 1.0
+        self.blue = 1.0
+        self.opacity = 1.0
         self.brushWidth = CGFloat(drawingSettingsView.widthValue)
         self.imageView.image?.draw(in: view.bounds)
         let context = UIGraphicsGetCurrentContext()
@@ -156,7 +156,7 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         context?.setAlpha(self.opacity)
         // Because we set the overall alpha earlier, the stroke color's alpha must be at 1.0
         // Else, both values interact with each other.
-        context?.setStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: 1.0)
+        context?.setStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
         context?.setBlendMode(CGBlendMode.normal)
         context?.strokePath()
 
