@@ -29,6 +29,7 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.imageView!.backgroundColor = UIColor.white
         self.rebuildDrawing(drawing: super.drawing!)
     }
 
@@ -106,12 +107,12 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
-        self.red = CGFloat(Float(drawingSettingsView.redValue) / 255)
-        self.green = CGFloat(Float(drawingSettingsView.greenValue) / 255)
-        self.blue = CGFloat(Float(drawingSettingsView.blueValue) / 255)
-        self.opacity = CGFloat(Float(drawingSettingsView.alphaValue) / 100)
+        self.red = CGFloat(drawingSettingsView.redValue) / 255
+        self.green = CGFloat(drawingSettingsView.greenValue) / 255
+        self.blue = CGFloat(drawingSettingsView.blueValue) / 255
+        self.opacity = CGFloat(drawingSettingsView.alphaValue) / 100
         self.brushWidth = CGFloat(drawingSettingsView.widthValue)
-        self.imageView.image?.draw(in: view.bounds)
+        //self.imageView.image?.draw(in: view.bounds)
         let context = UIGraphicsGetCurrentContext()
 
         context?.move(to: fromPoint)
@@ -123,11 +124,14 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         // Because we set the overall alpha earlier, the stroke color's alpha must be at 1.0
         // Else, both values interact with each other.
         context?.setStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: 1.0)
-        context?.setBlendMode(CGBlendMode.normal)
+        //context?.setBlendMode(CGBlendMode.normal)
         context?.strokePath()
 
-        self.imageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+
+        // merge the images together
+        self.mergeImages(backgroundImage: newImage!)
 
         // Send the pixel online
         if SocketManager.sharedInstance.getConnectionStatus() {
@@ -140,12 +144,12 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
     func erasePoints(fromPoint: CGPoint, toPoint:CGPoint) {
         UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
-        self.red = 1
-        self.green = 1
-        self.blue = 1
-        self.opacity = CGFloat(drawingSettingsView.alphaValue / 100)
+        self.red = 1.0
+        self.green = 1.0
+        self.blue = 1.0
+        self.opacity = CGFloat(drawingSettingsView.alphaValue) / 100.0
         self.brushWidth = CGFloat(drawingSettingsView.widthValue)
-        self.imageView.image?.draw(in: view.bounds)
+        //self.imageView.image?.draw(in: view.bounds)
         let context = UIGraphicsGetCurrentContext()
 
         context?.move(to: fromPoint)
@@ -157,11 +161,14 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         // Because we set the overall alpha earlier, the stroke color's alpha must be at 1.0
         // Else, both values interact with each other.
         context?.setStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: 1.0)
-        context?.setBlendMode(CGBlendMode.normal)
+        //context?.setBlendMode(CGBlendMode.normal)
         context?.strokePath()
 
-        self.imageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+
+        // merge the images together
+        self.mergeImages(backgroundImage: newImage!)
 
         // Send the pixel online
         if SocketManager.sharedInstance.getConnectionStatus() {
@@ -230,5 +237,29 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
     private func rebuildDrawing(drawing: IncomingDrawing) {
         AddPixelActionStrategy().buildDrawing(viewController: self, pixels: drawing.pixels)
+    }
+
+    // MARK: - Function to flatten image
+    func mergeImages(backgroundImage: UIImage) {
+
+        let bottomImage = self.imageView.image
+        let topImage = backgroundImage
+
+        let size = backgroundImage.size
+        //UIGraphicsBeginImageContext(size)
+        UIGraphicsBeginImageContextWithOptions(size, true, 0)
+
+        let areaSize = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        bottomImage?.draw(in: areaSize)
+
+        //topImage.draw(in: areaSize, blendMode: .normal, alpha: 1.0)
+        topImage.draw(in: areaSize)
+
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+
+        UIGraphicsEndImageContext()
+
+        // flatten it
+        self.imageView.image = newImage
     }
 }

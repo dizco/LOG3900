@@ -24,26 +24,25 @@ final class AddPixelActionStrategy: PixelActionStrategy {
 
     private func drawReceived(viewController: PixelEditorViewController, incomingPixels: [IncomingPixels]) {
         UIGraphicsBeginImageContextWithOptions(viewController.view.bounds.size, false, 0)
-        viewController.imageView.image?.draw(in: viewController.view.bounds)
         let context = UIGraphicsGetCurrentContext()
-
-        for pixel in incomingPixels {
-            let point = CGPoint(x: pixel.x, y: pixel.y)
-
-            context?.move(to: point)
-            context?.addLine(to: point)
-        }
+        var color = self.convertHexToUIColor(hex: incomingPixels.first!.color)!
 
         context?.setLineCap(CGLineCap.round)
-        let color = self.convertHexToUIColor(hex: incomingPixels.first!.color)
-        context?.setStrokeColor(color!.cgColor)
-        context?.setBlendMode(CGBlendMode.copy)
-        context?.strokePath()
+        for pixel in incomingPixels {
+            let point = CGPoint(x: pixel.x, y: pixel.y)
+            color = self.convertHexToUIColor(hex: pixel.color)!
+            context?.move(to: point)
+            context?.addLine(to: point)
+
+            context?.setStrokeColor(color.cgColor)
+            //context?.setBlendMode(CGBlendMode.normal)
+            context?.strokePath()
+        }
 
         let image = UIGraphicsGetImageFromCurrentImageContext()
 
         UIGraphicsEndImageContext()
-        viewController.imageView.image = image
+        viewController.mergeImages(backgroundImage: image!)
     }
 
     private func convertHexToUIColor(hex: String) -> UIColor? {
@@ -54,10 +53,11 @@ final class AddPixelActionStrategy: PixelActionStrategy {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
-        var alpha: CGFloat = 0.0
+        var alpha: CGFloat = 1.0
 
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+        print("color here", hexSanitized)
         let length = hexSanitized.count
 
         guard Scanner(string: hexSanitized).scanHexInt32(&rgb) else { return nil }
