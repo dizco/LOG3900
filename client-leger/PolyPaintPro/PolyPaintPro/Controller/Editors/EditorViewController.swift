@@ -306,7 +306,6 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
                 tutorialCarousel.scrollToItem(at: sender.tag + 1, animated: true)
             }
         } else {
-
             if sender.tag == pixelTutorialImages.count - 1 {
                 endTutorial()
                 UserDefaults.standard.set(true, forKey: "pixelTutorialStatus")
@@ -320,7 +319,6 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
     }
 
     @objc func endTutorial () {
-        print("tutorial ended")
         tutorialCarousel.isHidden = true
     }
 
