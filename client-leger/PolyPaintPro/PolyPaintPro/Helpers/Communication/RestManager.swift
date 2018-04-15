@@ -168,13 +168,20 @@ class RestManager {
     }
 
     static func postDrawing(name: String, mode: String, visibility: String, protectionActive: Bool,
-                            protectionPassword: String = "") -> Promise<AuthServerResponse<IdResponse>> {
+                            protectionPassword: String? = nil) -> Promise<AuthServerResponse<IdResponse>> {
         let headers = ["Content-Type": "application/x-www-form-urlencoded"]
-        let parameters: [String: String] = [
+        var parameters: [String: String] = [
             "name": name,
             "mode": mode,
-            "visibility": visibility
+            "visibility": visibility,
+            "protection-active": (protectionActive) ? "true" : "false"
         ]
+        if protectionActive {
+            if let password = protectionPassword {
+                parameters["protection-password"] = password
+            }
+        }
+
         return Promise<AuthServerResponse> { fulfill, reject in
             Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings),
                               method: .post,
@@ -203,8 +210,10 @@ class RestManager {
     static func getDrawing(id: String,
                            protectionPassword: String? = nil) -> Promise<AuthServerResponse<IncomingDrawing>> {
         var headers: [String: String] = [:]
-        if !(protectionPassword?.isEmpty)! {
-            headers["protection-password"] = protectionPassword!
+        if let password = protectionPassword {
+            if !password.isEmpty {
+                headers["protection-password"] = password
+            }
         }
         return Promise<AuthServerResponse> { fulfill, reject in
             Alamofire.request(self.buildUrl(endpoint: Rest.Routes.Drawings + "/" + id),

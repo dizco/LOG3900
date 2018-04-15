@@ -64,7 +64,8 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
                                     mode: (selectedDrawingType == DrawingTypes.Types[0])
                                         ? DrawingTypes.Stroke : DrawingTypes.Pixel,
                                     visibility: (isPublic) ? "public" : "private",
-                                    protectionActive: isProtected)
+                                    protectionActive: isProtected,
+                                    protectionPassword: passwordProtectionTextField.text!)
                 .then { response -> Void in
                     RestManager.getDrawing(id: (response.data?.id)!)
                         .then { getResponse -> Void in

@@ -141,7 +141,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
 
     @objc func protectionToggle(sender: UIButton) {
         let index = sender.tag
-        toggleProtectionAlert(index: index)
+        //toggleProtectionAlert(index: index) //TODO: Enable protection modification
     }
 
     @objc func visibilityToggle(sender: UIButton) {
@@ -150,7 +150,7 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
     }
 
     func toggleProtectionAlert(index: Int) {
-          var alert = UIAlertController()
+        var alert = UIAlertController()
         if !myDrawingsList[index].properties.protection.active {
             alert = UIAlertController(title: "Image non protégée",
                                       message: "Entrez le mot de passe que vous voulez à l'image",
@@ -200,7 +200,6 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
                                       message: "Vous vous apprêtez à changer la visiblité du dessin, voulez-vous vraiment continuer?",
                                       preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Oui", style: .default, handler: { (_: UIAlertAction!) in
-            print("you have pressed the ok button")
             var newVisibility = "private"
             if drawing.properties.visibility == "private" {
                 newVisibility = "public"
@@ -263,8 +262,14 @@ class JoinDrawingViewController: UIViewController, iCarouselDelegate, iCarouselD
         RestManager.getDrawing(id: drawing.properties.id, protectionPassword: protectionPassword)
             .then { getResponse -> Void in
                 if getResponse.success {
-                    self.selectedDrawing = getResponse.data
-                    self.transition()
+                    if let active = getResponse.data?.users.active,
+                        let limit = getResponse.data?.users.limit,
+                        active < limit {
+                        self.selectedDrawing = getResponse.data
+                        self.transition()
+                    } else {
+                        self.showWarningAlert(message: "Le dessin est plein et ne peut pas accueillir un éditeur supplémentaire")
+                    }
                 } else {
                     self.showWarningAlert(message: "Impossible de charger le dessin. \(getResponse.error)")
                 }
