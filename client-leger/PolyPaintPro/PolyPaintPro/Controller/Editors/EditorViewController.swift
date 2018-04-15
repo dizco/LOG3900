@@ -296,18 +296,18 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
         if drawing?.mode == "stroke" {
             if sender.tag == strokeTutorialImages.count - 1 {
                 endTutorial()
-                UserDefaults.standard.set(true, forKey: "strokeTutorialStatus")
             } else {
                 tutorialCarousel.scrollToItem(at: sender.tag + 1, animated: true)
             }
         } else {
             if sender.tag == pixelTutorialImages.count - 1 {
                 endTutorial()
-                UserDefaults.standard.set(true, forKey: "pixelTutorialStatus")
             } else {
                 tutorialCarousel.scrollToItem(at: sender.tag + 1, animated: true)
             }
         }
+
+
     }
     @objc func previousTutorialSlide (sender: UIButton) {
             tutorialCarousel.scrollToItem(at: sender.tag - 1, animated: true)
@@ -315,6 +315,11 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
 
     @objc func endTutorial () {
         tutorialCarousel.isHidden = true
+        if drawing?.mode == "stroke" {
+                UserDefaults.standard.set(true, forKey: "strokeTutorialStatus")
+            } else {
+                UserDefaults.standard.set(true, forKey: "pixelTutorialStatus")
+            }
     }
 
     @IBAction func showTutorialButton(_ sender: UIButton) {
