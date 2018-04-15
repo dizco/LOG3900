@@ -817,11 +817,6 @@
                             <constraint firstItem="8Jw-07-nIJ" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" constant="8" id="ufN-zO-l0m"/>
                             <constraint firstItem="3Nf-Dt-IWU" firstAttribute="top" secondItem="lvZ-jz-KiZ" secondAttribute="bottom" constant="30" id="uga-JM-vlK"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="8Jw-07-nIJ"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="PolyPaintPro" id="TCa-OB-kJg">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="ICh-rL-plS">
@@ -1876,7 +1871,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="yY8-vV-TGb"/>
         <segue reference="HCx-mM-CNV"/>
-        <segue reference="as1-Pa-vvV"/>
+        <segue reference="91R-2N-Qfd"/>
         <segue reference="Fwt-4B-rsB"/>
     </inferredMetricsTieBreakers>
 </document>

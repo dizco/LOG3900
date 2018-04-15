@@ -32,8 +32,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
     @IBOutlet weak var toolsViewConstraint: NSLayoutConstraint! //constraint to show/hide the tools view
     @IBOutlet weak var drawingSettingsContraint: NSLayoutConstraint! //constraint to show/hide drawing tools
     @IBOutlet var tutorialCarousel: iCarousel!
-    var tutorialImages = [Int]()
-    var stroketutorialImages = [String]()
+    var strokeTutorialImages = [String]()
     var pixelTutorialImages = [String]()
 
     override func didReceiveMemoryWarning() {
@@ -42,6 +41,7 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
 
     override func viewDidLoad() {
         super.viewDidLoad()
+          print(drawing?.mode)
         tutorialCarousel.type = .coverFlow2
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
@@ -70,8 +70,15 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.subscribeToSocketActions()
-        if let x = UserDefaults.standard.object(forKey: "tutorialStatus") {
-            endTutorial()
+
+        if drawing?.mode == "stroke" {
+            if let showTutorial = UserDefaults.standard.object(forKey: "strokeTutorialStatus") {
+                endTutorial()
+            }
+        } else {
+            if let showTutorial = UserDefaults.standard.object(forKey: "pixelTutorialStatus") {
+                endTutorial()
+            }
         }
     }
 
@@ -223,17 +230,25 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
         }
     }
 
-    ///=============================================================== carousel
     func numberOfItems(in carousel: iCarousel) -> Int {
-        return stroketutorialImages.count
+        if drawing?.mode == "stroke" {
+            return strokeTutorialImages.count
+        } else {
+            return pixelTutorialImages.count
+        }
+
     } 
 
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         let tempView = UIView(frame: CGRect(x: 0, y: 0, width: 784, height: 628))
         tempView.layer.cornerRadius = 10
+          var tutorialImages = UIImageView(frame: CGRect(x: 0, y: 0, width: 784, height: 588))
+        if drawing?.mode == "stroke" {
+            tutorialImages.image = UIImage(named: strokeTutorialImages[index])!
+        } else {
+            tutorialImages.image = UIImage(named: pixelTutorialImages[index])!
+        }
 
-        var tutorialImages = UIImageView(frame: CGRect(x: 0, y: 0, width: 784, height: 588))
-        tutorialImages.image = UIImage(named: stroketutorialImages[index])!
         tutorialImages.layer.cornerRadius = 10
         tutorialImages.clipsToBounds = true
 
@@ -276,18 +291,28 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        tutorialImages = [1, 2,3,4,5,6]
-        stroketutorialImages = ["welcomeImage", "strokeChatTutorial"]
+        strokeTutorialImages = ["1welcomeImage", "2strokeChatTutorial", "3strokePenTutorial", "4strokeShowDrawingSettingsTutorial", "5strokeDrawingToolsTutorial", "6strokeEraserTutorial", "7strokeSegmentEraserTutorial", "8strokeResetTutorial", "9strokeStackTutorial", "10strokeUnstackTutorial", "11strokeShowTutorialTutorial", "12strokeExitTutorial"]
+        pixelTutorialImages = ["1welcomeImage", "2pixelChatTutorial", "3pixelPenTutorial", "4pixelShowDrawingSettingsTutorial", "5pixelDrawingToolsTutorial", "5pixelSegmentEraserTutorial", "6pixelShowTutorialTutorial", "7pixelExitTutorial"]
     }
 
     @objc func nextTutorialSlide (sender: UIButton) {
-        if sender.tag == tutorialImages.count - 1 {
-            endTutorial()
-            UserDefaults.standard.set(true, forKey: "tutorialStatus")
-            print("saved un userdefaults")
-
+        print("button pressed")
+        print(sender.tag)
+        if drawing?.mode == "stroke" {
+            if sender.tag == strokeTutorialImages.count - 1 {
+                endTutorial()
+                UserDefaults.standard.set(true, forKey: "strokeTutorialStatus")
+            } else {
+                tutorialCarousel.scrollToItem(at: sender.tag + 1, animated: true)
+            }
         } else {
-            tutorialCarousel.scrollToItem(at: sender.tag + 1, animated: true)
+
+            if sender.tag == pixelTutorialImages.count - 1 {
+                endTutorial()
+                UserDefaults.standard.set(true, forKey: "pixelTutorialStatus")
+            } else {
+                tutorialCarousel.scrollToItem(at: sender.tag + 1, animated: true)
+            }
         }
     }
     @objc func previousTutorialSlide (sender: UIButton) {
