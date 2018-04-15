@@ -47,6 +47,10 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             }
         case .eraseByPoint:
             print("erase point")
+            swiped = false
+            if let touch = touches.first {
+                lastPoint = touch.location(in: self.view)
+            }
         }
     }
 
@@ -68,6 +72,12 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             }
         case .eraseByPoint:
             print("erase point")
+            swiped = true
+            if let touch = touches.first {
+                let currentPoint = touch.location(in: view)
+               erasePoints(fromPoint: lastPoint, toPoint: currentPoint)
+                lastPoint = currentPoint
+            }
         }
     }
 
@@ -86,6 +96,10 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             drawSelectionRectangle(fromPoint: fisrtPointSelection, toPoint: lastPointSelection)
         case .eraseByPoint:
             print("erase point")
+            swiped = false
+            if let touch = touches.first {
+                lastPoint = touch.location(in: self.view)
+            }
         }
     }
 
@@ -95,9 +109,43 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
     func drawLine(fromPoint: CGPoint, toPoint: CGPoint) {
         UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
-        self.red = CGFloat(drawingSettingsView.redValue / 255)
-        self.green = CGFloat(drawingSettingsView.greenValue / 255)
-        self.blue = CGFloat(drawingSettingsView.blueValue / 255)
+        self.red = CGFloat(Float(drawingSettingsView.redValue) / 255)
+        self.green = CGFloat(Float(drawingSettingsView.greenValue) / 255)
+        self.blue = CGFloat(Float(drawingSettingsView.blueValue) / 255)
+        self.opacity = CGFloat(Float(drawingSettingsView.alphaValue) / 100)
+        self.brushWidth = CGFloat(drawingSettingsView.widthValue)
+        self.imageView.image?.draw(in: view.bounds)
+        let context = UIGraphicsGetCurrentContext()
+
+        context?.move(to: fromPoint)
+        context?.addLine(to: toPoint)
+
+        context?.setLineCap(CGLineCap.round)
+        context?.setLineWidth(self.brushWidth)
+        context?.setAlpha(self.opacity)
+        // Because we set the overall alpha earlier, the stroke color's alpha must be at 1.0
+        // Else, both values interact with each other.
+        context?.setStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: 1.0)
+        context?.setBlendMode(CGBlendMode.normal)
+        context?.strokePath()
+
+        self.imageView.image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        // Send the pixel online
+        if SocketManager.sharedInstance.getConnectionStatus() {
+            let color = SKStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
+            let pixel1 = UIPixel(point: fromPoint, color: color)
+            let pixel2 = UIPixel(point: toPoint, color: color)
+            self.sendEditorAction(actionId: PixelActionIdConstants.add.rawValue, fromPixel: pixel1, toPixel: pixel2)
+        }
+    }
+
+    func erasePoints(fromPoint: CGPoint, toPoint:CGPoint) {
+        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, false, 0)
+        self.red = 1
+        self.green = 1
+        self.blue = 1
         self.opacity = CGFloat(drawingSettingsView.alphaValue / 100)
         self.brushWidth = CGFloat(drawingSettingsView.widthValue)
         self.imageView.image?.draw(in: view.bounds)
@@ -125,6 +173,7 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             let pixel2 = UIPixel(point: toPoint, color: color)
             self.sendEditorAction(actionId: PixelActionIdConstants.add.rawValue, fromPixel: pixel1, toPixel: pixel2)
         }
+
     }
 
     func selectArea(fromPoint: CGPoint, toPoint: CGPoint) {
