@@ -12,6 +12,9 @@ import * as passport from "passport";
 import * as expressValidator from "express-validator";
 import * as bluebird from "bluebird";
 import * as cors from "cors";
+import { NextFunction } from "express";
+import { Request } from "express";
+import { Response } from "express";
 
 const MongoStore = mongo(session);
 
@@ -25,9 +28,6 @@ import * as drawingsController from "./controllers/drawings";
 import * as templatesController from "./controllers/templates";
 // API keys and Passport configuration
 import * as passportConfig from "./config/passport";
-import { NextFunction } from "express";
-import { Request } from "express";
-import { Response } from "express";
 
 
 // Create Express server
@@ -69,12 +69,25 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection(true));
-app.use(cors({credentials: true}));
-app.use((req, res, next) => {
+app.use(cors({credentials: true, preflightContinue: true}));
+app.use((req: Request, res: Response, next: NextFunction) => {
     res.header("Access-Control-Allow-Origin", req.get("origin"));
     next();
 });
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
+    //Hijacked from cors, needed to be able to set the origin before ending the response
+    const method = req.method && req.method.toUpperCase && req.method.toUpperCase();
+    if (method === "OPTIONS") {
+        res.statusCode = 204;
+        res.setHeader("Content-Length", "0");
+        res.end();
+    }
+    else {
+        next();
+    }
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.user = req.user;
     next();
 });
@@ -92,7 +105,7 @@ const noCache = (req: Request, res: Response, next: NextFunction) => {
 app.post("/login", userController.postLogin);
 app.post("/logout", passportConfig.isAuthenticated, userController.logout);
 app.post("/register", userController.postRegister);
-app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
+app.put("/account/password", passportConfig.isAuthenticated, userController.putUpdatePassword);
 //app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
 
 /**

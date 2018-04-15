@@ -94,10 +94,10 @@ export let postRegister = (req: Request, res: Response, next: NextFunction) => {
 };
 
 /**
- * POST /account/password
+ * PUT /account/password
  * Update current password.
  */
-export let postUpdatePassword = (req: Request, res: Response, next: NextFunction) => {
+export let putUpdatePassword = (req: Request, res: Response, next: NextFunction) => {
     req.checkBody(LoginFields.OldPassword, "Current password must be set").exists();
     req.checkBody(LoginFields.Password, "Password must be at least 8 characters long").len({ min: 8 });
     req.checkBody(LoginFields.ConfirmPassword, "Passwords do not match").equals(req.body[LoginFields.Password]);
