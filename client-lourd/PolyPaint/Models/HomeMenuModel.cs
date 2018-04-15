@@ -136,10 +136,6 @@ namespace PolyPaint.Models
                 currentPage++;
                 retryCount = 0;
             } while (currentPage <= maxPages && retryCount < maxRetries);
-
-            if (retryCount >= maxRetries)
-            {
-            }
         }
 
         private async Task<List<StrokeModel>> GetStrokeTemplate(string templateId)

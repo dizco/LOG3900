@@ -264,7 +264,10 @@ namespace PolyPaint.ViewModels
 
         private void OpenNewDrawingSubMenu(object obj)
         {
-            _homeMenu.LoadTemplateList();
+            if(IsOnline(this))
+            {
+                _homeMenu.LoadTemplateList();
+            }
             MainMenuVisibility = Visibility.Collapsed;
             NewDrawingVisibility = Visibility.Visible;
             JoinDrawingVisibility = Visibility.Collapsed;
