@@ -124,6 +124,18 @@ namespace PolyPaint.ViewModels
             set => _pixelEditor.PixelSize = value;
         }
 
+        public int BlurIntensitySelected
+        {
+            get => _pixelEditor.BlurIntensity;
+            set => _pixelEditor.BlurIntensity = value;
+        }
+
+        public int BlurRadiusSelected
+        {
+            get => _pixelEditor.BlurRadius;
+            set => _pixelEditor.BlurRadius = value;
+        }
+
         //Commands for choosing the tools
         public RelayCommand<string> ChooseTool { get; set; }
 

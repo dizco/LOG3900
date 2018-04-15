@@ -99,11 +99,11 @@
                                   RecentColorsHeader="Récemment utilisées"
                                   UsingAlphaChannel="True"
                                   AdvancedButtonHeader="Personnalisé" />
-                <Slider Width="100" Height="26" Minimum="2" Maximum="15"
+                <Slider Width="100" Height="26" Minimum="1" Maximum="12"
                         Value="{Binding Path=PixelSizeSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         Margin="12"
                         Foreground="Gray"
-                        TickFrequency="10" TickPlacement="BottomRight" IsSnapToTickEnabled="False" />
+                        TickFrequency="3" TickPlacement="BottomRight" IsSnapToTickEnabled="False" />
                 <StackPanel Orientation="Horizontal">
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
                 </StackPanel>
@@ -185,6 +185,10 @@
                         </ToolTip>
                     </Button.ToolTip>
                 </Button>
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding Path=IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                </StackPanel>
                 <Button Name="BlurFilter" Width="40" Height="40" Margin="5"
                         HorizontalContentAlignment="Left"
                         BorderBrush="Transparent"
@@ -196,10 +200,27 @@
                     </StackPanel>
                     <Button.ToolTip>
                         <ToolTip>
-                            <TextBlock FontWeight="Bold">Flou Gaussien</TextBlock>
+                            <StackPanel>
+                                <TextBlock FontWeight="Bold">Flou Gaussien : </TextBlock>
+                                <TextBlock>Sélectionnez un rayon et une intensité</TextBlock>
+                            </StackPanel>
                         </ToolTip>
                     </Button.ToolTip>
                 </Button>
+                <StackPanel Visibility="{Binding Path = IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Margin="-5,3,0,0" >
+                    <Label Content="Rayon" Width="56"/>
+                    <Label Content="Intensité"/>
+                </StackPanel>
+                <StackPanel Visibility="{Binding Path = IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Margin="0,8">
+                    <Slider Value="{Binding Path = BlurRadiusSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
+                            Minimum="1" Maximum="4" Orientation="Horizontal" Width="75" Height="24"/>
+                    <Slider Value="{Binding Path = BlurIntensitySelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  
+                            Minimum="1" Maximum="4" Orientation="Horizontal" Width="75" Height="24"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Visibility="{Binding Path=IsWriteableBitmapOnEdition, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                </StackPanel>
             </StackPanel>
         </Border>
         <Border DockPanel.Dock="Bottom" Height="25" BorderThickness="0,0.75,0,0.75" BorderBrush="#77000000">
@@ -263,7 +284,7 @@
                     <!-- This canvas is overlaid over the previous canvas and is used to 
                     place the rectangle that implements the drag selection box. -->
                     <Canvas Margin="5,5,0,0">
-                            <Rectangle
+                        <Rectangle
                             x:Name="selectionBox"
                             Visibility="Collapsed"
                             Stroke="Black"

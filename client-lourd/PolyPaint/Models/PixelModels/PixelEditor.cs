@@ -32,6 +32,10 @@ namespace PolyPaint.Models.PixelModels
 
         private string _selectedColor = "Black";
 
+        private int _blurIntensity = 1;
+
+        private int _blurRadius = 1;
+
         // Active tool of the editor
         private string _selectedTool = "pencil";
 
@@ -134,6 +138,26 @@ namespace PolyPaint.Models.PixelModels
             set
             {
                 _pixelSize = value;
+                PropertyModified();
+            }
+        }
+
+        public int BlurIntensity
+        {
+            get => _blurIntensity;
+            set
+            {
+                _blurIntensity = value;
+                PropertyModified();
+            }
+        }
+
+        public int BlurRadius
+        {
+            get => _blurRadius;
+            set
+            {
+                _blurRadius = value;
                 PropertyModified();
             }
         }
@@ -443,9 +467,38 @@ namespace PolyPaint.Models.PixelModels
 
         internal void GaussianBlurFilter(object obj)
         {
-            int[,] kernel = WriteableBitmapExtensions.KernelGaussianBlur3x3;
-            CropWriteableBitmap = CropWriteableBitmap.Convolute(kernel);
+            Blur(BlurRadius, BlurIntensity);
             UpdateModifiedRegion();
+        }
+
+        internal void Blur(int radius, int intensity)
+        {
+            int[,] kernel;
+            switch (radius)
+            {
+                case 1:
+                    kernel = WriteableBitmapExtensions.KernelGaussianBlur3x3;
+                    break;
+                case 2:
+                    kernel = WriteableBitmapExtensions.KernelGaussianBlur5x5;
+                    break;
+                case 3:
+                    kernel = GaussianBlur.KernelGaussianBlur7x7;
+                    break;
+                case 4:
+                    kernel = GaussianBlur.KernelGaussianBlur9x9;
+                    break;
+                default:
+                    kernel = WriteableBitmapExtensions.KernelGaussianBlur3x3;
+                    break;
+            }
+
+            int i = 0;
+            while (i < intensity)
+            {
+                CropWriteableBitmap = CropWriteableBitmap.Convolute(kernel);
+                i++;
+            }
         }
 
         /// <summary>
