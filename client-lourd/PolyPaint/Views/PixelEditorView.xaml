@@ -48,36 +48,36 @@
                         <GradientStop Color="#FFE0E0E0" Offset="1" />
                     </LinearGradientBrush>
                 </StackPanel.Background>
-                <Button Name="crayon" Width="40" Height="40" Margin="5"
-                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=crayon, UpdateSourceTrigger=PropertyChanged}"
-                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=crayon, UpdateSourceTrigger=PropertyChanged}"
+                <Button Name="pencil" Width="40" Height="40" Margin="5"
+                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=pencil, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=pencil, UpdateSourceTrigger=PropertyChanged}"
                         Command="{Binding Path=ChooseTool}"
                         CommandParameter="pencil">
                     <StackPanel>
                         <Image Source="/Resources/crayon.png" />
                     </StackPanel>
                 </Button>
-                <Button Name="efface_segment" Width="40" Height="40" Margin="5"
-                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=efface_segment, UpdateSourceTrigger=PropertyChanged}"
-                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=efface_segment, UpdateSourceTrigger=PropertyChanged}"
+                <Button Name="eraser" Width="40" Height="40" Margin="5"
+                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=eraser, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=eraser, UpdateSourceTrigger=PropertyChanged}"
                         Command="{Binding Path=ChooseTool}"
                         CommandParameter="eraser">
                     <StackPanel>
                         <Image Source="/Resources/efface_crayon.png" />
                     </StackPanel>
                 </Button>
-                <Button Name="Fill" Width="40" Height="40" Margin="5"
-                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=filler, UpdateSourceTrigger=PropertyChanged}"
-                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=filler, UpdateSourceTrigger=PropertyChanged}"
+                <Button Name="fill" Width="40" Height="40" Margin="5"
+                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=fill, UpdateSourceTrigger=PropertyChanged}"
+                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=fill, UpdateSourceTrigger=PropertyChanged}"
                         Command="{Binding Path=ChooseTool}"
                         CommandParameter="fill">
                     <StackPanel>
                         <Image Source="/Resources/Icons/fill.png" />
                     </StackPanel>
                 </Button>
-                <Button Name="SelectPixel" Width="40" Height="40" Margin="5" 
-                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=select_pixel, UpdateSourceTrigger=PropertyChanged}" 
-                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=select_pixel, UpdateSourceTrigger=PropertyChanged}" 
+                <Button Name="selector" Width="40" Height="40" Margin="5" 
+                        BorderBrush="{Binding Path=ToolSelected, Converter={StaticResource BorderConverter}, ConverterParameter=selector, UpdateSourceTrigger=PropertyChanged}" 
+                        Background="{Binding Path=ToolSelected, Converter={StaticResource BackgroundColorConverter}, ConverterParameter=selector, UpdateSourceTrigger=PropertyChanged}" 
                         Command="{Binding Path=ChooseTool}"
                         CommandParameter="selector">
                     <StackPanel>

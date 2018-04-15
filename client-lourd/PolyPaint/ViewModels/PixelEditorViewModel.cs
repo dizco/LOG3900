@@ -26,6 +26,7 @@ namespace PolyPaint.ViewModels
             _pixelEditor.DrawingName = DrawingName;
             _pixelEditor.DrewPixelsEvent += PixelEditorDrewPixelsEventHandler;
             _pixelEditor.PropertyChanged += (s, a) => PropertyModified(a.PropertyName);
+            _pixelEditor.SelectedToolChanged += (s, a) => PropertyModified(nameof(ToolSelected));
             _pixelEditor.ModifiedRegionEvent += PixelEditorOnModifiedRegionEvent;
 
             // Pour les commandes suivantes, il est toujours possible des les activer.
