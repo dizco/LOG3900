@@ -46,7 +46,6 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
                 print(fisrtPointSelection)
             }
         case .eraseByPoint:
-            print("erase point")
             swiped = false
             if let touch = touches.first {
                 lastPoint = touch.location(in: self.view)
@@ -71,7 +70,6 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
                 lastPoint = currentPoint
             }
         case .eraseByPoint:
-            print("erase point")
             swiped = true
             if let touch = touches.first {
                 let currentPoint = touch.location(in: view)
@@ -95,7 +93,6 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             }
             drawSelectionRectangle(fromPoint: fisrtPointSelection, toPoint: lastPointSelection)
         case .eraseByPoint:
-            print("erase point")
             swiped = false
             if let touch = touches.first {
                 lastPoint = touch.location(in: self.view)
