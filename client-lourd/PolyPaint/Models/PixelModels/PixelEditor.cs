@@ -139,6 +139,7 @@ namespace PolyPaint.Models.PixelModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler SelectedToolChanged;
 
         public event EventHandler<List<Tuple<Point, string>>> DrewPixelsEvent;
 
@@ -502,6 +503,7 @@ namespace PolyPaint.Models.PixelModels
         public void SelectTool(string tool)
         {
             SelectedTool = tool;
+            SelectedToolChanged?.Invoke(this, null);
         }
 
         private static int ToInt(Color mediaColor)
