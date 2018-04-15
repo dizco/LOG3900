@@ -2,7 +2,7 @@ import UIKit
 import Starscream
 
 enum PixelEditingMode {
-    case ink, select, eraseByPoint
+    case ink, eraseByPoint
 }
 
 class PixelEditorViewController: EditorViewController, ActionSocketManagerDelegate, PixelToolsViewDelegate {
@@ -39,12 +39,6 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             if let touch = touches.first {
                 lastPoint = touch.location(in: self.view)
             }
-        case .select:
-            swiped = false
-            if let touch = touches.first {
-                fisrtPointSelection = touch.location(in: self.view)
-                print(fisrtPointSelection)
-            }
         case .eraseByPoint:
             swiped = false
             if let touch = touches.first {
@@ -60,13 +54,6 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             if let touch = touches.first {
                 let currentPoint = touch.location(in: view)
                 drawLine(fromPoint: lastPoint, toPoint: currentPoint)
-                lastPoint = currentPoint
-            }
-        case .select:
-            swiped = true
-            if let touch = touches.first {
-                let currentPoint = touch.location(in: view)
-                selectArea(fromPoint: fisrtPointSelection, toPoint: currentPoint)
                 lastPoint = currentPoint
             }
         case .eraseByPoint:
@@ -86,12 +73,6 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             if let touch = touches.first {
                 lastPoint = touch.location(in: self.view)
             }
-        case .select:
-            swiped = false
-            if let touch = touches.first {
-                lastPointSelection = touch.location(in: self.view)
-            }
-            drawSelectionRectangle(fromPoint: fisrtPointSelection, toPoint: lastPointSelection)
         case .eraseByPoint:
             swiped = false
             if let touch = touches.first {
@@ -171,25 +152,6 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
             self.sendEditorAction(actionId: PixelActionIdConstants.add.rawValue, fromPixel: pixel1, toPixel: pixel2)
         }
 
-    }
-
-    func selectArea(fromPoint: CGPoint, toPoint: CGPoint) {
-        drawSelectionRectangle(fromPoint: fisrtPointSelection, toPoint: toPoint)
-    }
-
-    func drawSelectionRectangle(fromPoint: CGPoint, toPoint: CGPoint) {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
-        imageView.image?.draw(in: view.bounds)
-        let context = UIGraphicsGetCurrentContext()
-        context?.setLineWidth(4.0)
-        context?.setStrokeColor(UIColor.blue.cgColor)
-        let rectangle = CGRect(x: fromPoint.x, y: fromPoint.y, width: toPoint.x - fromPoint.x, height: toPoint.y - fromPoint.y)
-        context?.addRect(rectangle)
-        context?.strokePath()
-
-        imageView.image = UIGraphicsGetImageFromCurrentImageContext()
-        imageView.alpha = opacity
-        UIGraphicsEndImageContext()
     }
 
     // MARK: - Functions for sending pixels

@@ -682,28 +682,6 @@
                                             <action selector="eraseButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="uEt-FJ-VDV"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-tt-sia" userLabel="segmentEraser">
-                                        <rect key="frame" x="10" y="97" width="30" height="27"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="OYV-tt-sia" secondAttribute="height" multiplier="283:256" id="b4Z-ek-F2J"/>
-                                        </constraints>
-                                        <state key="normal" title="Button" image="eraser2"/>
-                                        <connections>
-                                            <action selector="byPointEraserButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="6Z9-F4-Cee"/>
-                                            <action selector="cutButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="8aB-xC-f9b"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qG-cl-27P" userLabel="paste">
-                                        <rect key="frame" x="10" y="116" width="30" height="27"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="1qG-cl-27P" secondAttribute="height" multiplier="283:256" id="U0Q-V6-Hk7"/>
-                                        </constraints>
-                                        <state key="normal" title="Button" image="duplicate"/>
-                                        <connections>
-                                            <action selector="pasteButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="rUU-ZU-T0I"/>
-                                            <action selector="pasteButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="vdi-9x-Jjk"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xwi-WU-7GZ">
                                         <rect key="frame" x="10" y="653" width="30" height="27"/>
                                         <constraints>
@@ -735,6 +713,28 @@
                                             <action selector="showTutorialButton:" destination="KwV-uG-opW" eventType="touchUpInside" id="ZYc-xp-AyY"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-tt-sia" userLabel="segmentEraser">
+                                        <rect key="frame" x="10" y="54" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="OYV-tt-sia" secondAttribute="height" multiplier="283:256" id="b4Z-ek-F2J"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="eraser2"/>
+                                        <connections>
+                                            <action selector="byPointEraserButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="6Z9-F4-Cee"/>
+                                            <action selector="cutButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="8aB-xC-f9b"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1qG-cl-27P" userLabel="paste">
+                                        <rect key="frame" x="10" y="116" width="30" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="1qG-cl-27P" secondAttribute="height" multiplier="283:256" id="U0Q-V6-Hk7"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="duplicate"/>
+                                        <connections>
+                                            <action selector="pasteButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="rUU-ZU-T0I"/>
+                                            <action selector="pasteButton:" destination="APT-NG-B5d" eventType="touchUpInside" id="vdi-9x-Jjk"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.24705882352941178" green="0.44705882352941173" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -753,6 +753,7 @@
                                     <constraint firstItem="8ER-3K-E37" firstAttribute="centerX" secondItem="wqH-w6-eOY" secondAttribute="centerX" id="Rp5-lu-98T"/>
                                     <constraint firstItem="1qG-cl-27P" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="bcC-U2-76U"/>
                                     <constraint firstItem="Ih2-5F-A0e" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="cWS-8o-82B"/>
+                                    <constraint firstItem="OYV-tt-sia" firstAttribute="top" secondItem="Ih2-5F-A0e" secondAttribute="bottom" constant="16" id="cff-4J-LYK"/>
                                     <constraint firstItem="OYV-tt-sia" firstAttribute="leading" secondItem="wqH-w6-eOY" secondAttribute="leading" constant="10" id="d4b-ON-WUy"/>
                                     <constraint firstAttribute="width" constant="50" id="ggI-Uu-0ZJ"/>
                                     <constraint firstAttribute="trailing" secondItem="1qG-cl-27P" secondAttribute="trailing" constant="10" id="may-SH-vdI"/>
@@ -765,6 +766,7 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
+                                        <exclude reference="8ER-3K-E37"/>
                                         <exclude reference="1qG-cl-27P"/>
                                     </mask>
                                 </variation>
