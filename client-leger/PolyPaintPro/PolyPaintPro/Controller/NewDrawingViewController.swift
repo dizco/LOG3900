@@ -30,6 +30,11 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
         self.hideKeyboard()
         self.observeKeyboardNotification()
         passwordProtectionTextField.isUserInteractionEnabled = isProtected
+        if !connectionStatus {
+            visibilitySegmentedControl.isEnabled = false
+            protectionToggle.isEnabled = false
+            passwordProtectionTextField.isEnabled = false
+        }
     }
 
     override func viewDidLayoutSubviews() {
