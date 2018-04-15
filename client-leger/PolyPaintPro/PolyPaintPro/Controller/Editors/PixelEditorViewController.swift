@@ -30,6 +30,10 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.imageView!.backgroundColor = UIColor.white
+        // change UIColor.white with your color
+        let image = UIImage(withBackground: UIColor.white)
+        self.imageView.image = image
+
         self.rebuildDrawing(drawing: super.drawing!)
     }
 
@@ -157,7 +161,7 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
 
         context?.setLineCap(CGLineCap.round)
         context?.setLineWidth(self.brushWidth)
-        context?.setAlpha(self.opacity)
+        context?.setAlpha(1.0)
         // Because we set the overall alpha earlier, the stroke color's alpha must be at 1.0
         // Else, both values interact with each other.
         context?.setStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: 1.0)

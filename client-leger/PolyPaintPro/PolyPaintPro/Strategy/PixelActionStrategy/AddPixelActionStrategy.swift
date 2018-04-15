@@ -28,6 +28,7 @@ final class AddPixelActionStrategy: PixelActionStrategy {
         var color = self.convertHexToUIColor(hex: incomingPixels.first!.color)!
 
         context?.setLineCap(CGLineCap.round)
+        context?.setAlpha(1.0)
         for pixel in incomingPixels {
             let point = CGPoint(x: pixel.x, y: pixel.y)
             color = self.convertHexToUIColor(hex: pixel.color)!
@@ -53,7 +54,7 @@ final class AddPixelActionStrategy: PixelActionStrategy {
         var red: CGFloat = 0.0
         var green: CGFloat = 0.0
         var blue: CGFloat = 0.0
-        var alpha: CGFloat = 1.0
+        let alpha: CGFloat = 1.0
 
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
@@ -68,7 +69,7 @@ final class AddPixelActionStrategy: PixelActionStrategy {
             blue = CGFloat(rgb & 0x0000FF) / 255.0
 
         } else if length == 8 {
-            alpha = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
+            //alpha = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
             red = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
             green = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
             blue = CGFloat(rgb & 0x000000FF) / 255.0
