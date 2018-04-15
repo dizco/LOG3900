@@ -52,7 +52,7 @@
                 </i:Interaction.Triggers>
             </ComboBox>
             <Label Content="Modèle de dessin" Margin="68,0,64,324" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
-            <ComboBox SelectedIndex="0" x:Name="TemplateSelection" DisplayMemberPath="Name" ItemsSource="{Binding TemplateList}" SelectedItem="{Binding SelectedTemplate}"  IsEnabled="{Binding IsUserOnline}" Margin="68,0,64,285" FontSize="18" Height="39" VerticalAlignment="Bottom"/>
+            <ComboBox x:Name="TemplateSelection" DisplayMemberPath="Name" ItemsSource="{Binding FilteredTemplateList}" SelectedItem="{Binding SelectedTemplate}"  IsEnabled="{Binding IsTemplateSelectionEnabled}" Margin="68,0,64,285" FontSize="18" Height="39" VerticalAlignment="Bottom"/>
             <Label Content="Protection" Margin="68,0,64,247" FontWeight="Bold" FontSize="18" Height="33" VerticalAlignment="Bottom"/>
             <Button Command="{Binding ToggleNewDrawingProtection}" Content="{Binding ProtectionStatusString}" HorizontalAlignment="Center" Background="{Binding LockColor}" FontWeight="Bold" Foreground="White" FontSize="18" Margin="68,286,308,209" Width="40" RenderTransformOrigin="0.6,2.132"/>
             <PasswordBox x:Name="DrawingPasswordBox" FontSize="18" Margin="113,286,64,209" IsEnabled="{Binding CreatePasswordProtectedDrawing}"/>

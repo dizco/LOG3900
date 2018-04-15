@@ -37,12 +37,6 @@ namespace PolyPaint.Models.ApiModels
 
         [JsonProperty(PropertyName = "mode")]
         public string Mode { get; set; }
-
-        [JsonProperty(PropertyName = "owner")]
-        public AuthorModel Owner { get; set; }
-
-        [JsonProperty(PropertyName = "likes")]
-        public LikesModel Likes { get; set; }
     }
 
     public enum EditingModeOption

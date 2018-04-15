@@ -35,8 +35,9 @@ namespace PolyPaint.ViewModels
         {
             _homeMenu = new HomeMenuModel();
             _homeMenu.NewDrawingCreated += DrawingLoadedHandler;
-            AutosavedDrawings = _homeMenu.AutosavedDrawings;
             TemplateList = _homeMenu.TemplateList;
+            FilteredTemplateList = _homeMenu.FilteredTemplates;
+            AutosavedDrawings = _homeMenu.AutosavedDrawings;
             GoToNewDrawingSubMenuCommand = new RelayCommand<object>(OpenNewDrawingSubMenu);
             StartNewDrawing = new RelayCommand<object>(CreateNewDrawing);
             GoToLocalDrawingSubMenuCommand = new RelayCommand<object>(OpenLocalDrawingSubMenu);
@@ -69,6 +70,7 @@ namespace PolyPaint.ViewModels
         public Array EditingModes => Enum.GetValues(typeof(EditingModeOption));
         public TemplateModel SelectedTemplate { get; set; }
         public ObservableCollection<TemplateModel> TemplateList { get; set; }
+        public ObservableCollection<TemplateModel> FilteredTemplateList { get; set; }
         public ObservableCollection<string> AutosavedDrawings { get; set; }
 
         public string NewDrawingName { get; set; }
@@ -85,10 +87,7 @@ namespace PolyPaint.ViewModels
             private set => _createPasswordProtectedDrawing = value;
         }
 
-        public bool IsUserOnline
-        {
-            get => IsOnline(this);
-        }
+        public bool IsTemplateSelectionEnabled => IsModeSelected(this) && IsOnline(this);
 
         public bool CreatePubliclyVisibleDrawing
         {
@@ -137,7 +136,7 @@ namespace PolyPaint.ViewModels
         {
             OnPropertyChanged(nameof(VisibilityStatusString));
             OnPropertyChanged(nameof(VisibilityColor));
-            OnPropertyChanged(nameof(IsUserOnline));
+            OnPropertyChanged(nameof(IsTemplateSelectionEnabled));
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
         }
@@ -146,7 +145,7 @@ namespace PolyPaint.ViewModels
         {
             OnPropertyChanged(nameof(VisibilityStatusString));
             OnPropertyChanged(nameof(VisibilityColor));
-            OnPropertyChanged(nameof(IsUserOnline));
+            OnPropertyChanged(nameof(IsTemplateSelectionEnabled));
             (Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher).Invoke(CommandManager
                                                                                          .InvalidateRequerySuggested);
         }
@@ -172,12 +171,16 @@ namespace PolyPaint.ViewModels
             return Messenger?.IsConnected ?? false;
         }
 
+        private bool IsModeSelected(object obj)
+        {
+            return SelectedEditingMode != null;
+        }
+
         private void RefreshTemplate(object obj)
-        { 
-            _homeMenu.LoadTemplateList(SelectedEditingMode);
-            TemplateList = _homeMenu.TemplateList;
-            if(TemplateList.Count > 0)
-            SelectedTemplate = TemplateList[0];
+        {
+            _homeMenu.FilterTemplatesByEditingMode(SelectedEditingMode);
+            OnPropertyChanged(nameof(IsTemplateSelectionEnabled));
+            OnPropertyChanged(nameof(FilteredTemplateList));
         }
 
         private void OpenGallery(object obj)
@@ -261,6 +264,7 @@ namespace PolyPaint.ViewModels
 
         private void OpenNewDrawingSubMenu(object obj)
         {
+            _homeMenu.LoadTemplateList();
             MainMenuVisibility = Visibility.Collapsed;
             NewDrawingVisibility = Visibility.Visible;
             JoinDrawingVisibility = Visibility.Collapsed;
@@ -281,11 +285,6 @@ namespace PolyPaint.ViewModels
                 return;
             }
 
-            if (SelectedTemplate == null)
-            {
-                SelectedTemplate = new TemplateModel();
-            }
-
             switch (selectedMode)
             {
                 case EditingModeOption.Trait: break;
@@ -297,7 +296,7 @@ namespace PolyPaint.ViewModels
             {
                 if (obj is PasswordBox password && !string.IsNullOrWhiteSpace(password.Password))
                 {
-                    _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, SelectedTemplate.Id, password.Password,
+                    _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, SelectedTemplate?.Id, password.Password,
                                                CreatePubliclyVisibleDrawing);
                     IsPasswordProtected = true;
                 }
@@ -308,7 +307,7 @@ namespace PolyPaint.ViewModels
             }
             else
             {
-                _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, SelectedTemplate.Id,
+                _homeMenu.CreateNewDrawing(NewDrawingName, selectedMode, SelectedTemplate?.Id,
                                            visibilityPublic: CreatePubliclyVisibleDrawing);
                 IsPasswordProtected = false;
             }
@@ -344,7 +343,8 @@ namespace PolyPaint.ViewModels
             OnPropertyChanged("LocalDrawingVisibility");
         }
 
-        private void DrawingLoadedHandler(object sender, Tuple<string, string, EditingModeOption, List<StrokeModel>, List<PixelModel>> drawingParams)
+        private void DrawingLoadedHandler(object sender,
+            Tuple<string, string, EditingModeOption, List<StrokeModel>, List<PixelModel>> drawingParams)
         {
             DrawingRoomId = drawingParams.Item1;
             DrawingName = drawingParams.Item2;
@@ -363,7 +363,8 @@ namespace PolyPaint.ViewModels
                     StrokeEditor.Show();
                     if (strokes != null)
                     {
-                        (StrokeEditor.DataContext as StrokeEditorViewModel)?.RebuildDrawing(strokes);
+                        bool isTemplate = SelectedTemplate != null;
+                        (StrokeEditor.DataContext as StrokeEditorViewModel)?.RebuildDrawing(strokes, isTemplate);
                     }
 
                     StrokeEditor.Closing += OnEditorClosedHandler;
@@ -379,8 +380,10 @@ namespace PolyPaint.ViewModels
                     PixelEditor.Show();
                     if (pixels != null)
                     {
-                        (PixelEditor.DataContext as PixelEditorViewModel)?.RebuildDrawing(pixels);
+                        bool isTemplate = SelectedTemplate != null;
+                        (PixelEditor.DataContext as PixelEditorViewModel)?.RebuildDrawing(pixels, isTemplate);
                     }
+
                     PixelEditor.Closing += OnEditorClosedHandler;
                     OnClosingRequest();
                 }
