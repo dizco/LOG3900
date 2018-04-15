@@ -204,7 +204,6 @@ namespace PolyPaint.Helpers.Communication
         {
             if (strokes.Any())
             {
-
                 StrokeEditorActionModel outgoingNewStrokeAction = BuildOutgoingStrokeAction(StrokeActionIds.NewStroke);
                 outgoingNewStrokeAction.Delta = new DeltaModel
                 {
