@@ -41,7 +41,6 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
 
     override func viewDidLoad() {
         super.viewDidLoad()
-          print(drawing?.mode)
         tutorialCarousel.type = .coverFlow2
         toolsViewConstraint.constant = -self.toolsView.frame.width
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
@@ -109,7 +108,6 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
     }
 
     func chatToggleFn() { //function called to toggle the chat view
-        print(self.drawView.frame.width)
         let windowWidth = self.drawView.frame.width
         let chatViewWidth = self.chatView.frame.width
         if chatShowing {
@@ -236,7 +234,6 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
         } else {
             return pixelTutorialImages.count
         }
-
     } 
 
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
@@ -296,8 +293,6 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
     }
 
     @objc func nextTutorialSlide (sender: UIButton) {
-        print("button pressed")
-        print(sender.tag)
         if drawing?.mode == "stroke" {
             if sender.tag == strokeTutorialImages.count - 1 {
                 endTutorial()
@@ -331,7 +326,5 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
         }
         tutorialCarousel.scrollToItem(at:0, animated: true)
         tutorialCarousel.isHidden = false
-
     }
-
 }
