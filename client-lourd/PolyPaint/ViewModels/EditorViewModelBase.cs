@@ -219,7 +219,10 @@ namespace PolyPaint.ViewModels
 
                 string base64Image = Convert.ToBase64String(imageBytes);
 
-                HttpResponseMessage response = await RestHandler.UpdateDrawingThumbnail(DrawingRoomId, base64Image);
+                if (Messenger?.IsConnected ?? false)
+                {
+                    await RestHandler.UpdateDrawingThumbnail(DrawingRoomId, base64Image);
+                }
             }
             catch (AbandonedMutexException)
             {
