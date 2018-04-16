@@ -17,6 +17,7 @@ export class SocketStrategyChatMessage implements SocketStrategy {
      * @param {WebSocketDecorator} wsDecorator
      */
     public execute(wsDecorator: WebSocketDecorator): void {
+        console.log("Execute SocketStrategyChatMessage");
         const decorator = new ChatMessageDecorator(this.clientMessage, wsDecorator.user);
         decorator.decorate(wsDecorator.getWs())
             .then((message: ServerChatMessage) => {
