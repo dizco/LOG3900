@@ -319,14 +319,6 @@ namespace PolyPaint.Models.PixelModels
             }
         }
 
-        public void ReloadTempWriteableBitmap()
-        {
-            if (_savedBlitSizes != null)
-            {
-                WriteableBitmap.Blit(_savedBlitSizes.Item1, TempWriteableBitmap, _savedBlitSizes.Item2);
-            }
-        }
-
         internal void QuarterTurnClockwise(ContentControl contentControl)
         {
             FillRegionBeforeRotation();

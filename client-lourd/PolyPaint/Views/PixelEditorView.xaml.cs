@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -11,8 +10,6 @@ namespace PolyPaint.Views
 {
     public partial class PixelEditorView : Window
     {
-        private bool _controlResized;
-
         // Selector Attributes
         private bool _isMouseDownSelector; // Set to 'true' when mouse is held down.
         private Point _mouseDownPositionSelector; // The point where the mouse button was clicked down.
@@ -21,7 +18,7 @@ namespace PolyPaint.Views
         private Point _newPositionDrawing;
         private Point _oldPositionDrawing;
 
-        private Rect _regionBeforeResize = Rect.Empty;
+        private bool _controlResized;
 
         public PixelEditorView()
         {
@@ -41,17 +38,11 @@ namespace PolyPaint.Views
             {
                 if (DataContext is PixelEditorViewModel vm)
                 {
-                    Point upperLeftCorner =
-                        ContentControl.TransformToAncestor(SelectedZoneCanvas).Transform(new Point(0, 0));
-                    Point lowerRightCorner = new Point(upperLeftCorner.X + ContentControl.ActualWidth,
-                                                       upperLeftCorner.Y + ContentControl.ActualHeight);
+                    Point upperLeftCorner = ContentControl.TransformToAncestor(SelectedZoneCanvas).Transform(new Point(0, 0));
+                    Point lowerRightCorner = new Point(upperLeftCorner.X + ContentControl.ActualWidth, upperLeftCorner.Y + ContentControl.ActualHeight);
 
-                    vm.SelectTempZone(lowerRightCorner, upperLeftCorner);
-                    if (!_regionBeforeResize.IsEmpty)
-                    {
-                        vm.BlitOnDrawing(ContentControl, vm.CropWriteableBitmap, false, _regionBeforeResize);
-                        _regionBeforeResize = Rect.Empty;
-                    }
+                    ((PixelEditorViewModel) DataContext)?.SelectTempZone(lowerRightCorner, upperLeftCorner);
+                    ((PixelEditorViewModel) DataContext)?.BlitOnDrawing(ContentControl, vm.CropWriteableBitmap, false);
                 }
 
                 _controlResized = false;
@@ -285,24 +276,14 @@ namespace PolyPaint.Views
 
         private void ContentControlOnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _controlResized = !e.PreviousSize.Equals(new Size(0, 0));
-
-            if (e.PreviousSize.Equals(new Size(0, 0)) || _regionBeforeResize.IsEmpty)
+            if (DataContext is PixelEditorViewModel vm)
             {
-                if (DataContext is PixelEditorViewModel vm)
+                if (!e.PreviousSize.Equals(new Size(0, 0)) && !_controlResized && vm.IsWriteableBitmapOnEdition)
                 {
-                    Point upperLeft = vm.CropWriteableBitmapPosition;
-                    Point bottomRight = new Point(upperLeft.X + vm.CropWriteableBitmap.Width,
-                                                  upperLeft.Y + vm.CropWriteableBitmap.Height);
+                    vm.BlitOnDrawing(ContentControl, vm.TempWriteableBitmap, false);
 
-                    Debug.WriteLine("Saving initial size");
-                    _regionBeforeResize = new Rect(upperLeft, bottomRight);
+                    _controlResized = true;
                 }
-            }
-
-            if (!e.PreviousSize.Equals(new Size(0, 0)))
-            {
-                (DataContext as PixelEditorViewModel)?.ReloadTempWriteableBitmap();
             }
         }
     }
