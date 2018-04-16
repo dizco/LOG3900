@@ -92,6 +92,8 @@ namespace PolyPaint.ViewModels
 
             if (response.IsSuccessStatusCode)
             {
+                JObject content = JObject.Parse(await response.Content.ReadAsStringAsync());
+                UserId = content["objectId"].ToString();
                 Username = UserEmail;
                 OpenConnection();
             }
