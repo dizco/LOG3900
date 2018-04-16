@@ -9,5 +9,5 @@
 import Foundation
 
 protocol BuildPixelActionStrategy {
-    func buildOutgoingAction(viewController: PixelEditorViewController, actionId: Int, fromPixel: UIPixel, toPixel: UIPixel) -> OutgoingPixelActionMessage
+    func buildOutgoingAction(viewController: PixelEditorViewController, actionId: Int, pixels: [UIPixel]) -> OutgoingPixelActionMessage
 }
