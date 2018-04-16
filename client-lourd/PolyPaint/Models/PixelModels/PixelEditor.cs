@@ -128,7 +128,6 @@ namespace PolyPaint.Models.PixelModels
             set
             {
                 _selectedColor = value;
-                SelectedTool = "pencil";
                 PropertyModified();
             }
         }
