@@ -27,18 +27,20 @@ final class AddPixelActionStrategy: PixelActionStrategy {
         viewController.imageView.image?.draw(in: viewController.view.bounds)
         let context = UIGraphicsGetCurrentContext()
 
+        var color = UIColor.white
+        context?.setLineCap(CGLineCap.round)
         for pixel in incomingPixels {
             let point = CGPoint(x: pixel.x, y: pixel.y)
 
             context?.move(to: point)
             context?.addLine(to: point)
-        }
 
-        context?.setLineCap(CGLineCap.round)
-        let color = self.convertHexToUIColor(hex: incomingPixels.first!.color)
-        context?.setStrokeColor(color!.cgColor)
-        context?.setBlendMode(CGBlendMode.copy)
-        context?.strokePath()
+            color = self.convertHexToUIColor(hex: pixel.color)!
+
+            context?.setStrokeColor(color.cgColor)
+            context?.setBlendMode(CGBlendMode.normal)
+            context?.strokePath()
+        }
 
         let image = UIGraphicsGetImageFromCurrentImageContext()
 
