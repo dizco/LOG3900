@@ -27,6 +27,7 @@ export abstract class SocketStrategyEditorAction implements SocketStrategy {
      * @param {WebSocketDecorator} wsDecorator
      */
     public execute(wsDecorator: WebSocketDecorator): void {
+        console.log("Execute SocketStrategyEditorAction", this.clientAction.action.name);
         const decorator = this.buildEditorActionDecorator(wsDecorator);
         const message = decorator.decorate(wsDecorator.getWs());
 

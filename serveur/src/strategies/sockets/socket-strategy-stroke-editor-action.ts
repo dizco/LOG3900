@@ -49,7 +49,9 @@ export class SocketStrategyStrokeEditorAction extends SocketStrategyEditorAction
                 SocketStrategyEditorAction.queue.enqueue(SocketStrategyStrokeEditorAction.buildResetCommand(message));
                 break;
             default:
-                console.log(`Editor Action (id ${message.action.id}, name ${message.action.name}) does not require strokes manipulation.`);
+                if (process.env.NODE_ENV === "development") {
+                    console.log(`Editor Action (id ${message.action.id}, name ${message.action.name}) does not require strokes manipulation.`);
+                }
         }
     }
 

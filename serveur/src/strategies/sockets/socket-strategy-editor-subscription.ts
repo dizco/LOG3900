@@ -15,6 +15,7 @@ export class SocketStrategyEditorSubscription implements SocketStrategy {
      * @param {WebSocketDecorator} wsDecorator
      */
     public execute(wsDecorator: WebSocketDecorator): void {
+        console.log("Execute SocketStrategyEditorSubscription");
         const method = this.selectSubscription(wsDecorator);
         method(this.clientSubscription.drawing.id.toString());
     }
