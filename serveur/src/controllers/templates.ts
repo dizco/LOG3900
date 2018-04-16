@@ -2,8 +2,9 @@ import * as mongoose from "mongoose";
 import { NextFunction, Request, Response } from "express";
 import { default as Template, TemplateModel } from "../models/template";
 import { PaginateResult } from "mongoose";
-import { default as Drawing, DrawingModel } from "../models/drawings/drawing";
+import { DrawingModel } from "../models/drawings/drawing";
 import { default as Like } from "../models/like";
+import { DrawingsCache } from "../helpers/cache/drawings-cache-singleton";
 
 const enum TemplateFields {
     DrawingId = "drawing-id",
@@ -107,33 +108,31 @@ export let postTemplate = (req: Request, res: Response, next: NextFunction) => {
         return res.status(422).json({ status: "error", error: "Validation errors.", hints: errors });
     }
 
-    const populateOptions = [
-        { path: "owner" },
-    ];
-    Drawing.findOne({ _id: req.body[TemplateFields.DrawingId] }).populate(populateOptions).exec((err: any, drawing: DrawingModel) => {
-        if (err) {
-            return next(err);
-        }
-        if (!drawing) {
-            return res.status(404).json({ status: "error", error: "Drawing not found." });
-        }
-
-        const template = new Template({
-            name: drawing.name,
-            mode: drawing.mode,
-            owner: drawing.owner,
-            strokes: drawing.strokes,
-            pixels: drawing.pixels,
-            thumbnail: drawing.thumbnail,
-        });
-
-        template.save((err) => {
-            if (err) {
-                return next(err);
+    DrawingsCache.getInstance().getById(req.body[TemplateFields.DrawingId])
+        .then((drawing: DrawingModel) => {
+            if (!drawing) {
+                return res.status(404).json({ status: "error", error: "Drawing not found." });
             }
-            return res.json({ status: "success", objectId: template.id });
+
+            const template = new Template({
+                name: drawing.name,
+                mode: drawing.mode,
+                owner: drawing.owner,
+                strokes: drawing.strokes,
+                pixels: drawing.pixels,
+                thumbnail: drawing.thumbnail,
+            });
+
+            template.save((err) => {
+                if (err) {
+                    return next(err);
+                }
+                return res.json({ status: "success", objectId: template.id });
+            });
+        })
+        .catch(err => {
+            return next(err);
         });
-    });
 };
 
 /**

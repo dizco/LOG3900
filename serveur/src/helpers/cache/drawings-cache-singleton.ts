@@ -37,7 +37,7 @@ export class DrawingsCache extends CacheAside<DrawingModel> {
                 console.log(`${chalk.cyan("[DrawingsCache]")} Cache miss. Fetching drawing (id ${drawingId}) from database.`);
 
                 const populateOptions = [
-                    { path: "owner", select: "username" },
+                    { path: "owner" },
                 ];
                 Drawing.findOne({ _id: drawingId }, { thumbnail: 0 }).populate(populateOptions).exec((err: any, drawing: DrawingModel) => {
                     if (err || !drawing) {
