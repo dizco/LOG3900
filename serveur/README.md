@@ -63,7 +63,7 @@ Here is a non-exhaustive list of potential vulnerabilities :
 
 - Drawing password is asked only on `GET /drawings`, but should also be asked on `PATCH /drawings/id` and `PUT /drawings/:id/thumbnail`.
 - Editor action and chat message broadcasts don't validate the authorization of the user before being executed.
-- If there is a validation error on `POST /login`, `POST /register`, or `POST /account/password`, the password entered by the user will be visible in the response body.
+- If there is a validation error on `POST /login`, `POST /register`, or `PUT /account/password`, the password entered by the user will be visible in the response body.
 - Sessions don't have an expiration and are never cleaned.
 - XSS Injection might be possible as no input is escaped before inserting to database or sending to user.
 
