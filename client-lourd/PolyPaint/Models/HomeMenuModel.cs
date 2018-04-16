@@ -161,7 +161,7 @@ namespace PolyPaint.Models
                 HttpResponseMessage response = await RestHandler.GetTemplate(templateId);
                 HttpContent content = response.Content;
                 JObject contentJson = JObject.Parse(await content.ReadAsStringAsync());
-                loadedPixelTemplate = contentJson["strokes"].ToObject<List<PixelModel>>();
+                loadedPixelTemplate = contentJson["pixels"].ToObject<List<PixelModel>>();
             }
 
             return loadedPixelTemplate;
