@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PolyPaint.CustomComponents;
 using PolyPaint.Models.ApiModels;
 
@@ -14,6 +17,26 @@ namespace PolyPaint.Helpers.Communication
         public static HttpClientHandler Handler = new HttpClientHandler();
         private static readonly HttpClient Client = new HttpClient(Handler);
         public static string ServerUri { get; set; }
+
+        private static async Task<HttpResponseMessage> SafeExecute(Func<Task<HttpResponseMessage>> request)
+        {
+            HttpResponseMessage responseMsg;
+            try
+            {
+                responseMsg = await request();
+            }
+            catch
+            {
+
+                responseMsg = new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.InternalServerError,
+                        Content = new StringContent("{\"status\":\"error\",\"error\":\"Une erreur est survenue\",\"hints\":[{\"msg\":\"Une erreur est survenue\"}]}")
+                    };
+            }
+
+            return responseMsg;
+        }
 
         /// <summary>
         ///     This method makes a GET request to the server URI specified by the user. If the request throws an exception, the
@@ -46,7 +69,7 @@ namespace PolyPaint.Helpers.Communication
                 {"password", password}
             };
 
-            return await Client.PostAsync($"{ServerUri}/login", new FormUrlEncodedContent(userInfo));
+            return await SafeExecute(() => Client.PostAsync($"{ServerUri}/login", new FormUrlEncodedContent(userInfo)));
         }
 
         public static async Task<HttpResponseMessage> RegisterInfo(string username, string password)
@@ -56,22 +79,22 @@ namespace PolyPaint.Helpers.Communication
                 {"email", username},
                 {"password", password}
             };
-            return await Client.PostAsync($"{ServerUri}/register", new FormUrlEncodedContent(userInfo));
+            return await SafeExecute(()=> Client.PostAsync($"{ServerUri}/register", new FormUrlEncodedContent(userInfo)));
         }
 
         public static async Task<HttpResponseMessage> GetOnlineDrawingsForPage(int page)
         {
-            return await Client.GetAsync($"{ServerUri}/drawings?page={page}");
+            return await SafeExecute(() => Client.GetAsync($"{ServerUri}/drawings?page={page}"));
         }
 
         public static async Task<HttpResponseMessage> GetOnlineDrawingsForAuthor(string userEmail, int page)
         {
-            return await Client.GetAsync($"{ServerUri}/drawings?owner={userEmail}&page={page}");
+            return await SafeExecute(() => Client.GetAsync($"{ServerUri}/drawings?owner={userEmail}&page={page}"));
         }
 
         public static async Task<HttpResponseMessage> GetPublicOnlineDrawings(int page)
         {
-            return await Client.GetAsync($"{ServerUri}/drawings?visibility=public&page={page}");
+            return await SafeExecute(() => Client.GetAsync($"{ServerUri}/drawings?visibility=public&page={page}"));
         }
 
         public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option,
@@ -94,7 +117,7 @@ namespace PolyPaint.Helpers.Communication
                 {"mode", mode}
             };
 
-            return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
+            return await SafeExecute(() => Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo)));
         }
 
         public static async Task<HttpResponseMessage> CreateDrawing(string drawingName, EditingModeOption option,
@@ -119,7 +142,7 @@ namespace PolyPaint.Helpers.Communication
                 {"mode", mode}
             };
 
-            return await Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo));
+            return await SafeExecute(() => Client.PostAsync($"{ServerUri}/drawings", new FormUrlEncodedContent(drawingInfo)));
         }
 
         public static async Task<HttpResponseMessage> GetOnlineDrawing(string drawingId)
@@ -131,7 +154,7 @@ namespace PolyPaint.Helpers.Communication
         {
             Client.DefaultRequestHeaders.Add("protection-password", password);
 
-            Task<HttpResponseMessage> response = Client.GetAsync($"{ServerUri}/drawings/{drawingId}");
+            Task<HttpResponseMessage> response = SafeExecute(() => Client.GetAsync($"{ServerUri}/drawings/{drawingId}"));
 
             Client.DefaultRequestHeaders.Remove("protection-password");
 
@@ -140,7 +163,7 @@ namespace PolyPaint.Helpers.Communication
 
         public static async Task<HttpResponseMessage> GetDrawingActionsHistory(string drawingId, int page = 1)
         {
-            return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}/actions?page={page}");
+            return await SafeExecute(() => Client.GetAsync($"{ServerUri}/drawings/{drawingId}/actions?page={page}"));
         }
 
         public static async Task<HttpResponseMessage> UpdateDrawingProtection(string drawingId,
@@ -158,8 +181,7 @@ namespace PolyPaint.Helpers.Communication
                 requestContent.Add("protection-active", "false");
             }
 
-            return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}",
-                                           new FormUrlEncodedContent(requestContent));
+            return await SafeExecute(() => Client.PatchAsync($"{ServerUri}/drawings/{drawingId}", new FormUrlEncodedContent(requestContent)));
         }
 
         public static async Task<HttpResponseMessage> UpdateDrawingVisibility(string drawingId, bool makePublic)
@@ -169,8 +191,8 @@ namespace PolyPaint.Helpers.Communication
                 {"visibility", makePublic ? "public" : "private"}
             };
 
-            return await Client.PatchAsync($"{ServerUri}/drawings/{drawingId}",
-                                           new FormUrlEncodedContent(requestContent));
+            return await SafeExecute(() => Client.PatchAsync($"{ServerUri}/drawings/{drawingId}",
+                                           new FormUrlEncodedContent(requestContent)));
         }
 
         public static async Task<HttpResponseMessage> UpdateDrawingThumbnail(string drawingId, string base64Bitmap)
@@ -182,13 +204,13 @@ namespace PolyPaint.Helpers.Communication
 
             string jsonpayload = JsonConvert.SerializeObject(content);
 
-            return await Client.PutAsync($"{ServerUri}/drawings/{drawingId}/thumbnail",
-                                         new StringContent(jsonpayload, Encoding.UTF8, "application/json"));
+            return await SafeExecute(() => Client.PutAsync($"{ServerUri}/drawings/{drawingId}/thumbnail",
+                                         new StringContent(jsonpayload, Encoding.UTF8, "application/json")));
         }
 
         public static async Task<HttpResponseMessage> GetDrawingThumbnail(string drawingId)
         {
-            return await Client.GetAsync($"{ServerUri}/drawings/{drawingId}/thumbnail");
+            return await SafeExecute(() => Client.GetAsync($"{ServerUri}/drawings/{drawingId}/thumbnail"));
         }
 
         public static async Task<HttpResponseMessage> PublishDrawingAsTemplate(string drawingId)
@@ -198,22 +220,22 @@ namespace PolyPaint.Helpers.Communication
                 {"drawing-id", drawingId}
             };
 
-            return await Client.PostAsync($"{ServerUri}/templates", new FormUrlEncodedContent(content));
+            return await SafeExecute(() => Client.PostAsync($"{ServerUri}/templates", new FormUrlEncodedContent(content)));
         }
 
         public static async Task<HttpResponseMessage> GetTemplates(int page)
         {
-            return await Client.GetAsync($"{ServerUri}/templates?page={page}");
+            return await SafeExecute(() => Client.GetAsync($"{ServerUri}/templates?page={page}"));
         }
 
         public static async Task<HttpResponseMessage> GetTemplate(string templateId)
         {
-            return await Client.GetAsync($"{ServerUri}/templates/{templateId}");
+            return await SafeExecute(() => Client.GetAsync($"{ServerUri}/templates/{templateId}"));
         }
 
         public static async Task<HttpResponseMessage> GetTemplateThumbnail(string templateId)
         {
-            return await Client.GetAsync($"{ServerUri}/templates/{templateId}/thumbnail");
+            return await SafeExecute(() => Client.GetAsync($"{ServerUri}/templates/{templateId}/thumbnail"));
         }
     }
 }
