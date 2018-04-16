@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -153,17 +154,17 @@ namespace PolyPaint.ViewModels
         private void ToggleProtection(object o)
         {
             CreatePasswordProtectedDrawing = !CreatePasswordProtectedDrawing;
-            OnPropertyChanged("ProtectionStatusString");
-            OnPropertyChanged("CreatePasswordProtectedDrawing");
-            OnPropertyChanged("LockColor");
+            OnPropertyChanged(nameof(ProtectionStatusString));
+            OnPropertyChanged(nameof(CreatePasswordProtectedDrawing));
+            OnPropertyChanged(nameof(LockColor));
         }
 
         private void ToggleDrawingVisibility(object obj)
         {
             CreatePubliclyVisibleDrawing = !CreatePubliclyVisibleDrawing;
-            OnPropertyChanged("VisibilityStatusString");
-            OnPropertyChanged("CreatePubliclyVisibleDrawing");
-            OnPropertyChanged("VisibilityColor");
+            OnPropertyChanged(nameof(VisibilityStatusString));
+            OnPropertyChanged(nameof(CreatePubliclyVisibleDrawing));
+            OnPropertyChanged(nameof(VisibilityColor));
         }
 
         private bool IsOnline(object obj)
@@ -339,11 +340,11 @@ namespace PolyPaint.ViewModels
         private void UpdateVisibilityProperties()
         {
             NewDrawingName = string.Empty;
-            OnPropertyChanged("DrawingSearchTerms");
-            OnPropertyChanged("MainMenuVisibility");
-            OnPropertyChanged("NewDrawingVisibility");
-            OnPropertyChanged("JoinDrawingVisibility");
-            OnPropertyChanged("LocalDrawingVisibility");
+            OnPropertyChanged(nameof(NewDrawingName));
+            OnPropertyChanged(nameof(MainMenuVisibility));
+            OnPropertyChanged(nameof(NewDrawingVisibility));
+            OnPropertyChanged(nameof(JoinDrawingVisibility));
+            OnPropertyChanged(nameof(LocalDrawingVisibility));
         }
 
         private void DrawingLoadedHandler(object sender,

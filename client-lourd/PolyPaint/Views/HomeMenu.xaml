@@ -41,7 +41,7 @@
         <Grid Margin="100,134,100,59" ZIndex="0" Background="#FFE4F0F2" Visibility="{Binding NewDrawingVisibility}">
             <Button Command="{Binding GoToMenuCommand}" Content="⇐" HorizontalAlignment="Center" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="20,-69,346,553" Width="50"/>
             <Label Content="Nom du dessin" Margin="68,25,64,475" FontWeight="Bold" FontSize="18"/>
-            <TextBox Text="{Binding NewDrawingName, Mode=OneWayToSource}" Margin="68,0,64,437" FontSize="18" Height="38" VerticalAlignment="Bottom"/>
+            <TextBox Text="{Binding NewDrawingName, Mode=TwoWay}" Margin="68,0,64,437" FontSize="18" Height="38" VerticalAlignment="Bottom"/>
             <Button Command="{Binding StartNewDrawing}" CommandParameter="{Binding ElementName=DrawingPasswordBox}" Content="Nouveau dessin" HorizontalAlignment="Center" Padding="17,20,15,23" Background="#FF2B3ACF" FontWeight="Bold" Foreground="White" FontSize="18" Margin="68,410,64,55" Width="284"/>
             <Label Content="Mode &#xD;&#xA;d'édition" Margin="68,0,196,362" FontWeight="Bold" FontSize="18" Height="70" VerticalAlignment="Bottom"/>
             <ComboBox x:Name="EditingMode" ItemsSource="{Binding EditingModes}" SelectedItem="{Binding SelectedEditingMode}" Margin="68,0,64,362" FontSize="18" Height="39" VerticalAlignment="Bottom">
