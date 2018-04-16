@@ -117,6 +117,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants\FileExtensionConstants.cs" />
+    <Compile Include="Constants\GaussianBlur.cs" />
     <Compile Include="Constants\ImageManipulationConstants.cs" />
     <Compile Include="Converters\EnumConverter.cs" />
     <Compile Include="CustomComponents\CustomCanvas.cs" />
@@ -136,7 +137,6 @@
     <Compile Include="Models\MessagingModels\PixelEditorActionModel.cs" />
     <Compile Include="Models\ApiModels\HistoryChangeModel.cs" />
     <Compile Include="Models\PixelModels\PixelEditor.cs" />
-    <Compile Include="Models\PixelModels\GaussianBlur.cs" />
     <Compile Include="Models\PixelModels\ToolsModel.cs" />
     <Compile Include="Models\HomeMenuModel.cs" />
     <Compile Include="Models\MessagingModels\SubscriptionMessageModel.cs" />

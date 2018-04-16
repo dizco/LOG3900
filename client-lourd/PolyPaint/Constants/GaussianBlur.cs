@@ -1,8 +1,8 @@
-﻿namespace PolyPaint.Models.PixelModels
+﻿namespace PolyPaint.Constants
 {
     public static class GaussianBlur
     {
-        public static int[,] KernelGaussianBlur7x7 = new int[7, 7]
+        public static readonly int[,] KernelGaussianBlur7x7 = new int[7, 7]
         {
             {0, 0, 0, 5, 0, 0, 0},
             {0, 5, 18, 32, 18, 5, 0},
@@ -13,7 +13,7 @@
             {0, 0, 0, 5, 0, 0, 0}
         };
 
-        public static int[,] KernelGaussianBlur9x9 = new int[9, 9]
+        public static readonly int[,] KernelGaussianBlur9x9 = new int[9, 9]
         {
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 1, 6, 9, 6, 1, 0, 0},
