@@ -62,8 +62,8 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
         let rightSwipe = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(rightEdgeSwiped))
         rightSwipe.edges = .right
         view.addGestureRecognizer(rightSwipe)
-
         self.initializeTextFieldValidators()
+        tutorialCarousel.isHidden = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -71,12 +71,14 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
         self.subscribeToSocketActions()
 
         if drawing?.mode == "stroke" {
-            if let showTutorial = UserDefaults.standard.object(forKey: "strokeTutorialStatus") {
-                endTutorial()
+            let showTutorial = UserDefaults.standard.object(forKey: "strokeTutorialStatus")
+            if showTutorial == nil {
+                tutorialCarousel.isHidden = false
             }
         } else {
-            if let showTutorial = UserDefaults.standard.object(forKey: "pixelTutorialStatus") {
-                endTutorial()
+            let showTutorial = UserDefaults.standard.object(forKey: "pixelTutorialStatus")
+            if  showTutorial == nil {
+                tutorialCarousel.isHidden = false
             }
         }
     }
@@ -316,11 +318,12 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
     @objc func endTutorial () {
         tutorialCarousel.isHidden = true
         if drawing?.mode == "stroke" {
-                UserDefaults.standard.set(true, forKey: "strokeTutorialStatus")
+                UserDefaults.standard.set(false, forKey: "strokeTutorialStatus")
             } else {
-                UserDefaults.standard.set(true, forKey: "pixelTutorialStatus")
+                UserDefaults.standard.set(false,forKey: "pixelTutorialStatus")
             }
     }
+
 
     @IBAction func showTutorialButton(_ sender: UIButton) {
         if toolsShowing {
