@@ -48,8 +48,21 @@ namespace PolyPaint.Models.PixelModels
 
         public PixelEditor()
         {
+
+            int DpiX = 255;
+            int DpiY = 256;
             //Todo: Resize dynamically with the size of the Canvas
-            WriteableBitmap = BitmapFactory.New(1000, 1000);
+            var pixelWidth = (int)(1000 * DpiX / 96.0);
+            var pixelHeight = (int)(1000 * DpiY / 96.0);
+
+            WriteableBitmap = new WriteableBitmap(
+                                                  pixelWidth,
+                                                  pixelHeight,
+                                                  50,
+                                                  50,
+                                                  PixelFormats.Pbgra32,
+                                                  null
+                                                 );
             WriteableBitmap.Clear(Colors.White);
 
             _cropWriteableBitmapPosition = new Point(0, 0);

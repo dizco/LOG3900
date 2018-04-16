@@ -86,11 +86,13 @@ namespace PolyPaint.Views
         {
             (DataContext as PixelEditorViewModel)?.PixelCursors(DisplayArea);
             _oldPositionDrawing = e.GetPosition(DrawingSurface);
+            _oldPositionDrawing = new Point(_oldPositionDrawing.X / 1.90, _oldPositionDrawing.Y / 1.90);
         }
 
         private void DrawingSurfacePreviewMouseDown(object sender, MouseEventArgs e)
         {
             _oldPositionDrawing = e.GetPosition(DrawingSurface);
+            _oldPositionDrawing = new Point(_oldPositionDrawing.X / 1.90, _oldPositionDrawing.Y / 1.90);
 
             //The tool is selected on click with a distance of one pixel to
             //enable it
@@ -128,6 +130,7 @@ namespace PolyPaint.Views
             {
                 //Action tool on mouse move
                 _newPositionDrawing = e.GetPosition(DrawingSurface);
+                _newPositionDrawing = new Point(_newPositionDrawing.X / 1.90, _newPositionDrawing.Y / 1.90);
                 (DataContext as PixelEditorViewModel)?.PixelDraw(_oldPositionDrawing, _newPositionDrawing);
                 _oldPositionDrawing = _newPositionDrawing;
             }
