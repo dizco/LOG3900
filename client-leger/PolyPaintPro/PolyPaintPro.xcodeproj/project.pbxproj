@@ -12,6 +12,7 @@
 		270EC6EE206575630018A2A6 /* DrawingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270EC6ED206575630018A2A6 /* DrawingModels.swift */; };
 		271C1EC7203CC5D70090D6A5 /* DrawingToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */; };
 		271E38F720572CFC0067BD16 /* NewDrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271E38F620572CFB0067BD16 /* NewDrawingViewController.swift */; };
+		2745405720853C1900EFDA5F /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2745405620853C1900EFDA5F /* KeyboardLayoutConstraint.swift */; };
 		274956062058236D0053DAD4 /* DrawingTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274956052058236D0053DAD4 /* DrawingTypes.swift */; };
 		274C0349200EF37900DDAD8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C0348200EF37900DDAD8D /* AppDelegate.swift */; };
 		274C034B200EF37900DDAD8D /* PixelEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274C034A200EF37900DDAD8D /* PixelEditorViewController.swift */; };
@@ -98,6 +99,7 @@
 		270EC6ED206575630018A2A6 /* DrawingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingModels.swift; sourceTree = "<group>"; };
 		271C1EC6203CC5D70090D6A5 /* DrawingToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingToolsView.swift; sourceTree = "<group>"; };
 		271E38F620572CFB0067BD16 /* NewDrawingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDrawingViewController.swift; sourceTree = "<group>"; };
+		2745405620853C1900EFDA5F /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		274956052058236D0053DAD4 /* DrawingTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTypes.swift; sourceTree = "<group>"; };
 		274C0345200EF37900DDAD8D /* PolyPaintPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PolyPaintPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		274C0348200EF37900DDAD8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; usesTabs = 1; };
@@ -303,6 +305,7 @@
 				277BC1362075EEF2002BE2B5 /* iCarousel.h */,
 				277BC1372075EEF2002BE2B5 /* iCarousel.m */,
 				277BC1352075EEF0002BE2B5 /* PolyPaintPro-Bridging-Header.h */,
+				2745405620853C1900EFDA5F /* KeyboardLayoutConstraint.swift */,
 			);
 			path = PolyPaintPro;
 			sourceTree = "<group>";
@@ -771,6 +774,7 @@
 				274C034B200EF37900DDAD8D /* PixelEditorViewController.swift in Sources */,
 				27080CFA202650CD0071FDC0 /* Extensions.swift in Sources */,
 				BEE8DBED20741BDC00161243 /* CGPathExtension.swift in Sources */,
+				2745405720853C1900EFDA5F /* KeyboardLayoutConstraint.swift in Sources */,
 				274956062058236D0053DAD4 /* DrawingTypes.swift in Sources */,
 				270EC6EE206575630018A2A6 /* DrawingModels.swift in Sources */,
 				BE426A2120215E3C00FD1C50 /* ChatMessageModels.swift in Sources */,

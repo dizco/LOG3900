@@ -27,8 +27,6 @@ class NewDrawingViewController: UIViewController, UIPickerViewDataSource, UIPick
         super.viewDidLoad()
         drawingTypePickerview.delegate = self
         drawingTypePickerview.dataSource = self
-        self.hideKeyboard()
-        self.observeKeyboardNotification()
         passwordProtectionTextField.isUserInteractionEnabled = isProtected
         if !connectionStatus {
             visibilitySegmentedControl.isEnabled = false

@@ -46,8 +46,8 @@ class EditorViewController: UIViewController, ChatSocketManagerDelegate, iCarous
         drawingSettingsContraint.constant = -self.drawingSettingsView.frame.width
         toolsView.layer.cornerRadius = 10
         drawingSettingsView.layer.cornerRadius = 10
-        self.hideKeyboard()
-        self.observeKeyboardNotification()
+//        self.hideKeyboard()
+//        self.observeKeyboardNotification()
         if !connectionStatus {
             chatToggleBtn.isEnabled = false
         }

@@ -72,8 +72,8 @@ class LoginViewController: UIViewController {
         registerView?.isHidden = true
         selectorView?.isHidden = true
         connectionErrorLabel?.isHidden = true
-        self.hideKeyboard()
-        self.observeKeyboardNotification()
+//        self.hideKeyboard()
+//        self.observeKeyboardNotification()
         loginErrorTextField?.isHidden = true
         registerErrorTextField?.isHidden = true
     }
