@@ -393,7 +393,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Nf-Dt-IWU" customClass="DrawingToolsView" customModule="PolyPaintPro" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="94" width="298" height="644"/>
+                                <rect key="frame" x="0.0" y="50" width="298" height="688"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rouge" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q6x-Lt-5cB">
                                         <rect key="frame" x="125" y="8" width="49" height="21"/>
@@ -585,7 +585,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mzz-8E-ANo" customClass="ChatView" customModule="PolyPaintPro" customModuleProvider="target">
-                                <rect key="frame" x="1024" y="64" width="256" height="704"/>
+                                <rect key="frame" x="1024" y="20" width="256" height="748"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E8N-VT-aFV">
                                         <rect key="frame" x="8" y="666" width="187" height="30"/>
@@ -658,7 +658,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqH-w6-eOY" customClass="ToolsView" customModule="PolyPaintPro" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="94" width="50" height="644"/>
+                                <rect key="frame" x="0.0" y="50" width="50" height="688"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ih2-5F-A0e" userLabel="pen">
                                         <rect key="frame" x="10" y="8" width="30" height="30"/>
@@ -683,7 +683,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xwi-WU-7GZ">
-                                        <rect key="frame" x="10" y="609" width="30" height="27"/>
+                                        <rect key="frame" x="10" y="653" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="27" id="RiC-xu-Qr1"/>
                                             <constraint firstAttribute="width" constant="30" id="Tmp-PE-FvH"/>
@@ -691,10 +691,11 @@
                                         <state key="normal" title="Button" image="exit"/>
                                         <connections>
                                             <action selector="exitEditorButton:" destination="wqH-w6-eOY" eventType="touchUpInside" id="hqj-e0-Qas"/>
+                                            <segue destination="NfL-mq-pCc" kind="show" id="Fnw-gh-y3g"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGC-wv-nF6" userLabel="settings">
-                                        <rect key="frame" x="10" y="566" width="30" height="27"/>
+                                        <rect key="frame" x="10" y="610" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="EGC-wv-nF6" secondAttribute="height" multiplier="283:256" id="Ttk-BX-aBg"/>
                                         </constraints>
@@ -706,7 +707,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0md-zC-lbT">
-                                        <rect key="frame" x="10" y="528" width="30" height="22"/>
+                                        <rect key="frame" x="10" y="572" width="30" height="22"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <action selector="showTutorialButton:" destination="KwV-uG-opW" eventType="touchUpInside" id="ZYc-xp-AyY"/>
@@ -778,7 +779,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Jw-07-nIJ" customClass="iCarousel">
-                                <rect key="frame" x="80" y="72" width="884" height="688"/>
+                                <rect key="frame" x="80" y="28" width="884" height="732"/>
                                 <color key="backgroundColor" white="1" alpha="0.69188784250000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="KwV-uG-opW" id="KeC-gz-gQd"/>
@@ -859,7 +860,7 @@
                                 <rect key="frame" x="-1" y="0.0" width="1025" height="900"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mcb-nf-lW1">
-                                <rect key="frame" x="80" y="64" width="864" height="828"/>
+                                <rect key="frame" x="80" y="20" width="864" height="872"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nKz-oJ-FMD" userLabel="ContentView">
                                         <rect key="frame" x="0.0" y="147" width="864" height="688"/>
@@ -1046,7 +1047,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXW-tP-tDq" customClass="iCarousel">
-                                <rect key="frame" x="20" y="114" width="984" height="290"/>
+                                <rect key="frame" x="20" y="70" width="984" height="290"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="290" id="uvf-P7-faj"/>
@@ -1116,10 +1117,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_corrected" translatesAutoresizingMaskIntoConstraints="NO" id="HBE-q1-fRW">
-                                <rect key="frame" x="0.0" y="15" width="1024" height="753"/>
+                                <rect key="frame" x="0.0" y="-29" width="1024" height="797"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cqW-ms-qLq">
-                                <rect key="frame" x="147" y="255" width="730" height="446"/>
+                                <rect key="frame" x="147" y="211" width="730" height="490"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOy-18-Mf9">
                                         <rect key="frame" x="311" y="150" width="109" height="30"/>
@@ -1136,7 +1137,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TS9-Sa-AVh">
-                                        <rect key="frame" x="319" y="368" width="92" height="30"/>
+                                        <rect key="frame" x="319" y="412" width="92" height="30"/>
                                         <state key="normal" title="Se connecter"/>
                                         <connections>
                                             <action selector="backToLoginButton:" destination="NfL-mq-pCc" eventType="touchUpInside" id="Z4A-cd-gq1"/>
@@ -1181,14 +1182,14 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yf8-fQ-tE7">
-                                <rect key="frame" x="147" y="131" width="730" height="128"/>
+                                <rect key="frame" x="147" y="87" width="730" height="128"/>
                                 <color key="backgroundColor" red="0.50196078430000002" green="0.75686274509999996" blue="0.83137254900000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="HAc-AW-heL"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="tqU-sh-F51">
-                                <rect key="frame" x="452" y="82" width="120" height="120"/>
+                                <rect key="frame" x="452" y="38" width="120" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="1aW-vd-vzS"/>
                                     <constraint firstAttribute="height" constant="120" id="Dns-hu-4N5"/>
@@ -1197,7 +1198,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PolyPaintPro" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A99-85-LPo">
-                                <rect key="frame" x="371" y="198" width="282" height="49"/>
+                                <rect key="frame" x="371" y="154" width="282" height="49"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="4Aa-gn-DK7"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="49" id="AJz-xJ-ijr"/>
@@ -1278,7 +1279,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1G6-b3-J5e" customClass="DrawingToolsView" customModule="PolyPaintPro" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="94" width="298" height="644"/>
+                                <rect key="frame" x="0.0" y="50" width="298" height="688"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rouge" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GeY-kA-4A6">
                                         <rect key="frame" x="125" y="8" width="49" height="21"/>
@@ -1470,7 +1471,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="teY-ix-kPG" customClass="ChatView" customModule="PolyPaintPro" customModuleProvider="target">
-                                <rect key="frame" x="1024" y="64" width="256" height="704"/>
+                                <rect key="frame" x="1024" y="20" width="256" height="748"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WrO-9x-6m4">
                                         <rect key="frame" x="8" y="666" width="187" height="30"/>
@@ -1543,7 +1544,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hDU-do-IRe" customClass="ToolsView" customModule="PolyPaintPro" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="94" width="50" height="644"/>
+                                <rect key="frame" x="0.0" y="50" width="50" height="688"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69y-11-593" userLabel="pen">
                                         <rect key="frame" x="10" y="8" width="30" height="30"/>
@@ -1638,7 +1639,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ck1-KA-kpl">
-                                        <rect key="frame" x="10" y="609" width="30" height="27"/>
+                                        <rect key="frame" x="10" y="653" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="Srd-BV-n1e"/>
                                             <constraint firstAttribute="height" constant="27" id="uid-Hl-DX0"/>
@@ -1647,10 +1648,11 @@
                                         <connections>
                                             <action selector="exitEditorButton:" destination="hDU-do-IRe" eventType="touchUpInside" id="0rL-cX-ggC"/>
                                             <action selector="exitEditorButton:" destination="brS-fH-NQP" eventType="touchUpInside" id="um8-Gq-fHb"/>
+                                            <segue destination="NfL-mq-pCc" kind="show" id="kyy-E9-Gwt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mN5-dm-UBk" userLabel="settings">
-                                        <rect key="frame" x="10" y="566" width="30" height="27"/>
+                                        <rect key="frame" x="10" y="610" width="30" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="mN5-dm-UBk" secondAttribute="height" multiplier="283:256" id="foF-PT-dSU"/>
                                         </constraints>
@@ -1663,7 +1665,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oCA-Qj-Jc9">
-                                        <rect key="frame" x="10" y="528" width="30" height="22"/>
+                                        <rect key="frame" x="10" y="572" width="30" height="22"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <action selector="showTutorialButton:" destination="nF6-Tx-Hhl" eventType="touchUpInside" id="Qqn-iY-YR5"/>
@@ -1725,7 +1727,7 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G8d-Z5-zy2" customClass="iCarousel">
-                                <rect key="frame" x="60" y="72" width="904" height="688"/>
+                                <rect key="frame" x="60" y="28" width="904" height="732"/>
                                 <color key="backgroundColor" white="1" alpha="0.69188784250000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dataSource" destination="nF6-Tx-Hhl" id="yxs-Jr-VoE"/>
@@ -1805,6 +1807,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="n3S-PR-NxG"/>
         <segue reference="HCx-mM-CNV"/>
+        <segue reference="kyy-E9-Gwt"/>
         <segue reference="ry0-7g-c8d"/>
     </inferredMetricsTieBreakers>
 </document>
