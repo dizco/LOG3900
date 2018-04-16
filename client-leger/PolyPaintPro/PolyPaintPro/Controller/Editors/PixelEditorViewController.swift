@@ -16,6 +16,7 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
     internal var opacity: CGFloat = 1.0
     internal var swiped = false //if the brush stroke is continuous
     internal var currentEditingMode = PixelEditingMode.ink // will be used to switch editing modes
+    internal var pixelsToBeSent: [UIPixel] = []
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -99,7 +100,9 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         context?.addLine(to: toPoint)
 
         context?.setLineCap(CGLineCap.round)
-        context?.setLineWidth(self.brushWidth)
+
+        // commented because we can't deal with the lineWidth now
+        //context?.setLineWidth(self.brushWidth)
         context?.setAlpha(self.opacity)
         // Because we set the overall alpha earlier, the stroke color's alpha must be at 1.0
         // Else, both values interact with each other.
@@ -113,9 +116,8 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         // Send the pixel online
         if SocketManager.sharedInstance.getConnectionStatus() {
             let color = SKStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
-            let pixel1 = UIPixel(point: fromPoint, color: color)
-            let pixel2 = UIPixel(point: toPoint, color: color)
-            self.sendEditorAction(actionId: PixelActionIdConstants.add.rawValue, fromPixel: pixel1, toPixel: pixel2)
+            self.generatePixels(pt1: fromPoint, pt2: toPoint, color: color)
+            self.sendEditorAction(actionId: PixelActionIdConstants.add.rawValue)
         }
     }
 
@@ -133,7 +135,9 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         context?.addLine(to: toPoint)
 
         context?.setLineCap(CGLineCap.round)
-        context?.setLineWidth(self.brushWidth)
+
+        // commented because we can't deal with the lineWidth now
+        //context?.setLineWidth(self.brushWidth)
         context?.setAlpha(self.opacity)
         // Because we set the overall alpha earlier, the stroke color's alpha must be at 1.0
         // Else, both values interact with each other.
@@ -147,22 +151,48 @@ class PixelEditorViewController: EditorViewController, ActionSocketManagerDelega
         // Send the pixel online
         if SocketManager.sharedInstance.getConnectionStatus() {
             let color = SKStrokeColor(red: self.red, green: self.green, blue: self.blue, alpha: self.opacity)
-            let pixel1 = UIPixel(point: fromPoint, color: color)
-            let pixel2 = UIPixel(point: toPoint, color: color)
-            self.sendEditorAction(actionId: PixelActionIdConstants.add.rawValue, fromPixel: pixel1, toPixel: pixel2)
+            self.generatePixels(pt1: fromPoint, pt2: toPoint, color: color)
+            self.sendEditorAction(actionId: PixelActionIdConstants.add.rawValue)
         }
 
     }
 
+    private func generatePixels(pt1: CGPoint, pt2: CGPoint, color: SKStrokeColor) {
+        // code adapted from how it works on client lourd
+        let dx: CGFloat = pt2.x - pt1.x
+        let dy: CGFloat = pt2.y - pt1.y
+
+        let lengthX: CGFloat = dx >= 0 ? dx : -dx
+        let lengthY: CGFloat = dy >= 0 ? dy : -dy
+
+        let stepRatio: CGFloat = lengthX > lengthY ? lengthX : lengthY
+
+        let stepX: CGFloat = dx / stepRatio
+        let stepY: CGFloat = dy / stepRatio
+
+        let stepCount: Int = stepRatio == lengthX ? Int(dx / stepX) : Int(dy / stepY)
+
+        for i in 0...stepCount {
+            let point = CGPoint(x: pt1.x + CGFloat(i) * stepX, y: pt1.y + CGFloat(i) * stepY)
+            let pixel = UIPixel(point: point, color: color)
+            self.pixelsToBeSent.append(pixel)
+        }
+    }
+
+    private func clearPixelList() {
+        self.pixelsToBeSent.removeAll(keepingCapacity: false)
+    }
+
     // MARK: - Functions for sending pixels
-    func sendEditorAction(actionId: Int, fromPixel: UIPixel, toPixel: UIPixel) {
+    func sendEditorAction(actionId: Int) {
         // Only send if the socket is connected
         if SocketManager.sharedInstance.getConnectionStatus() {
             do {
-                let builtAction = BuildPixelActionStrategyContext(viewController: self, actionId: actionId, fromPixel: fromPixel, toPixel: toPixel)
+                let builtAction = BuildPixelActionStrategyContext(viewController: self, actionId: actionId, pixels: self.pixelsToBeSent)
                 let outgoingActionMessage = builtAction.getOutgoingMessage()
                 let encodedData = try JSONEncoder().encode(outgoingActionMessage)
                 SocketManager.sharedInstance.send(data: encodedData)
+                self.clearPixelList()
             } catch let error {
                 print(error)
             }

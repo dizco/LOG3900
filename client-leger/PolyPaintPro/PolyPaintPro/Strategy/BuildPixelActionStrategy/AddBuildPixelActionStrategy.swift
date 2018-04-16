@@ -10,15 +10,12 @@ import Foundation
 import UIKit
 
 final class AddBuildPixelActionStrategy: BuildPixelActionStrategy {
-    func buildOutgoingAction(viewController: PixelEditorViewController, actionId: Int, fromPixel: UIPixel, toPixel: UIPixel) -> OutgoingPixelActionMessage {
+    func buildOutgoingAction(viewController: PixelEditorViewController, actionId: Int, pixels: [UIPixel]) -> OutgoingPixelActionMessage {
         var outgoingPixels: [OutgoingPixels] = []
 
-        let pixelToBeSent1 = self.convertCGPointToPixel(pixel: toPixel)
-        outgoingPixels.append(pixelToBeSent1)
-
-        if !self.pixelsAreTheSame(pixel1: fromPixel, pixel2: toPixel) {
-            let pixelToBeSent2 = self.convertCGPointToPixel(pixel: fromPixel)
-            outgoingPixels.append(pixelToBeSent2)
+        for pixelToBeConverted in pixels {
+            let pixelToBeSent = self.convertCGPointToPixel(pixel: pixelToBeConverted)
+            outgoingPixels.append(pixelToBeSent)
         }
 
         return OutgoingPixelActionMessage(actionId: actionId, actionName: PixelActionNameConstants.addActionName.rawValue,
