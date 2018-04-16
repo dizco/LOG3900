@@ -53,7 +53,8 @@ export class SocketStrategyPixelEditorAction extends SocketStrategyEditorAction 
                     console.log(`Editor Action (id ${message.action.id}, name ${message.action.name}) has no pixels changes.`);
                     return;
                 }
-                SocketStrategyEditorAction.queue.enqueue(SocketStrategyPixelEditorAction.buildNewPixelsCommand(message));
+                SocketStrategyPixelEditorAction.buildNewPixelsCommands(message)
+                    .forEach(command => SocketStrategyEditorAction.queue.enqueue(command));
                 if (!SocketStrategyPixelEditorAction.cleanupInProgress(message.drawing.id)) {
                     const command = SocketStrategyPixelEditorAction.buildCleanupRedundantPixelsCommand(message.drawing.id);
                     SocketStrategyPixelEditorAction.cleanupCommands.push(command);
@@ -78,16 +79,32 @@ export class SocketStrategyPixelEditorAction extends SocketStrategyEditorAction 
             .filter((command: CleanupCommand) => command.getDrawingId() !== drawingId);
     }
 
-    private static buildNewPixelsCommand(message: ServerPixelEditorAction): Command {
-        return new Command("PixelEditorAction: NewPixels", message.drawing.id, () => {
+    private static buildNewPixelsCommands(message: ServerPixelEditorAction): Command[] {
+        //Batches commands with X pixels each. Allows Node to process other things between each command, and so reduces lag
+        const commands: Command[] = [];
+        const step = 2000;
+        for (let i = 0; i < message.pixels.length; i += step) {
+            const end = Math.min(message.pixels.length, i + step);
+            commands.push(SocketStrategyPixelEditorAction.buildNewPixelsCommand(message.drawing.id, message.pixels.slice(i, end)));
+        }
+        if (process.env.NODE_ENV === "development") {
+            console.log("NewPixels: Batched into " + commands.length + " commands.");
+        }
+        return commands;
+    }
+
+    private static buildNewPixelsCommand(drawingId: string, pixels: ColorPixel[]): Command {
+        return new Command("PixelEditorAction: NewPixels", drawingId, () => {
             return PromiseFactory.createTimeoutPromise<boolean>((resolve: (value?: boolean | PromiseLike<boolean>) => void,
                                          reject: (reason?: any) => void) => {
                 const timer = new ProcessTimer();
                 timer.start();
 
-                DrawingsCache.getInstance().getById(message.drawing.id)
+                DrawingsCache.getInstance().getById(drawingId)
                     .then(drawing => {
-                        drawing.pixels.push(...message.pixels);
+                        for (let i = 0, len = pixels.length; i < len; i++) {
+                            drawing.pixels.push(pixels[i]);
+                        }
 
                         timer.stop();
                         timer.print("Save Editor Pixels: NewPixels");
@@ -110,19 +127,18 @@ export class SocketStrategyPixelEditorAction extends SocketStrategyEditorAction 
 
                 DrawingsCache.getInstance().getById(drawingId)
                     .then(drawing => {
-                        //Push every pixel to a "x,y" dictionary so that most recent pixels will overwrite older pixels
-                        const dictionary: Dictionary<ColorPixel> = {};
-                        drawing.pixels.forEach((pixel: ColorPixel) => {
-                            dictionary["" + pixel.x + "," + pixel.y] = pixel;
-                        });
+                        const map = new Map();
+                        for (let i = 0, len = drawing.pixels.length; i < len; i++) {
+                            map.set("" + drawing.pixels[i].x + "," + drawing.pixels[i].y, drawing.pixels[i]);
+                        }
 
                         drawing.pixels = [];
-                        Object.keys(dictionary).forEach((key) => {
-                            drawing.pixels.push(dictionary[key]);
-                        });
+                        for (const [key, value] of map) {
+                            drawing.pixels.push(value);
+                        }
 
                         timer.stop();
-                        timer.print("Save Editor Pixels: NewPixels");
+                        timer.print("Save Editor Pixels: CleanupPixels");
                         SocketStrategyPixelEditorAction.removeCleanupCommand(drawingId);
                         return resolve(true);
                     })
