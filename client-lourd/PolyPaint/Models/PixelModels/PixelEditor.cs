@@ -324,6 +324,7 @@ namespace PolyPaint.Models.PixelModels
             if (_savedBlitSizes != null)
             {
                 WriteableBitmap.Blit(_savedBlitSizes.Item1, TempWriteableBitmap, _savedBlitSizes.Item2);
+                OnModifiedRegion(_savedBlitSizes.Item1);
             }
         }
 
