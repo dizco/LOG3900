@@ -43,6 +43,10 @@ It is also possible to enable automatic recompile when a file changes, but you n
 npm run watch
 ```
 
+## Memory considerations
+
+The project can rapidly grow in memory usage, mostly due to the Drawings Cache. It is possible to use `npm run fix-memory-limit` to increase the allocated memory to 4GB.
+
 ## Test
 
 ```
