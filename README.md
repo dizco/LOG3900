@@ -3,6 +3,8 @@ PolyPaintPro - Team 07
 
 [![Server Build Status](https://travis-ci.com/dizco/LOG3900.svg?token=xpqeNSHJ4NVgmZxfGuMR&branch=master)](https://travis-ci.com/dizco/LOG3900) [<img src="https://dizco.visualstudio.com/_apis/public/build/definitions/550f4e70-4933-45fa-ac7f-160f25cd27b8/2/badge"/>](https://dizco.visualstudio.com/LOG3900/_build/index?definitionId=2)
 
+<a href="#"><img src="https://i.imgur.com/OX5o2uc.gif" alt="PolyPaintPro on iPad mini 4" /></a>
+
 PolyPaintPro is client-server ecosystem which offers a Windows desktop app, as well as an iOS app, built with an iPad mini 4 in mind. Both apps offer collaborative drawing features and communicate through a single server. The website allows to view the public gallery.
 
 ## Install
