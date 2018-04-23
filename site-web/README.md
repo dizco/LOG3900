@@ -7,7 +7,7 @@ Place the website directory under a web server. You may also [make Apache serve 
 
 ## Project structure
 
-The website is base on [Canvas Template](https://themeforest.net/item/canvas-the-multipurpose-html5-template/9228123) 5.1. Website pages are stored as html files in the folder root. 
+The website is a trimmed version of [Canvas Template](https://themeforest.net/item/canvas-the-multipurpose-html5-template/9228123) 5.1. Website pages are stored as html files in the folder root. 
 
 ## Disclaimer
 
