@@ -1,3 +1,5 @@
+**(2019-02-19)** This repo is now archived as it is not being maintained. Please feel free to fork this repo if you would like to re-use it.
+
 # LOG3900
 PolyPaintPro - Team 07
 
